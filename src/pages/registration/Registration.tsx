@@ -1,9 +1,11 @@
-import "./Registration.scss"
+import styles from "./Registration.scss"
 
 const Registration = () => {
   return (
-    <div className="grid">
-    <div className="register">
+    // className={styles.grid}
+    <main>
+      {/* <div > */}
+    <div className={styles.register}>
     <h2>Sign Up</h2>
 
       <form action="" method="post" className="form">
@@ -33,9 +35,10 @@ const Registration = () => {
         </div>
 
       </form>
+    {/* </div> */}
     </div>
    
-    </div>
+    </main>
   )
 }
 

@@ -1,2 +1,2 @@
 export const addAudience: string;
-export const addAudienceCreateQrButton: string;
+// export const addAudience_CreateQrButton: string;

@@ -13,9 +13,9 @@ const Navbar = () => {
           <Link to='/about'>About</Link>
         </li>
         {/* <li><Link to="/organization">Add organization</Link></li> */}
-        <li>
+        {/* <li>
           <Link to='/object'>Add objects</Link>
-        </li>
+        </li> */}
         <Link to='/profile'>
           <Image name={"profile"} />
         </Link>

@@ -1,13 +1,11 @@
 body {
   margin: 0;
   padding: 0;
+ 
 }
 
 *{
   box-sizing: border-box;
-}
-
-*{
   margin: 0;
   padding: 0;
 }
@@ -15,7 +13,6 @@ body {
 html, body{
   height: 100%;
 }
-
 
 #root{
   display: flex;
@@ -29,16 +26,8 @@ main{
 
 footer{
   flex: 0 0 auto;
-  // margin-top: 60px;
-  // position: absolute;
-  // left: 0;
-  // bottom: 0;
-  // height: 80px;
 }
-// html{
-// /* Created with https://www.css-gradient.com */
-// background: #92334A;
-// background: -webkit-linear-gradient(top left, #92334A, #8A1338);
-// background: -moz-linear-gradient(top left, #92334A, #8A1338);
-// background: linear-gradient(to bottom right, #92334A, #8A1338);
-// }
+
+input{
+  font: inherit;
+}

@@ -1,29 +1,21 @@
-// select{
-//     padding: 20px;
-// }
-
 .addAudience {
   width: 400px;
   height: max-content;
   border: 1px solid #c82647;
   border-radius: 5px;
   padding: 20px 20px;
-  & > input,
-  select {
+
+  & > input, select {
     width: 100%;
     margin-bottom: 20px;
     padding: 5px;
   }
 
-  &_createQRButton {
+  &>button {
     background-color: white;
     border-color: #c82647;
     width: 100%;
     padding: 5px;
   }
-  // &>select{
-  //     width: 100%;
-  //     padding: 5px;
-  //     margin-bottom: 20px;
-  // }
+
 }
