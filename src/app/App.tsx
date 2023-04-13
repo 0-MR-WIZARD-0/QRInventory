@@ -1,29 +1,29 @@
-import {Routes, Route} from "react-router-dom"
-import Login from "../pages/login/Login";
-import Main from "../pages/main/Main";
-import Navbar from "../components/navbar/Navbar";
-import Registration from "../pages/registration/Registration";
-import './App.scss';
-import About from "../pages/about/About";
-import Profile from "../pages/profile/Profile";
-import Organization from "../pages/organization/Organization";
-import Objects from "../pages/object/Object";
-import Footer from "../components/footer/Footer";
+import { Routes, Route } from "react-router-dom";
+import Login from "../pages/Login/Login";
+import Main from "../pages/Main/Main";
+import Registration from "../pages/Registration/Registration";
+import "./App.scss";
+import About from "../pages/About/About";
+import Profile from "../pages/Profile/Profile";
+import Organization from "../pages/Organization/Organization";
+import Objects from "../pages/Object/Object";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 function App() {
   return (
     <>
-    <Navbar/>
-    <Routes>
-      <Route path="/" element={<Main/>}/>
-      <Route path="/signup" element={<Registration/>}/>
-      <Route path="/signin" element={<Login/>}/>
-      <Route path="/about" element={<About/>}/>
-      <Route path="/profile" element={<Profile/>}/>
-      <Route path="/organization" element={<Organization/>}/>
-      <Route path="/object" element={<Objects/>}/>
-    </Routes>
-    <Footer/>
+      <Navbar />
+      <Routes>
+        <Route path='/' element={<Main />} />
+        <Route path='/signup' element={<Registration />} />
+        <Route path='/signin' element={<Login />} />
+        <Route path='/about' element={<About />} />
+        <Route path='/profile' element={<Profile />} />
+        <Route path='/organization' element={<Organization />} />
+        <Route path='/object' element={<Objects />} />
+      </Routes>
+      <Footer />
     </>
   );
 }

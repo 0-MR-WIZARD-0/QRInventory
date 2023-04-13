@@ -1,11 +1,11 @@
-import AddOrganization from '../../components/addOrganization/AddOrganization'
+import AddOrganization from "../../components/AddOrganization";
 
 const Organization = () => {
   return (
     <main>
-      <AddOrganization/>
+      <AddOrganization />
     </main>
-  )
-}
+  );
+};
 
-export default Organization
+export default Organization;

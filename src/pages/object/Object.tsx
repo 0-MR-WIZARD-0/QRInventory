@@ -1,11 +1,11 @@
-import AddObject from '../../components/addObject/AddObject'
+import AddObject from "../../components/AddObject";
 
 const Object = () => {
   return (
     <main>
-      <AddObject/>
+      <AddObject />
     </main>
-  )
-}
+  );
+};
 
-export default Object
+export default Object;
