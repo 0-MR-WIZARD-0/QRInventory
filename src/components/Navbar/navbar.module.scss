@@ -1,6 +1,7 @@
+@import '../../colors.scss';
+
 .navbar {
   height: 60px;
-  background-color: #c82647;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -10,8 +11,6 @@
   }
   & > ul {
     display: flex;
-    color: white;
-    list-style: none;
     align-items: center;
     justify-content: end;
     & > a  {
@@ -20,9 +19,7 @@
     & > li {
       margin-right: 40px;
       & > a {
-        // width: 60px;
-        text-decoration: none;
-        color: white;
+        color: $mainColor;
       }
     }
   }

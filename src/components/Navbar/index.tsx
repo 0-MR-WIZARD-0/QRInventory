@@ -12,10 +12,8 @@ const Navbar = () => {
         <li>
           <Link to='/about'>About</Link>
         </li>
-        {/* <li><Link to="/organization">Add organization</Link></li> */}
-        {/* <li>
-          <Link to='/object'>Add objects</Link>
-        </li> */}
+        {/* <li><Link to="/organization">Add organization</Link></li>  */}
+        {/* Данная ссылка добавляется только для админа */}
         <Link to='/profile'>
           <Image name={"profile"} />
         </Link>

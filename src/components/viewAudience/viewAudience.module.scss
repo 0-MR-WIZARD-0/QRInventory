@@ -1,0 +1,27 @@
+@import '../../colors.scss';
+
+.wrapperViewAudience{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 200px);
+    gap: 50px;
+    justify-content: space-around;
+    & > div {
+      height: 250px;
+      border: 2px solid $secondColor;
+      border-radius: 10px;
+      box-shadow: 5px 5px 15px 1px rgba($secondColor,0.3);
+      & > img {
+        width: 100%;
+      }
+      text-align: center;
+      vertical-align: middle;
+      & > hr {
+        border: 1px solid $secondColor;
+      }
+      & > h3 {
+        margin-top: 10px;
+        color: $secondColor;
+      }
+    }
+}
