@@ -1,0 +1,68 @@
+// // html{
+// //   height: 100%;
+// // }
+
+// input {
+  
+// }
+
+.form {
+
+  &__field {
+    margin-bottom: 1rem;
+  }
+
+  input {
+    padding: .5rem 1rem;
+
+    &[type="email"],
+    &[type="password"],
+    &[type="text"] {
+      width: 100%;
+    }
+
+
+  }
+}
+
+$grid-max-width: 25rem;
+$grid-width: 100%;
+
+.grid {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  max-width: $grid-max-width;
+  width: $grid-width;
+}
+
+h2 {
+  font-size: 2.75rem;
+  font-weight: 100;
+  margin: 0 0 1rem;
+  text-transform: uppercase;
+}
+
+.register {
+  border: 3px solid #0047AB;
+  text-align: center;
+  padding: 3rem 3rem;
+  margin: 20px 20px;
+
+  input {
+    border: 1px solid #0047AB;
+    border-radius: 10px;
+    text-align: center;
+
+    &[type="submit"] {
+      width: 100%;
+      &:hover{
+        background-color: #0047AB;
+        color: white;
+      }
+    }
+
+  }
+
+}
