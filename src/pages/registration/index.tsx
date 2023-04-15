@@ -1,11 +1,13 @@
-import styles from "./Registration.scss"
+// import styles from "./registration.module.scss";
 
 const Registration = () => {
   return (
     // className={styles.grid}
     <main>
       {/* <div > */}
-    <div className={styles.register}>
+    <div 
+    // className={styles.register}
+    >
     <h2>Sign Up</h2>
 
       <form action="" method="post" className="form">

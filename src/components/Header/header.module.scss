@@ -1,0 +1,29 @@
+@import "../../colors.scss";
+@import "../../breakpoint.module.scss";
+
+.wrapperHeader{
+    height: 60px;
+    background-color: $secondColor;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    &>div{
+        &>img{
+            width: 40px;
+        }
+        &>h3{
+            color: $mainColor;
+        }
+        &>p{
+            color: rgba($mainColor, 0.5);
+        }
+    }
+    &>div+div{
+        margin-left: 10px;
+    }
+    @media screen and (max-width: $breakpoint-max-tablet) {
+        border-radius: 20px;
+        margin: 16px;
+    }
+}
+

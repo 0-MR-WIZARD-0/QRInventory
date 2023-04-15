@@ -32,9 +32,14 @@ const ViewAudience = () => {
     <div className={styles.wrapperViewAudience}>
       {qrCodes.map(cabinet => (
         <div onClick={()=>{navigate(`audience/${cabinet.cabinetNumber}`)}}>
-          <img src={cabinet.imageUrl} alt={cabinet.cabinetNumber.toString()}></img>
-          <hr />
-          <h3>{cabinet.cabinetNumber}</h3>
+          <div className={styles._img}>
+            <img src={cabinet.imageUrl} alt={cabinet.cabinetNumber.toString()}></img>
+          </div>
+            <h3>Кабинет {cabinet.cabinetNumber}</h3>
+          <div className={styles._info}>
+            <p>Учителей: 20</p>
+            <p>Предметов: 20</p>
+          </div>          
         </div>
       ))}
     </div>

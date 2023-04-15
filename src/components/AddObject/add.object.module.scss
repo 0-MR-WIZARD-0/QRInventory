@@ -1,4 +1,5 @@
 .addObject{
+  margin: 50px;
   max-width: 350px;
   height: max-content;
   border: 1px solid #c82647;
@@ -27,10 +28,10 @@
   }
 
   &>button {
-    background-color: white;
-    border-color: #c82647;
+    // background-color: white;
+    // border-color: #c82647;
     width: 100%;
-    padding: 5px;
+    // padding: 5px;
   }
 
 

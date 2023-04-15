@@ -1,16 +1,20 @@
 import AddAudience from "../../components/AddAudience";
+import Header from "../../components/Header";
 import Search from "../../components/search";
 import ViewAudience from "../../components/viewAudience";
 import styles from "./main.module.scss";
 
 const Main = () => {
   return (
-    <main className={styles.wrapperMain}>
+    <main 
+    className={styles.wrapperMain}
+    >
+      {/* <Header/> */}
       <ViewAudience/>
-      <div>
+      {/* <div>
         <Search/>
         <AddAudience/>
-      </div>
+      </div> */}
     </main>
   );
 };

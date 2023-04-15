@@ -1,27 +1,46 @@
 @import '../../colors.scss';
+@import "../../breakpoint.module.scss";
 
 .wrapperViewAudience{
-    width: 100%;
     display: grid;
-    grid-template-columns: repeat(3, 200px);
+    grid-template-columns: repeat(3, max-content);
     gap: 50px;
     justify-content: space-around;
     & > div {
+      background-color: $white;
+      box-shadow: 0px 4px 4px rgba($white, 0.1);
+      border-radius: 20px;
       height: 250px;
-      border: 2px solid $secondColor;
-      border-radius: 10px;
-      box-shadow: 5px 5px 15px 1px rgba($secondColor,0.3);
-      & > img {
-        width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items:center;
+      justify-content: space-between;
+      padding: 20px;
+      & > ._img{
+        width: 150px;
+        &>img{
+          width: 100%;
+        }
       }
-      text-align: center;
-      vertical-align: middle;
-      & > hr {
-        border: 1px solid $secondColor;
-      }
-      & > h3 {
-        margin-top: 10px;
-        color: $secondColor;
+
+      & > ._info{
+        display: flex;
+        &>p{
+          color:rgba($black, 0.5)
+        }
+        &>p+p{
+          margin-left: 10px;
+        }
       }
     }
+
+    @media screen and (max-width: $breakpoint-max-tablet) {
+      grid-template-columns: repeat(2, 200px);
+    }
+
+    @media screen and (max-width: $breakpoint-max-phone) {
+      grid-template-columns: repeat(1, 200px);
+    }
+
+    
 }

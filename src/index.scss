@@ -1,4 +1,5 @@
 @import './colors.scss';
+@import "./breakpoint.module.scss";
 
 *{
   box-sizing: border-box;
@@ -6,15 +7,24 @@
   padding: 0;
 }
 
-html, body{
+html{
   height: 100%;
+  scroll-behavior: smooth;
+}
+
+body{
   background-color: $mainColor;
+  font-family: 'Palanquin Dark', sans-serif;
+  overflow-x: hidden;
+  @media screen and (max-width: $breakpoint-min-phone){
+    overflow-x: auto;
+  }
 }
 
 #root{
   display: flex;
   flex-direction: column;
-  min-height: 100%;
+  min-height: 100vh;
 }
 
 main{
@@ -41,24 +51,24 @@ nav, footer{
   background-color: $secondColor;
 }
 
-input, select{
-  background-color: $mainColor;
-  border: 2px solid $secondColor;
-  padding-left: 15px;
-  border-radius: 5px;
-  padding-top: 6px;
-  padding-bottom: 6px;
-}
+// input, select{
+//   background-color: $mainColor;
+//   border: 2px solid $secondColor;
+//   padding-left: 15px;
+//   border-radius: 5px;
+//   padding-top: 6px;
+//   padding-bottom: 6px;
+// }
 
-button{
-  background-color: $secondColor;
-  color: $mainColor;
-  border: 2px solid $secondColor;
-  border-radius: 5px;
-  padding-top: 6px;
-  padding-bottom: 6px;
-  &:hover{
-    background-color: $mainColor;
-    color: $secondColor;
-  }
-}
+// button{
+//   background-color: $secondColor;
+//   color: $mainColor;
+//   border: 2px solid $secondColor;
+//   border-radius: 5px;
+//   padding-top: 6px;
+//   padding-bottom: 6px;
+//   &:hover{
+//     background-color: $mainColor;
+//     color: $secondColor;
+//   }
+// }
