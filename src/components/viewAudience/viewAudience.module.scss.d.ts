@@ -1,3 +1,3 @@
+export const img: string;
+export const info: string;
 export const wrapperViewAudience: string;
-export const _img: string;
-export const _info: string;

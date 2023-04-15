@@ -1,8 +1,6 @@
-import styles from "./add.audience.module.scss";
+import styles from "./addAudience.module.scss";
 
-const option = [
-  'Колледж бизнес-технологий', 'Колледж современных-технологий'
-]
+const option = ["Колледж бизнес-технологий", "Колледж современных-технологий"];
 
 const AddAudience = () => {
   return (
