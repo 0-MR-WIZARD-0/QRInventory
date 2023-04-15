@@ -1,4 +1,4 @@
-@import '../../colors.scss';
+@import "../../colors.scss";
 
 .navbar {
   height: 60px;
@@ -12,8 +12,8 @@
   & > ul {
     display: flex;
     align-items: center;
-    justify-content: end;
-    & > a  {
+    justify-content: flex-end;
+    & > a {
       width: 5%;
     }
     & > li {
