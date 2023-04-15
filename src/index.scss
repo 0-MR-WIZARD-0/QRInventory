@@ -42,7 +42,9 @@ input {
 }
 
 a {
-  text-decoration: none;
+  text-decoration: underline;
+  // text-decoration: none;
+  cursor: pointer;
 }
 
 ul {

@@ -1,8 +1,9 @@
 import ViewAudience from "../../components/ViewAudience";
+import styles from "./main.module.scss"
 
 const Main = () => {
   return (
-    <main>
+    <main className={styles.wrapperMain}>
       <ViewAudience />
     </main>
   );

@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import styles from "./viewAudience.module.scss";
+import AddAudience from "../AddAudience";
 
 type CabinetQRCode = {
   imageUrl: string;
@@ -32,6 +33,7 @@ const ViewAudience = () => {
 
   return (
     <div className={styles.wrapperViewAudience}>
+      <AddAudience/>
       {qrCodes.map(cabinet => (
         <div
           onClick={() => {

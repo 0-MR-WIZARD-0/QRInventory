@@ -1,31 +1,61 @@
 @import "../../colors.scss";
 @import "../../breakpoint.module.scss";
 
+header{
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
 .wrapperHeader {
+  width: 850px;
   height: 60px;
   background-color: $secondColor;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-
   border-radius: 20px;
 
-  i {
-    margin: 0 15px;
+  &>._info{
+    display: flex;
+    cursor: pointer;
+    i {
+      margin: auto 15px;
+    }
+    & > div {
+      h3 {
+        color: $mainColor;
+      }
+    }
   }
 
-  & > div {
-    & > h3 {
-      color: $mainColor;
-    }
-    & > p {
-      color: rgba($mainColor, 0.5);
+  p{
+    margin-right: 15px;
+    color: rgba($mainColor, 0.5);
+    a{
+      color:rgba($white, 0.5)
     }
   }
-  & > div + div {
-    margin-left: 10px;
-  }
-  @media screen and (max-width: $breakpoint-max-tablet) {
-    border-radius: 20px;
-    margin: 16px;
+
+  @media screen and (max-width: $breakpoint-max-tablet){
+
+    margin-left: 25px;
+    margin-right: 25px;
+    flex-direction: column;
+    align-items: center;
+    
+    &>._info{
+      margin-top: 6px;
+    }
+
+    &>p{
+      margin-top: 25px;
+      color:rgba($black, 0.5);
+      a{
+        color:rgba($black, 0.5);
+        
+      }
+    }
+
   }
 }
