@@ -1,18 +1,19 @@
 import { Routes, Route } from "react-router-dom";
 import Login from "../pages/Login";
-import Main from "../pages/main";
-import Registration from "../pages/registration";
-import "./App.scss";
+import Main from "../pages/Main";
+import Registration from "../pages/Registration";
 import About from "../pages/About";
 import Profile from "../pages/Profile";
 import Organization from "../pages/Organization";
 import Page404 from "../pages/Page404";
-import Audience from "../pages/audience";
+import Audience from "../pages/Audience";
 import Header from "../components/Header";
+
+import styles from "./app.module.scss";
 
 function App() {
   return (
-    <>
+    <div className={styles.app}>
       <Header />
       <Routes>
         <Route path='/' element={<Main />} />
@@ -24,7 +25,7 @@ function App() {
         <Route path='audience/:id' element={<Audience />} />
         <Route path='*' element={<Page404 />} />
       </Routes>
-    </>
+    </div>
   );
 }
 

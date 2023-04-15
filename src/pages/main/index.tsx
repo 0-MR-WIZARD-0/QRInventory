@@ -1,4 +1,4 @@
-import ViewAudience from "../../components/viewAudience";
+import ViewAudience from "../../components/ViewAudience";
 
 const Main = () => {
   return (
