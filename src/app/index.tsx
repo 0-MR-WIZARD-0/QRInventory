@@ -6,7 +6,6 @@ import "./App.scss";
 import About from "../pages/about";
 import Profile from "../pages/profile";
 import Organization from "../pages/organization";
-import Navbar from "../components/Navbar";
 import Page404 from "../pages/Page404";
 import Audience from "../pages/audience";
 import Header from "../components/Header";
