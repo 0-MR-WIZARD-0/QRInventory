@@ -1,9 +1,14 @@
 version: "3"
 services:
-  qr-inventory:
-    container_name: qr-inventory
+  qr-inventory-front:
+    container_name: qr-inventory-front
     build: .
     environment:
       env_file: .env
     ports:
       - "80:80"
+    networks:
+      - qr-inventory-proxy
+networks:
+  qr-inventory-proxy:
+    name: qr-inventory
