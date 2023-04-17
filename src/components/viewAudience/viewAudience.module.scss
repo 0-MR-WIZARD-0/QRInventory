@@ -41,12 +41,12 @@
     @media screen and (max-width: $breakpoint-max-tablet) {
       margin-left: 25px;
       margin-right: 25px;
+      margin-top: 50px;
       grid-template-columns: repeat(2, 260px);
     }
 
     @media screen and (max-width: $breakpoint-min-tablet) {
       grid-template-columns: repeat(1, 260px);
     }
-
     
 }

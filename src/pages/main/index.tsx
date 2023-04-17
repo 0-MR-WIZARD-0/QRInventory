@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import ViewAudience from "../../components/ViewAudience";
 import api from "../../helpers/axios";
 import styles from "./main.module.scss";
+import Navbar from "../../components/Navbar";
 
 const Main = () => {
   useEffect(() => {
@@ -16,6 +17,7 @@ const Main = () => {
 
   return (
     <main className={styles.wrapperMain}>
+      <Navbar/>
       <ViewAudience />
     </main>
   );

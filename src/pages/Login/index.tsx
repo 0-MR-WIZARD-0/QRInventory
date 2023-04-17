@@ -1,23 +1,27 @@
+import { Link } from "react-router-dom";
+import styles from "./login.module.scss";
+
 const Login = () => {
   return (
-    <main className='grid'>
-      <div className='register'>
-        <h2>Sign In</h2>
-
+    <main>
+      <div className={styles.wrapperLogin}>
+        <h2>Авторизация</h2>
+        <p>Для продолжения необходимо ввести данные аккаунта</p>
         <form action='' method='post' className='form'>
-          <div className='form__field'>
             <input type='email' placeholder='info@mailaddress.com' />
-          </div>
 
-          <div className='form__field'>
             <input type='password' placeholder='••••••••••••' />
-          </div>
 
-          <div className='form__field'>
-            <input type='submit' value='Sign In' />
-          </div>
+            <input type='submit' value='Продолжить' />
+
+          <Link to="">Забыл(а) пароль</Link>
         </form>
       </div>
+      {/* <div className={styles._reset}>
+        <h2>Авторизация</h2>
+        <p>Запрос на восстановление пароля отправлен администратору.</p>
+        <p>После рассмотрения заявки вам на почту будут отправлен временный пароль</p>
+      </div> */}
     </main>
   );
 };

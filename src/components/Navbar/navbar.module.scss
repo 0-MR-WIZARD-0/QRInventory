@@ -1,26 +1,23 @@
 @import "../../colors.scss";
 
 .navbar {
-  height: 60px;
   display: flex;
+  margin-top: 15px;
   justify-content: space-between;
-  align-items: center;
-  padding: 0 30px;
-  & > a > img {
-    width: 10%;
-  }
-  & > ul {
+  width: 850px;
+  ul{
     display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    & > a {
-      width: 5%;
-    }
-    & > li {
-      margin-right: 40px;
-      & > a {
-        color: $mainColor;
-      }
+    li{
+      width: 132px;
+      height: 42px;
+      border-radius: 20px;
+      background-color: $grey;
+      cursor: pointer;
+      text-align: center;
     }
   }
+  select{
+    width: 328px;
+  }
+  
 }

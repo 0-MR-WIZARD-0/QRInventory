@@ -1,0 +1,93 @@
+@import "../../colors.scss";
+@import "../../breakpoint.module.scss";
+
+main{
+    display: flex;
+    justify-content: center;
+}
+
+.wrapperLogin{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 850px;
+    // height: min-content;
+    background-color: $white;
+    border-radius: 20px;
+    margin-top: 30px;
+    padding: 20px 0px;
+    text-align: center;
+    p, form{
+        margin-top: 15px;
+    }
+    & > form{
+        display: flex;
+        flex-direction: column;
+        
+        input{
+            border-radius: 15px;
+            height: 50px;
+            width: 325px;
+            border: 2px solid $grey;
+            padding-left: 15px;
+            &+input{
+                margin-top: 15px;
+            }
+            &:active{
+                border: 2px solid $secondColor;
+            }
+        }
+        input[type="submit"]{
+            background-color: $grey;
+            border: none;
+            color: $white;
+            padding-left: 0px;
+            &:hover{
+                background-color: $secondColor;
+            }
+        }
+        a{
+            margin-top: 15px;
+            color: $secondColor;
+            font-weight: bold;
+        }
+    }
+
+    @media screen and (max-width: $breakpoint-max-tablet) {
+        margin-left: 25px;
+        margin-right: 25px;
+    }
+
+    @media screen and (max-width: $breakpoint-min-phone) {
+        margin-left: 25px;
+        margin-right: 25px;
+    }
+}
+
+// ._reset{
+//     display: flex;
+//     flex-direction: column;
+//     align-items: center;
+//     width: 850px;
+//     background-color: $white;
+//     border-radius: 20px;
+//     margin-top: 30px;
+//     padding: 20px 0px;
+//     text-align: center;
+//     h2{
+//         margin-bottom: 15px;
+//     }
+//     &>p:first-of-type{
+//         margin-bottom: 15px;
+//     }
+
+//     @media screen and (max-width: $breakpoint-max-tablet) {
+//         margin-left: 25px;
+//         margin-right: 25px;
+//     }
+
+//     @media screen and (max-width: $breakpoint-min-phone) {
+//         margin-left: 25px;
+//         margin-right: 25px;
+//     }
+// }

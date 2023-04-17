@@ -50,30 +50,3 @@ a {
 ul {
   list-style: none;
 }
-
-nav,
-footer {
-  background-color: $secondColor;
-}
-
-// input, select{
-//   background-color: $mainColor;
-//   border: 2px solid $secondColor;
-//   padding-left: 15px;
-//   border-radius: 5px;
-//   padding-top: 6px;
-//   padding-bottom: 6px;
-// }
-
-// button{
-//   background-color: $secondColor;
-//   color: $mainColor;
-//   border: 2px solid $secondColor;
-//   border-radius: 5px;
-//   padding-top: 6px;
-//   padding-bottom: 6px;
-//   &:hover{
-//     background-color: $mainColor;
-//     color: $secondColor;
-//   }
-// }
