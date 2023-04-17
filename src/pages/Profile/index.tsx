@@ -9,7 +9,7 @@ const Profile = () => {
     <main>
       <div>
         <div>
-          <div >
+          <div>
             <img alt=""/>
           </div>
           <div>

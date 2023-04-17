@@ -1,9 +1,7 @@
-import React from 'react'
-
 const AddOrganization = () => {
   return (
     <div>
-        <input placeholder=''></input>
+        <input placeholder='Number audience'></input>
         <select>
             <option>asdasdasdasd</option>
         </select>

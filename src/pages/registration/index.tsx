@@ -1,42 +1,32 @@
-// import styles from "./registration.module.scss";
+import styles from "../../styles/globalStyle.module.scss";
+import { Link } from "react-router-dom";
 
 const Registration = () => {
   return (
-    // className={styles.grid}
     <main>
-      {/* <div > */}
-      <div 
-    //   className={styles.register}
-      >
-        <h2>Sign Up</h2>
-
+        <div 
+        className={styles.wrapperRegistrationAndLogin}
+        >
+        
+        <h2>Регистрация</h2>
+        <p>Для продолжения необходимо ввести необходимые данные</p>
         <form action='' method='post' className='form'>
-          <div className='form__field'>
-            <input type='text' placeholder='FIO' />
-          </div>
 
-          <div className='form__field'>
-            <input type='text' placeholder='username' />
-          </div>
+            <input type='text' placeholder='Имя' />
 
-          <div className='form__field'>
+            <input type='text' placeholder='Фамилия' />
+
+            <input type='text' placeholder='Отчество' />
+
             <input type='email' placeholder='info@mailaddress.com' />
-          </div>
 
-          <div className='form__field'>
             <input type='password' placeholder='••••••••••••' />
-          </div>
 
-          <div className='form__field'>
-            <input type='password' placeholder='••••••••••••' />
-          </div>
+            <input type='submit' value='Продолжить' />
 
-          <div className='form__field'>
-            <input type='submit' value='Sign Up' />
-          </div>
+          <Link to="/signin">Уже имеется аккаунт</Link>
         </form>
-        {/* </div> */}
-      </div>
+        </div>
     </main>
   );
 };

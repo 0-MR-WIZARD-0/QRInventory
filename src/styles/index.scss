@@ -23,27 +23,12 @@ body {
   }
 }
 
-#root {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-main {
-  flex: 1 0 auto;
-}
-
-footer {
-  flex: 0 0 auto;
-}
-
 input {
   font: inherit;
 }
 
 a {
   text-decoration: underline;
-  // text-decoration: none;
   cursor: pointer;
 }
 

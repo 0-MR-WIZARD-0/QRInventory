@@ -4,7 +4,11 @@ const option = ["Колледж бизнес-технологий", "Колле�
 
 const AddAudience = () => {
   return (
-      <button className={styles.addAudience}>Добавить новый кабинет +</button>
+      <div>
+        <h2>Добавление аудитории</h2>
+        <input placeholder="Номер аудитории"></input>
+        <button>Создать</button>
+      </div>
   );
 };
 

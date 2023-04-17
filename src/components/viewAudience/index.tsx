@@ -33,7 +33,7 @@ const ViewAudience = () => {
 
   return (
     <div className={styles.wrapperViewAudience}>
-      <AddAudience/>
+      <button className={styles.addAudience}>Добавить новый кабинет +</button>
       {qrCodes.map(cabinet => (
         <div
           onClick={() => {
