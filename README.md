@@ -5,5 +5,7 @@
 1. Подготовить `.env` файл
 
 ```md
-    REACT_APP_PORT=3000
+    PORT=3000
+    REACT_APP_API_HOST=http://localhost/api
+    REACT_APP_API_DEV_HOST=http://localhost:5000
 ```
