@@ -11,6 +11,8 @@ type IconProps = {
   height: number;
 };
 
-export const Icon: React.FC<IconProps> = ({ icon, width, height }) => {
-  return <i className={styles.icon} style={{ width, height, WebkitMask: `url(/resources/svg/${icon}.svg)  no-repeat 50% 50%`, WebkitMaskSize: "contain" }} />;
+const Icon: React.FC<IconProps> = ({ icon, width, height }) => {
+  return <i className={styles.icon} style={{ width, height, WebkitMask: `url(/resources/svg/${icon}.svg) no-repeat 50% 50%`, WebkitMaskSize: "contain" }} />;
 };
+
+export default Icon;
