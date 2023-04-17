@@ -6,6 +6,6 @@
 
 ```md
     PORT=3000
-    REACT_API_HOST=http://qr-inventory-api:5000
-    REACT_API_DEV_HOST=http://localhost:5000
+    REACT_APP_API_HOST=http://localhost/api
+    REACT_APP_API_DEV_HOST=http://localhost:5000
 ```
