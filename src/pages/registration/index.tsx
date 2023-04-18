@@ -4,10 +4,7 @@ import { Link } from "react-router-dom";
 const Registration = () => {
   return (
     <main>
-        <div 
-        className={styles.wrapperRegistrationAndLogin}
-        >
-        
+        <div className={styles.wrapperRegistrationAndLogin}>
         <h2>Регистрация</h2>
         <p>Для продолжения необходимо ввести необходимые данные</p>
         <form action='' method='post' className='form'>

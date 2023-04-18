@@ -1,10 +1,11 @@
 const AddOrganization = () => {
   return (
     <div>
-        <input placeholder='Number audience'></input>
+        <input placeholder='Title organization'></input>
         <select>
-            <option>asdasdasdasd</option>
+            <option></option>
         </select>
+        <button>Создать организацию</button>
     </div>
   )
 }

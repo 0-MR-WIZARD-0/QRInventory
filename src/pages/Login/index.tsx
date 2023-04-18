@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import styles from "./login.module.scss";
+import styles from "../../styles/globalStyle.module.scss";
 
 const Login = () => {
   return (
     <main>
-      <div className={styles.wrapperLogin}>
+      <div className={styles.wrapperRegistrationAndLogin}>
         <h2>Авторизация</h2>
         <p>Для продолжения необходимо ввести данные аккаунта</p>
         <form action='' method='post' className='form'>
