@@ -1,23 +1,41 @@
-import { Link } from "react-router-dom";
-import Image from "../Image";
+import { NavLink } from "react-router-dom";
 import styles from "./navbar.module.scss";
 
 const Navbar = () => {
   return (
     <nav className={styles.navbar}>
-
       <ul>
         <li>
-          <Link to='/'>QR-коды</Link>
+          <NavLink to='/' style={({isActive}) => {
+            return {
+              backgroundColor: isActive ? "#082032" : "#C5C5C5",
+              color: isActive ? "#FFF" : "#000",
+            }
+          }}>QR-коды</NavLink>
         </li>
         <li>
-          <Link to='/'>Организации</Link>
+          <NavLink to='/organizations' style={({isActive}) => {
+            return {
+              backgroundColor: isActive ? "#082032" : "#C5C5C5",
+              color: isActive ? "#FFF" : "#000",
+            }
+          }}>Организации</NavLink>
         </li>
         <li>
-          <Link to='/'>Предметы</Link>
+          <NavLink to='/objects' style={({isActive}) => {
+            return {
+              backgroundColor: isActive ? "#082032" : "#C5C5C5",
+              color: isActive ? "#FFF" : "#000",
+            }
+          }}>Предметы</NavLink>
         </li>
         <li>
-          <Link to='/'>Пользователи</Link>
+          <NavLink to='/users' style={({isActive}) => {
+            return {
+              backgroundColor: isActive ? "#082032" : "#C5C5C5",
+              color: isActive ? "#FFF" : "#000",
+            }
+          }}>Пользователи</NavLink>
         </li>
       </ul>
       <select>

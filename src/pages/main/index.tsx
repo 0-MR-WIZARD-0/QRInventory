@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import ViewAudience from "../../components/ViewAudience";
 import api from "../../helpers/axios";
-import styles from "./main.module.scss";
+import styles from "../../styles/globalStyle.module.scss";
 import Navbar from "../../components/Navbar";
 
 const Main = () => {

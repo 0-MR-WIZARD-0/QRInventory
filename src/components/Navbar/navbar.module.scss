@@ -5,15 +5,25 @@
   margin-top: 15px;
   justify-content: space-between;
   width: 850px;
+
   ul{
     display: flex;
     li{
       width: 132px;
       height: 42px;
+    }
+    
+    li>a{
+      width: 100%;
+      height: 100%;
       border-radius: 20px;
       background-color: $grey;
+      text-decoration: none;
+      color: $black;
       cursor: pointer;
-      text-align: center;
+      display: flex;
+      align-items:center;
+      justify-content: center;
     }
   }
   select{

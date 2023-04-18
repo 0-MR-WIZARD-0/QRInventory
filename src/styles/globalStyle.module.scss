@@ -1,9 +1,15 @@
 @import "./breakpoint.module.scss";
 @import "./colors.scss";
 
-main{
-  display: flex;
-  justify-content: center;
+// main{
+//   display: flex;
+//   justify-content: center;
+// }
+
+.wrapperMain{
+    display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
 .wrapperRegistrationAndLogin{

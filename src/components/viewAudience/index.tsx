@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import styles from "./viewAudience.module.scss";
-import AddAudience from "../AddAudience";
-import AddOrganization from "../AddOrganization";
 
 type CabinetQRCode = {
   imageUrl: string;
@@ -51,24 +49,6 @@ const ViewAudience = () => {
         </div>
       ))}
     </div>
-    // <div className={styles.viewWrapper}>
-    //   <button>Добавить новое учреждение +</button>
-    //   <div>
-    //     <div>
-    //       <h3>Колледж бизнес-технологий</h3>
-    //       <p>Кабинетов: 700</p>
-    //     </div>
-    //     <div>
-    //       <h3>Колледж бизнес-технологий</h3>
-    //       <p>Кабинетов: 700</p>
-    //     </div>
-    //     <div>
-    //       <h3>Колледж бизнес-технологий</h3>
-    //       <p>Кабинетов: 700</p>
-    //     </div>
-    //   </div>
-    // </div>
-
   );
 };
 
