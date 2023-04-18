@@ -1,30 +1,32 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import globalStyles from "../../styles/globalStyle.module.scss";
+import styles from "./profile.module.scss"
 
 const Profile = () => {
 
-  let navigate = useNavigate()
-
   return (
-    <main>
-      <div>
+    <main className={globalStyles.wrapperMain}>
+      <div className={styles.wrapperProfile}>
         <div>
-          <div>
-            <img alt=""/>
-          </div>
-          <div>
-            <h3>Администратор</h3>
-            <p>Зуннунов Борис</p>
-            <p>Сергеевич</p>
-            <p>test@mail.com</p>
+          <Link to="/">Назад на главную</Link>
+          <div className={styles.info}>
+            <div className={styles.img}>
+              <img alt=""/>
+            </div>
+            <div>
+              <h3>Администратор</h3>
+              <p>Зуннунов Борис</p>
+              <p>Сергеевич</p>
+              <p>test@mail.com</p>
+            </div>
           </div>
           
         </div>
-        <div>
-          <p>Управление аккаунтом</p>
+        <div className={styles.setting}>
+          <p>Панель управления аккаунтом</p>
           <div>
             <button>Редактирование</button>
-            <button onClick={()=>{navigate("/")}}>Вернуться на главную</button>
+            <button>Выйти</button>
           </div>
         </div>
       </div>
