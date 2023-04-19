@@ -3,9 +3,10 @@ import { BrowserRouter } from "react-router-dom";
 import "./styles/index.scss";
 import App from "./app";
 import axios from "axios";
+import Modal from "react-modal";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
-
+Modal.setAppElement("#root");
 axios.defaults.baseURL = process.env.REACT_APP_ENVIRONMENT !== "production" ? process.env.REACT_API_DEV_HOST : process.env.REACT_API_HOST;
 // axios.interceptors.request.use(
 //   request => {
