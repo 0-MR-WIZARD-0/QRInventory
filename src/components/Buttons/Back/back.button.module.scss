@@ -1,0 +1,12 @@
+@import "../../../styles/colors.scss";
+
+.backButton {
+  color: $black-p50;
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    color: $gray-900;
+    text-decoration: underline;
+  }
+}

@@ -52,7 +52,7 @@ const SuccessPage: React.FC<{ cb: ResolverCallback }> = ({ cb }) => {
   );
 };
 
-export const SchenarioDefault: Story = {
+export const ScenarioDefault: Story = {
   args: {
     modalName: "PasswordConfirmation",
     script: {

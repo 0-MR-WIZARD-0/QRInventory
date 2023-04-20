@@ -1,2 +1,4 @@
-export const wrapperHeader: string;
-export const _info: string;
+export const headerDesktop: string;
+export const headerMobile: string;
+export const headerMobileContent: string;
+export const info: string;

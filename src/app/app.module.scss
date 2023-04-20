@@ -1,0 +1,8 @@
+@import "../styles/breakpoint.module.scss";
+
+.app {
+  max-width: $breakpoint-mid-tablet;
+  margin: 0 auto;
+
+  padding: 16px;
+}

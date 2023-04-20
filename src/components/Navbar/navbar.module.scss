@@ -4,30 +4,29 @@
   display: flex;
   margin-top: 15px;
   justify-content: space-between;
-  width: 850px;
+  width: 100%;
 
-  ul{
+  ul {
     display: flex;
-    li{
+    li {
       width: 132px;
       height: 42px;
     }
-    
-    li>a{
+
+    li > a {
       width: 100%;
       height: 100%;
       border-radius: 20px;
-      background-color: $grey;
+      background-color: $gray-100;
       text-decoration: none;
       color: $black;
       cursor: pointer;
       display: flex;
-      align-items:center;
+      align-items: center;
       justify-content: center;
     }
   }
-  select{
+  select {
     width: 328px;
   }
-  
 }
