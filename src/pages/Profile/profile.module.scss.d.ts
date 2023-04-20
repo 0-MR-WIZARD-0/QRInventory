@@ -1,4 +1,4 @@
-export const wrapperProfile: string;
-export const info: string;
 export const img: string;
+export const info: string;
 export const setting: string;
+export const wrapperProfile: string;

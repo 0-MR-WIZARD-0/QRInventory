@@ -7,9 +7,9 @@ const Header = () => {
 
   return (
     <header>
-      <div className={styles.wrapperHeader}>
+      <div className={styles.headerDesktop}>
         <div
-          className={styles._info}
+          className={styles.info}
           onClick={() => {
             navigate("/");
           }}>
@@ -20,6 +20,24 @@ const Header = () => {
           </div>
         </div>
 
+        <p>
+          Авторизация: <Link to='/profile'>Администратор</Link>
+        </p>
+      </div>
+      <div className={styles.headerMobile}>
+        <div className={styles.headerMobileContent}>
+          <div
+            className={styles.info}
+            onClick={() => {
+              navigate("/");
+            }}>
+            <Icon icon='logo' width={32} height={32} />
+            <div>
+              <h3>QRInventory</h3>
+              <p>проект инвентаризации организаций</p>
+            </div>
+          </div>
+        </div>
         <p>
           Авторизация: <Link to='/profile'>Администратор</Link>
         </p>
