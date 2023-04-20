@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import BackButton from "../../components/Buttons/Back";
 import globalStyles from "../../styles/globalStyle.module.scss";
 import styles from "./profile.module.scss";
