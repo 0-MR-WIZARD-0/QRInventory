@@ -1,5 +1,5 @@
 import { createElement, forwardRef, useImperativeHandle, useState } from "react";
-import Modal from "react-modal";
+import Modal from "react-modal"
 
 type Script = {
   [page: number]: {

@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import Selector from "../Selector";
 import styles from "./navbar.module.scss";
 
 const Navbar = () => {
@@ -8,7 +9,7 @@ const Navbar = () => {
         <li>
           <NavLink to='/' style={({isActive}) => {
             return {
-              backgroundColor: isActive ? "#082032" : "#C5C5C5",
+              backgroundColor: isActive ? "#082032" : "#FFF",
               color: isActive ? "#FFF" : "#000",
             }
           }}>QR-коды</NavLink>
@@ -16,7 +17,7 @@ const Navbar = () => {
         <li>
           <NavLink to='/organizations' style={({isActive}) => {
             return {
-              backgroundColor: isActive ? "#082032" : "#C5C5C5",
+              backgroundColor: isActive ? "#082032" : "#FFF",
               color: isActive ? "#FFF" : "#000",
             }
           }}>Организации</NavLink>
@@ -24,7 +25,7 @@ const Navbar = () => {
         <li>
           <NavLink to='/objects' style={({isActive}) => {
             return {
-              backgroundColor: isActive ? "#082032" : "#C5C5C5",
+              backgroundColor: isActive ? "#082032" : "#FFF",
               color: isActive ? "#FFF" : "#000",
             }
           }}>Предметы</NavLink>
@@ -32,15 +33,13 @@ const Navbar = () => {
         <li>
           <NavLink to='/users' style={({isActive}) => {
             return {
-              backgroundColor: isActive ? "#082032" : "#C5C5C5",
+              backgroundColor: isActive ? "#082032" : "#FFF",
               color: isActive ? "#FFF" : "#000",
             }
           }}>Пользователи</NavLink>
         </li>
       </ul>
-      <select>
-        <option>Колледж бизнес-технологий</option>
-      </select>
+      <Selector/>
     </nav>
   );
 };
