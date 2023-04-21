@@ -3,10 +3,10 @@ import styles from "./selector.module.scss";
 import { Organization } from "./selector.interface";
 
 const organizationsOption: Organization[] = [
-  { value: ".", label: "Колледж бизнес-технологий" },
-  { value: "..", label: "Колледж бизнес-технологий" },
-  { value: "...", label: "Колледж бизнес-технологий" },
-  { value: "....", label: "Колледж бизнес-технологий" }
+  { value: ".", label: "1 Колледж бизнес-технологий" },
+  { value: "..", label: "2 Колледж бизнес-технологий" },
+  { value: "...", label: "3 Колледж бизнес-технологий" },
+  { value: "....", label: "4 Колледж бизнес-технологий" }
 ];
 
 const Selector = () => {
