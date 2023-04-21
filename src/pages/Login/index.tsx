@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DefaultButton from "../../components/Buttons/Default";
 import Input from "../../components/Input";
+import api from "../../helpers/axios";
 import styles from "../../styles/globalStyle.module.scss";
 
 type FormProps = {
@@ -9,11 +10,18 @@ type FormProps = {
   password: string;
 };
 
+const testData = process.env.NODE_ENV !== "production" ? { email: "test@mail.com", password: "any-password" } : { email: "", password: "" };
+
 const Login = () => {
-  const [formState, setFormState] = useState<FormProps>({ email: "", password: "" });
+  const navigator = useNavigate();
+
+  const [formState, setFormState] = useState<FormProps>(testData);
+  //                              потом поменять на пустые значения
   const updateState = (e: React.ChangeEvent<HTMLInputElement>) => setFormState(state => ({ ...state, [e.target.id]: e.target.value }));
-  const onSumbit = async () => {
-    return console.log("success");
+  const onSumbit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    await api.post("/auth/login", formState);
+    navigator("/", { replace: true });
   };
 
   return (
