@@ -1,16 +1,38 @@
 @import "../../styles/colors.scss";
+@import "../../styles/breakpoint.module.scss";
 
 .navbar {
   display: flex;
-  margin-top: 15px;
   justify-content: space-between;
   width: 100%;
 
+  & > *:not(ul),
+  & > *:not(:first-child) {
+    margin-left: 10px;
+  }
+
   ul {
     display: flex;
+    flex: 1;
+
+    overflow: scroll;
+    overflow-y: hidden;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
     li {
       width: 132px;
       height: 42px;
+      flex-shrink: 0;
+
+      &:not(:last-child) {
+        margin-right: 5px;
+      }
+      &:not(:first-child) {
+        margin-left: 5px;
+      }
     }
 
     li > a {
@@ -22,6 +44,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+  }
+
+  @media screen and (max-width: $breakpoint-min-tablet) {
+    flex-direction: column-reverse;
+
+    & > *:not(ul) {
+      margin-left: 0 !important;
+      margin-bottom: 10px;
     }
   }
 }

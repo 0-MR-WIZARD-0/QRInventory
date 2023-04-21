@@ -1,45 +1,64 @@
 import { NavLink } from "react-router-dom";
+
 import Selector from "../Selector";
 import styles from "./navbar.module.scss";
+
+type NavbarMenuData = {
+  link: string;
+  title: string;
+};
+
+const data: NavbarMenuData[] = [
+  {
+    link: "/",
+    title: "QR-коды"
+  },
+  {
+    link: "/organizations",
+    title: "Организации"
+  },
+  {
+    link: "/objects",
+    title: "Предметы"
+  },
+  {
+    link: "/users",
+    title: "Пользователи"
+  },
+  {
+    link: "/users",
+    title: "Пользователи"
+  },
+  {
+    link: "/users",
+    title: "Пользователи"
+  },
+  {
+    link: "/users",
+    title: "Пользователи"
+  }
+];
 
 const Navbar = () => {
   return (
     <nav className={styles.navbar}>
       <ul>
-        <li>
-          <NavLink to='/' style={({isActive}) => {
-            return {
-              backgroundColor: isActive ? "#082032" : "#FFF",
-              color: isActive ? "#FFF" : "#000",
-            }
-          }}>QR-коды</NavLink>
-        </li>
-        <li>
-          <NavLink to='/organizations' style={({isActive}) => {
-            return {
-              backgroundColor: isActive ? "#082032" : "#FFF",
-              color: isActive ? "#FFF" : "#000",
-            }
-          }}>Организации</NavLink>
-        </li>
-        <li>
-          <NavLink to='/objects' style={({isActive}) => {
-            return {
-              backgroundColor: isActive ? "#082032" : "#FFF",
-              color: isActive ? "#FFF" : "#000",
-            }
-          }}>Предметы</NavLink>
-        </li>
-        <li>
-          <NavLink to='/users' style={({isActive}) => {
-            return {
-              backgroundColor: isActive ? "#082032" : "#FFF",
-              color: isActive ? "#FFF" : "#000",
-            }
-          }}>Пользователи</NavLink>
-        </li>
+        {data.map(d => (
+          <li>
+            <NavLink
+              to={d.link}
+              style={({ isActive }) => {
+                return {
+                  backgroundColor: isActive ? "#082032" : "#FFF",
+                  color: isActive ? "#FFF" : "#000"
+                };
+              }}>
+              {d.title}
+            </NavLink>
+          </li>
+        ))}
       </ul>
-      <Selector/>
+      <Selector />
     </nav>
   );
 };
