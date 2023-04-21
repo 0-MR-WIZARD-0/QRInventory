@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DefaultButton from "../../components/Buttons/Default";
 import Input from "../../components/Input";
 import styles from "../../styles/globalStyle.module.scss";
+import { error, log } from "console";
+import api from "../../helpers/axios";
+// import axios from "axios"
 
 type FormProps = {
   email: string;
@@ -10,10 +13,22 @@ type FormProps = {
 };
 
 const Login = () => {
+
+
   const [formState, setFormState] = useState<FormProps>({ email: "", password: "" });
   const updateState = (e: React.ChangeEvent<HTMLInputElement>) => setFormState(state => ({ ...state, [e.target.id]: e.target.value }));
-  const onSumbit = async () => {
-    return console.log("success");
+  let navigate = useNavigate()
+
+
+  const onSumbit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    await api.post("/auth/login", formState).then((res) => {
+      console.log(res.data)
+      // navigate("/")
+    }).catch((err: Error)=>{
+      console.log(err);
+    })
+    
   };
 
   return (

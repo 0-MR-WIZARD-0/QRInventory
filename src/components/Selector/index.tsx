@@ -18,7 +18,7 @@ const Selector = () => {
       className={styles.select}
       theme={theme => ({
         ...theme,
-        borderRadius: 0,
+        borderRadius: 4,
         colors: {
           ...theme.colors,
           primary25: "lightblue",
