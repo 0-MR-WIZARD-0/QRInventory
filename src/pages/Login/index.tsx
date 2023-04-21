@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import DefaultButton from "../../components/Buttons/Default";
 import Input from "../../components/Input";
+import api from "../../helpers/axios";
 import styles from "../../styles/globalStyle.module.scss";
 import { error, log } from "console";
-import api from "../../helpers/axios";
 // import axios from "axios"
 
 type FormProps = {
@@ -12,23 +12,18 @@ type FormProps = {
   password: string;
 };
 
+const testData = process.env.NODE_ENV !== "production" ? { email: "test@mail.com", password: "any-password" } : { email: "", password: "" };
+
 const Login = () => {
+  const navigator = useNavigate();
 
-
-  const [formState, setFormState] = useState<FormProps>({ email: "", password: "" });
+  const [formState, setFormState] = useState<FormProps>(testData);
+  //                              потом поменять на пустые значения
   const updateState = (e: React.ChangeEvent<HTMLInputElement>) => setFormState(state => ({ ...state, [e.target.id]: e.target.value }));
-  let navigate = useNavigate()
-
-
   const onSumbit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    await api.post("/auth/login", formState).then((res) => {
-      console.log(res.data)
-      // navigate("/")
-    }).catch((err: Error)=>{
-      console.log(err);
-    })
-    
+    await api.post("/auth/login", formState);
+    navigator("/", { replace: true });
   };
 
   return (
