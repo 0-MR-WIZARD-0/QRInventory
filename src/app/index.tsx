@@ -5,6 +5,7 @@ import Profile from "../pages/Profile";
 import Page404 from "../pages/Page404";
 import Header from "../components/Header";
 import styles from "./app.module.scss";
+import NoAccessPage from "../pages/NoAccess";
 
 function App() {
   return (
@@ -12,8 +13,9 @@ function App() {
       <Header />
       <Routes>
         <Route path='/' element={<Main />} />
-        <Route path='/signin' element={<Login />} />
-        <Route path='/profile' element={<Profile />} />
+        <Route path='signin' element={<Login />} />
+        <Route path='profile' element={<Profile />} />
+        <Route path='no-access' element={<NoAccessPage />} />
         <Route path='*' element={<Page404 />} />
       </Routes>
     </div>
