@@ -4,11 +4,13 @@ import { User } from "types/User";
 type InitialState = {
   userData: User | undefined;
   loading: boolean;
+  error?: string;
 };
 
 const initialState: InitialState = {
   userData: undefined,
-  loading: true
+  loading: true,
+  error: undefined
 };
 
 const UserSlice = createSlice({
@@ -25,6 +27,10 @@ const UserSlice = createSlice({
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
+      return state;
+    },
+    setError: (state, action: PayloadAction<string | undefined>) => {
+      state.error = action.payload;
       return state;
     }
   }

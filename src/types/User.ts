@@ -10,6 +10,10 @@ export type User = {
   institutions: any[];
 };
 
+export enum UserErrors {
+  user_not_authed = "Пользователь не авторизован"
+}
+
 export enum Roles {
   teacher = "Учитель",
   admin = "Администратор"
