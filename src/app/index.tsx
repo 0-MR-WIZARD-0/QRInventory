@@ -32,9 +32,9 @@ function App() {
         .get("/user")
         .then(res => {
           updateUser(res.data);
-          setTimeout(() => setLoading(false), 3000);
+          setLoading(false);
         })
-        .catch(err => setTimeout(() => setLoading(false), 3000));
+        .catch(err => setLoading(false));
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

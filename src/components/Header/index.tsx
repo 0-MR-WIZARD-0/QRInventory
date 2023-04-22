@@ -28,9 +28,9 @@ const AuthComponent: React.FC<AuthComponentProps> = ({ userData, loading, mobile
   if (loading || location.pathname === `/${RoutesEnum.signIn}`) return <></>;
 
   return (
-    <Transition timeout={100} in={mobileShown}>
+    <Transition timeout={100} in={mobileShown ?? true}>
       {state => (
-        <p style={{ ...transitionStyles[state as keyof TransitionStyles] }}>
+        <p style={mobileShown !== undefined ? { ...transitionStyles[state as keyof TransitionStyles] } : {}}>
           {userData !== undefined ? (
             <>
               Авторизация: <Link to='profile'>{Roles[userData.role as unknown as keyof typeof Roles]}</Link>
