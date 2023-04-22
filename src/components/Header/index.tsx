@@ -1,9 +1,30 @@
 import styles from "./header.module.scss";
 import Icon from "../Icon";
 import { useNavigate, Link } from "react-router-dom";
+import { useAppSelector } from "helpers/redux";
+import { Roles, User } from "types/User";
+
+const AuthComponent: React.FC<{ userData: User | undefined; loading: boolean }> = ({ userData, loading }) => {
+  if (loading) return <></>;
+
+  if (userData !== undefined) {
+    return (
+      <p>
+        Авторизация: <Link to='profile'>{Roles[userData.role as unknown as keyof typeof Roles]}</Link>
+      </p>
+    );
+  } else {
+    return (
+      <p>
+        <Link to={"signin"}>Авторизоваться</Link>
+      </p>
+    );
+  }
+};
 
 const Header = () => {
   let navigate = useNavigate();
+  const { userData, loading } = useAppSelector(state => state.user);
 
   return (
     <header>
@@ -19,10 +40,7 @@ const Header = () => {
             <p>проект инвентаризации организаций</p>
           </div>
         </div>
-
-        <p>
-          Авторизация: <Link to='/profile'>Администратор</Link>
-        </p>
+        <AuthComponent userData={userData} loading={loading} />
       </div>
       <div className={styles.headerMobile}>
         <div className={styles.headerMobileContent}>
@@ -38,9 +56,7 @@ const Header = () => {
             </div>
           </div>
         </div>
-        <p>
-          Авторизация: <Link to='/profile'>Администратор</Link>
-        </p>
+        <AuthComponent userData={userData} loading={loading} />
       </div>
     </header>
   );

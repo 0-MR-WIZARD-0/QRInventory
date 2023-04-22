@@ -1,63 +1,17 @@
-import { NavLink } from "react-router-dom";
+import { MenuBar } from "components/MenuBar";
+import ProtectedComponent from "components/Protected/Component";
+import { useAppSelector } from "helpers/redux";
+import { roledMenuBarOptions, RoledMenuBarOptions } from "types/User";
 
 import Selector from "../Selector";
 import styles from "./navbar.module.scss";
 
-type NavbarMenuData = {
-  link: string;
-  title: string;
-};
-
-const data: NavbarMenuData[] = [
-  {
-    link: "/",
-    title: "QR-коды"
-  },
-  {
-    link: "/organizations",
-    title: "Организации"
-  },
-  {
-    link: "/objects",
-    title: "Предметы"
-  },
-  {
-    link: "/users",
-    title: "Пользователи"
-  },
-  {
-    link: "/users",
-    title: "Пользователи"
-  },
-  {
-    link: "/users",
-    title: "Пользователи"
-  },
-  {
-    link: "/users",
-    title: "Пользователи"
-  }
-];
-
 const Navbar = () => {
+  const { userData } = useAppSelector(state => state.user);
+
   return (
     <nav className={styles.navbar}>
-      <ul>
-        {data.map(d => (
-          <li>
-            <NavLink
-              to={d.link}
-              style={({ isActive }) => {
-                return {
-                  backgroundColor: isActive ? "#082032" : "#FFF",
-                  color: isActive ? "#FFF" : "#000"
-                };
-              }}>
-              {d.title}
-            </NavLink>
-          </li>
-        ))}
-      </ul>
+      <ProtectedComponent component={<MenuBar barOptions={roledMenuBarOptions[userData!.role as unknown as keyof RoledMenuBarOptions]} />} />
       <Selector />
     </nav>
   );

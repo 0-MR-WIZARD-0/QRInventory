@@ -33,11 +33,12 @@ const ViewAudience = () => {
   return (
     <div className={styles.wrapperViewAudience}>
       <button>Добавить новый кабинет +</button>
-      {qrCodes.map(cabinet => (
+      {qrCodes.map((cabinet, i) => (
         <div
           onClick={() => {
             navigate(`audience/${cabinet.cabinetNumber}`);
-          }}>
+          }}
+          key={cabinet.cabinetNumber + i}>
           <div className={styles.img}>
             <img src={cabinet.imageUrl} alt={cabinet.cabinetNumber.toString()}></img>
           </div>
