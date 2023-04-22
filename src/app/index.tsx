@@ -12,9 +12,14 @@ import api from "helpers/axios";
 import { useAction, useAppSelector } from "helpers/redux";
 import { RoutesEnum } from "types/Routes";
 import Loader from "components/Loader";
+import { Transition } from "react-transition-group";
 
 const LoadingComponent: React.FC = () => {
-  return <Loader />;
+  return (
+    <Transition in={true} timeout={100}>
+      {state => <Loader state={state} />}
+    </Transition>
+  );
 };
 
 function App() {
@@ -27,9 +32,9 @@ function App() {
         .get("/user")
         .then(res => {
           updateUser(res.data);
-          setLoading(false);
+          setTimeout(() => setLoading(false), 3000);
         })
-        .catch(err => setLoading(false));
+        .catch(err => setTimeout(() => setLoading(false), 3000));
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
