@@ -4,8 +4,7 @@ import DefaultButton from "../../components/Buttons/Default";
 import Input from "../../components/Input";
 import api from "../../helpers/axios";
 import styles from "../../styles/globalStyle.module.scss";
-import { error, log } from "console";
-// import axios from "axios"
+import { useAction } from "helpers/redux";
 
 type FormProps = {
   email: string;
@@ -16,13 +15,15 @@ const testData = process.env.NODE_ENV !== "production" ? { email: "test@mail.com
 
 const Login = () => {
   const navigator = useNavigate();
+  const { updateUser } = useAction();
 
   const [formState, setFormState] = useState<FormProps>(testData);
   //                              потом поменять на пустые значения
   const updateState = (e: React.ChangeEvent<HTMLInputElement>) => setFormState(state => ({ ...state, [e.target.id]: e.target.value }));
   const onSumbit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    await api.post("/auth/login", formState);
+    const res = await api.post("/auth/login", formState);
+    updateUser(res.data);
     navigator("/", { replace: true });
   };
 
