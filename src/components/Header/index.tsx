@@ -1,11 +1,14 @@
 import styles from "./header.module.scss";
 import Icon from "../Icon";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useAppSelector } from "helpers/redux";
 import { Roles, User } from "types/User";
+import { RoutesEnum } from "types/Routes";
 
 const AuthComponent: React.FC<{ userData: User | undefined; loading: boolean }> = ({ userData, loading }) => {
-  if (loading) return <></>;
+  const location = useLocation();
+
+  if (loading || location.pathname === `/${RoutesEnum.signIn}`) return <></>;
 
   if (userData !== undefined) {
     return (
@@ -23,7 +26,7 @@ const AuthComponent: React.FC<{ userData: User | undefined; loading: boolean }> 
 };
 
 const Header = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const { userData, loading } = useAppSelector(state => state.user);
 
   return (
