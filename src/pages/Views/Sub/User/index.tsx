@@ -1,16 +1,16 @@
 import { MenuBar } from "components/Complex/MenuBar";
 import { useAppSelector } from "helpers/redux";
-import { Navigate } from "react-router-dom";
+import { Navigate /*useParams*/ } from "react-router-dom";
 import { roledEditDataBarOptions, RoledMenuBarOptions, Roles, RolesNaming, User } from "types/User";
 import BackButton from "components/Basic/Buttons/Back";
 import globalStyles from "styles/globalStyle.module.scss";
-import styles from "./profile.module.scss";
+import styles from "./view.sub.user.module.scss";
 
-type ProfileMenuBarProps = {
+type ViewUserMenuBarProps = {
   userData: User;
 };
 
-const ProfileMenuBar: React.FC<ProfileMenuBarProps> = ({ userData }) => {
+const ViewUserMenuBar: React.FC<ViewUserMenuBarProps> = ({ userData }) => {
   return (
     <div className={styles.setting}>
       <p>Панель управления аккаунтом</p>
@@ -19,7 +19,12 @@ const ProfileMenuBar: React.FC<ProfileMenuBarProps> = ({ userData }) => {
   );
 };
 
-const Profile = () => {
+const ViewUser = () => {
+  // const { id } = useParams();
+
+  // if(id) fetch user by id
+  // else fetch state user by id
+
   const { userData } = useAppSelector(state => state.user);
   if (!userData) return <Navigate to={"signin"} />;
 
@@ -32,7 +37,7 @@ const Profile = () => {
 
   return (
     <main className={globalStyles.wrapperMain}>
-      <div className={styles.wrapperProfile}>
+      <div className={styles.wrapperUser}>
         <div>
           <BackButton />
           <div className={styles.info}>
@@ -45,10 +50,10 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        <ProfileMenuBar userData={userData} />
+        <ViewUserMenuBar userData={userData} />
       </div>
     </main>
   );
 };
 
-export default Profile;
+export default ViewUser;

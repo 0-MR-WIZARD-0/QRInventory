@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import styles from "./view.cabinets.module.scss";
+import styles from "./view.main.cabinets.module.scss";
 import { cabinetViewPath } from "types/App";
 
 type CabinetQRCode = {

@@ -1,12 +1,13 @@
-import ViewAudience from "components/ViewAudience";
 import styles from "styles/globalStyle.module.scss";
-import Navbar from "components/Navbar";
+import Navbar from "components/Complex/Navbar";
+import ProtectedComponent from "components/Protected/Component";
+import { Outlet } from "react-router-dom";
 
 const Main = () => {
   return (
     <main className={styles.wrapperMain}>
-      <Navbar />
-      <ViewAudience />
+      <ProtectedComponent component={<Navbar />} />
+      <Outlet />
     </main>
   );
 };
