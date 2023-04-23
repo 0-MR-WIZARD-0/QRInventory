@@ -1,0 +1,22 @@
+@import "styles/colors.scss";
+@import "styles/breakpoint.module.scss";
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  & > *:not(ul),
+  & > *:not(:first-child) {
+    margin-left: 10px;
+  }
+
+  @media screen and (max-width: $breakpoint-min-tablet) {
+    flex-direction: column-reverse;
+
+    & > *:not(ul) {
+      margin-left: 0 !important;
+      margin-bottom: 10px;
+    }
+  }
+}

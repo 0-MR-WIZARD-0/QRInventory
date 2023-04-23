@@ -1,0 +1,36 @@
+@import "styles/breakpoint.module.scss";
+
+.select {
+  display: flex;
+  height: 42px;
+
+  & > div {
+    padding: 0 10px;
+    border-radius: 20px;
+    width: 250px;
+
+    border: none;
+    flex-shrink: 0;
+
+    @media screen and (max-width: $breakpoint-min-tablet) {
+      width: 100%;
+    }
+
+    *[class*="indicatorSeparator"] {
+      display: none;
+    }
+  }
+
+  div[class*="menu"] {
+    // padding: 0;
+    padding: 0 4px;
+
+    & > div > div {
+      border-radius: 15px;
+
+      &:not(:last-child) {
+        margin-bottom: 5px;
+      }
+    }
+  }
+}

@@ -1,0 +1,158 @@
+@import "styles/colors.scss";
+@import "styles/breakpoint.module.scss";
+
+header {
+  display: block;
+  justify-content: center;
+}
+
+.headerDesktop {
+  display: flex;
+  padding: 0 15px;
+  align-items: center;
+  justify-content: space-between;
+
+  height: 60px;
+  background-color: $secondary;
+  border-radius: 20px;
+  margin-bottom: 10px;
+
+  .info {
+    display: flex;
+    cursor: pointer;
+    i {
+      margin: auto 15px auto 0;
+    }
+    & > div {
+      h3 {
+        color: $mainColor;
+      }
+    }
+  }
+
+  p {
+    color: rgba($mainColor, 0.5);
+    a {
+      color: rgba($white, 0.5);
+    }
+  }
+
+  @media screen and (max-width: calc($breakpoint-max-tablet - 1px)) {
+    display: none;
+  }
+}
+
+.headerMobile {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  transition: all 50ms ease-in-out;
+  cursor: pointer;
+
+  &Content {
+    width: 100%;
+    min-height: 60px;
+    background-color: $secondary;
+    border-radius: 20px;
+
+    padding: 0 15px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 1;
+
+    p {
+      color: $white-p50;
+      a {
+        color: $white-p50;
+      }
+    }
+
+    .info {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      i {
+        margin: auto 15px auto 0;
+      }
+      & > div {
+        h3 {
+          color: $mainColor;
+        }
+      }
+    }
+  }
+  & > p {
+    position: absolute;
+    z-index: 0;
+
+    color: $black-p50;
+    a {
+      color: $black-p50;
+    }
+  }
+
+  @media screen and (min-width: $breakpoint-max-tablet) {
+    display: none;
+  }
+}
+
+// .wrapperHeader {
+//   padding: 0 15px;
+
+//   height: 60px;
+//   background-color: $secondary;
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   border-radius: 20px;
+
+//   & > .info {
+//     display: flex;
+//     cursor: pointer;
+//     i {
+//       margin: auto 15px auto 0;
+//     }
+//     & > div {
+//       h3 {
+//         color: $mainColor;
+//       }
+//     }
+//   }
+
+//   p {
+//     color: rgba($mainColor, 0.5);
+//     a {
+//       color: rgba($white, 0.5);
+//     }
+//   }
+
+//   @media screen and (max-width: $breakpoint-max-tablet) {
+//     flex-direction: column;
+//     align-items: center;
+
+//     & > ._info {
+//       margin-top: 6px;
+//     }
+
+//     & > p {
+//       margin-top: 25px;
+//       color: rgba($black, 0.5);
+//       a {
+//         color: rgba($black, 0.5);
+//       }
+//     }
+//   }
+
+//   // @media screen and (max-width: $breakpoint-max-pc) {
+//   //   &>p{
+//   //     margin-top: 25px;
+
+//   //   }
+//   // }
+// }

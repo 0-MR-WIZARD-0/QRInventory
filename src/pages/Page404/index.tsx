@@ -1,4 +1,4 @@
-import globalStyles from "../../styles/globalStyle.module.scss";
+import globalStyles from "styles/globalStyle.module.scss";
 import classnames from "classnames";
 import styles from "./page404.module.scss";
 

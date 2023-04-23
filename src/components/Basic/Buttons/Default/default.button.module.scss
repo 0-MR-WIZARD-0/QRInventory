@@ -1,0 +1,20 @@
+@import "styles/colors.scss";
+
+.defaultButton {
+  background-color: $gray-100;
+  padding: 13px;
+
+  border: none;
+  border-radius: 20px;
+
+  color: $white;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 16px;
+  font-family: inherit;
+
+  &:hover,
+  &:focus {
+    background-color: $secondary;
+  }
+}
