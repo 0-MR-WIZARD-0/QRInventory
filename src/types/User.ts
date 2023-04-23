@@ -1,4 +1,5 @@
 import { InstitutionShort } from "./Institution";
+import { MainViewRoutes } from "./Routes";
 import { MenuBarData } from "./UI";
 
 export type User = {
@@ -15,9 +16,14 @@ export enum UserErrors {
   user_not_authed = "Пользователь не авторизован"
 }
 
-export enum Roles {
+export enum RolesNaming {
   teacher = "Учитель",
   admin = "Администратор"
+}
+
+export enum Roles {
+  teacher = "teacher",
+  admin = "admin"
 }
 
 export type RoledMenuBarOptions = { teacher: MenuBarData[]; admin: MenuBarData[] };
@@ -25,25 +31,25 @@ export type RoledMenuBarOptions = { teacher: MenuBarData[]; admin: MenuBarData[]
 export const roledMenuBarOptions: RoledMenuBarOptions = {
   teacher: [
     {
-      link: "/",
+      link: MainViewRoutes.qrcodes,
       title: "QR-коды"
     }
   ],
   admin: [
     {
-      link: "/",
+      link: MainViewRoutes.qrcodes,
       title: "QR-коды"
     },
     {
-      link: "/organizations",
+      link: MainViewRoutes.organizations,
       title: "Организации"
     },
     {
-      link: "/objects",
+      link: MainViewRoutes.objects,
       title: "Предметы"
     },
     {
-      link: "/users",
+      link: MainViewRoutes.users,
       title: "Пользователи"
     }
   ]

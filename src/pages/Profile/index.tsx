@@ -1,7 +1,7 @@
 import { MenuBar } from "components/MenuBar";
 import { useAppSelector } from "helpers/redux";
 import { Navigate } from "react-router-dom";
-import { roledEditDataBarOptions, RoledMenuBarOptions, Roles, User } from "types/User";
+import { roledEditDataBarOptions, RoledMenuBarOptions, Roles, RolesNaming, User } from "types/User";
 import BackButton from "../../components/Buttons/Back";
 import globalStyles from "../../styles/globalStyle.module.scss";
 import styles from "./profile.module.scss";
@@ -40,7 +40,7 @@ const Profile = () => {
               <img alt='' />
             </div>
             <div>
-              {userData.role === Roles.admin ? <h3>{Roles.admin}</h3> : <h3>{formatFullName(userData.fullName)}</h3>}
+              {userData.role === Roles.admin ? <h3>{RolesNaming.admin}</h3> : <h3>{formatFullName(userData.fullName)}</h3>}
               <p>{userData.email}</p>
             </div>
           </div>

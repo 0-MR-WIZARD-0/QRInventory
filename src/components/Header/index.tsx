@@ -2,7 +2,7 @@ import styles from "./header.module.scss";
 import Icon from "../Icon";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useAppSelector } from "helpers/redux";
-import { Roles, User } from "types/User";
+import { RolesNaming, User } from "types/User";
 import { RoutesEnum } from "types/Routes";
 import { useState } from "react";
 
@@ -33,7 +33,7 @@ const AuthComponent: React.FC<AuthComponentProps> = ({ userData, loading, mobile
         <p style={mobileShown !== undefined ? { ...transitionStyles[state as keyof TransitionStyles] } : {}}>
           {userData !== undefined ? (
             <>
-              Авторизация: <Link to='profile'>{Roles[userData.role as unknown as keyof typeof Roles]}</Link>
+              Авторизация: <Link to='profile'>{RolesNaming[userData.role as unknown as keyof typeof RolesNaming]}</Link>
             </>
           ) : (
             <>
