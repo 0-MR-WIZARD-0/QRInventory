@@ -10,9 +10,11 @@ import ProtectedPage from "components/Protected/Page";
 import { useEffect } from "react";
 import api from "helpers/axios";
 import { useAction, useAppSelector } from "helpers/redux";
-import { RoutesEnum } from "types/Routes";
+import { MainViewRoutes, RoutesEnum } from "types/Routes";
 import Loader from "components/Loader";
 import { Transition } from "react-transition-group";
+import ViewAudience from "components/ViewAudience";
+import { Roles } from "types/User";
 
 const LoadingComponent: React.FC = () => {
   return (
@@ -46,7 +48,12 @@ function App() {
         <LoadingComponent />
       ) : (
         <Routes>
-          <Route path={RoutesEnum.main} element={<ProtectedPage component={<Main />} />} />
+          <Route path={RoutesEnum.main} element={<ProtectedPage component={<Main />} />}>
+            <Route path={MainViewRoutes.qrcodes} element={<ProtectedPage component={<ViewAudience />} roles={[Roles.admin, Roles.teacher]} />} />
+            <Route path={MainViewRoutes.organizations} element={<ProtectedPage component={<ViewAudience />} roles={[Roles.admin]} />} />
+            <Route path={MainViewRoutes.objects} element={<ProtectedPage component={<ViewAudience />} roles={[Roles.admin]} />} />
+            <Route path={MainViewRoutes.users} element={<ProtectedPage component={<ViewAudience />} roles={[Roles.admin]} />} />
+          </Route>
           <Route path={RoutesEnum.signIn} element={<ProtectedPage component={<Login />} onlyGuest />} />
           <Route path={RoutesEnum.profile} element={<ProtectedPage component={<Profile />} />} />
           <Route path={RoutesEnum.noAccess} element={<NoAccessPage />} />
