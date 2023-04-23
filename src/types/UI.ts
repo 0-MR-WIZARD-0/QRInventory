@@ -13,3 +13,8 @@ export type TransitionStyles = {
   exiting?: CSSProperties;
   exited?: CSSProperties;
 };
+
+export enum SelectMessages {
+  placholder = "Выберите учреждение",
+  noOptions = "Нет колледжей"
+}
