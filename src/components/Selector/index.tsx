@@ -1,20 +1,30 @@
 import Select from "react-select";
 import styles from "./selector.module.scss";
 import { Organization } from "./selector.interface";
+import { SelectMessages } from "types/UI";
+import { User } from "types/User";
+import { InstitutionShort } from "types/Institution";
+import { useState } from "react";
 
-const organizationsOption: Organization[] = [
-  { value: ".", label: "1 Колледж бизнес-технологий" },
-  { value: "..", label: "2 Колледж бизнес-технологий" },
-  { value: "...", label: "3 Колледж бизнес-технологий" },
-  { value: "....", label: "4 Колледж бизнес-технологий" }
-];
+type SelectorProps = {
+  userData: User;
+};
 
-const Selector = () => {
+const Selector: React.FC<SelectorProps> = ({ userData }) => {
+  const formatInstitutions = (institutions: InstitutionShort[]): Organization[] => {
+    return institutions.map(i => ({ value: i.id, label: i.name }));
+  };
+
+  // позже заменить на стейт
+  const [, setSelectedInstitution] = useState<string | undefined>(undefined);
+
   return (
     <Select
-      options={organizationsOption}
+      onChange={e => setSelectedInstitution(e?.value)}
+      options={formatInstitutions(userData.institutions)}
+      noOptionsMessage={() => <div>{SelectMessages.noOptions}</div>}
       isSearchable={true}
-      placeholder='Выберите учреждение'
+      placeholder={SelectMessages.placholder}
       className={styles.select}
       theme={theme => ({
         ...theme,

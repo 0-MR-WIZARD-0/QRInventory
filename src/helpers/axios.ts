@@ -1,10 +1,11 @@
 import axios from "axios";
+import { NodeENV } from "types/App";
 
 const api = axios.create({
-  baseURL: process.env.NODE_ENV !== "production" ? process.env.REACT_APP_API_DEV_HOST : process.env.REACT_APP_API_HOST,
+  baseURL: process.env.NODE_ENV !== NodeENV.prod ? process.env.REACT_APP_API_DEV_HOST : process.env.REACT_APP_API_HOST,
   withCredentials: true
 });
-api.defaults.baseURL = process.env.NODE_ENV !== "production" ? process.env.REACT_API_DEV_HOST : process.env.REACT_API_HOST;
+api.defaults.baseURL = process.env.NODE_ENV !== NodeENV.prod ? process.env.REACT_API_DEV_HOST : process.env.REACT_API_HOST;
 
 if (process.env.NODE_ENV) {
   api.interceptors.request.use(request => {

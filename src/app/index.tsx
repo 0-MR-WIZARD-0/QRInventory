@@ -10,9 +10,16 @@ import ProtectedPage from "components/Protected/Page";
 import { useEffect } from "react";
 import api from "helpers/axios";
 import { useAction, useAppSelector } from "helpers/redux";
+import { RoutesEnum } from "types/Routes";
+import Loader from "components/Loader";
+import { Transition } from "react-transition-group";
 
 const LoadingComponent: React.FC = () => {
-  return <h3>Идёт загрузка</h3>;
+  return (
+    <Transition in={true} timeout={100}>
+      {state => <Loader state={state} />}
+    </Transition>
+  );
 };
 
 function App() {
@@ -39,11 +46,11 @@ function App() {
         <LoadingComponent />
       ) : (
         <Routes>
-          <Route index element={<ProtectedPage component={<Main />} />} />
-          <Route path='signin' element={<ProtectedPage component={<Login />} onlyGuest />} />
-          <Route path='profile' element={<ProtectedPage component={<Profile />} />} />
-          <Route path='no-access' element={<NoAccessPage />} />
-          <Route path='*' element={<Page404 />} />
+          <Route path={RoutesEnum.main} element={<ProtectedPage component={<Main />} />} />
+          <Route path={RoutesEnum.signIn} element={<ProtectedPage component={<Login />} onlyGuest />} />
+          <Route path={RoutesEnum.profile} element={<ProtectedPage component={<Profile />} />} />
+          <Route path={RoutesEnum.noAccess} element={<NoAccessPage />} />
+          <Route path={RoutesEnum.all} element={<Page404 />} />
         </Routes>
       )}
     </div>

@@ -1,3 +1,4 @@
+import { InstitutionShort } from "./Institution";
 import { MenuBarData } from "./UI";
 
 export type User = {
@@ -7,7 +8,7 @@ export type User = {
   fullName: string;
 
   avatarId: string | null;
-  institutions: any[];
+  institutions: InstitutionShort[];
 };
 
 export enum UserErrors {

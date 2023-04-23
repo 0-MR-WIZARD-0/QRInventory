@@ -5,13 +5,14 @@ import Input from "../../components/Input";
 import api from "../../helpers/axios";
 import styles from "../../styles/globalStyle.module.scss";
 import { useAction } from "helpers/redux";
+import { NodeENV } from "types/App";
 
 type FormProps = {
   email: string;
   password: string;
 };
 
-const testData = process.env.NODE_ENV !== "production" ? { email: "test@mail.com", password: "any-password" } : { email: "", password: "" };
+const testData = process.env.NODE_ENV !== NodeENV.prod ? { email: "test@mail.com", password: "any-password" } : { email: "", password: "" };
 
 const Login = () => {
   const navigator = useNavigate();
