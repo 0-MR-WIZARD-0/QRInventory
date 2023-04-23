@@ -31,21 +31,21 @@ export type RoledMenuBarOptions = { teacher: MenuBarData[]; admin: MenuBarData[]
 export const roledMenuBarOptions: RoledMenuBarOptions = {
   teacher: [
     {
-      link: MainViewRoutes.qrcodes,
+      link: MainViewRoutes.cabinets,
       title: "QR-коды"
     }
   ],
   admin: [
     {
-      link: MainViewRoutes.qrcodes,
+      link: MainViewRoutes.cabinets,
       title: "QR-коды"
     },
     {
-      link: MainViewRoutes.organizations,
+      link: MainViewRoutes.institutions,
       title: "Организации"
     },
     {
-      link: MainViewRoutes.objects,
+      link: MainViewRoutes.items,
       title: "Предметы"
     },
     {

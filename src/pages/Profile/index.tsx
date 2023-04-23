@@ -1,9 +1,9 @@
-import { MenuBar } from "components/MenuBar";
+import { MenuBar } from "components/Complex/MenuBar";
 import { useAppSelector } from "helpers/redux";
 import { Navigate } from "react-router-dom";
 import { roledEditDataBarOptions, RoledMenuBarOptions, Roles, RolesNaming, User } from "types/User";
-import BackButton from "../../components/Buttons/Back";
-import globalStyles from "../../styles/globalStyle.module.scss";
+import BackButton from "components/Basic/Buttons/Back";
+import globalStyles from "styles/globalStyle.module.scss";
 import styles from "./profile.module.scss";
 
 type ProfileMenuBarProps = {

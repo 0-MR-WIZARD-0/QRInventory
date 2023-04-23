@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import styles from "./viewAudience.module.scss";
+import styles from "./view.cabinets.module.scss";
+import { cabinetViewPath } from "types/App";
 
 type CabinetQRCode = {
   imageUrl: string;
@@ -26,17 +27,17 @@ const mockQRCodes: CabinetQRCode[] = [
   }
 ];
 
-const ViewAudience = () => {
+const ViewCabinets = () => {
   const [qrCodes] = useState<CabinetQRCode[]>(mockQRCodes);
   let navigate = useNavigate();
 
   return (
-    <div className={styles.wrapperViewAudience}>
+    <div className={styles.wrapperViewCabinets}>
       <button>Добавить новый кабинет +</button>
       {qrCodes.map((cabinet, i) => (
         <div
           onClick={() => {
-            navigate(`audience/${cabinet.cabinetNumber}`);
+            navigate(`${cabinetViewPath}/${cabinet.cabinetNumber}`);
           }}
           key={cabinet.cabinetNumber + i}>
           <div className={styles.img}>
@@ -53,4 +54,4 @@ const ViewAudience = () => {
   );
 };
 
-export default ViewAudience;
+export default ViewCabinets;
