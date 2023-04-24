@@ -6,6 +6,7 @@ import api from "helpers/axios";
 import styles from "styles/globalStyle.module.scss";
 import { useAction } from "helpers/redux";
 import { NodeENV } from "types/App";
+import { useLoginMutation } from "redux/queries/auth.queries";
 
 type FormProps = {
   email: string;
@@ -16,15 +17,14 @@ const testData = process.env.NODE_ENV !== NodeENV.prod ? { email: "test@mail.com
 
 const Login = () => {
   const navigator = useNavigate();
-  const { updateUser } = useAction();
+  const [login, { isLoading, isSuccess, isError }] = useLoginMutation();
 
+  //                                                   потом поменять на пустые значения
   const [formState, setFormState] = useState<FormProps>(testData);
-  //                              потом поменять на пустые значения
   const updateState = (e: React.ChangeEvent<HTMLInputElement>) => setFormState(state => ({ ...state, [e.target.id]: e.target.value }));
   const onSumbit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    const res = await api.post("/auth/login", formState);
-    updateUser(res.data);
+    login(formState);
     navigator("/", { replace: true });
   };
 
