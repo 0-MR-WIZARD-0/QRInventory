@@ -1,6 +1,6 @@
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { RootState } from "redux/reducers/rootReducer";
+import { RootState } from "redux/rootReducer";
 import { userActions } from "redux/reducers/user.reducer";
 
 const ActionCreators = {
