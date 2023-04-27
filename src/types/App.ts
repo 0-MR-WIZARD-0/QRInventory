@@ -5,4 +5,4 @@ export enum NodeENV {
   dev = "development"
 }
 
-export const cabinetViewPath = `${RoutesEnum.view}/${MainViewRoutes.cabinets}`;
+export const cabinetViewPath = `/${RoutesEnum.view}/${MainViewRoutes.cabinets}`;

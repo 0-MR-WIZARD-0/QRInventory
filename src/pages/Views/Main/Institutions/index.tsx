@@ -1,5 +1,4 @@
 import styles from "./view.main.institutions.module.scss";
-import { MockWrapper } from "components/Basic/Scenario/scenario.stories";
 
 const ViewInsitutions: React.FC = ()=> {
 
