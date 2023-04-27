@@ -69,6 +69,7 @@ export const Scenario = forwardRef<ScenarioModalHandle, ScenarioProps>(({ modalN
   return (
     <Modal isOpen={modalIsOpen} onRequestClose={() => setIsOpen(false)} style={customStyles} contentLabel={modalName}>
       <div>{createElement(script[page].content, { cb: resolveCallback })}</div>
+      {/* <p>sad</p> */}
     </Modal>
   );
 });

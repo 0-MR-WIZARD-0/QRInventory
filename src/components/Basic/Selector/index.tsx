@@ -26,13 +26,13 @@ const Selector: React.FC<SelectorProps> = ({ userData }) => {
       isSearchable={true}
       placeholder={SelectMessages.placholder}
       className={styles.select}
-      theme={theme => ({
+      theme={(theme) => ({
         ...theme,
         borderRadius: 4,
         colors: {
           ...theme.colors,
           primary25: "lightblue",
-          primary: "#082032"
+          primary:  "#082032",
         }
       })}
     />

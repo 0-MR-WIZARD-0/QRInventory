@@ -5,7 +5,7 @@ import { ResolverCallback, Scenario } from ".";
 
 Modal.setAppElement("#storybook-root");
 
-const MockWrapper: React.FC<{ story: any }> = ({ story }) => {
+export const MockWrapper: React.FC<{ story: any }> = ({ story }) => {
   const modalRef = useRef<React.ElementRef<typeof Scenario>>(null);
   const component = story();
 

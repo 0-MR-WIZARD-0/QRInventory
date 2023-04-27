@@ -3,7 +3,10 @@ import { useParams } from "react-router-dom";
 const ViewCabinet: React.FC = () => {
   const { id } = useParams();
 
-  return <div></div>;
+  console.log(id);
+  
+
+  return <div>{id}</div>;
 };
 
 export default ViewCabinet;

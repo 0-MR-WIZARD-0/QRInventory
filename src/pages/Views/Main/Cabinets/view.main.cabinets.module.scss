@@ -1,16 +1,17 @@
 @import "styles/colors.scss";
 @import "styles/breakpoint.module.scss";
 
+
 .wrapperViewCabinets {
   margin-top: 30px;
   width: 100%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   justify-content: space-between;
-  grid-row-gap: 10px;
+  grid-row-gap: 20px;
   grid-column-gap: 20px;
 
-  & > * {
+  & > div {
     cursor: pointer;
     background-color: $white;
     box-shadow: 0px 4px 4px rgba($black, 0.1);
@@ -21,7 +22,6 @@
     align-items: center;
     justify-content: space-between;
     padding: 20px;
-    margin-bottom: 10px;
     & > .img {
       width: 200px;
       & > img {

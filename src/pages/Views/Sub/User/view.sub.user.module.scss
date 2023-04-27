@@ -1,9 +1,10 @@
 @import "styles/colors.scss";
+@import "styles/breakpoint.module.scss";
 
 .wrapperUser {
   display: flex;
   justify-content: space-between;
-  width: 850px;
+  width: 668px;
   margin-top: 30px;
 
   .info {
@@ -35,13 +36,20 @@
   .setting {
     width: 350px;
     text-align: center;
-    & > div {
+    & > ul {
       display: flex;
       justify-content: space-between;
       margin-top: 15px;
-      button {
-        width: 45%;
+      li:first-of-type{
+        width: 200px;
       }
     }
+  }
+
+  @media screen and (max-width: $breakpoint-min-tablet) {
+    // grid-template-columns: repeat(1, 1fr);
+    // display: none;
+    flex-direction: column;
+    align-items: center
   }
 }
