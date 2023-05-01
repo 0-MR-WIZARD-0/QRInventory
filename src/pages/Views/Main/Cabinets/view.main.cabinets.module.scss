@@ -61,7 +61,7 @@
     border-radius: 20px;
     border: none;
 
-    height: auto;
+    min-height: 300px;
     flex-direction: row;
     justify-content: center;
     // @media screen and (max-width: $breakpoint-min-tablet) {

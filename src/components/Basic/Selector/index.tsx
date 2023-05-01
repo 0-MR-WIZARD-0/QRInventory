@@ -3,7 +3,7 @@ import styles from "./selector.module.scss";
 import { Organization } from "./selector.interface";
 import { SelectMessages } from "types/UI";
 import { User } from "types/User";
-import { InstitutionShort } from "types/Institution";
+import { Institution } from "types/Institution";
 import { useState } from "react";
 
 type SelectorProps = {
@@ -11,12 +11,12 @@ type SelectorProps = {
 };
 
 const Selector: React.FC<SelectorProps> = ({ userData }) => {
-  const formatInstitutions = (institutions: InstitutionShort[]): Organization[] => {
+  const formatInstitutions = (institutions: Institution[]): Organization[] => {
     return institutions.map(i => ({ value: i.id, label: i.name }));
   };
 
   // позже заменить на стейт
-  const [, setSelectedInstitution] = useState<string | undefined>(undefined);
+  const [selectedInstitution, setSelectedInstitution] = useState<string | undefined>(undefined);
 
   return (
     <Select

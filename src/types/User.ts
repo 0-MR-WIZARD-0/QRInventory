@@ -1,4 +1,4 @@
-import { InstitutionShort } from "./Institution";
+import { Institution } from "./Institution";
 import { MainViewRoutes } from "./Routes";
 import { MenuBarData } from "./UI";
 
@@ -9,7 +9,7 @@ export type User = {
   fullName: string;
 
   avatarId: string | null;
-  institutions: InstitutionShort[];
+  institutions: Institution[];
 };
 
 export enum UserErrors {
@@ -63,7 +63,7 @@ export const roledEditDataBarOptions: RoledMenuBarOptions = {
     },
     {
       title: "выйти",
-      link: "profile/logout"
+      link: "profile/logout",
     }
   ],
   admin: [
