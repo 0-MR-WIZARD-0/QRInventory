@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import api from "helpers/axios";
 import { Cabinet } from "types/Cabinet";
 import BackButton from "components/Basic/Buttons/Back";
+import { DropdownIndicator } from "react-select/dist/declarations/src/components/indicators";
+import DroplistTeacher from "components/Basic/DropList";
 
 const ViewCabinet: React.FC = () => {
 
@@ -24,8 +26,8 @@ const ViewCabinet: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  console.log(cabinetInfo?.items);
   
-
   return (
     <main>
       <BackButton/>
@@ -41,6 +43,7 @@ const ViewCabinet: React.FC = () => {
         </div>
         <div>
           {/* Дроп-листы */}
+          <DroplistTeacher data={cabinetInfo}/>
           <div>
             <p>Панель управления кабинетом</p>
             {/* Редактирование и удаление */}

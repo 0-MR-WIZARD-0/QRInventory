@@ -11,17 +11,17 @@ type SelectorProps = {
 };
 
 const Selector: React.FC<SelectorProps> = ({ userData }) => {
-  const formatInstitutions = (institutions: Institution[]): Organization[] => {
-    return institutions.map(i => ({ value: i.id, label: i.name }));
-  };
+  // const formatInstitutions = (institutions: Institution[]): Organization[] => {
+  //   return institutions.map(i => ({ value: i.id, label: i.name }));
+  // };
 
   // позже заменить на стейт
   const [selectedInstitution, setSelectedInstitution] = useState<string | undefined>(undefined);
 
   return (
     <Select
-      onChange={e => setSelectedInstitution(e?.value)}
-      options={formatInstitutions(userData.institutions)}
+      // onChange={e => setSelectedInstitution(e?.value)}
+      // options={formatInstitutions(userData.institutions)}
       noOptionsMessage={() => <div>{SelectMessages.noOptions}</div>}
       isSearchable={true}
       placeholder={SelectMessages.placholder}

@@ -10,7 +10,7 @@ const ViewCabinets = () => {
   let navigate = useNavigate();
 
   const { updateCabinet } = useAction();
-
+  
   useEffect(() => {
     (async () => {
       await api
@@ -23,13 +23,14 @@ const ViewCabinets = () => {
       })
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    },[]);
 
   const { cabinetData } = useAppSelector(state => state.cabinet);
 
   return (
     <div className={styles.wrapperViewCabinets}>
       <button>Добавить новый кабинет +</button>
+
       {cabinetData?.map(cabinet => (
         <div
           onClick={() => {

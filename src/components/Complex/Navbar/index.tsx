@@ -13,7 +13,7 @@ const Navbar = () => {
   return (
     <nav className={styles.navbar}>
       <ProtectedComponent component={<MenuBar barOptions={roledMenuBarOptions[userData!.role as unknown as keyof RoledMenuBarOptions]} />} />
-      <Selector userData={userData!} />
+      {userData?.role ? "" : <Selector userData={userData!} />}      
     </nav>
   );
 };
