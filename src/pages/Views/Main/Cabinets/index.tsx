@@ -6,32 +6,31 @@ import { useAppSelector, useAction } from "helpers/redux";
 import api from "helpers/axios";
 
 const ViewCabinets = () => {
-
   let navigate = useNavigate();
 
   const { updateCabinet } = useAction();
-  
+
   useEffect(() => {
     (async () => {
       await api
-      .get("/cabinet/all")
-      .then( res => {
-        updateCabinet(res.data)
-      })
-      .catch( err => {
-        console.log(err);
-      })
+        .get("/cabinet/all")
+        .then(res => {
+          updateCabinet(res.data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[]);
+  }, []);
 
-  const { cabinetData } = useAppSelector(state => state.cabinet);
+  // const { cabinetData } = useAppSelector(state => state.cabinet);
 
   return (
     <div className={styles.wrapperViewCabinets}>
       <button>Добавить новый кабинет +</button>
 
-      {cabinetData?.map(cabinet => (
+      {/* {cabinetData?.map(cabinet => (
         <div
           onClick={() => {
             navigate(`${cabinetViewPath}/${cabinet.cabinetNumber}`);
@@ -46,7 +45,7 @@ const ViewCabinets = () => {
             <p>Предметов: {cabinet.items?.length}</p>
           </div>
         </div>
-      ))}
+      ))} */}
     </div>
   );
 };

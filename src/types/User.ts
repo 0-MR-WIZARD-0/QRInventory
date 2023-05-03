@@ -55,7 +55,7 @@ export const roledMenuBarOptions: RoledMenuBarOptions = {
   ]
 };
 
-export const roledEditDataBarOptions: RoledMenuBarOptions = {
+export const roledUserEditDataBarOptions: RoledMenuBarOptions = {
   teacher: [
     {
       title: "редактирование",
@@ -74,6 +74,29 @@ export const roledEditDataBarOptions: RoledMenuBarOptions = {
     {
       title: "выйти",
       link: "profile/logout"
+    }
+  ]
+};
+
+export const roledCabinetEditDataBarOptions: RoledMenuBarOptions = {
+  teacher: [
+    {
+      title: "редактирование",
+      link: "cabinet/edit"
+    },
+    {
+      title: "удаление",
+      link: "cabinet/delete"
+    }
+  ],
+  admin: [
+    {
+      title: "редактирование",
+      link: "cabinet/edit"
+    },
+    {
+      title: "удаление",
+      link: "cabinet/delete"
     }
   ]
 };

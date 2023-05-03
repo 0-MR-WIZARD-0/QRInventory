@@ -1,8 +1,10 @@
 import axios from "axios";
 import { NodeENV } from "types/App";
 
+const baseURL = process.env.NODE_ENV !== NodeENV.prod ? process.env.REACT_APP_API_DEV_HOST : process.env.REACT_APP_API_HOST;
+
 const api = axios.create({
-  baseURL: process.env.NODE_ENV !== NodeENV.prod ? process.env.REACT_APP_API_DEV_HOST : process.env.REACT_APP_API_HOST,
+  baseURL,
   withCredentials: true
 });
 api.defaults.baseURL = process.env.NODE_ENV !== NodeENV.prod ? process.env.REACT_API_DEV_HOST : process.env.REACT_API_HOST;

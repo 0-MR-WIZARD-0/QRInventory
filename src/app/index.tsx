@@ -13,7 +13,6 @@ import Main from "pages/Main";
 import Page404 from "pages/Page404";
 import NoAccessPage from "pages/NoAccess";
 
-import Loader from "components/Basic/Loader";
 import Header from "components/Complex/Header";
 import ProtectedPage from "components/Protected/Page";
 
@@ -25,14 +24,7 @@ import ViewUsers from "pages/Views/Main/Users";
 import ViewUser from "pages/Views/Sub/User";
 import ViewCabinet from "pages/Views/Sub/Cabinet";
 import ViewItem from "pages/Views/Sub/Item";
-
-const LoadingComponent: React.FC = () => {
-  return (
-    <Transition in={true} timeout={100}>
-      {state => <Loader state={state} />}
-    </Transition>
-  );
-};
+import { LoadingTransitionComponent } from "components/Basic/Loader";
 
 function App() {
   const { updateUser, setLoading } = useAction();
@@ -55,7 +47,7 @@ function App() {
     <div className={styles.app}>
       <Header />
       {loading ? (
-        <LoadingComponent />
+        <LoadingTransitionComponent />
       ) : (
         <Routes>
           <Route path={RoutesEnum.main} element={<ProtectedPage component={<Main />} />}>
