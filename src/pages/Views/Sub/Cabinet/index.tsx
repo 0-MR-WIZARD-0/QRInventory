@@ -2,11 +2,12 @@ import { useLocation, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import api from "helpers/axios";
 import { Cabinet } from "types/Cabinet";
-import BackButton from "components/Basic/Buttons/Back";
 import ViewElement from "components/Complex/ViewElement";
 import { QRCodeSVG } from "qrcode.react";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
 import { roledCabinetEditDataBarOptions } from "types/User";
+import ProtectedComponent from "components/Protected/Component";
+import { MenuBar } from "components/Complex/MenuBar";
 
 const mockData: Cabinet = {
   cabinetNumber: "326",
@@ -27,25 +28,38 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
   console.log(location);
 
   return (
-    <div>
-      <div onClick={() => navigator.clipboard.writeText(window.location.href)}>
-        <QRCodeSVG value={location.pathname} />
-        <p style={{ textDecoration: "underline" }}>тап сюда или на qr чтобы скопировать ссылку</p>
-      </div>
-      <h1>Кабинет {cabinetNumber}</h1>
+    <>
       <div>
-        <ul>
-          {teachers.map(t => (
-            <li>{t.fullName}</li>
-          ))}
-        </ul>
-        <ul>
-          {items.map(i => (
-            <li>{i.name}</li>
-          ))}
-        </ul>
+        <div onClick={() => navigator.clipboard.writeText(window.location.href)}>
+          <QRCodeSVG value={location.pathname} />
+          <p style={{ textDecoration: "underline" }}>тап сюда или на qr чтобы скопировать ссылку</p>
+        </div>
+        <h1>Кабинет {cabinetNumber}</h1>
+        <div>
+          <ul>
+            {teachers.map(t => (
+              <li>{t.fullName}</li>
+            ))}
+          </ul>
+          <ul>
+            {items.map(i => (
+              <li>{i.name}</li>
+            ))}
+          </ul>
+        </div>
       </div>
-    </div>
+      <div>
+        {/* здесь будут два дроплиста */}
+        <ProtectedComponent
+          component={
+            <div>
+              <p>Панель управления кабинетом</p>
+              <MenuBar barOptions={roledCabinetEditDataBarOptions["admin"]} />
+            </div>
+          }
+        />
+      </div>
+    </>
   );
 };
 
@@ -72,7 +86,7 @@ const ViewCabinet: React.FC = () => {
     return <LoadingTransitionComponent />;
   }
 
-  return <ViewElement component={<CabinetComponent {...cabinetData} />} controlsTitle={"Панель управления кабинетом"} controls={roledCabinetEditDataBarOptions["admin"]} />;
+  return <ViewElement component={<CabinetComponent {...cabinetData} />} />;
 };
 
 export default ViewCabinet;

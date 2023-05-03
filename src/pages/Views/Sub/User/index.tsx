@@ -22,7 +22,7 @@ type ImageState = string | null | undefined;
 const AvatarElement: React.FC<{ img: ImageState }> = ({ img }) => {
   switch (img) {
     case null: {
-      return <div>Произошла ошибка при загрузке фото</div>;
+      return <div className={styles.noImage}>Произошла ошибка при загрузке фото</div>;
     }
     case undefined: {
       return <LoadingTransitionComponent />;
@@ -30,9 +30,9 @@ const AvatarElement: React.FC<{ img: ImageState }> = ({ img }) => {
 
     default:
       if (img?.length === 0 || typeof img !== "string") {
-        return <div>Нет изображения</div>;
+        return <div className={styles.noImage}>Нет изображения</div>;
       } else {
-        return <img src={img as string} />;
+        return <img draggable={false} src={img as string} />;
       }
   }
 };
@@ -56,13 +56,26 @@ const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, institut
   }, [avatarId]);
 
   return (
-    <div>
-      <div onClick={() => navigator.clipboard.writeText(window.location.href)}>
-        <AvatarElement img={avatar} />
+    <>
+      <div className={styles.wrapper}>
+        <div className={styles.imageWrapper} onClick={() => navigator.clipboard.writeText(window.location.href)}>
+          <AvatarElement img={avatar} />
+          <button>тап сюда или на фото чтобы скопировать ссылку</button>
+        </div>
+        <div className={styles.fio}>
+          <h1>{role === Roles.admin ? "Администратор" : formatFullName(fullName)}</h1>
+          <ProtectedComponent component={<span>{email}</span>} />
+        </div>
       </div>
-      <h1>{formatFullName(fullName)}</h1>
-      <ProtectedComponent component={<span>{email}</span>} />
-    </div>
+      <ProtectedComponent
+        component={
+          <div className={styles.menuBar}>
+            <p>Панель управления пользователем</p>
+            <MenuBar barOptions={roledUserEditDataBarOptions["admin"]} />
+          </div>
+        }
+      />
+    </>
   );
 };
 
@@ -85,7 +98,7 @@ const ViewUser = () => {
   if (!userData) return <Navigate to={"signin"} />;
 
   if (!pageUserData) return <LoadingTransitionComponent />;
-  return <ViewElement component={<UserComponent {...pageUserData} />} controlsTitle={"Панель управления пользователем"} controls={roledUserEditDataBarOptions["admin"]} />;
+  return <ViewElement component={<UserComponent {...pageUserData} />} />;
 };
 
 export default ViewUser;

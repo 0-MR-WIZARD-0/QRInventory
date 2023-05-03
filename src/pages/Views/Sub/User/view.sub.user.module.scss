@@ -1,55 +1,91 @@
 @import "styles/colors.scss";
 @import "styles/breakpoint.module.scss";
 
-.wrapperUser {
+.wrapper {
   display: flex;
-  justify-content: space-between;
-  width: 668px;
-  margin-top: 30px;
+  flex-direction: column;
 
-  .info {
+  .imageWrapper {
+    cursor: pointer;
+    width: 245px;
+    margin-bottom: 10px;
+
+    button {
+      margin-top: 6px;
+      border: none;
+      cursor: inherit;
+
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 16px;
+      text-align: center;
+      text-decoration-line: underline;
+      opacity: 0.3;
+
+      &:hover {
+        opacity: 0.5;
+      }
+
+      &:active {
+        opacity: 0.2;
+      }
+    }
+
+    img {
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .noImage {
+      aspect-ratio: 1/1;
+      background-color: $black-p50;
+      border-radius: 50%;
+
+      font-weight: 700;
+      color: white;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      align-content: center;
+    }
+  }
+
+  .fio {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 30px;
-    .img {
-      width: 245px;
-      height: 245px;
-      background-color: $secondary;
-      border-radius: 50%;
-      margin-bottom: 15px;
+
+    h1 {
+      font-weight: 700;
+      font-size: 28px;
+      line-height: 34px;
+      text-align: center;
     }
-    & > div:last-of-type {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      h3 {
-        font-size: 24px;
-      }
-      h3,
-      p + p {
-        margin-bottom: 5px;
-      }
+
+    span {
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 24px;
+      text-align: center;
+      opacity: 0.5;
     }
   }
+}
 
-  .setting {
-    width: 350px;
+.menuBar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 10px;
+  p {
+    color: $black;
+    opacity: 0.5;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
     text-align: center;
-    & > ul {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 15px;
-      li:first-of-type{
-        width: 200px;
-      }
-    }
-  }
-
-  @media screen and (max-width: $breakpoint-min-tablet) {
-    // grid-template-columns: repeat(1, 1fr);
-    // display: none;
-    flex-direction: column;
-    align-items: center
   }
 }

@@ -6,6 +6,7 @@ import { Navigate } from "react-router-dom";
 
 const NoAccessPage = () => {
   const { error } = useAppSelector(state => state.user);
+  console.log(error);
 
   if (!error) return <Navigate to={"/"} />;
 

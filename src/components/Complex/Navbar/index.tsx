@@ -7,13 +7,12 @@ import Selector from "../../Basic/Selector";
 import styles from "./navbar.module.scss";
 
 const Navbar = () => {
-
   const { userData } = useAppSelector(state => state.user);
 
   return (
     <nav className={styles.navbar}>
-      <ProtectedComponent component={<MenuBar barOptions={roledMenuBarOptions[userData!.role as unknown as keyof RoledMenuBarOptions]} />} />
-      {userData?.role ? "" : <Selector userData={userData!} />}      
+      <ProtectedComponent component={<MenuBar barOptions={roledMenuBarOptions[userData!.role as unknown as keyof RoledMenuBarOptions]} optionAsNavlink />} />
+      {userData?.role ? "" : <Selector userData={userData!} />}
     </nav>
   );
 };
