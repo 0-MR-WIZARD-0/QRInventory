@@ -1,0 +1,67 @@
+@import "styles/colors.scss";
+@import "styles/breakpoint.module.scss";
+
+.wrapperViewItems{
+  margin-top: 30px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: space-between;
+  grid-row-gap: 20px;
+  grid-column-gap: 20px;
+
+  & > div {
+    cursor: pointer;
+    background-color: $white;
+    box-shadow: 0px 4px 4px rgba($black, 0.1);
+    border-radius: 20px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    & > .img {
+      width: 200px;
+      & > img {
+        width: 100%;
+      }
+    }
+  }
+
+  @media screen and (max-width: $breakpoint-max-tablet) {
+    margin-top: 15px;
+  }
+
+  @media screen and (max-width: $breakpoint-min-tablet) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  button {
+    font: inherit;
+    color: $gray-900;
+    font-weight: bold;
+
+    cursor: pointer;
+    background-color: $white;
+    box-shadow: 0px 4px 4px rgba($black, 0.1);
+
+    border-radius: 20px;
+    border: none;
+
+    height: auto;
+    flex-direction: row;
+    justify-content: center;
+    // @media screen and (max-width: $breakpoint-min-tablet) {
+    //     background-color: $mainColor;
+    //     box-shadow: none;
+    //     border: 1px solid black; // для вида
+    //     height: 34px;
+    //     margin-bottom: 30px;
+    // }
+
+    &:active {
+      opacity: 0.7;
+    }
+  }
+}

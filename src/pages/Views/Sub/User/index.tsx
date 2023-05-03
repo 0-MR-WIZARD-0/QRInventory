@@ -10,7 +10,7 @@ type ViewUserMenuBarProps = {
   userData: User;
 };
 
-const ViewUserMenuBar: React.FC<ViewUserMenuBarProps> = ({ userData }) => {
+export const ViewUserMenuBar: React.FC<ViewUserMenuBarProps> = ({ userData }) => {
   return (
     <div className={styles.setting}>
       <p>Панель управления аккаунтом</p>

@@ -1,52 +1,49 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect } from "react";
 import styles from "./view.main.cabinets.module.scss";
 import { cabinetViewPath } from "types/App";
-
-type CabinetQRCode = {
-  imageUrl: string;
-  cabinetNumber: number;
-};
-
-const mockQRCodes: CabinetQRCode[] = [
-  {
-    imageUrl: "http://qrcoder.ru/code/?414&8&0",
-    cabinetNumber: 414
-  },
-  {
-    imageUrl: "http://qrcoder.ru/code/?414&8&0",
-    cabinetNumber: 414
-  },
-  {
-    imageUrl: "http://qrcoder.ru/code/?414&8&0",
-    cabinetNumber: 414
-  },
-  {
-    imageUrl: "http://qrcoder.ru/code/?414&8&0",
-    cabinetNumber: 414
-  }
-];
+import { useAppSelector, useAction } from "helpers/redux";
+import api from "helpers/axios";
 
 const ViewCabinets = () => {
-  const [qrCodes] = useState<CabinetQRCode[]>(mockQRCodes);
+
   let navigate = useNavigate();
+
+  const { updateCabinet } = useAction();
+  
+  useEffect(() => {
+    (async () => {
+      await api
+      .get("/cabinet/all")
+      .then( res => {
+        updateCabinet(res.data)
+      })
+      .catch( err => {
+        console.log(err);
+      })
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[]);
+
+  const { cabinetData } = useAppSelector(state => state.cabinet);
 
   return (
     <div className={styles.wrapperViewCabinets}>
       <button>Добавить новый кабинет +</button>
-      {qrCodes.map((cabinet, i) => (
+
+      {cabinetData?.map(cabinet => (
         <div
           onClick={() => {
             navigate(`${cabinetViewPath}/${cabinet.cabinetNumber}`);
           }}
-          key={cabinet.cabinetNumber + i}>
+          key={cabinet.id}>
           <div className={styles.img}>
-            <img src={cabinet.imageUrl} alt={cabinet.cabinetNumber.toString()}></img>
+            <img src="" alt={cabinet.id}></img>
           </div>
           <h3>Кабинет {cabinet.cabinetNumber}</h3>
           <div className={styles.info}>
-            <p>Учителей: 20</p>
-            <p>Предметов: 20</p>
+            <p>Учителей: {cabinet.teachers?.length}</p>
+            <p>Предметов: {cabinet.items?.length}</p>
           </div>
         </div>
       ))}
