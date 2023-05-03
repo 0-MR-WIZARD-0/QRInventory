@@ -2,9 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import DefaultButton from "components/Basic/Buttons/Default";
 import Input from "components/Basic/Input";
-import api from "helpers/axios";
 import styles from "styles/globalStyle.module.scss";
-import { useAction } from "helpers/redux";
 import { NodeENV } from "types/App";
 import { useLoginMutation } from "redux/queries/auth.queries";
 

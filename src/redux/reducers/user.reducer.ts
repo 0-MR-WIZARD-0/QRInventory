@@ -21,10 +21,6 @@ const UserSlice = createSlice({
       state.userData = action.payload;
       return state;
     },
-    clearUser: state => {
-      state.userData = undefined;
-      return state;
-    },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
       return state;
