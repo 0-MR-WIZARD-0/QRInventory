@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { MenuBarData } from "types/UI";
 import styles from "./menuBar.module.scss";
 
 type MenuBarProps = {
   barOptions: MenuBarData[];
+  optionAsNavlink?: true;
 };
 
-export const MenuBar: React.FC<MenuBarProps> = ({ barOptions }) => {
+export const MenuBar: React.FC<MenuBarProps> = ({ barOptions, optionAsNavlink }) => {
   const [barDrag, setBarDrag] = useState({
     isDragging: false,
     clientX: 0,
@@ -64,16 +65,20 @@ export const MenuBar: React.FC<MenuBarProps> = ({ barOptions }) => {
     <ul className={styles.menuBar} ref={ref} onMouseDown={onMouseDown} onMouseUp={onMouseUp} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave}>
       {barOptions.map((d, i) => (
         <li key={d.link + i}>
-          <NavLink
-            to={d.link}
-            style={({ isActive }) => {
-              return {
-                backgroundColor: isActive ? "#082032" : "#FFF",
-                color: isActive ? "#FFF" : "#000"
-              };
-            }}>
-            {d.title}
-          </NavLink>
+          {optionAsNavlink ? (
+            <NavLink
+              to={d.link}
+              style={({ isActive }) => {
+                return {
+                  backgroundColor: isActive ? "#082032" : "#FFF",
+                  color: isActive ? "#FFF" : "#000"
+                };
+              }}>
+              {d.title}
+            </NavLink>
+          ) : (
+            <Link to={d.link}>{d.title}</Link>
+          )}
         </li>
       ))}
     </ul>

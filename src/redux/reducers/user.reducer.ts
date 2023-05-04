@@ -17,12 +17,8 @@ const UserSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    updateUser: (state, action: PayloadAction<User>) => {
+    updateUser: (state, action: PayloadAction<User | undefined>) => {
       state.userData = action.payload;
-      return state;
-    },
-    clearUser: state => {
-      state.userData = undefined;
       return state;
     },
     setLoading: (state, action: PayloadAction<boolean>) => {

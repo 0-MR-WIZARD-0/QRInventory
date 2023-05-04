@@ -70,6 +70,10 @@ header {
       a {
         color: $white-p50;
       }
+
+      @media screen and (max-width: $breakpoint-max-phone) {
+        font-size: 12px;
+      }
     }
 
     .info {

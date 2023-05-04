@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Outlet } from "react-router-dom";
 import { useEffect } from "react";
 import { Transition } from "react-transition-group";
 
@@ -13,7 +13,6 @@ import Main from "pages/Main";
 import Page404 from "pages/Page404";
 import NoAccessPage from "pages/NoAccess";
 
-import Loader from "components/Basic/Loader";
 import Header from "components/Complex/Header";
 import ProtectedPage from "components/Protected/Page";
 
@@ -25,14 +24,7 @@ import ViewUsers from "pages/Views/Main/Users";
 import ViewUser from "pages/Views/Sub/User";
 import ViewCabinet from "pages/Views/Sub/Cabinet";
 import ViewItem from "pages/Views/Sub/Item";
-
-const LoadingComponent: React.FC = () => {
-  return (
-    <Transition in={true} timeout={100}>
-      {state => <Loader state={state} />}
-    </Transition>
-  );
-};
+import { LoadingTransitionComponent } from "components/Basic/Loader";
 
 function App() {
   const { updateUser, setLoading } = useAction();
@@ -55,7 +47,7 @@ function App() {
     <div className={styles.app}>
       <Header />
       {loading ? (
-        <LoadingComponent />
+        <LoadingTransitionComponent />
       ) : (
         <Routes>
           <Route path={RoutesEnum.main} element={<ProtectedPage component={<Main />} />}>
@@ -67,18 +59,30 @@ function App() {
           {/* https://stackoverflow.com/questions/64890293/react-router-v6-nested-routing-without-outlet */}
           <Route path={RoutesEnum.view}>
             {/* https://stackoverflow.com/questions/63214924/how-to-return-a-page-by-id-with-react-routing */}
-            {/* стейт будет автоматически из rtk query браться методом из апи или будем прокидывать просами? */}
+            {/* стейт будет автоматически из rtk query браться методом из апи или будем прокидывать просами? (не пропдриллинг)*/}
 
-            <Route path={`${MainViewRoutes.cabinets}/:id`} element={<ProtectedPage component={<ViewCabinet />} roles={[Roles.admin, Roles.teacher]} />} />
+            <Route path={`${MainViewRoutes.cabinets}/:id`} element={<ProtectedPage component={<Outlet />} roles={[Roles.admin, Roles.teacher]} />}>
+              <Route index element={<ViewCabinet />} />
+              <Route path='edit' element={<div>изменение кабинета под администратором</div>} />
+            </Route>
 
             {/* при нажатии на учреждение будет менять учреждение в стейте, поэтому страницы учреждения скорее всего не будет */}
             {/* <Route path={MainViewRoutes.institutions} element={<ProtectedPage component={<ViewCabinets />} roles={[Roles.admin]} />} /> */}
 
-            <Route path={`${MainViewRoutes.items}/:id`} element={<ProtectedPage component={<ViewItem />} roles={[Roles.admin]} />} />
-            <Route path={`${MainViewRoutes.users}/:id`} element={<ViewUser />} />
+            <Route path={`${MainViewRoutes.items}/:id`} element={<ProtectedPage component={<Outlet />} roles={[Roles.admin]} />}>
+              <Route index element={<ViewItem />} />
+              <Route path='edit' element={<div>изменение предмета под администратором</div>} />
+            </Route>
+            <Route path={`${MainViewRoutes.users}/:id`}>
+              <Route index element={<ViewUser />} />
+              <Route path='edit' element={<div>изменение пользователя</div>} />
+            </Route>
           </Route>
           <Route path={RoutesEnum.signIn} element={<ProtectedPage component={<Login />} onlyGuest />} />
-          <Route path={RoutesEnum.profile} element={<ProtectedPage component={<ViewUser />} />} />
+          <Route path={RoutesEnum.profile}>
+            <Route index element={<ProtectedPage component={<ViewUser />} />} />
+            <Route path='edit' element={<div>тот же компонент что и в users/:id/edit</div>} />
+          </Route>
           <Route path={RoutesEnum.noAccess} element={<NoAccessPage />} />
           <Route path={RoutesEnum.all} element={<Page404 />} />
         </Routes>
