@@ -6,35 +6,17 @@ import BackButton from "components/Basic/Buttons/Back";
 import globalStyles from "styles/globalStyle.module.scss";
 import styles from "./view.sub.user.module.scss";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
-import ViewElement from "components/Complex/ViewElement";
+import ViewElement, { AvatarElement } from "components/Complex/ViewElement";
 import api from "helpers/axios";
 import { useEffect, useState } from "react";
 import ProtectedComponent from "components/Protected/Component";
+import { ImageState } from "types/UI";
 
 const formatFullName = (name: string) => {
   return name
     .split(" ")
     .map((name, i) => (i !== 0 ? name[0] : name))
     .join(" ");
-};
-
-type ImageState = string | null | undefined;
-const AvatarElement: React.FC<{ img: ImageState }> = ({ img }) => {
-  switch (img) {
-    case null: {
-      return <div className={styles.noImage}>Произошла ошибка при загрузке фото</div>;
-    }
-    case undefined: {
-      return <LoadingTransitionComponent />;
-    }
-
-    default:
-      if (img?.length === 0 || typeof img !== "string") {
-        return <div className={styles.noImage}>Нет изображения</div>;
-      } else {
-        return <img draggable={false} src={img as string} />;
-      }
-  }
 };
 
 const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, institutions, role }) => {
@@ -82,22 +64,27 @@ const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, institut
 const ViewUser = () => {
   const { id } = useParams();
   const { userData } = useAppSelector(state => state.user);
-  const [pageUserData, setPageUserData] = useState<User>();
+  const [pageUserData, setPageUserData] = useState<User | null | undefined>();
   useEffect(() => {
     if (id === undefined) {
       setPageUserData(userData);
     } else {
       // взять из кеша или получить
       (async () => {
-        const userResData = (await api.get("/user/search", { params: { id } })).data;
-        setPageUserData(userResData);
+        try {
+          const userResData = (await api.get("/user/search", { params: { id } })).data;
+          setPageUserData(userResData);
+        } catch (error) {
+          setPageUserData(null);
+        }
       })();
     }
   }, [id]);
 
   if (!userData) return <Navigate to={"signin"} />;
 
-  if (!pageUserData) return <LoadingTransitionComponent />;
+  if (pageUserData === undefined) return <LoadingTransitionComponent />;
+  if (pageUserData === null) return <div>произошла ошибка при загрузке пользователя или он не найден</div>;
   return <ViewElement component={<UserComponent {...pageUserData} />} />;
 };
 

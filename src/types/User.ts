@@ -59,21 +59,21 @@ export const roledUserEditDataBarOptions: RoledMenuBarOptions = {
   teacher: [
     {
       title: "редактирование",
-      link: "profile/edit"
+      link: "/profile/edit"
     },
     {
       title: "выйти",
-      link: "profile/logout"
+      link: "/profile/logout"
     }
   ],
   admin: [
     {
       title: "редактирование",
-      link: "profile/edit"
+      link: "/profile/edit"
     },
     {
       title: "выйти",
-      link: "profile/logout"
+      link: "/profile/logout"
     }
   ]
 };
@@ -82,21 +82,21 @@ export const roledCabinetEditDataBarOptions: RoledMenuBarOptions = {
   teacher: [
     {
       title: "редактирование",
-      link: "cabinet/edit"
+      link: "/cabinet/edit"
     },
     {
       title: "удаление",
-      link: "cabinet/delete"
+      link: "/cabinet/delete"
     }
   ],
   admin: [
     {
       title: "редактирование",
-      link: "cabinet/edit"
+      link: "/cabinet/edit"
     },
     {
       title: "удаление",
-      link: "cabinet/delete"
+      link: "/cabinet/delete"
     }
   ]
 };

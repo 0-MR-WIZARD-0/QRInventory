@@ -1,4 +1,5 @@
 @import "styles/breakpoint.module.scss";
+@import "styles/colors.scss";
 
 .viewElement {
   main {
@@ -13,4 +14,23 @@
       margin-bottom: 15px;
     }
   }
+}
+
+.image {
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.noImage {
+  aspect-ratio: 1/1;
+  background-color: $black-p50;
+  border-radius: 50%;
+
+  font-weight: 700;
+  color: white;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-content: center;
 }
