@@ -72,8 +72,8 @@ const ViewItem = () => {
     })();
   }, [id]);
 
-  if (pageItemData === undefined) return <LoadingTransitionComponent />;
-  if (pageItemData === null) return <div>произошла ошибка при загрузке предмета или он не найден</div>;
+  if (pageItemData === undefined) return <ViewElement component={<LoadingTransitionComponent />} />;
+  if (pageItemData === null) return <ViewElement component={<b>произошла ошибка при загрузке предмета или он не найден</b>} />;
   return <ViewElement component={<ItemComponent {...pageItemData} />} />;
 };
 

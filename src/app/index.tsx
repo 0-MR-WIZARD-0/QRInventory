@@ -1,4 +1,4 @@
-import { Routes, Route, Outlet } from "react-router-dom";
+import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { Transition } from "react-transition-group";
 
@@ -25,6 +25,7 @@ import ViewUser from "pages/Views/Sub/User";
 import ViewCabinet from "pages/Views/Sub/Cabinet";
 import ViewItem from "pages/Views/Sub/Item";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
+import NoSelect from "pages/Views/Main/NoSelect";
 
 function App() {
   const { updateUser, setLoading } = useAction();
@@ -51,6 +52,7 @@ function App() {
       ) : (
         <Routes>
           <Route path={RoutesEnum.main} element={<ProtectedPage component={<Main />} />}>
+            <Route index element={<NoSelect />} />
             <Route path={MainViewRoutes.cabinets} element={<ProtectedPage component={<ViewCabinets />} roles={[Roles.admin, Roles.teacher]} />} />
             <Route path={MainViewRoutes.institutions} element={<ProtectedPage component={<ViewInstitutions />} roles={[Roles.admin]} />} />
             <Route path={MainViewRoutes.items} element={<ProtectedPage component={<ViewItems />} roles={[Roles.admin]} />} />
@@ -60,7 +62,6 @@ function App() {
           <Route path={RoutesEnum.view}>
             {/* https://stackoverflow.com/questions/63214924/how-to-return-a-page-by-id-with-react-routing */}
             {/* стейт будет автоматически из rtk query браться методом из апи или будем прокидывать просами? (не пропдриллинг)*/}
-
             <Route path={`${MainViewRoutes.cabinets}/:id`} element={<ProtectedPage component={<Outlet />} roles={[Roles.admin, Roles.teacher]} />}>
               <Route index element={<ViewCabinet />} />
               <Route path='edit' element={<div>изменение кабинета под администратором</div>} />
