@@ -1,6 +1,7 @@
 import BackButton from "components/Basic/Buttons/Back";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
 import ProtectedComponent from "components/Protected/Component";
+import { CSSProperties } from "react";
 import { ImageState } from "types/UI";
 import styles from "./view.element.module.scss";
 
@@ -24,12 +25,13 @@ export const AvatarElement: React.FC<{ img: ImageState }> = ({ img }) => {
 
 type ViewElementProps = {
   component: React.ReactNode;
+  inlineStyles?: CSSProperties;
 };
-const ViewElement: React.FC<ViewElementProps> = ({ component }) => {
+const ViewElement: React.FC<ViewElementProps> = ({ component, inlineStyles }) => {
   return (
     <div className={styles.viewElement}>
       <ProtectedComponent component={<BackButton />} />
-      <main>{component}</main>
+      <main style={inlineStyles}>{component}</main>
     </div>
   );
 };
