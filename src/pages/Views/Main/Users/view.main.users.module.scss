@@ -1,7 +1,7 @@
 @import "styles/colors.scss";
 @import "styles/breakpoint.module.scss";
 
-.wrapperViewCabinets {
+.wrapperViewUsers {
   margin-top: 30px;
   width: 100%;
   display: grid;
@@ -25,17 +25,6 @@
       width: 200px;
       & > img {
         width: 100%;
-      }
-    }
-
-    & > .info {
-      display: flex;
-      & > p {
-        color: rgba($black, 0.5);
-        text-align: center;
-      }
-      & > p + p {
-        margin-left: 10px;
       }
     }
   }

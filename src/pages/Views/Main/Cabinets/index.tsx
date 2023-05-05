@@ -4,6 +4,7 @@ import styles from "./view.main.cabinets.module.scss";
 import { cabinetViewPath } from "types/App";
 import { useAppSelector, useAction } from "helpers/redux";
 import api from "helpers/axios";
+import AddNewButton from "components/Basic/Buttons/AddNew";
 
 const ViewCabinets = () => {
   let navigate = useNavigate();
@@ -28,7 +29,7 @@ const ViewCabinets = () => {
 
   return (
     <div className={styles.wrapperViewCabinets}>
-      <button>Добавить новый кабинет +</button>
+      <AddNewButton onClick={() => {}} title='Добавить новый кабинет +' />
 
       {/* {cabinetData?.map(cabinet => (
         <div

@@ -8,6 +8,7 @@ import { LoadingTransitionComponent } from "components/Basic/Loader";
 import { roledCabinetEditDataBarOptions } from "types/User";
 import ProtectedComponent from "components/Protected/Component";
 import { MenuBar } from "components/Complex/MenuBar";
+import styles from "./view.sub.cabinet.module.scss";
 
 const mockData: Cabinet = {
   cabinetNumber: "326",
@@ -29,12 +30,12 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
 
   return (
     <>
-      <div>
-        <div onClick={() => navigator.clipboard.writeText(window.location.href)}>
+      <div className={styles.wrapper}>
+        <div className={styles.imageWrapper} onClick={() => navigator.clipboard.writeText(window.location.href)}>
           <QRCodeSVG value={location.pathname} />
-          <p style={{ textDecoration: "underline" }}>тап сюда или на qr чтобы скопировать ссылку</p>
+          <button>тап сюда или на qr чтобы скопировать ссылку</button>
         </div>
-        <h1>Кабинет {cabinetNumber}</h1>
+        <h1 className={styles.title}>Кабинет {cabinetNumber}</h1>
         <div>
           <ul>
             {teachers.map(t => (
@@ -52,7 +53,7 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
         {/* здесь будут два дроплиста */}
         <ProtectedComponent
           component={
-            <div>
+            <div className={styles.menuBar}>
               <p>Панель управления кабинетом</p>
               <MenuBar barOptions={roledCabinetEditDataBarOptions["admin"]} />
             </div>
@@ -64,7 +65,8 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
 };
 
 const ViewCabinet: React.FC = () => {
-  const [cabinetData, setCabinetData] = useState<Cabinet>(mockData);
+  // const [cabinetData, setCabinetData] = useState<Cabinet>(mockData);
+  const [pageCabinetData, setPageCabinetData] = useState<Cabinet | null | undefined>(mockData);
 
   const { id } = useParams();
 
@@ -81,12 +83,9 @@ const ViewCabinet: React.FC = () => {
   //   })();
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, []);
-
-  if (!cabinetData) {
-    return <LoadingTransitionComponent />;
-  }
-
-  return <ViewElement component={<CabinetComponent {...cabinetData} />} />;
+  if (pageCabinetData === undefined) return <ViewElement component={<LoadingTransitionComponent />} />;
+  if (pageCabinetData === null) return <ViewElement component={<b>произошла ошибка при загрузке кабинета или он не найден</b>} />;
+  return <ViewElement component={<CabinetComponent {...pageCabinetData} />} />;
 };
 
 export default ViewCabinet;

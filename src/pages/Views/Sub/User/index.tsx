@@ -20,6 +20,8 @@ const formatFullName = (name: string) => {
 };
 
 const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, institutions, role }) => {
+  const location = useLocation();
+
   const [avatar, setAvatar] = useState<ImageState>(undefined);
   useEffect(() => {
     if (!avatarId) {
@@ -40,9 +42,9 @@ const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, institut
   return (
     <>
       <div className={styles.wrapper}>
-        <div className={styles.imageWrapper} onClick={() => navigator.clipboard.writeText(window.location.href)}>
+        <div className={styles.imageWrapper} onClick={() => location.pathname !== "/profile" && navigator.clipboard.writeText(window.location.href)}>
           <AvatarElement img={avatar} />
-          <button>тап сюда или на фото чтобы скопировать ссылку</button>
+          {location.pathname !== "/profile" && <button>тап сюда или на фото чтобы скопировать ссылку</button>}
         </div>
         <div className={styles.fio}>
           <h1>{role === Roles.admin ? "Администратор" : formatFullName(fullName)}</h1>
@@ -83,8 +85,8 @@ const ViewUser = () => {
 
   if (!userData) return <Navigate to={"signin"} />;
 
-  if (pageUserData === undefined) return <LoadingTransitionComponent />;
-  if (pageUserData === null) return <div>произошла ошибка при загрузке пользователя или он не найден</div>;
+  if (pageUserData === undefined) return <ViewElement component={<LoadingTransitionComponent />} />;
+  if (pageUserData === null) return <ViewElement component={<b>произошла ошибка при загрузке пользователя или он не найден</b>} />;
   return <ViewElement component={<UserComponent {...pageUserData} />} />;
 };
 

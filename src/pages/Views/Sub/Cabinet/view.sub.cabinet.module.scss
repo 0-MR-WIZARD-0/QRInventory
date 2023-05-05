@@ -1,0 +1,68 @@
+@import "styles/colors.scss";
+@import "styles/breakpoint.module.scss";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+
+  .imageWrapper {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+
+    svg {
+      width: 100%;
+      height: 100%;
+      padding: 45px;
+      border-radius: 20px;
+      background-color: $white;
+    }
+
+    button {
+      margin-top: 6px;
+      border: none;
+      cursor: inherit;
+
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 16px;
+      text-align: center;
+      text-decoration-line: underline;
+      opacity: 0.3;
+
+      &:hover {
+        opacity: 0.5;
+      }
+
+      &:active {
+        opacity: 0.2;
+      }
+    }
+  }
+
+  .title {
+    margin-bottom: 10px;
+  }
+}
+
+.menuBar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 10px;
+
+  @media screen and (max-width: $breakpoint-min-tablet) {
+    margin-top: 15px;
+  }
+  p {
+    color: $black;
+    opacity: 0.5;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+  }
+}

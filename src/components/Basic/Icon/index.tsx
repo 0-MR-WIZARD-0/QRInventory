@@ -2,13 +2,14 @@ import styles from "./icon.module.scss";
 
 enum AvailableIcons {
   "logo",
-  "profile"
+  "profile",
+  "image"
 }
 
 type IconProps = {
   icon: keyof typeof AvailableIcons;
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
 };
 
 const Icon: React.FC<IconProps> = ({ icon, width, height }) => {
