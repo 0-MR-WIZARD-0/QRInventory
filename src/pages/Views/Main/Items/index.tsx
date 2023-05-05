@@ -2,6 +2,7 @@ import { useAction, useAppSelector } from "helpers/redux";
 import styles from "./view.main.items.module.scss";
 import api from "helpers/axios";
 import { useEffect } from "react";
+import AddNewButton from "components/Basic/Buttons/AddNew";
 
 const ViewItems: React.FC = () => {
   const { updateItem } = useAction();
@@ -24,7 +25,8 @@ const ViewItems: React.FC = () => {
 
   return (
     <div className={styles.wrapperViewItems}>
-      <button>Добавить новый предмет +</button>
+      <AddNewButton onClick={() => {}} title='Добавить новый предмет +' />
+
       {/* {itemData?.map(elem=>(
       <div key={elem.id}>
           <div className={styles.img}>

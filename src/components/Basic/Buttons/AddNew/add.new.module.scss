@@ -1,0 +1,24 @@
+@import "styles/colors.scss";
+
+.wrapper {
+  cursor: pointer;
+  background-color: $white;
+  box-shadow: 0px 4px 4px rgba($black, 0.1);
+
+  font: inherit;
+  color: $gray-900;
+  font-weight: bold;
+
+  border-radius: 20px;
+  border: none;
+
+  display: flex;
+  height: auto;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  &:active {
+    opacity: 0.7;
+  }
+}

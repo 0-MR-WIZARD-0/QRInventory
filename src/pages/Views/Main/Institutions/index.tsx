@@ -3,6 +3,7 @@ import { useAppSelector } from "helpers/redux";
 import { useEffect } from "react";
 import { useAction } from "helpers/redux";
 import api from "helpers/axios";
+import AddNewButton from "components/Basic/Buttons/AddNew";
 
 const ViewInsitutions: React.FC = () => {
   const { updateInstitution } = useAction();
@@ -25,7 +26,8 @@ const ViewInsitutions: React.FC = () => {
 
   return (
     <div className={styles.wrapperViewInstitutions}>
-      <button>Добавить новое учреждение +</button>
+      <AddNewButton onClick={() => {}} title='Добавить новое учреждение +' />
+
       {/* {institutionData?.map((elem)=>(
         <div key={elem.id}>
           <h3>{elem.name}</h3>
