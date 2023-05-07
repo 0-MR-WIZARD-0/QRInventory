@@ -10,13 +10,6 @@ import { ImageState } from "types/UI";
 import { roledUserEditDataBarOptions } from "types/User";
 import styles from "./view.sub.item.module.scss";
 
-// const mockItem: Item = {
-//   article: "Ш-504",
-//   id: "1234-5678-9101-1121",
-//   imageId: "",
-//   name: "Стул обыкновенный"
-// };
-
 const ItemComponent: React.FC<Item> = ({ article, id, imageId, name }) => {
   const [avatar, setAvatar] = useState<ImageState>(undefined);
   useEffect(() => {

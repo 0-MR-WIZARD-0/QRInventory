@@ -12,7 +12,7 @@ const Navbar = () => {
   return (
     <nav className={styles.navbar}>
       <ProtectedComponent component={<MenuBar barOptions={roledMenuBarOptions[userData!.role as unknown as keyof RoledMenuBarOptions]} optionAsNavlink />} />
-      {userData?.role ? "" : <Selector userData={userData!} />}
+      {userData?.role === "admin" ? <Selector userData={userData!} /> : ""}
     </nav>
   );
 };

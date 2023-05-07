@@ -25,13 +25,13 @@ const ViewCabinets = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // const { cabinetData } = useAppSelector(state => state.cabinet);
+  const { cabinetData } = useAppSelector(state => state.cabinet);
 
   return (
     <div className={styles.wrapperViewCabinets}>
       <AddNewButton onClick={() => {}} title='Добавить новый кабинет +' />
 
-      {/* {cabinetData?.map(cabinet => (
+      {cabinetData?.map(cabinet => (
         <div
           onClick={() => {
             navigate(`${cabinetViewPath}/${cabinet.cabinetNumber}`);
@@ -46,7 +46,7 @@ const ViewCabinets = () => {
             <p>Предметов: {cabinet.items?.length}</p>
           </div>
         </div>
-      ))} */}
+      ))}
     </div>
   );
 };

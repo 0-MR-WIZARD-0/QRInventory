@@ -8,84 +8,62 @@ import { LoadingTransitionComponent } from "components/Basic/Loader";
 import { roledCabinetEditDataBarOptions } from "types/User";
 import ProtectedComponent from "components/Protected/Component";
 import { MenuBar } from "components/Complex/MenuBar";
-import styles from "./view.sub.cabinet.module.scss";
+import DropList from "components/Basic/DropList";
+import { useAppSelector } from "helpers/redux";
 
-const mockData: Cabinet = {
-  cabinetNumber: "326",
-  id: "1245-1234-5354-5234",
-  items: [
-    {
-      article: "SH-504",
-      id: "1234-5678-9101-1121",
-      imageId: "",
-      name: "stool"
-    }
-  ],
-  teachers: []
-};
 
-const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teachers }) => {
+
+const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items }) => {
   const location = useLocation();
-  console.log(location);
+
+  const { userData } = useAppSelector(state => state.user);
 
   return (
     <>
-      <div className={styles.wrapper}>
-        <div className={styles.imageWrapper} onClick={() => navigator.clipboard.writeText(window.location.href)}>
+      <div>
+        <div onClick={() => navigator.clipboard.writeText(window.location.href)}>
           <QRCodeSVG value={location.pathname} />
-          <button>тап сюда или на qr чтобы скопировать ссылку</button>
+          <p style={{ textDecoration: "underline" }}>тап сюда или на qr чтобы скопировать ссылку</p>
         </div>
-        <h1 className={styles.title}>Кабинет {cabinetNumber}</h1>
-        <div>
-          <ul>
-            {teachers.map(t => (
-              <li>{t.fullName}</li>
-            ))}
-          </ul>
-          <ul>
-            {items.map(i => (
-              <li>{i.name}</li>
-            ))}
-          </ul>
-        </div>
+        <h1 key={id}>Кабинет {cabinetNumber}</h1>
       </div>
       <div>
-        {/* здесь будут два дроплиста */}
-        <ProtectedComponent
+      <DropList items={items} cabinetId={id}/>
+      {userData?.role === "admin" ?  <ProtectedComponent
           component={
-            <div className={styles.menuBar}>
+            <div>
               <p>Панель управления кабинетом</p>
               <MenuBar barOptions={roledCabinetEditDataBarOptions["admin"]} />
             </div>
           }
-        />
+        /> : ""
+      }  
       </div>
     </>
   );
 };
 
 const ViewCabinet: React.FC = () => {
-  // const [cabinetData, setCabinetData] = useState<Cabinet>(mockData);
-  const [pageCabinetData, setPageCabinetData] = useState<Cabinet | null | undefined>(mockData);
 
   const { id } = useParams();
+  const [pageCabinetData, setPageCabinetData] = useState<Cabinet | null | undefined>();
+  
+  useEffect(() => {
+    (async () => {
+      try {
+        const cabinetData = (await api.get("/cabinet/", { params: { cabinet: id } })).data;
+        setPageCabinetData(cabinetData);
+      } catch (error) {
+        setPageCabinetData(null);
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     await api
-  //       .get("/cabinet/", { params: { cabinet: id } })
-  //       .then(res => {
-  //         setCabinetInfo(res.data);
-  //       })
-  //       .catch(err => {
-  //         console.log(err);
-  //       });
-  //   })();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
   if (pageCabinetData === undefined) return <ViewElement component={<LoadingTransitionComponent />} />;
   if (pageCabinetData === null) return <ViewElement component={<b>произошла ошибка при загрузке кабинета или он не найден</b>} />;
-  return <ViewElement component={<CabinetComponent {...pageCabinetData} />} />;
+
+  return <ViewElement component={<CabinetComponent {...pageCabinetData}/>} />;
 };
 
 export default ViewCabinet;

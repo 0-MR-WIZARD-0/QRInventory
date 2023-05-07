@@ -1,12 +1,12 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import { authApiSlice } from "./queries/auth.queries";
-import { cabinetApiSlice } from "./queries/cabinets.queries";
 import { userApiSlice } from "./queries/user.queries";
 import userReducer from "./reducers/user.reducer";
+import cabinetReducer from "./reducers/cabinet.reducer";
 
 export const rootReducer = combineReducers({
   user: userReducer,
-  [cabinetApiSlice.reducerPath]: cabinetApiSlice.reducer,
+  cabinet: cabinetReducer,
   [authApiSlice.reducerPath]: authApiSlice.reducer,
   [userApiSlice.reducerPath]: userApiSlice.reducer
 });
