@@ -10,14 +10,9 @@ const ViewInsitutions: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      await api
-        .get("/institution/all", { params: { full: true } })
-        .then(res => {
-          updateInstitution(res.data);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      await api.get("/institution/all", { params: { full: true } }).then(res => {
+        updateInstitution(res.data);
+      });
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

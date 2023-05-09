@@ -63,7 +63,7 @@ export const roledUserEditDataBarOptions: RoledMenuBarOptions = {
     },
     {
       title: "выйти",
-      link: "/profile/logout"
+      link: "/auth/logout"
     }
   ],
   admin: [
@@ -73,7 +73,7 @@ export const roledUserEditDataBarOptions: RoledMenuBarOptions = {
     },
     {
       title: "выйти",
-      link: "/profile/logout"
+      link: "/auth/logout"
     }
   ]
 };

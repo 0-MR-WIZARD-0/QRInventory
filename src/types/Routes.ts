@@ -7,6 +7,8 @@ export enum MainViewRoutes {
 
 export enum RoutesEnum {
   main = "/",
+  auth = "auth",
+  logout = "logout",
   signIn = "signin",
   profile = "profile",
   view = "view",

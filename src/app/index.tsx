@@ -29,6 +29,7 @@ import NoSelect from "pages/Views/Main/NoSelect";
 import EditCabinet from "pages/Views/Edit/Cabinets";
 import EditItem from "pages/Views/Edit/Item";
 import EditUser from "pages/Views/Edit/User";
+import Logout from "pages/Logout";
 
 function App() {
   const { updateUser, setLoading } = useAction();
@@ -75,7 +76,10 @@ function App() {
               <Route path='edit' element={<EditUser />} />
             </Route>
           </Route>
-          <Route path={RoutesEnum.signIn} element={<ProtectedPage component={<Login />} onlyGuest />} />
+          <Route path={RoutesEnum.auth}>
+            <Route path={RoutesEnum.signIn} element={<ProtectedPage component={<Login />} onlyGuest />} />
+            <Route path={RoutesEnum.logout} element={<Logout />} />
+          </Route>
           <Route path={RoutesEnum.profile}>
             <Route index element={<ProtectedPage component={<ViewUser />} />} />
             <Route path='edit' element={<EditUser />} />

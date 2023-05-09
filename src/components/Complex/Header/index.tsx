@@ -25,7 +25,7 @@ const AuthComponent: React.FC<AuthComponentProps> = ({ userData, loading, mobile
     exited: { opacity: 0 }
   };
 
-  if (loading || location.pathname === `/${RoutesEnum.signIn}`) return <></>;
+  if (loading || location.pathname === `/${RoutesEnum.auth}/${RoutesEnum.signIn}`) return <></>;
 
   return (
     <Transition timeout={100} in={mobileShown ?? true}>
@@ -37,7 +37,7 @@ const AuthComponent: React.FC<AuthComponentProps> = ({ userData, loading, mobile
             </>
           ) : (
             <>
-              <Link to={"signin"}>Авторизоваться</Link>
+              <Link to={`/${RoutesEnum.auth}/${RoutesEnum.signIn}`}>Авторизоваться</Link>
             </>
           )}
         </p>
@@ -48,6 +48,9 @@ const AuthComponent: React.FC<AuthComponentProps> = ({ userData, loading, mobile
 
 const Header = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const signinPage = location.pathname === `/${RoutesEnum.auth}/${RoutesEnum.signIn}`;
+
   const { userData, loading } = useAppSelector(state => state.user);
 
   const [mobileAuthComponentShown, setMobileAuthComponentShown] = useState<boolean>(false);
@@ -72,7 +75,7 @@ const Header = () => {
       </div>
       <Transition timeout={50} in={mobileAuthComponentShown}>
         {state => (
-          <div onClick={() => setMobileAuthComponentShown(prev => !prev)} className={styles.headerMobile} style={{ ...transitionStyles[state as keyof TransitionStyles] }}>
+          <div onClick={() => setMobileAuthComponentShown(prev => !prev)} className={styles.headerMobile} style={signinPage !== true ? { ...transitionStyles[state as keyof TransitionStyles] } : {}}>
             <div className={styles.headerMobileContent}>
               <div className={styles.info}>
                 <Icon icon='logo' width={32} height={32} />
