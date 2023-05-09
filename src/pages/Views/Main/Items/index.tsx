@@ -9,14 +9,9 @@ const ViewItems: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      await api
-        .get("/item/all")
-        .then(res => {
-          updateItem(res.data);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      await api.get("/item/all").then(res => {
+        updateItem(res.data);
+      });
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

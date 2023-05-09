@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import DefaultButton from "components/Basic/Buttons/Default";
 import Input from "components/Basic/Input";
 import styles from "styles/globalStyle.module.scss";
 import { NodeENV } from "types/App";
-import { useLoginMutation } from "redux/queries/auth.queries";
+import { useAction, useAppSelector } from "helpers/redux";
+import api from "helpers/axios";
 
 type FormProps = {
   email: string;
@@ -15,15 +16,20 @@ const testData = process.env.NODE_ENV !== NodeENV.prod ? { email: "test@mail.com
 
 const Login = () => {
   const navigator = useNavigate();
-  const [login, { isLoading, isSuccess, isError }] = useLoginMutation();
+  const { updateUser } = useAction();
 
   //                                                   потом поменять на пустые значения
   const [formState, setFormState] = useState<FormProps>(testData);
   const updateState = (e: React.ChangeEvent<HTMLInputElement>) => setFormState(state => ({ ...state, [e.target.id]: e.target.value }));
   const onSumbit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    login(formState);
-    navigator("/", { replace: true });
+    (async () => {
+      let res = await api.post("/auth/login", formState);
+      if (res.status === 200) {
+        updateUser(res.data);
+        navigator("/", { replace: true });
+      }
+    })();
   };
 
   return (

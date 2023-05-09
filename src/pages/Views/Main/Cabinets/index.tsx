@@ -13,14 +13,9 @@ const ViewCabinets = () => {
 
   useEffect(() => {
     (async () => {
-      await api
-        .get("/cabinet/all")
-        .then(res => {
-          updateCabinet(res.data);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      await api.get("/cabinet/all").then(res => {
+        updateCabinet(res.data);
+      });
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -38,7 +33,7 @@ const ViewCabinets = () => {
           }}
           key={cabinet.id}>
           <div className={styles.img}>
-            <img src="" alt={cabinet.id}></img>
+            <img src='' alt={cabinet.id}></img>
           </div>
           <h3>Кабинет {cabinet.cabinetNumber}</h3>
           <div className={styles.info}>

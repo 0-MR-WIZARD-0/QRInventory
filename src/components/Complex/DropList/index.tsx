@@ -1,9 +1,8 @@
-import React, {useState, useRef} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import styles from "./droplist.module.scss"
 import { Item } from 'types/Item';
 import api from 'helpers/axios';
 import { useParams } from 'react-router-dom';
-import Search from '../../Basic/Search';
 
 type Props = {
     items: Item[]
@@ -14,47 +13,44 @@ const DropList:React.FC<Props> = ({items, cabinetId}) => {
 
     const { id } = useParams();
     
-    const container = useRef<HTMLDivElement>(null)
+    const container = useRef<HTMLInputElement>(null)
 
     const [dropdownState, setDropdownState] = useState({ open: false });
-    const [objects, setObjects] = useState<Item[]>(items)
+    const [objects, setObjects] = useState(items)
 
     const changeDropList = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         if (container.current && !container.current.contains(e.target as HTMLButtonElement)) {
             setDropdownState({ open: false });
         } else { 
             setDropdownState({ open: !dropdownState.open });
-            
         }
     }
     
-    const removel = (elem: any, objects: Item[]) => {
-        let modifiedArray:string[] = []
-        
-        objects.filter(objects => objects.id !== elem).map((elem)=> modifiedArray.push(elem.id));
+    useEffect(() => {
+        console.log(objects);
+    }, []);
 
+    const removel = (data: any) => {
         api.patch("/cabinet/edit", {
             id: cabinetId,
             cabinetNumber: id,
-            items: modifiedArray
+            items: ["b0363b16-464d-45a2-9dda-4564f03283b6"] //массив строк (измененный)
         }).then((res)=>{
-            setObjects(res.data.items)
+            console.log(res.data);
+            setObjects(res.data)
         })
     }
-    
-    return (
-        <div className={styles.container} ref={container}>
+
+  return (
+    <div className={styles.container} ref={container}>
         <button 
-            className={dropdownState.open ? styles.button_open : styles.button}
+            className={styles.button}
             onClick={(e)=>changeDropList(e)}
         >
             Предметы
         </button>
         {dropdownState.open && ( 
-        <div>
-            <Search 
-            items={objects} setValue={setObjects}
-            />
+        <div className={styles.dropdawn}>
             <ul>
                 {!objects.length ? <li>Предметы отсутствуют</li> : objects?.map(elem=>(
                     <li key={elem.id}>
@@ -62,10 +58,9 @@ const DropList:React.FC<Props> = ({items, cabinetId}) => {
                             <img alt=""/>
                         </div>
                         <div>
-                            <p>{elem.id}</p>
                             <p>{elem.name}</p>
                             <p>{elem.article}</p>
-                            <button onClick={()=>removel(elem.id, objects)}>Удалить</button>
+                            <button onClick={()=>removel(elem)}>Удалить</button>
                         </div>
                     </li>
                 ))}

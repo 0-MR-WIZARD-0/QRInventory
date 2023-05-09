@@ -29,6 +29,7 @@ import NoSelect from "pages/Views/Main/NoSelect";
 import EditCabinet from "pages/Views/Edit/Cabinets";
 import EditItem from "pages/Views/Edit/Item";
 import EditUser from "pages/Views/Edit/User";
+import Logout from "pages/Logout";
 
 function App() {
   const { updateUser, setLoading } = useAction();
@@ -75,7 +76,10 @@ function App() {
               <Route path='edit' element={<EditUser />} />
             </Route>
           </Route>
-          <Route path={RoutesEnum.signIn} element={<ProtectedPage component={<Login />} onlyGuest />} />
+          <Route path={RoutesEnum.auth}>
+            <Route path={RoutesEnum.signIn} element={<ProtectedPage component={<Login />} onlyGuest />} />
+            <Route path={RoutesEnum.logout} element={<Logout />} />
+          </Route>
           <Route path={RoutesEnum.profile}>
             <Route index element={<ProtectedPage component={<ViewUser />} />} />
             <Route path='edit' element={<EditUser />} />
@@ -89,21 +93,3 @@ function App() {
 }
 
 export default App;
-
-{
-  /* https://stackoverflow.com/questions/64890293/react-router-v6-nested-routing-without-outlet */
-}
-
-{
-  /* https://stackoverflow.com/questions/63214924/how-to-return-a-page-by-id-with-react-routing */
-}
-{
-  /* стейт будет автоматически из rtk query браться методом из апи или будем прокидывать просами? (не пропдриллинг)*/
-}
-
-{
-  /* при нажатии на учреждение будет менять учреждение в стейте, поэтому страницы учреждения скорее всего не будет */
-}
-{
-  /* <Route path={MainViewRoutes.institutions} element={<ProtectedPage component={<ViewCabinets />} roles={[Roles.admin]} />} /> */
-}
