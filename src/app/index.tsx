@@ -93,21 +93,3 @@ function App() {
 }
 
 export default App;
-
-{
-  /* https://stackoverflow.com/questions/64890293/react-router-v6-nested-routing-without-outlet */
-}
-
-{
-  /* https://stackoverflow.com/questions/63214924/how-to-return-a-page-by-id-with-react-routing */
-}
-{
-  /* стейт будет автоматически из rtk query браться методом из апи или будем прокидывать просами? (не пропдриллинг)*/
-}
-
-{
-  /* при нажатии на учреждение будет менять учреждение в стейте, поэтому страницы учреждения скорее всего не будет */
-}
-{
-  /* <Route path={MainViewRoutes.institutions} element={<ProtectedPage component={<ViewCabinets />} roles={[Roles.admin]} />} /> */
-}

@@ -25,10 +25,6 @@ const DropList: React.FC<Props> = ({ items, cabinetId }) => {
     }
   };
 
-  useEffect(() => {
-    console.log(objects);
-  }, []);
-
   const removel = (data: any) => {
     api
       .patch("/cabinet/edit", {
