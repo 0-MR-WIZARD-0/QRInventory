@@ -53,7 +53,7 @@ const ItemComponent: React.FC<Item> = ({ article, id, imageId, name }) => {
 
 const ViewItem = () => {
   const { id } = useParams();
-  const [pageItemData, setPageItemData] = useState<Item | null | undefined>(); // потом заменить на query, подгрузку из кеша?
+  const [pageItemData, setPageItemData] = useState<Item | null | undefined>();
   useEffect(() => {
     (async () => {
       try {

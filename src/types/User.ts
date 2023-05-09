@@ -92,7 +92,7 @@ export const roledCabinetEditDataBarOptions: RoledMenuBarOptions = {
   admin: [
     {
       title: "редактирование",
-      link: "/cabinet/edit"
+      link: "/cabinet/edit",
     },
     {
       title: "удаление",

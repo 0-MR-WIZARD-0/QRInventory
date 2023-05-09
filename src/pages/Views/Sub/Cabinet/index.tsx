@@ -8,10 +8,8 @@ import { LoadingTransitionComponent } from "components/Basic/Loader";
 import { roledCabinetEditDataBarOptions } from "types/User";
 import ProtectedComponent from "components/Protected/Component";
 import { MenuBar } from "components/Complex/MenuBar";
-import DropList from "components/Basic/DropList";
+import DropList from "components/Complex/DropList";
 import { useAppSelector } from "helpers/redux";
-
-
 
 const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items }) => {
   const location = useLocation();
