@@ -8,7 +8,7 @@ import { useAction, useAppSelector } from "helpers/redux";
 import api from "helpers/axios";
 import styles from "./app.module.scss";
 
-import Login from "pages/Login";
+import Login from "pages/Auth/Login";
 import Main from "pages/Main";
 import Page404 from "pages/Page404";
 import NoAccessPage from "pages/NoAccess";
@@ -29,7 +29,7 @@ import NoSelect from "pages/Views/Main/NoSelect";
 import EditCabinet from "pages/Views/Edit/Cabinets";
 import EditItem from "pages/Views/Edit/Item";
 import EditUser from "pages/Views/Edit/User";
-import Logout from "pages/Logout";
+import Logout from "pages/Auth/Logout";
 
 function App() {
   const { updateUser, setLoading } = useAction();

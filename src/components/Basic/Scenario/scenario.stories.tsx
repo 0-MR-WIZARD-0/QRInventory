@@ -26,7 +26,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const PasswordConfirmationPage: React.FC<{ cb: ResolverCallback }> = ({ cb }) => {
+const PasswordConfirmationPage: React.FC<{ cb: ResolverCallback }> = ({ cb }) => {
   const [input1, setInput1] = useState<string>("");
   const [input2, setInput2] = useState<string>("");
 
@@ -43,7 +43,7 @@ export const PasswordConfirmationPage: React.FC<{ cb: ResolverCallback }> = ({ c
   );
 };
 
-export const SuccessPage: React.FC<{ cb: ResolverCallback }> = ({ cb }) => {
+const SuccessPage: React.FC<{ cb: ResolverCallback }> = ({ cb }) => {
   return (
     <div>
       <span>Пароли сходятся</span>

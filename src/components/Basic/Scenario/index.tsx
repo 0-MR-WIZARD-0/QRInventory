@@ -1,7 +1,8 @@
 import { createElement, forwardRef, useImperativeHandle, useState } from "react";
-import Modal from "react-modal"
+import Modal from "react-modal";
+import styles from "./scenario.module.scss";
 
-type Script = {
+export type Script = {
   [page: number]: {
     content: any;
     onSuccess: number;
@@ -9,20 +10,10 @@ type Script = {
   };
 };
 
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)"
-  }
-};
-
 type ScenarioModalHandle = {
   createModal: () => void;
   closeModal: () => void;
+  // setPage: (n: number) => void;
 };
 
 type ScenarioProps = {
@@ -47,6 +38,7 @@ export const Scenario = forwardRef<ScenarioModalHandle, ScenarioProps>(({ modalN
   useImperativeHandle(ref, () => ({
     createModal,
     closeModal
+    // setPage
   }));
 
   const resolveCallback: ResolverCallback = async (promise: Promise<Boolean>) => {
@@ -67,8 +59,8 @@ export const Scenario = forwardRef<ScenarioModalHandle, ScenarioProps>(({ modalN
   };
 
   return (
-    <Modal isOpen={modalIsOpen} onRequestClose={() => setIsOpen(false)} style={customStyles} contentLabel={modalName}>
-      <div>{createElement(script[page].content, { cb: resolveCallback })}</div>
+    <Modal className={styles.wrapper} isOpen={modalIsOpen} onRequestClose={() => setIsOpen(false)} contentLabel={modalName}>
+      {createElement(script[page].content, { cb: resolveCallback })}
     </Modal>
   );
 });
