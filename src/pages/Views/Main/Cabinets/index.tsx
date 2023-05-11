@@ -1,15 +1,19 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import styles from "./view.main.cabinets.module.scss";
 import { cabinetViewPath } from "types/App";
 import { useAppSelector, useAction } from "helpers/redux";
 import api from "helpers/axios";
 import AddNewButton from "components/Basic/Buttons/AddNew";
+import { CreateCabinetScript } from "./Scenario";
+import { Scenario } from "components/Basic/Scenario";
 
 const ViewCabinets = () => {
   let navigate = useNavigate();
 
   const { updateCabinet } = useAction();
+
+  const createCabinetModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
 
   useEffect(() => {
     (async () => {
@@ -23,8 +27,10 @@ const ViewCabinets = () => {
   const { cabinetData } = useAppSelector(state => state.cabinet);
 
   return (
+    <>
+    <Scenario ref={createCabinetModalRef} modalName='create-cabinet' script={CreateCabinetScript}/>
     <div className={styles.wrapperViewCabinets}>
-      <AddNewButton onClick={() => {}} title='Добавить новый кабинет +' />
+      <AddNewButton onClick={() => createCabinetModalRef.current?.createModal()} title='Добавить новый кабинет +' />
 
       {cabinetData?.map(cabinet => (
         <div
@@ -43,6 +49,8 @@ const ViewCabinets = () => {
         </div>
       ))}
     </div>
+    </>
+    
   );
 };
 

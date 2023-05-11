@@ -44,7 +44,7 @@ const DropList:React.FC<Props> = ({items, cabinetId}) => {
   return (
     <div className={styles.container} ref={container}>
         <button 
-            className={styles.button}
+            className={!dropdownState.open ? styles.button : styles.button_open}
             onClick={(e)=>changeDropList(e)}
         >
             Предметы

@@ -3,20 +3,22 @@ import { Institution } from "types/Institution";
 
 type InitialState = {
   institutionData: Institution[] | undefined;
+  loading: boolean;
 };
 
 const initialState: InitialState = {
   institutionData: undefined,
+  loading: true
 };
 
 const InstitutionSlice = createSlice({
   name: "institution",
   initialState,
   reducers: {
-    updateInstitution: (state, action: PayloadAction<Institution[]>) => {
+    getInstitution: (state, action: PayloadAction<Institution[]>) => {
       state.institutionData = action.payload;
-      return state;
-    }
+      return state
+    },
   }
 });
 
