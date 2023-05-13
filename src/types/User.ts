@@ -82,21 +82,21 @@ export const roledCabinetEditDataBarOptions: RoledMenuBarOptions = {
   teacher: [
     {
       title: "редактирование",
-      link: "/cabinet/edit"
+      link: "edit"
     },
     {
       title: "удаление",
-      link: "/cabinet/delete"
+      link: "delete"
     }
   ],
   admin: [
     {
       title: "редактирование",
-      link: "/cabinet/edit",
+      link: "edit"
     },
     {
       title: "удаление",
-      link: "/cabinet/delete"
+      link: "delete"
     }
   ]
 };

@@ -1,6 +1,48 @@
 @import "styles/colors.scss";
 @import "styles/breakpoint.module.scss";
 
+.imageWrapper {
+  width: 218px;
+  height: 218px;
+  flex-shrink: 0;
+
+  color: $gray-100;
+
+  border: 4px dashed $gray-100;
+  border-radius: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  row-gap: 5px;
+
+  h5,
+  span {
+    max-width: 70%;
+    text-align: center;
+  }
+
+  h5 {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 17px;
+  }
+
+  span {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+  }
+
+  i {
+    width: 70px;
+    height: 70px;
+    background-color: $gray-100;
+  }
+}
+
 .wrapper {
   width: 100%;
   display: flex;
@@ -22,11 +64,20 @@
     text-align: center;
   }
 
-  & > * {
-    width: 70%;
+  .buttonWrapper {
+    width: 100%;
+  }
+
+  .controlsWrapper {
+    display: flex;
+    flex-direction: row;
+    column-gap: 30px;
+    row-gap: 30px;
+    width: 100%;
 
     @media screen and (max-width: $breakpoint-max-tablet) {
-      width: 100%;
+      flex-direction: column;
+      align-items: center;
     }
   }
 }
