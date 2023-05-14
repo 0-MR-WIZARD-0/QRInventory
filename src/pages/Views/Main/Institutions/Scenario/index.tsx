@@ -6,14 +6,15 @@ import {useState} from "react"
 export const CreateInstitutionScenarioComponent: React.FC = () => {
 
   const [input, setInput] = useState<string>("");
-  // const { postInstitution,  } = useAction();
+  const { postInstitution, } = useAction();
 
   const createInstitution = (value: string) => {
     (async () => {
       try {
         let res = await api.post("/institution/create", {name: `${value}`});
         if (res.status === 200) {
-          // postInstitution(res.data);
+          postInstitution(res.data);
+          // getInstitution(res.data)
         } else {
           console.log(res.data);
         }
@@ -28,7 +29,7 @@ export const CreateInstitutionScenarioComponent: React.FC = () => {
         <h2>Создание организации</h2>
         <input type="text" placeholder="Название учреждения" onChange={e => setInput(e.target.value)}/>
         <button 
-          onClick={()=>{createInstitution(input)}}
+          onSubmit={(e)=>{createInstitution(input)}}
         >Создать</button>
       </div>
     );

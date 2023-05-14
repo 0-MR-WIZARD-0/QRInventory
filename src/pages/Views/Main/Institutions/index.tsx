@@ -9,14 +9,14 @@ import { CreateInstitutionScript } from "./Scenario";
 
 const ViewInsitutions: React.FC = () => {
 
-  const { getInstitution,  } = useAction();
+  const { getInstitution } = useAction();
 
   const createInstitutionModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
 
   const { institutionData } = useAppSelector(state => state.institution);
-  
+
   useEffect(() => {
-    (async () => {
+    (async  () =>  {
       try {
         let res = await api.get("/institution/all", { params: { full: true } });
         if (res.status === 200) {
@@ -31,13 +31,11 @@ const ViewInsitutions: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-
   return (
     <>
     <Scenario ref={createInstitutionModalRef} modalName='create-institution' script={CreateInstitutionScript} />
     <div className={styles.wrapperViewInstitutions}>
       <AddNewButton onClick={() => createInstitutionModalRef.current?.createModal()} title='Добавить новое учреждение +'/>
-
       {institutionData?.map((elem)=>(
         <div key={elem.id}>
           <h3>{elem.name}</h3>

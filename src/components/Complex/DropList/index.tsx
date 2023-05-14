@@ -3,10 +3,14 @@ import styles from "./droplist.module.scss"
 import { Item } from 'types/Item';
 import api from 'helpers/axios';
 import { useParams } from 'react-router-dom';
+import { Cabinet } from 'types/Cabinet';
+import { Teacher } from 'types/Teacher';
+import Search from 'components/Basic/Search';
 
 type Props = {
-    items: Item[]
-    cabinetId: string
+    items: Item[],
+    // teachers?: Teacher[],
+    cabinetId?: string
 }
 
 const DropList:React.FC<Props> = ({items, cabinetId}) => {
@@ -16,7 +20,7 @@ const DropList:React.FC<Props> = ({items, cabinetId}) => {
     const container = useRef<HTMLInputElement>(null)
 
     const [dropdownState, setDropdownState] = useState({ open: false });
-    const [objects, setObjects] = useState(items)
+    const [objects, setObjects] = useState<Item[]>(items)
 
     const changeDropList = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         if (container.current && !container.current.contains(e.target as HTMLButtonElement)) {
@@ -26,15 +30,20 @@ const DropList:React.FC<Props> = ({items, cabinetId}) => {
         }
     }
     
-    useEffect(() => {
-        console.log(objects);
-    }, []);
+    // useEffect(() => {
+    //     console.log(objects);
+    // }, []);
 
-    const removel = (data: any) => {
+    const removel = (elem: any, objects: Item[]) => {
+
+        let modifiedArray:string[] = []
+
+        objects.filter(objects => objects.id !== elem).map((elem)=> modifiedArray.push(elem.id));
+
         api.patch("/cabinet/edit", {
             id: cabinetId,
             cabinetNumber: id,
-            items: ["b0363b16-464d-45a2-9dda-4564f03283b6"] //массив строк (измененный)
+            items: modifiedArray
         }).then((res)=>{
             console.log(res.data);
             setObjects(res.data)
@@ -50,9 +59,10 @@ const DropList:React.FC<Props> = ({items, cabinetId}) => {
             Предметы
         </button>
         {dropdownState.open && ( 
-        <div className={styles.dropdawn}>
+            <div className={styles.dropdawn}>
+            <Search items={items} setValue={setObjects}/>
             <ul>
-                {!objects.length ? <li>Предметы отсутствуют</li> : objects?.map(elem=>(
+                 {!objects.length ? <li>Предметы отсутствуют</li> : objects?.map(elem=>(
                     <li key={elem.id}>
                         <div>
                             <img alt=""/>
@@ -60,10 +70,10 @@ const DropList:React.FC<Props> = ({items, cabinetId}) => {
                         <div>
                             <p>{elem.name}</p>
                             <p>{elem.article}</p>
-                            <button onClick={()=>removel(elem)}>Удалить</button>
+                            <button onClick={()=>removel(elem.id, objects)}>Удалить</button> 
                         </div>
                     </li>
-                ))}
+                ))} 
             </ul>
         </div>
         )}

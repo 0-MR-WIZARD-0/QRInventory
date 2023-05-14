@@ -26,11 +26,11 @@ export type ResolverCallback = (promise: Promise<any>) => void;
 export const Scenario = forwardRef<ScenarioModalHandle, ScenarioProps>(({ modalName, script }, ref) => {
   const [page, setPage] = useState<number>(0);
   const [modalIsOpen, setIsOpen] = useState(false);
-
+  
   const createModal = () => {
     setIsOpen(true);
   };
-
+  
   const closeModal = () => {
     setIsOpen(false);
   };
@@ -66,3 +66,5 @@ export const Scenario = forwardRef<ScenarioModalHandle, ScenarioProps>(({ modalN
 });
 
 Scenario.displayName = "Scenario";
+
+// export default 
