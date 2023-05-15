@@ -1,38 +1,30 @@
-import React, {useState, useEffect, useRef} from 'react'
-import styles from "./droplist.module.scss"
-import { Item } from 'types/Item';
-import api from 'helpers/axios';
-import { useParams } from 'react-router-dom';
-import { Cabinet } from 'types/Cabinet';
-import { Teacher } from 'types/Teacher';
-import Search from 'components/Basic/Search';
+import React, { useState, useEffect, useRef } from "react";
+import styles from "./droplist.module.scss";
+import { Item } from "types/Item";
+import api from "helpers/axios";
+import { useParams } from "react-router-dom";
 
 type Props = {
-    items: Item[],
-    // teachers?: Teacher[],
-    cabinetId?: string
-}
+  items: Item[];
+  cabinetId: string;
+};
 
-const DropList:React.FC<Props> = ({items, cabinetId}) => {
+const DropList: React.FC<Props> = ({ items, cabinetId }) => {
+  const { id } = useParams();
 
-    const { id } = useParams();
-    
-    const container = useRef<HTMLInputElement>(null)
-
+  const container = useRef<HTMLInputElement>(null);
+  
     const [dropdownState, setDropdownState] = useState({ open: false });
     const [objects, setObjects] = useState<Item[]>(items)
 
-    const changeDropList = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        if (container.current && !container.current.contains(e.target as HTMLButtonElement)) {
-            setDropdownState({ open: false });
-        } else { 
-            setDropdownState({ open: !dropdownState.open });
-        }
+  const changeDropList = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    if (container.current && !container.current.contains(e.target as HTMLButtonElement)) {
+      setDropdownState({ open: false });
+    } else {
+      setDropdownState({ open: !dropdownState.open });
     }
-    
-    // useEffect(() => {
-    //     console.log(objects);
-    // }, []);
+
+  };
 
     const removel = (elem: any, objects: Item[]) => {
 
@@ -75,10 +67,11 @@ const DropList:React.FC<Props> = ({items, cabinetId}) => {
                     </li>
                 ))} 
             </ul>
-        </div>
-        )}
-    </div>
- );
-}
 
-export default DropList
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default DropList;
