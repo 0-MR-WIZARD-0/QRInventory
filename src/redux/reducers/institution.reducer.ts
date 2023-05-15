@@ -13,12 +13,23 @@ const initialState: InitialState = {
 
 const InstitutionSlice = createSlice({
   name: "institution",
-  initialState,
+  initialState: initialState,
   reducers: {
     getInstitution: (state, action: PayloadAction<Institution[]>) => {
       state.institutionData = action.payload;
       return state
     },
+    // updateInstitution: (state, action: PayloadAction<Institution[]>) => {
+    //   state.institutionData = action.payload;
+    //   return state;
+    // },
+    postInstitution: (state, action: PayloadAction<Institution[]>) => {
+      state.institutionData?.push(...action.payload)
+      return state;
+    },
+    removeInstitution: (state, action: PayloadAction<Institution[]>) => {
+
+    }
   }
 });
 

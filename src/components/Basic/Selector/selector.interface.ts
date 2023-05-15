@@ -1,4 +1,4 @@
 export interface Organization {
-    value: string;
+    value: any;
     label: string;
 }

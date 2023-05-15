@@ -4,8 +4,7 @@ import { Organization } from "./selector.interface";
 import { SelectMessages } from "types/UI";
 import { User } from "types/User";
 import { Institution } from "types/Institution";
-import { useState } from "react";
-import { CreateInstitutionScenarioComponent } from "pages/Views/Main/Institutions/Scenario";
+import { useAction } from "helpers/redux";
 
 type SelectorProps = {
   userData: User;
@@ -16,15 +15,13 @@ const Selector: React.FC<SelectorProps> = ({ userData }) => {
     return institutions.map(i => ({ value: i.id, label: i.name }));
   };
 
-  // позже заменить на стейт
-  const [selectedInstitution, setSelectedInstitution] = useState<string | undefined>(undefined);
+  const {getSelectorValue} = useAction()
 
-  console.log(selectedInstitution);
-  
   return (
-    <>
       <Select
-        onChange={e => setSelectedInstitution(e?.value)}
+        onChange={e => 
+          getSelectorValue(e?.value)
+        }
         options={formatInstitutions(userData.institutions)}
         noOptionsMessage={() => <div>{SelectMessages.noOptions}</div>}
         isSearchable={true}
@@ -40,7 +37,6 @@ const Selector: React.FC<SelectorProps> = ({ userData }) => {
           }
         })}
       />
-    </>
   );
 };
 
