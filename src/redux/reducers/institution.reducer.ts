@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { fetchUserThunk, loginUserThunk } from "redux/actions/user.actions";
 import { FulfilledAction } from "types/Redux";
+import { Roles, User } from "types/User";
 
 type StateInsitution = { id: string | null; name: string | null };
 
@@ -20,8 +21,9 @@ const InstitutionSlice = createSlice({
   extraReducers: builder => {
     builder.addMatcher(
       (action: FulfilledAction) => [fetchUserThunk.fulfilled.toString(), loginUserThunk.fulfilled.toString()].indexOf(action.type) > -1,
-      (state, action) => {
-        const institution = action.payload?.institutions[0];
+      (state, action: { type: string; payload: User | undefined }) => {
+        if (!action.payload) return state;
+        const institution = action.payload.role === Roles.admin ? action.payload.institutions[0] : action.payload.teacherInstitution;
         if (institution) return { ...state, id: institution.id, name: institution.name };
         else return state;
       }

@@ -8,6 +8,8 @@ import { useAction } from "helpers/redux";
 import api from "helpers/axios";
 import { Scenario } from "components/Basic/Scenario";
 import { AuthErrorScript, AuthResetScript } from "./Scenario";
+import { loginUserThunk } from "redux/actions/user.actions";
+import { useAppDispatch } from "redux/store";
 
 type FormProps = {
   email: string;
@@ -18,7 +20,7 @@ const testData = process.env.NODE_ENV !== NodeENV.prod ? { email: "test@mail.com
 
 const Login = () => {
   const navigator = useNavigate();
-  const { updateUser } = useAction();
+  const dispatch = useAppDispatch();
 
   const authErrorModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
   const authResetModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
@@ -30,19 +32,10 @@ const Login = () => {
   const updateState = (e: React.ChangeEvent<HTMLInputElement>) => setFormState(state => ({ ...state, [e.target.id]: e.target.value }));
   const onSumbit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    (async () => {
-      try {
-        let res = await api.post("/auth/login", formState);
-        if (res.status === 200) {
-          updateUser(res.data);
-          navigator("/", { replace: true });
-        } else {
-          authErrorModalRef.current?.createModal();
-        }
-      } catch (error) {
-        authErrorModalRef.current?.createModal();
-      }
-    })();
+    let res = await dispatch(loginUserThunk(formState));
+    if (res.meta.requestStatus === "fulfilled") {
+      navigator("/", { replace: true });
+    }
   };
 
   return (

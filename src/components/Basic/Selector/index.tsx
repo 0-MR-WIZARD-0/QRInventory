@@ -17,16 +17,15 @@ const Selector: React.FC<SelectorProps> = ({ userData }) => {
   };
 
   // позже заменить на стейт
-  const [selectedInstitution, setSelectedInstitution] = useState<string | undefined>(undefined);
-
-  console.log(selectedInstitution);
+  // const [selectedInstitution, setSelectedInstitution] = useState<string | undefined>(undefined);
+  // ты должен менять стейт!
 
   const institution = useAppSelector(state => state.institution);
 
   return (
     <>
       <Select
-        onChange={e => setSelectedInstitution(e?.value)}
+        // onChange={e => setSelectedInstitution(e?.value)}
         value={formatInstitutions([institution as Institution])}
         options={formatInstitutions(userData.institutions)}
         noOptionsMessage={() => <div>{SelectMessages.noOptions}</div>}

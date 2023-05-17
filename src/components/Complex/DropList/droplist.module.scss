@@ -1,32 +1,30 @@
 @import "styles/colors.scss";
- 
- .container{
-    .button{
-        border: none;
-        border-radius: 15px;
-        height: 45px;
-        width: 362px;
-        color: black;
-        font-size: 13px;
-        background-color: $white;
-        
-    }
-    .button_open{
-        border: none;
-        border-radius: 15px 15px 0 0;
-        height: 45px;
-        width: 362px;
-        color: black;
-        font-size: 13px;
-        background-color: $white;
 
-    }
-    &>div{
-        border-radius: 0 0 15px 15px;
-        background-color: $white;
-    }
-    ul{
-        min-height: 200px;
-        overflow: scroll;
-    }
+.container {
+  .button {
+    border: none;
+    border-radius: 15px;
+    height: 45px;
+    width: 362px;
+    color: black;
+    font-size: 13px;
+    background-color: $white;
+  }
+  .buttonOpen {
+    border: none;
+    border-radius: 15px 15px 0 0;
+    height: 45px;
+    width: 362px;
+    color: black;
+    font-size: 13px;
+    background-color: $white;
+  }
+  & > div {
+    border-radius: 0 0 15px 15px;
+    background-color: $white;
+  }
+  ul {
+    min-height: 200px;
+    overflow: scroll;
+  }
 }
