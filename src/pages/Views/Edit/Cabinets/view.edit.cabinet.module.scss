@@ -44,8 +44,8 @@
   @media screen and (max-width: $breakpoint-max-tablet) {
     bottom: 10vh;
     margin: 0 auto;
-    padding: 16px;
-    width: 100%;
+    // padding: 16px;
+    width: calc(100% - 16px - 16px) !important;
   }
 
   .button {
