@@ -7,7 +7,9 @@ import AddNewButton from "components/Basic/Buttons/AddNew";
 import { CreateCabinetScript } from "./Scenario";
 import { Scenario } from "components/Basic/Scenario";
 import { QRCodeSVG } from "qrcode.react";
+import { useRef, useEffect } from "react";
 
+const ViewCabinets: React.FC = () => {
   let navigate = useNavigate();
 
   const { updateCabinets } = useAction();

@@ -1,7 +1,9 @@
 import { useAction } from "helpers/redux";
 import styles from "./view.main.items.module.scss";
 import api from "helpers/axios";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { Scenario } from "components/Basic/Scenario";
+import { CreateItemScript } from "./Scenario";
 
 const ViewItems: React.FC = () => {
   const { updateItem } = useAction();

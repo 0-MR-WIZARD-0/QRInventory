@@ -12,7 +12,6 @@ const initialState: StateInsitution = {
 const InstitutionSlice = createSlice({
   name: "institution",
   initialState: initialState,
-  initialState: initialState,
   reducers: {
     setInstitution: (state, action: PayloadAction<StateInsitution | undefined>) => {
       return action.payload ? { id: action.payload.id, name: action.payload.name } : state;

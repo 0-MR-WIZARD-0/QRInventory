@@ -24,24 +24,26 @@ const Selector: React.FC<SelectorProps> = ({ userData }) => {
   const institution = useAppSelector(state => state.institution);
 
   return (
-    <Select
-      onChange={e => setSelectedInstitution(e?.value)}
-      value={formatInstitutions([institution as Institution])}
-      options={formatInstitutions(userData.institutions)}
-      noOptionsMessage={() => <div>{SelectMessages.noOptions}</div>}
-      isSearchable={true}
-      placeholder={SelectMessages.placholder}
-      className={styles.select}
-      theme={theme => ({
-        ...theme,
-        borderRadius: 4,
-        colors: {
-          ...theme.colors,
-          primary25: "lightblue",
-          primary: "#082032"
-        }
-      })}
-    />
+    <>
+      <Select
+        onChange={e => setSelectedInstitution(e?.value)}
+        value={formatInstitutions([institution as Institution])}
+        options={formatInstitutions(userData.institutions)}
+        noOptionsMessage={() => <div>{SelectMessages.noOptions}</div>}
+        isSearchable={true}
+        placeholder={SelectMessages.placholder}
+        className={styles.select}
+        theme={theme => ({
+          ...theme,
+          borderRadius: 4,
+          colors: {
+            ...theme.colors,
+            primary25: "lightblue",
+            primary: "#082032"
+          }
+        })}
+      />
+    </>
   );
 };
 
