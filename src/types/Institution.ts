@@ -5,3 +5,8 @@ export type Institution = {
   name: string;
   cabinets: Cabinet[];
 };
+
+export type InstitutionShort = {
+  id: string;
+  name: string;
+};

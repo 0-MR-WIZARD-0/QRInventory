@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import DefaultButton from "components/Basic/Buttons/Default";
 import Input from "components/Basic/Input";
 import styles from "styles/globalStyle.module.scss";
 import { NodeENV } from "types/App";
-import { useAction, useAppSelector } from "helpers/redux";
+import { useAction } from "helpers/redux";
 import api from "helpers/axios";
 import { Scenario } from "components/Basic/Scenario";
 import { AuthErrorScript, AuthResetScript } from "./Scenario";

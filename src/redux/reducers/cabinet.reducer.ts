@@ -6,14 +6,14 @@ type InitialState = {
 };
 
 const initialState: InitialState = {
-  cabinetData: undefined,
+  cabinetData: undefined
 };
 
 const CabinetSlice = createSlice({
   name: "cabinet",
   initialState,
   reducers: {
-    updateCabinet: (state, action: PayloadAction<Cabinet[]>) => {
+    updateCabinets: (state, action: PayloadAction<Cabinet[]>) => {
       state.cabinetData = action.payload;
       return state;
     }

@@ -2,7 +2,6 @@ import { useLocation, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import api from "helpers/axios";
 import { Cabinet } from "types/Cabinet";
-import ViewElement from "components/Complex/ViewElement";
 import { QRCodeSVG } from "qrcode.react";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
 import { roledCabinetEditDataBarOptions } from "types/User";
@@ -63,10 +62,10 @@ const ViewCabinet: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  if (pageCabinetData === undefined) return <ViewElement component={<LoadingTransitionComponent />} />;
-  if (pageCabinetData === null) return <ViewElement component={<b>произошла ошибка при загрузке кабинета или он не найден</b>} />;
+  if (pageCabinetData === undefined) return <LoadingTransitionComponent />;
+  if (pageCabinetData === null) return <b>произошла ошибка при загрузке кабинета или он не найден</b>;
 
-  return <ViewElement component={<CabinetComponent {...pageCabinetData} />} />;
+  return <CabinetComponent {...pageCabinetData} />;
 };
 
 export default ViewCabinet;

@@ -1,24 +1,31 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Institution } from "types/Institution";
+import { fetchUserThunk, loginUserThunk } from "redux/actions/user.actions";
+import { FulfilledAction } from "types/Redux";
 
-type InitialState = {
-  institutionData: Institution[] | undefined;
-  loading: boolean;
-};
+type StateInsitution = { id: string | null; name: string | null };
 
-const initialState: InitialState = {
-  institutionData: undefined,
-  loading: true
+const initialState: StateInsitution = {
+  id: null,
+  name: null
 };
 
 const InstitutionSlice = createSlice({
   name: "institution",
-  initialState,
+  initialState: initialState,
   reducers: {
-    getInstitution: (state, action: PayloadAction<Institution[]>) => {
-      state.institutionData = action.payload;
-      return state
-    },
+    setInstitution: (state, action: PayloadAction<StateInsitution | undefined>) => {
+      return action.payload ? { id: action.payload.id, name: action.payload.name } : state;
+    }
+  },
+  extraReducers: builder => {
+    builder.addMatcher(
+      (action: FulfilledAction) => [fetchUserThunk.fulfilled.toString(), loginUserThunk.fulfilled.toString()].indexOf(action.type) > -1,
+      (state, action) => {
+        const institution = action.payload?.institutions[0];
+        if (institution) return { ...state, id: institution.id, name: institution.name };
+        else return state;
+      }
+    );
   }
 });
 

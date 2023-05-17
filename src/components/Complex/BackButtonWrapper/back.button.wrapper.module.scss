@@ -1,0 +1,35 @@
+@import "styles/colors.scss";
+@import "styles/breakpoint.module.scss";
+
+.wrapper {
+  flex-direction: column;
+
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+
+  & > a {
+    margin-bottom: 15px;
+  }
+
+  //   @media screen and (max-width: $breakpoint-min-tablet) {
+  //     flex-direction: column;
+  //     align-items: center;
+  //   }
+
+  .content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    column-gap: 10px;
+
+    & > * {
+      width: 100%;
+    }
+
+    @media screen and (max-width: $breakpoint-min-tablet) {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}

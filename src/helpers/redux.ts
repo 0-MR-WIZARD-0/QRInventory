@@ -5,13 +5,16 @@ import { userActions } from "redux/reducers/user.reducer";
 import { institutionActions } from "redux/reducers/institution.reducer";
 import { cabinetActions } from "redux/reducers/cabinet.reducer";
 import { itemActions } from "redux/reducers/item.reducer";
+import { fetchUserThunk, loginUserThunk } from "redux/actions/user.actions";
 
 const ActionCreators = {
   ...userActions,
   ...institutionActions,
   ...cabinetActions,
-  ...itemActions
-}; 
+  ...itemActions,
+  fetchUserThunk,
+  loginUserThunk
+};
 
 export const useAction = () => {
   const dispatch = useDispatch();

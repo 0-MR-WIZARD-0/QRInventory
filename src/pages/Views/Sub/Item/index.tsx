@@ -1,6 +1,6 @@
 import { LoadingTransitionComponent } from "components/Basic/Loader";
+import AvatarElement from "components/Complex/AvatarElement";
 import { MenuBar } from "components/Complex/MenuBar";
-import ViewElement, { AvatarElement } from "components/Complex/ViewElement";
 import ProtectedComponent from "components/Protected/Component";
 import api from "helpers/axios";
 import { useEffect, useState } from "react";
@@ -65,9 +65,9 @@ const ViewItem = () => {
     })();
   }, [id]);
 
-  if (pageItemData === undefined) return <ViewElement component={<LoadingTransitionComponent />} />;
-  if (pageItemData === null) return <ViewElement component={<b>произошла ошибка при загрузке предмета или он не найден</b>} />;
-  return <ViewElement component={<ItemComponent {...pageItemData} />} />;
+  if (pageItemData === undefined) return <LoadingTransitionComponent />;
+  if (pageItemData === null) return <b>произошла ошибка при загрузке предмета или он не найден</b>;
+  return <ItemComponent {...pageItemData} />;
 };
 
 export default ViewItem;

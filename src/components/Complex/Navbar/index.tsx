@@ -1,7 +1,7 @@
 import { MenuBar } from "components/Complex/MenuBar";
 import ProtectedComponent from "components/Protected/Component";
 import { useAppSelector } from "helpers/redux";
-import { roledMenuBarOptions, RoledMenuBarOptions } from "types/User";
+import { roledMenuBarOptions, RoledMenuBarOptions, Roles } from "types/User";
 
 import Selector from "../../Basic/Selector";
 import styles from "./navbar.module.scss";
@@ -12,7 +12,7 @@ const Navbar = () => {
   return (
     <nav className={styles.navbar}>
       <ProtectedComponent component={<MenuBar barOptions={roledMenuBarOptions[userData!.role as unknown as keyof RoledMenuBarOptions]} optionAsNavlink />} />
-      {userData?.role === "admin" ? <Selector userData={userData!} /> : ""}
+      <ProtectedComponent component={<Selector userData={userData!} />} roles={[Roles.admin]} />
     </nav>
   );
 };

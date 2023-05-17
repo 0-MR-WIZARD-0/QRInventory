@@ -1,10 +1,7 @@
-import { useAction, useAppSelector } from "helpers/redux";
+import { useAction } from "helpers/redux";
 import styles from "./view.main.items.module.scss";
 import api from "helpers/axios";
-import { useEffect, useRef } from "react";
-import AddNewButton from "components/Basic/Buttons/AddNew";
-import { Scenario } from "components/Basic/Scenario";
-import { CreateItemScript } from "./Scenario";
+import { useEffect } from "react";
 
 const ViewItems: React.FC = () => {
   const { updateItem } = useAction();
@@ -26,7 +23,6 @@ const ViewItems: React.FC = () => {
     <>
       {/* <Scenario ref={createItemModalRef} modalName='create-item' script={CreateItemScript} /> */}
       <div className={styles.wrapperViewItems}>
-
         {/* Нужно ли админу создавать предметы.. Не лучше ли перенести создание сразу в кабинет, а тут оставить вывод данных всех предметов с фильтрацией по организациям
         так же преподаватель не может создавать предметы, нужно исправить*/}
         {/* <AddNewButton onClick={() => createItemModalRef.current?.createModal()} title='Добавить новый предмет +' /> */}

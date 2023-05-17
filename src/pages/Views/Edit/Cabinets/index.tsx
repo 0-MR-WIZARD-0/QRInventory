@@ -1,5 +1,4 @@
 import Input from "components/Basic/Input";
-import ViewElement from "components/Complex/ViewElement";
 import styles from "./view.edit.cabinet.module.scss";
 
 const CabinetComponent: React.FC = () => {
@@ -21,7 +20,7 @@ const CabinetComponent: React.FC = () => {
 };
 
 const EditCabinet: React.FC = () => {
-  return <ViewElement component={<CabinetComponent />} inlineStyles={{ flexDirection: "column" }} />;
+  return <CabinetComponent />;
 };
 
 export default EditCabinet;
