@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useRef } from "react";
 import styles from "./view.main.cabinets.module.scss";
 import { cabinetViewPath } from "types/App";
 import { useAppSelector, useAction } from "helpers/redux";
@@ -9,7 +8,6 @@ import { CreateCabinetScript } from "./Scenario";
 import { Scenario } from "components/Basic/Scenario";
 import { QRCodeSVG } from "qrcode.react";
 
-const ViewCabinets = () => {
   let navigate = useNavigate();
 
   const { updateCabinets } = useAction();

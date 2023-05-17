@@ -4,14 +4,15 @@ import { useState } from "react";
 
 export const CreateInstitutionScenarioComponent: React.FC = () => {
   const [input, setInput] = useState<string>("");
-  // const { postInstitution,  } = useAction();
+  const { postInstitution } = useAction();
 
   const createInstitution = (value: string) => {
     (async () => {
       try {
         let res = await api.post("/institution/create", { name: `${value}` });
         if (res.status === 200) {
-          // postInstitution(res.data);
+          postInstitution(res.data);
+          // getInstitution(res.data)
         } else {
           console.log(res.data);
         }

@@ -11,7 +11,7 @@ import DropList from "components/Complex/DropList";
 import { useAppSelector } from "helpers/redux";
 import styles from "./view.sub.cabinet.module.scss";
 
-const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items }) => {
+const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teachers }) => {
   const location = useLocation();
 
   const { userData } = useAppSelector(state => state.user);
@@ -28,7 +28,8 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items }) => {
         </h1>
       </div>
       <div>
-        <DropList items={items} cabinetId={id} />
+        <DropList items={items} cabinetId={id}/>
+        {/* <DropList items={teachers}/> */}
         {userData?.role === "admin" ? (
           <ProtectedComponent
             component={

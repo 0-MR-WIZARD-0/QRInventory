@@ -1,5 +1,6 @@
 import { Institution } from "./Institution";
 import { MainViewRoutes } from "./Routes";
+import { TeacherInstitution } from "./TeacherInstitution";
 import { MenuBarData } from "./UI";
 
 export type User = {
@@ -10,6 +11,7 @@ export type User = {
 
   avatarId: string | null;
   institutions: Institution[];
+  teacherInstitution: TeacherInstitution
 };
 
 export enum UserErrors {

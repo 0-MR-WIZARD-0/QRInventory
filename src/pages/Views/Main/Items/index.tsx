@@ -15,13 +15,13 @@ const ViewItems: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // const createItemModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
+  const createItemModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
 
   // const { itemData } = useAppSelector(state => state.item);
 
   return (
     <>
-      {/* <Scenario ref={createItemModalRef} modalName='create-item' script={CreateItemScript} /> */}
+      <Scenario ref={createItemModalRef} modalName='create-item' script={CreateItemScript} />
       <div className={styles.wrapperViewItems}>
         {/* Нужно ли админу создавать предметы.. Не лучше ли перенести создание сразу в кабинет, а тут оставить вывод данных всех предметов с фильтрацией по организациям
         так же преподаватель не может создавать предметы, нужно исправить*/}
