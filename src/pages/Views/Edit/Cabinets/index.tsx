@@ -10,6 +10,7 @@ const CabinetComponent: React.FC = () => {
         <Input name='name' onChange={() => {}} value={""} label='название' placeholder='стул обыкновенный' />
         <ul>Колледж бизнес технологий</ul>
         <ul>Учителя (4)</ul>
+        
         <ul>Предметы (10)</ul>
       </div>
       <div className={styles.bottomMenu}>

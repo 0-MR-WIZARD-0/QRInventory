@@ -8,10 +8,9 @@ export const CreateCabinetScenarioComponent: React.FC = () => {
   
   const { postInstitution } = useAction();
 
-  const {valueSelector} = useAppSelector(state=>state.inst)
+  const {valueSelector} = useAppSelector(state=>state.selector)
   
   const { userData } = useAppSelector(state => state.user);
-  console.log(userData?.teacherInstitution);
 
   const [institution, setInstitution] = useState<Selector[] | undefined>(undefined)
   const [cabinetNumber, setCabinetNumber] = useState<string>("")
@@ -20,18 +19,23 @@ export const CreateCabinetScenarioComponent: React.FC = () => {
     setInstitution(valueSelector)
   },[valueSelector])
   
-  
   const createCabinet = (value: string) => {
     (async () => {
       try {
-        let res = await api.post("/cabinet/create", {institution: institution, cabinetNumber: value});
-        if (res.status === 200) {
-          // updateInstitution(res.data);
-          postInstitution(res.data)
-          console.log(res.data);
-          
+        if(userData?.role === "teacher"){
+          let res = await api.post("/cabinet/create", {institution: userData?.teacherInstitution.id, cabinetNumber: value});
+          if (res.status === 200) {
+          createCabinet(res.data)
         } else {
           console.log(res.data);
+        }
+        }else{
+          let res = await api.post("/cabinet/create", {institution: institution, cabinetNumber: value});
+          if (res.status === 200) {
+          createCabinet(res.data)
+        } else {
+          console.log(res.data);
+        }
         }
       } catch (error) {
         console.log(error);

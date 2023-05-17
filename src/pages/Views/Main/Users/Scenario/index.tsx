@@ -13,7 +13,7 @@ const CreateUserScenarioComponent: React.FC = () => {
 
   const { createUsers } = useAction();
 
-  const {valueSelector} = useAppSelector(state=>state.inst)
+  const {valueSelector} = useAppSelector(state=>state.selector)
 
   useEffect(()=>{
     setTeacherInstitution(valueSelector)
@@ -23,9 +23,9 @@ const CreateUserScenarioComponent: React.FC = () => {
     (async () => {
       try {
         let res = await api.post("/auth/register", {
-          fullName: fullname.toString(),
-          email: email.toString(),
-          password: password.toString(),
+          fullName: fullname,
+          email: email,
+          password: password,
           teacherInstitution: teacherInstitution
         });
         if (res.status === 200) {

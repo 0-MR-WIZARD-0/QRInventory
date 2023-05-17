@@ -30,6 +30,7 @@ import EditCabinet from "pages/Views/Edit/Cabinets";
 import EditItem from "pages/Views/Edit/Item";
 import EditUser from "pages/Views/Edit/User";
 import Logout from "pages/Auth/Logout";
+import DeleteCabinet from "pages/Views/Delete/Cabinet";
 
 function App() {
   const { updateUser, setLoading } = useAction();
@@ -59,21 +60,24 @@ function App() {
             <Route index element={<NoSelect />} />
             <Route path={MainViewRoutes.cabinets} element={<ProtectedPage component={<ViewCabinets />} roles={[Roles.admin, Roles.teacher]} />} />
             <Route path={MainViewRoutes.institutions} element={<ProtectedPage component={<ViewInstitutions />} roles={[Roles.admin]} />} />
-            <Route path={MainViewRoutes.items} element={<ProtectedPage component={<ViewItems />} roles={[Roles.admin]} />} />
+            <Route path={MainViewRoutes.items} element={<ProtectedPage component={<ViewItems />} roles={[Roles.admin, Roles.teacher]} />} />
             <Route path={MainViewRoutes.users} element={<ProtectedPage component={<ViewUsers />} roles={[Roles.admin]} />} />
           </Route>
           <Route path={RoutesEnum.view}>
             <Route path={`${MainViewRoutes.cabinets}/:id`} element={<ProtectedPage component={<Outlet />} roles={[Roles.admin, Roles.teacher]} />}>
               <Route index element={<ViewCabinet />} />
               <Route path='edit' element={<EditCabinet />} />
+              <Route path='delete' element={<DeleteCabinet/>}/>
             </Route>
             <Route path={`${MainViewRoutes.items}/:id`} element={<ProtectedPage component={<Outlet />} roles={[Roles.admin]} />}>
               <Route index element={<ViewItem />} />
               <Route path='edit' element={<EditItem />} />
+              <Route path='delete' element={""}/>
             </Route>
             <Route path={`${MainViewRoutes.users}/:id`}>
               <Route index element={<ViewUser />} />
               <Route path='edit' element={<EditUser />} />
+              <Route path='delete' element={""}/>
             </Route>
           </Route>
           <Route path={RoutesEnum.auth}>

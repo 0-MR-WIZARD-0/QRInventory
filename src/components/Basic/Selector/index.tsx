@@ -22,6 +22,9 @@ const Selector: React.FC<SelectorProps> = ({ userData }) => {
         onChange={e => 
           getSelectorValue(e?.value)
         }
+        styles={{
+          indicatorSeparator: () => ({ display: "none" }),
+        }}
         options={formatInstitutions(userData.institutions)}
         noOptionsMessage={() => <div>{SelectMessages.noOptions}</div>}
         isSearchable={true}

@@ -13,10 +13,6 @@ const ViewCabinets:React.FC = () => {
 
   let navigate = useNavigate();
   
-  // const { userData } = useAppSelector(state => state.user);
-  // console.log(userData?.teacherInstitution);
-  // если учитель то делать запрос на teacherInstitution
-
   const { updateCabinet } = useAction();
 
   const createCabinetModalRef = useRef<React.ElementRef<typeof Scenario>>(null);

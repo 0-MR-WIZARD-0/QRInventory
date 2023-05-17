@@ -1,6 +1,7 @@
 @import "styles/colors.scss";
  
  .container{
+    margin-bottom: 10px;
     .button{
         border: none;
         border-radius: 15px;
@@ -9,6 +10,9 @@
         color: black;
         font-size: 13px;
         background-color: $white;
+        text-align: left;
+        padding-left: 40px;
+        font-size: 14px;
         
     }
     .button_open{
@@ -19,7 +23,9 @@
         color: black;
         font-size: 13px;
         background-color: $white;
-
+        text-align: left;
+        padding-left: 40px;
+        font-size: 14px;
     }
     &>div{
         border-radius: 0 0 15px 15px;
@@ -27,6 +33,6 @@
     }
     ul{
         min-height: 200px;
-        overflow: scroll;
+        overflow-y: scroll;
     }
 }

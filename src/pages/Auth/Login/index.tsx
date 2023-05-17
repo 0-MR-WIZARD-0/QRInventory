@@ -35,6 +35,8 @@ const Login = () => {
         let res = await api.post("/auth/login", formState);
         if (res.status === 200) {
           updateUser(res.data);
+          console.log(res.data);
+          
           navigator("/", { replace: true });
         } else {
           authErrorModalRef.current?.createModal();
