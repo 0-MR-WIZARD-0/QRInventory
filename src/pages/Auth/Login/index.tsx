@@ -32,10 +32,12 @@ const Login = () => {
   const updateState = (e: React.ChangeEvent<HTMLInputElement>) => setFormState(state => ({ ...state, [e.target.id]: e.target.value }));
   const onSumbit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
+
     let res = await dispatch(loginUserThunk(formState));
     if (res.meta.requestStatus === "fulfilled") {
       navigator("/", { replace: true });
     }
+
   };
 
   return (

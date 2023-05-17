@@ -25,8 +25,11 @@ const Selector: React.FC<SelectorProps> = ({ userData }) => {
   return (
     <>
       <Select
+
         // onChange={e => setSelectedInstitution(e?.value)}
         value={formatInstitutions([institution as Institution])}
+
+
         options={formatInstitutions(userData.institutions)}
         noOptionsMessage={() => <div>{SelectMessages.noOptions}</div>}
         isSearchable={true}

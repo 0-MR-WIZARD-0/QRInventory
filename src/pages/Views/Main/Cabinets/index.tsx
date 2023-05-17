@@ -14,6 +14,7 @@ const ViewCabinets: React.FC = () => {
 
   const { updateCabinets } = useAction();
 
+
   const createCabinetModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
 
   useEffect(() => {

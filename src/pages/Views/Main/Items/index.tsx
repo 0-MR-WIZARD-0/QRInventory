@@ -11,6 +11,8 @@ const ViewItems: React.FC = () => {
   useEffect(() => {
     (async () => {
       await api.get("/item/all").then(res => {
+        console.log(res.data);
+        
         updateItem(res.data);
       });
     })();
@@ -19,17 +21,20 @@ const ViewItems: React.FC = () => {
 
   const createItemModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
 
-  // const { itemData } = useAppSelector(state => state.item);
+  const { itemData } = useAppSelector(state => state.item);
 
   return (
     <>
       <Scenario ref={createItemModalRef} modalName='create-item' script={CreateItemScript} />
       <div className={styles.wrapperViewItems}>
+
         {/* Нужно ли админу создавать предметы.. Не лучше ли перенести создание сразу в кабинет, а тут оставить вывод данных всех предметов с фильтрацией по организациям
         так же преподаватель не может создавать предметы, нужно исправить*/}
-        {/* <AddNewButton onClick={() => createItemModalRef.current?.createModal()} title='Добавить новый предмет +' /> */}
+        <AddNewButton onClick={() => createItemModalRef.current?.createModal()} title='Добавить новый предмет +' />
 
-        {/* {itemData?.map(elem=>(
+
+        {itemData?.map(elem=>(
+
         <div key={elem.id}>
             <div className={styles.img}>
               <img src="https://cdn.vamdodoma.ru/images/hoff/3f/cb/69547133e2314ce6045b85c57b35637c41fb.jpg?w=616" alt={elem.id}></img>
@@ -37,7 +42,7 @@ const ViewItems: React.FC = () => {
             <h3>{elem.name}</h3>
             <p>Артикул: {elem.article}</p>
           </div>
-        ))} */}
+        ))}
       </div>
     </>
   );

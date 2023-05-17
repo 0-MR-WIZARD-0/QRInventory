@@ -7,6 +7,7 @@ import Input from "components/Basic/Input";
 import DefaultButton from "components/Basic/Buttons/Default";
 
 export const CreateCabinetScenarioComponent: React.FC = () => {
+
   const { updateCabinets } = useAction();
 
   const institution = useAppSelector(state => state.institution);
@@ -28,9 +29,11 @@ export const CreateCabinetScenarioComponent: React.FC = () => {
           await api.get("/cabinet/all").then(res => {
             updateCabinets(res.data);
           });
+
         } else {
           // console.log(res.data);
           // setError("Произошла ошибка при создании кабинета");
+        }
         }
       } catch (error) {
         // console.log(error);
