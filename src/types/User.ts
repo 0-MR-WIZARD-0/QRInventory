@@ -102,3 +102,8 @@ export const roledCabinetEditDataBarOptions: RoledMenuBarOptions = {
     }
   ]
 };
+
+export type LoginFormProps = {
+  email: string;
+  password: string;
+};

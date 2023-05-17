@@ -4,7 +4,9 @@ import { Item } from "types/Item";
 import api from "helpers/axios";
 import { useParams } from "react-router-dom";
 import Search from "components/Basic/Search";
+
 import { Teacher } from "types/Teacher";
+
 
 type Props = {
   items?: Item[];
@@ -16,6 +18,7 @@ const DropList: React.FC<Props> = ({ items, cabinetId, teachers}) => {
   const { id } = useParams();
 
   const container = useRef<HTMLInputElement>(null);
+
   
     const [dropdownState, setDropdownState] = useState({ open: false });
     const [objects, setObjects] = useState({
@@ -23,33 +26,35 @@ const DropList: React.FC<Props> = ({ items, cabinetId, teachers}) => {
         teachers: teachers
     })
 
+
   const changeDropList = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     if (container.current && !container.current.contains(e.target as HTMLButtonElement)) {
       setDropdownState({ open: false });
     } else {
       setDropdownState({ open: !dropdownState.open });
     }
-
   };
 
-    const removel = (elem: any, objects: Item[]) => {
+  const removel = (elem: any, objects: Item[]) => {
+    let modifiedArray: string[] = [];
 
-        let modifiedArray:string[] = []
+    objects.filter(objects => objects.id !== elem).map(elem => modifiedArray.push(elem.id));
 
-        objects.filter(objects => objects.id !== elem).map((elem)=> modifiedArray.push(elem.id));
-
-        api.patch("/cabinet/edit", {
-            id: cabinetId,
-            cabinetNumber: id,
-            items: modifiedArray
-        }).then((res)=>{
-            console.log(res.data);
-            setObjects(res.data)
-        })
-    }
+    api
+      .patch("/cabinet/edit", {
+        id: cabinetId,
+        cabinetNumber: id,
+        items: modifiedArray
+      })
+      .then(res => {
+        console.log(res.data);
+        setObjects(res.data);
+      });
+  };
 
   return (
     <div className={styles.container} ref={container}>
+
         <button 
             className={!dropdownState.open ? styles.button : styles.button_open}
             onClick={(e)=>changeDropList(e)}
@@ -91,6 +96,7 @@ const DropList: React.FC<Props> = ({ items, cabinetId, teachers}) => {
                   <>Элементы отсутствуют</>
                 }
             </ul>
+
         </div>
       )}
     </div>

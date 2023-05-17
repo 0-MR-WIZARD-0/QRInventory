@@ -1,11 +1,6 @@
 @import "styles/colors.scss";
 @import "styles/breakpoint.module.scss";
 
-header {
-  display: block;
-  justify-content: center;
-}
-
 .headerDesktop {
   display: flex;
   padding: 0 15px;

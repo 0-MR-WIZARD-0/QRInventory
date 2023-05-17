@@ -1,4 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { fetchUserThunk, loginUserThunk } from "redux/actions/user.actions";
+import { FulfilledAction, PendingAction, RejectedAction } from "types/Redux";
 import { User } from "types/User";
 
 type InitialState = {
@@ -18,21 +20,39 @@ const UserSlice = createSlice({
   initialState,
   reducers: {
     createUsers: (state, action: PayloadAction<User>) => {
-      state.userData = action.payload
-      return state;
-    },
-    updateUser: (state, action: PayloadAction<User | undefined>) => {
       state.userData = action.payload;
       return state;
     },
+    updateUser: (state, action: PayloadAction<User | undefined>) => {
+      return { ...state, userData: action.payload, loading: false, error: undefined };
+    },
     setLoading: (state, action: PayloadAction<boolean>) => {
-      state.loading = action.payload;
-      return state;
+      return { ...state, loading: action.payload, error: undefined };
     },
     setError: (state, action: PayloadAction<string | undefined>) => {
-      state.error = action.payload;
-      return state;
+      return { ...state, error: action.payload, loading: false };
     }
+  },
+  extraReducers: builder => {
+    builder.addMatcher(
+      (action: FulfilledAction) => [fetchUserThunk.fulfilled.toString(), loginUserThunk.fulfilled.toString()].indexOf(action.type) > -1,
+      (state, action) => {
+        return { ...state, userData: action.payload, loading: false, error: undefined };
+      }
+    );
+
+    builder.addMatcher(
+      (action: RejectedAction) => [fetchUserThunk.rejected.toString(), loginUserThunk.rejected.toString()].indexOf(action.type) > -1,
+      (state, action) => {
+        return { ...state, userData: undefined, loading: false, error: action.payload as string };
+      }
+    );
+    builder.addMatcher(
+      (action: PendingAction) => [fetchUserThunk.pending.toString(), loginUserThunk.pending.toString()].indexOf(action.type) > -1,
+      (state, action) => {
+        return { ...state, loading: true };
+      }
+    );
   }
 });
 

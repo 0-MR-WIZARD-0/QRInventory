@@ -4,5 +4,9 @@
   max-width: $breakpoint-mid-tablet;
   margin: 0 auto;
 
-  padding: 16px;
+  padding: 16px 0;
+
+  @media screen and (max-width: $breakpoint-mid-tablet) {
+    padding: 16px;
+  }
 }

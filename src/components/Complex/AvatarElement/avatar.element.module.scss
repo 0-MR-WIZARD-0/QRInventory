@@ -1,0 +1,20 @@
+@import "styles/colors.scss";
+
+.image {
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.noImage {
+  aspect-ratio: 1/1;
+  background-color: $black-p50;
+  border-radius: 50%;
+
+  font-weight: 700;
+  color: white;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-content: center;
+}

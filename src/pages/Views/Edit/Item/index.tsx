@@ -1,7 +1,6 @@
 import Icon from "components/Basic/Icon";
 import Image from "components/Basic/Image";
 import Input from "components/Basic/Input";
-import ViewElement from "components/Complex/ViewElement";
 import { useEffect, useState } from "react";
 import styles from "./view.edit.item.module.scss";
 
@@ -82,7 +81,7 @@ const ItemComponent: React.FC = () => {
   );
 };
 const EditItem: React.FC = () => {
-  return <ViewElement component={<ItemComponent />} />;
+  return <ItemComponent />;
 };
 
 export default EditItem;

@@ -1,29 +1,27 @@
 import styles from "./view.main.institutions.module.scss";
 import { useAppSelector } from "helpers/redux";
-import { useEffect, useRef, useState } from "react";
-import { useAction } from "helpers/redux";
-import api from "helpers/axios";
+import { useEffect, useRef } from "react";
 import AddNewButton from "components/Basic/Buttons/AddNew";
 import { Scenario } from "components/Basic/Scenario";
 import { CreateInstitutionScript } from "./Scenario";
 
 const ViewInsitutions: React.FC = () => {
-
-  const { getInstitution } = useAction();
+  // const { setInstitution } = useAction();
 
   const createInstitutionModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
 
-  const { institutionData } = useAppSelector(state => state.institution);
+  const { userData } = useAppSelector(state => state.user);
 
   useEffect(() => {
-    (async  () =>  {
+    (async () => {
       try {
-        let res = await api.get("/institution/all", { params: { full: true } });
-        if (res.status === 200) {
-          getInstitution(res.data);
-        } else {
-          console.log(res.data);
-        }
+        // let res = await api.get("/institution/all", { params: { full: true } });
+        // if (res.status === 200) {
+        //   setInstitution(res.data);
+        // } else {
+        //   console.log(res.data);
+        // }
+        // зачем если эти данные приходят с получением пользователя
       } catch (error) {
         console.log(error);
       }
@@ -33,16 +31,16 @@ const ViewInsitutions: React.FC = () => {
 
   return (
     <>
-    <Scenario ref={createInstitutionModalRef} modalName='create-institution' script={CreateInstitutionScript} />
-    <div className={styles.wrapperViewInstitutions}>
-      <AddNewButton onClick={() => createInstitutionModalRef.current?.createModal()} title='Добавить новое учреждение +'/>
-      {institutionData?.map((elem)=>(
-        <div key={elem.id}>
-          <h3>{elem.name}</h3>
-          <p>Кабинетов: {elem.cabinets?.length}</p>
-        </div>
-      ))}
-    </div>
+      <Scenario ref={createInstitutionModalRef} modalName='create-institution' script={CreateInstitutionScript} />
+      <div className={styles.wrapperViewInstitutions}>
+        <AddNewButton onClick={() => createInstitutionModalRef.current?.createModal()} title='Добавить новое учреждение +' />
+        {userData?.institutions?.map(elem => (
+          <div key={elem.id}>
+            <h3>{elem.name}</h3>
+            <p>Кабинетов: {elem.cabinets?.length}</p>
+          </div>
+        ))}
+      </div>
     </>
   );
 };

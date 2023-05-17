@@ -1,16 +1,14 @@
 import { MenuBar } from "components/Complex/MenuBar";
 import { useAppSelector } from "helpers/redux";
 import { Navigate /*useParams*/, useLocation, useParams } from "react-router-dom";
-import { roledUserEditDataBarOptions, RoledMenuBarOptions, Roles, RolesNaming, User, roledCabinetEditDataBarOptions } from "types/User";
-import BackButton from "components/Basic/Buttons/Back";
-import globalStyles from "styles/globalStyle.module.scss";
+import { roledUserEditDataBarOptions, Roles, User } from "types/User";
 import styles from "./view.sub.user.module.scss";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
-import ViewElement, { AvatarElement } from "components/Complex/ViewElement";
 import api from "helpers/axios";
 import { useEffect, useState } from "react";
 import ProtectedComponent from "components/Protected/Component";
 import { ImageState } from "types/UI";
+import AvatarElement from "components/Complex/AvatarElement";
 
 const formatFullName = (name: string) => {
   return name
@@ -81,13 +79,13 @@ const ViewUser = () => {
         }
       })();
     }
-  }, [id]);
+  }, [id, userData]);
 
   if (!userData) return <Navigate to={"signin"} />;
 
-  if (pageUserData === undefined) return <ViewElement component={<LoadingTransitionComponent />} />;
-  if (pageUserData === null) return <ViewElement component={<b>произошла ошибка при загрузке пользователя или он не найден</b>} />;
-  return <ViewElement component={<UserComponent {...pageUserData} />} />;
+  if (pageUserData === undefined) return <LoadingTransitionComponent />;
+  if (pageUserData === null) return <b>произошла ошибка при загрузке пользователя или он не найден</b>;
+  return <UserComponent {...pageUserData} />;
 };
 
 export default ViewUser;
