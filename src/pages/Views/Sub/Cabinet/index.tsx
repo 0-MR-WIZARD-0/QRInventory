@@ -26,11 +26,12 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
         <h1 className={styles.title} key={id}>
           Кабинет {cabinetNumber}
         </h1>
+        {/* <h3>Преподаватель {teachers}</h3> */}
       </div>
       <div>
         <DropList items={items} cabinetId={id}/>
-        <DropList teachers={teachers}/>
-        {userData?.role === "admin" ? (
+        {/* <DropList teachers={teachers}/> */}
+        {/* {userData?.role === "admin" ? ( */}
           <ProtectedComponent
             component={
               <div className={styles.menuBar}>
@@ -39,9 +40,9 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
               </div>
             }
           />
-        ) : (
+        {/* ) : (
           ""
-        )}
+        )} */}
       </div>
     </>
   );

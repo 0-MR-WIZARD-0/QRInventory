@@ -2,6 +2,9 @@ import { Script } from "components/Basic/Scenario";
 import api from "helpers/axios";
 import { useAction, useAppSelector } from "helpers/redux";
 import { useState } from "react";
+import styles from "./view.main.users.scenario.module.scss"
+import Input from "components/Basic/Input";
+import DefaultButton from "components/Basic/Buttons/Default";
 
 const CreateUserScenarioComponent: React.FC = () => {
   const institution = useAppSelector(state => state.institution);
@@ -35,17 +38,21 @@ const CreateUserScenarioComponent: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className={styles.createUser}>
       <h2>Создание пользователя</h2>
-      <input placeholder='ФИО' type='text' onChange={e => setFullname(e.target.value)} />
+      <Input name='fullName' value={""} onChange={()=>{}} placeholder={""} label='фио' />
+      <Input name='email' value={""} onChange={()=>{}} placeholder={"test@email.com"} label='email' />
+      <Input name='password' value={""} onChange={()=>{}} label='пароль' type="password"/>
+      <DefaultButton component={<>Создать</>} onSumbit={() => {}} />
+      {/* <input placeholder='ФИО' type='text' onChange={e => setFullname(e.target.value)} />
       <input placeholder='Email' type='text' onChange={e => setEmail(e.target.value)} />
-      <input placeholder='Password' type='password' onChange={e => setPassword(e.target.value)} />
-      <button
+      <input placeholder='Password' type='password' onChange={e => setPassword(e.target.value)} /> */}
+      {/* <button
         onClick={e => {
           createUser(fullname, email, password);
         }}>
         Создать
-      </button>
+      </button> */}
     </div>
   );
 };

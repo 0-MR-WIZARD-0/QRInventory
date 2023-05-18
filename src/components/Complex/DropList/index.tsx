@@ -66,11 +66,9 @@ const DropList: React.FC<Props> = ({ items, cabinetId, teachers}) => {
         </button>
         {dropdownState.open && ( 
             <div>
-            {/* <Search items={items} setValue={setObjects}/> */}
+            <Search items={items} setValue={setObjects}/>
             <ul>
-
                 {objects.items?.length || objects.teachers?.length ?
-
                   objects.items?.map(elem=>(
                     <li key={elem.id}>
                         <div>
@@ -91,13 +89,8 @@ const DropList: React.FC<Props> = ({ items, cabinetId, teachers}) => {
                           <p>{elem.email}</p>
                       </div>
                   </li>
-              )) 
-
-              :
-                  <>Элементы отсутствуют</>
-                }
+              )) : <>Элементы отсутствуют</> }
             </ul>
-
         </div>
       )}
     </div>

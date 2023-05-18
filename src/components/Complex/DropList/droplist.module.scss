@@ -1,6 +1,10 @@
 @import "styles/colors.scss";
 
 .container {
+  // padding: 0 15px;
+  &>*{
+    padding: 0 15px;
+  }
   .button {
     border: none;
     border-radius: 15px;
@@ -23,7 +27,17 @@
   }
   ul {
     min-height: 200px;
-    overflow: scroll;
+    overflow-y: scroll;
+    li{
+      display: flex;
+      &>div>img{
+        width: 40px;
+        height: 40px;
+      }
+    }
+    li{
+      margin-top: 10px;
+    }
   }
 }
 
