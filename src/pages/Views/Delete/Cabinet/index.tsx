@@ -5,8 +5,11 @@ import { useEffect, useState, useRef } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { Cabinet } from "types/Cabinet"
 import { CheckPasswordErrorScript, DeleteCabinetErrorScript } from "./Scenario"
+import DefaultButton from "components/Basic/Buttons/Default"
+import styles from "./view.delete.cabinet.module.scss"
+import Input from "components/Basic/Input"
 
-const DeleteCabinet:React.FC = () => {
+const DeleteCabinetComponent:React.FC = () => {
 
     const {id} = useParams()
     const navigate = useNavigate()
@@ -42,20 +45,22 @@ const DeleteCabinet:React.FC = () => {
         )
     }
 
-
   return (
     <>
         <Scenario ref={DeleteCabinetModalRef} modalName='delete-cabinet-error' script={DeleteCabinetErrorScript} />
         <Scenario ref={CheckPasswordModalRef} modalName='check-password-error' script={CheckPasswordErrorScript} />
-        <BackButton/>
-        <div>
+        <div className={styles.wrapper}>
             <h3>Удаление кабинета {id}</h3>
             <p>Для продолжения необходимо ввести пароль от аккаунта</p>
-            <input type="password" placeholder="Введите пароль" onChange={e=>setPassword(e.target.value)}/>
-            <button onClick={()=>checkPassword(password)}>Продолжить</button>
+            <Input name='password' onChange={() => {}} value={""} label='пароль' type="password" />
+            <DefaultButton component={<p>Удалить кабинет</p>} onSumbit={()=>{}}/>
         </div>
     </>
   )
+}
+
+const DeleteCabinet:React.FC = () => {
+    return <DeleteCabinetComponent/>
 }
 
 export default DeleteCabinet
