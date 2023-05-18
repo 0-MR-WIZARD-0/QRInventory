@@ -11,12 +11,24 @@
   border: 4px dashed $gray-100;
   border-radius: 20px;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
   row-gap: 5px;
+
+  &>label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    cursor: pointer;
+  }
+
+  input[type=file] {
+      outline: 0;
+      opacity: 0;
+      pointer-events: none;
+      user-select: none;
+      width: 100%;
+  }
 
   h5,
   span {

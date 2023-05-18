@@ -22,24 +22,24 @@ export const CreateCabinetScenarioComponent: React.FC = () => {
   // }, [valueSelector]);
 
   const createCabinet = (value: string) => {
-    (async () => {
-      try {
-        let res = await api.post("/cabinet/create", { institution: institution.id, cabinetNumber: value });
-        if (res.status === 200) {
-          await api.get("/cabinet/all").then(res => {
-            updateCabinets(res.data);
-          });
+    // (async () => {
+    //   try {
+    //     let res = await api.post("/cabinet/create", { institution: institution.id, cabinetNumber: value });
+    //     if (res.status === 200) {
+    //       await api.get("/cabinet/all").then(res => {
+    //         updateCabinets(res.data);
+    //       });
 
-        } else {
-          // console.log(res.data);
-          // setError("Произошла ошибка при создании кабинета");
-        }
-        }
-      } catch (error) {
-        // console.log(error);
-        // setError("Произошла ошибка при создании кабинета");
-      }
-    })();
+    //     } else {
+    //       // console.log(res.data);
+    //       // setError("Произошла ошибка при создании кабинета");
+    //     }
+    //     }
+    //   } catch (error) {
+    //     // console.log(error);
+    //     // setError("Произошла ошибка при создании кабинета");
+    //   }
+    // })();
   };
 
   return (
