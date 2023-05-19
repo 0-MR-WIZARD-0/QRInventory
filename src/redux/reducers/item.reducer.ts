@@ -3,10 +3,12 @@ import { Item } from "types/Item";
 
 type InitialState = {
   itemData: Item[] | undefined;
+  loading: boolean;
 };
 
 const initialState: InitialState = {
   itemData: undefined,
+  loading: true
 };
 
 const ItemSlice = createSlice({

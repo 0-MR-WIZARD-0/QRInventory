@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchUserThunk, loginUserThunk } from "redux/actions/user.actions";
+import { fetchUserThunk, loginUserThunk, logoutUserThunk } from "redux/actions/user.actions";
 import { FulfilledAction, PendingAction, RejectedAction } from "types/Redux";
 import { User } from "types/User";
 
@@ -42,13 +42,13 @@ const UserSlice = createSlice({
     );
 
     builder.addMatcher(
-      (action: RejectedAction) => [fetchUserThunk.rejected.toString(), loginUserThunk.rejected.toString()].indexOf(action.type) > -1,
+      (action: RejectedAction) => [fetchUserThunk.rejected.toString(), loginUserThunk.rejected.toString(), logoutUserThunk.rejected.toString(), logoutUserThunk.fulfilled.toString()].indexOf(action.type) > -1,
       (state, action) => {
         return { ...state, userData: undefined, loading: false, error: action.payload as string };
       }
     );
     builder.addMatcher(
-      (action: PendingAction) => [fetchUserThunk.pending.toString(), loginUserThunk.pending.toString()].indexOf(action.type) > -1,
+      (action: PendingAction) => [fetchUserThunk.pending.toString(), loginUserThunk.pending.toString(), logoutUserThunk.pending.toString()].indexOf(action.type) > -1,
       (state, action) => {
         return { ...state, loading: true };
       }

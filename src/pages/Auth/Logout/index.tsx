@@ -7,22 +7,11 @@ import styles from "./logout.module.scss";
 
 const Logout: React.FC = () => {
   const navigate = useNavigate();
-  const { updateUser, setLoading } = useAction();
+  const { logoutUserThunk } = useAction();
 
   useEffect(() => {
-    (async () => {
-      try {
-        setLoading(true);
-        await api.get("/auth/logout");
-        setLoading(false);
-        updateUser();
-        navigate(`/${RoutesEnum.auth}/${RoutesEnum.signIn}`);
-      } catch (error) {
-        updateUser();
-        setLoading(false);
-        navigate(`/${RoutesEnum.auth}/${RoutesEnum.signIn}`);
-      }
-    })();
+    logoutUserThunk();
+    navigate(`/${RoutesEnum.auth}/${RoutesEnum.signIn}`);
   }, []);
 
   return (
