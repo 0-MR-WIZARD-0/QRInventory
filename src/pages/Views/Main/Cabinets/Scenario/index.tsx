@@ -5,17 +5,24 @@ import { useAction, useAppSelector } from "helpers/redux";
 import styles from "./view.main.cabinets.scenario.module.scss";
 import Input from "components/Basic/Input";
 import DefaultButton from "components/Basic/Buttons/Default";
+import { useAppDispatch } from "redux/store";
+import { createCabinetThunk } from "redux/actions/cabinets.actions";
 
 export const CreateCabinetScenarioComponent: React.FC = () => {
-
-  const { updateCabinets } = useAction();
-
+  const { getCabinetsThunk } = useAction();
   const institution = useAppSelector(state => state.institution);
+  const dispatch = useAppDispatch();
 
-  // const { userData } = useAppSelector(state => state.user);
+  const createCabinet = async (value: string) => {
+    if (!institution.id) return;
+    let res = await dispatch(createCabinetThunk({ institutionId: institution.id, cabinetNumber: value }));
+    if (res.meta.requestStatus === "fulfilled") {
+      getCabinetsThunk();
+    }
+  };
 
-  // const [institution, setInstitution] = useState<Selector[] | undefined>(undefined);
   const [cabinetNumber, setCabinetNumber] = useState<string>("");
+
 
   // useEffect(() => {
   //   setInstitution(valueSelector);

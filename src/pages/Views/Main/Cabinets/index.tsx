@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import styles from "./view.main.cabinets.module.scss";
 import { cabinetViewPath } from "types/App";
 import { useAppSelector, useAction } from "helpers/redux";
-import api from "helpers/axios";
 import AddNewButton from "components/Basic/Buttons/AddNew";
 import { CreateCabinetScript } from "./Scenario";
 import { Scenario } from "components/Basic/Scenario";
@@ -12,16 +11,12 @@ import { useRef, useEffect } from "react";
 const ViewCabinets: React.FC = () => {
   let navigate = useNavigate();
 
-  const { updateCabinets } = useAction();
+  const { getCabinetsThunk } = useAction();
 
   const createCabinetModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
 
   useEffect(() => {
-    (async () => {
-      await api.get("/cabinet/all").then(res => {
-        updateCabinets(res.data);
-      });
-    })();
+    getCabinetsThunk();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
