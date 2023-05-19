@@ -1,0 +1,45 @@
+@import "styles/colors.scss";
+
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: $white;
+    border-radius: 20px;
+    width: 100%;
+    text-align: center;
+    row-gap: 15px;
+    padding: 16px 20px;
+}
+
+.imageWrapper {
+    width: 218px;
+    height: 218px;
+    flex-shrink: 0;
+  
+    color: $gray-100;
+  
+    border: 4px dashed $gray-100;
+    border-radius: 20px;
+  
+    row-gap: 5px;
+  
+    &>label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      cursor: pointer;
+    }
+  
+    input[type=file] {
+        outline: 0;
+        opacity: 0;
+        pointer-events: none;
+        user-select: none;
+        width: 100%;
+    }
+
+}

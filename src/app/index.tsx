@@ -32,6 +32,8 @@ import Logout from "pages/Auth/Logout";
 import BackButtonWrapper from "components/Complex/BackButtonWrapper";
 
 import DeleteCabinet from "pages/Views/Delete/Cabinet";
+import DeleteUser from "pages/Views/Delete/User";
+import DeleteItem from "pages/Views/Delete/Item";
 
 
 function App() {
@@ -73,10 +75,13 @@ function App() {
             <Route path={`${MainViewRoutes.items}/:id`}>
               <Route index element={<ViewItem />} />
               <Route path='edit' element={<ProtectedPage component={<EditItem />} roles={[Roles.admin]} />} />
+              <Route path='delete' element={<ProtectedPage component={<DeleteUser/>} roles={[Roles.admin, Roles.teacher]} />}/>
+
             </Route>
             <Route path={`${MainViewRoutes.users}/:id`}>
               <Route index element={<ViewUser />} />
               <Route path='edit' element={<ProtectedPage component={<EditUser />} roles={[Roles.admin]} />} />
+              <Route path='delete' element={<ProtectedPage component={<DeleteItem/>} roles={[Roles.admin, Roles.teacher]} />}/>
             </Route>
 
           </Route>

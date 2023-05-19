@@ -1,0 +1,14 @@
+@import "styles/colors.scss";
+
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: $white;
+    border-radius: 20px;
+    width: 100%;
+    text-align: center;
+    row-gap: 15px;
+    padding: 16px 20px;
+}
