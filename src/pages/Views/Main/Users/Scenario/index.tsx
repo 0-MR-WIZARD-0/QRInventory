@@ -12,14 +12,16 @@ const CreateUserScenarioComponent: React.FC = () => {
 
   const { createUsers } = useAction();
 
+
   const createUser = (fullname: string, email: string, password: string) => {
     (async () => {
       try {
         let res = await api.post("/auth/register", {
-          fullName: fullname.toString(),
-          email: email.toString(),
-          password: password.toString(),
+          fullName: fullname,
+          email: email,
+          password: password,
           teacherInstitution: institution
+
         });
         if (res.status === 200) {
           createUsers(res.data);

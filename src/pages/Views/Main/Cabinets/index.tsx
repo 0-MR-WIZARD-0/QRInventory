@@ -13,6 +13,7 @@ const ViewCabinets: React.FC = () => {
 
   const { getCabinetsThunk } = useAction();
 
+
   const createCabinetModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
 
   useEffect(() => {

@@ -29,7 +29,7 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
       </div>
       <div>
         <DropList items={items} cabinetId={id}/>
-        {/* <DropList items={teachers}/> */}
+        <DropList teachers={teachers}/>
         {userData?.role === "admin" ? (
           <ProtectedComponent
             component={

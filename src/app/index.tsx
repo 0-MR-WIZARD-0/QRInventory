@@ -28,7 +28,11 @@ import EditCabinet from "pages/Views/Edit/Cabinets";
 import EditItem from "pages/Views/Edit/Item";
 import EditUser from "pages/Views/Edit/User";
 import Logout from "pages/Auth/Logout";
+
 import BackButtonWrapper from "components/Complex/BackButtonWrapper";
+
+import DeleteCabinet from "pages/Views/Delete/Cabinet";
+
 
 function App() {
   const { fetchUserThunk } = useAction();
@@ -54,13 +58,17 @@ function App() {
             <Route index element={<NoSelect />} />
             <Route path={MainViewRoutes.cabinets} element={<ProtectedPage component={<ViewCabinets />} roles={[Roles.admin, Roles.teacher]} />} />
             <Route path={MainViewRoutes.institutions} element={<ProtectedPage component={<ViewInstitutions />} roles={[Roles.admin]} />} />
-            <Route path={MainViewRoutes.items} element={<ProtectedPage component={<ViewItems />} roles={[Roles.admin]} />} />
+            <Route path={MainViewRoutes.items} element={<ProtectedPage component={<ViewItems />} roles={[Roles.admin, Roles.teacher]} />} />
             <Route path={MainViewRoutes.users} element={<ProtectedPage component={<ViewUsers />} roles={[Roles.admin]} />} />
           </Route>
           <Route path={RoutesEnum.view} element={<BackButtonWrapper component={<Outlet />} />}>
             <Route path={`${MainViewRoutes.cabinets}/:id`}>
               <Route index element={<ViewCabinet />} />
+
               <Route path='edit' element={<ProtectedPage component={<EditCabinet />} roles={[Roles.admin, Roles.teacher]} />} />
+
+              <Route path='delete' element={<ProtectedPage component={<DeleteCabinet/>} roles={[Roles.admin, Roles.teacher]} />}/>
+
             </Route>
             <Route path={`${MainViewRoutes.items}/:id`}>
               <Route index element={<ViewItem />} />
@@ -70,6 +78,7 @@ function App() {
               <Route index element={<ViewUser />} />
               <Route path='edit' element={<ProtectedPage component={<EditUser />} roles={[Roles.admin]} />} />
             </Route>
+
           </Route>
           <Route path={RoutesEnum.profile} element={<ProtectedPage component={<BackButtonWrapper component={<Outlet />} />} />}>
             <Route index element={<ViewUser />} />
