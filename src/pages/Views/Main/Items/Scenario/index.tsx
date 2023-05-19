@@ -11,8 +11,6 @@ const CreateItemScenarioComponent: React.FC = () => {
   const [article, setArticle] = useState<string>("");
   const [name, setName] = useState<string>("")
 
-
-
   const createItem = (article: string, name: string) => {
     (async () => {
       try {
@@ -51,9 +49,6 @@ const CreateItemScenarioComponent: React.FC = () => {
         <Input name='article' value={""} onChange={()=>{}} placeholder={"I-504-DS"} label='артикул' />
         <Input name='name' value={""} onChange={()=>{}} placeholder={"стул обыкновенный"} label='название' />
         <DefaultButton component={<>Создать</>} onSumbit={() => {}} />
-        {/* <input placeholder="Артикул" onChange={e=>setArticle(e.target.value)}/>
-        <input placeholder="Название предмета" onChange={e=>setName(e.target.value)}/>
-        <button onClick={(e)=>{createItem(article, name)}}>Создать</button> */}
       </div>
     );
   };
