@@ -11,19 +11,18 @@ const countdownSecs = 5;
 const NoAccessPage = () => {
   const navigate = useNavigate();
   const { error } = useAppSelector(state => state.user);
-  // console.log(error);
   const [countdown, setCountdown] = useState<number>(countdownSecs);
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     if (countdown === 0) {
-  //       navigate(`/${RoutesEnum.auth}/${RoutesEnum.signIn}`);
-  //     } else {
-  //       setCountdown(sec => --sec);
-  //     }
-  //   }, 1000);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (countdown === 0) {
+        navigate(`/${RoutesEnum.auth}/${RoutesEnum.signIn}`);
+      } else {
+        setCountdown(sec => --sec);
+      }
+    }, 1000);
 
-  //   return () => clearTimeout(timer);
-  // }, [countdown]);
+    return () => clearTimeout(timer);
+  }, [countdown]);
 
   if (!error) return <Navigate to={"/"} />;
 
