@@ -15,6 +15,7 @@ type Props = {
 };
 
 const DropList: React.FC<Props> = ({ items, cabinetId, teachers}) => {
+
   const { id } = useParams();
 
   const container = useRef<HTMLInputElement>(null);
@@ -35,28 +36,28 @@ const DropList: React.FC<Props> = ({ items, cabinetId, teachers}) => {
     }
   };
 
-  const removel = (elem: any, objects: Item[]) => {
-    let modifiedArray: string[] = [];
+  // const removel = (elem: any, objects: Item[]) => {
+  //   let modifiedArray: string[] = [];
 
-    objects.filter(objects => objects.id !== elem).map(elem => modifiedArray.push(elem.id));
+  //   objects.filter(objects => objects.id !== elem).map(elem => modifiedArray.push(elem.id));
 
-    api
-      .patch("/cabinet/edit", {
-        id: cabinetId,
-        cabinetNumber: id,
-        items: modifiedArray
-      })
-      .then(res => {
-        console.log(res.data);
-        setObjects(res.data);
-      });
-  };
+  //   api
+  //     .patch("/cabinet/edit", {
+  //       id: cabinetId,
+  //       cabinetNumber: id,
+  //       items: modifiedArray
+  //     })
+  //     .then(res => {
+  //       console.log(res.data);
+  //       setObjects(res.data);
+  //     });
+  // };
 
   return (
     <div className={styles.container} ref={container}>
 
         <button 
-            className={!dropdownState.open ? styles.button : styles.button_open}
+            className={!dropdownState.open ? styles.button : styles.buttonOpen}
             onClick={(e)=>changeDropList(e)}
         >
           <b>
@@ -65,11 +66,9 @@ const DropList: React.FC<Props> = ({ items, cabinetId, teachers}) => {
         </button>
         {dropdownState.open && ( 
             <div>
-            {/* <Search items={items} setValue={setObjects}/> */}
+            <Search items={items} setValue={setObjects}/>
             <ul>
-
                 {objects.items?.length || objects.teachers?.length ?
-
                   objects.items?.map(elem=>(
                     <li key={elem.id}>
                         <div>
@@ -90,13 +89,8 @@ const DropList: React.FC<Props> = ({ items, cabinetId, teachers}) => {
                           <p>{elem.email}</p>
                       </div>
                   </li>
-              )) 
-
-              :
-                  <>Элементы отсутствуют</>
-                }
+              )) : <>Элементы отсутствуют</> }
             </ul>
-
         </div>
       )}
     </div>

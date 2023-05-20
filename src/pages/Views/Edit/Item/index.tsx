@@ -61,10 +61,12 @@ const ItemComponent: React.FC = () => {
             </>
           ) : (
             <div className={styles.imageWrapper}>
-              <Icon icon='image' />
-              <input onChange={changeHandler} type='file' accept='.png, .jpg, .jpeg' />
-              <h5>Выбрать фотографию предмета</h5>
-              <span>макс 5мб</span>
+              <label>
+                <Icon icon='image' />
+                <input onChange={changeHandler} type='file' accept='.png, .jpg, .jpeg' />
+                <h5>Выбрать фотографию предмета</h5>
+                <span>макс 5мб</span>
+              </label>
             </div>
           )}
           <div className={styles.buttonWrapper}>

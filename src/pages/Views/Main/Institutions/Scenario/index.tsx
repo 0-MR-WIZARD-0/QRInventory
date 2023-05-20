@@ -1,6 +1,9 @@
+import DefaultButton from "components/Basic/Buttons/Default";
+import Input from "components/Basic/Input";
 import { Script } from "components/Basic/Scenario";
 import api from "helpers/axios";
 import { useState } from "react";
+import styles from "./view.main.institutions.scenario.module.scss"
 
 export const CreateInstitutionScenarioComponent: React.FC = () => {
   const [input, setInput] = useState<string>("");
@@ -23,15 +26,10 @@ export const CreateInstitutionScenarioComponent: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className={styles.createInstitution}>
       <h2>Создание организации</h2>
-      <input type='text' placeholder='Название учреждения' onChange={e => setInput(e.target.value)} />
-      <button
-        onClick={() => {
-          createInstitution(input);
-        }}>
-        Создать
-      </button>
+      <Input name='institution' value={""} onChange={()=>{}} placeholder={"КБТ"} label='Название организации' />
+      <DefaultButton component={<>Создать</>} onSumbit={() => {}} />
     </div>
   );
 };

@@ -1,6 +1,12 @@
-import { Script } from "components/Basic/Scenario";
+
+import DefaultButton from "components/Basic/Buttons/Default";
+import Icon from "components/Basic/Icon";
+import Input from "components/Basic/Input";
+import { Script } from "components/Basic/Scenario"
+
 import api from "helpers/axios";
 import { useState } from "react";
+import styles from "./view.main.items.scenario.module.scss"
 
 const CreateItemScenarioComponent: React.FC = () => {
   const [article, setArticle] = useState<string>("");
@@ -41,4 +47,39 @@ export const CreateItemScript: Script = {
     onFailure: -1,
     onSuccess: -1
   }
+
 };
+
+
+    return (
+      <div className={styles.createItem}>
+        <h2>Создание предмета</h2>
+        <div className={styles.imageWrapper}
+        >
+            <label>
+              <Icon icon='image' />
+              <input 
+              // onChange={changeHandler}
+               type='file' accept='.png, .jpg, .jpeg' />
+              <h5>Выбрать фотографию предмета</h5>
+              <span>макс 5мб</span>
+            </label>
+        </div>
+        <Input name='article' value={""} onChange={()=>{}} placeholder={"I-504-DS"} label='артикул' />
+        <Input name='name' value={""} onChange={()=>{}} placeholder={"стул обыкновенный"} label='название' />
+        <DefaultButton component={<>Создать</>} onSumbit={() => {}} />
+        {/* <input placeholder="Артикул" onChange={e=>setArticle(e.target.value)}/>
+        <input placeholder="Название предмета" onChange={e=>setName(e.target.value)}/>
+        <button onClick={(e)=>{createItem(article, name)}}>Создать</button> */}
+      </div>
+    );
+  };
+
+  export const CreateItemScript: Script = {
+    0: {
+      content: CreateItemScenarioComponent,
+      onFailure: -1,
+      onSuccess: -1
+    }
+  };
+
