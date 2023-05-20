@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchUserThunk, loginUserThunk, logoutUserThunk } from "redux/actions/user.actions";
+import { fetchUserThunk, loginUserThunk, logoutUserThunk } from "redux/actions/auth.actions";
 import { FulfilledAction, PendingAction, RejectedAction } from "types/Redux";
 import { User } from "types/User";
 

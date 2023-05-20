@@ -8,7 +8,7 @@ import { useAction } from "helpers/redux";
 import api from "helpers/axios";
 import { Scenario } from "components/Basic/Scenario";
 import { AuthErrorScript, AuthResetScript } from "./Scenario";
-import { loginUserThunk } from "redux/actions/user.actions";
+import { loginUserThunk } from "redux/actions/auth.actions";
 import { useAppDispatch } from "redux/store";
 
 type FormProps = {
@@ -37,7 +37,6 @@ const Login = () => {
     if (res.meta.requestStatus === "fulfilled") {
       navigator("/", { replace: true });
     }
-
   };
 
   return (

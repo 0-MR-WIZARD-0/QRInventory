@@ -9,7 +9,7 @@ import { useAppDispatch } from "redux/store";
 import { createCabinetThunk } from "redux/actions/cabinets.actions";
 
 export const CreateCabinetScenarioComponent: React.FC = () => {
-  const { getCabinetsThunk } = useAction();
+  const { fetchCabinetsThunk } = useAction();
   const institution = useAppSelector(state => state.institution);
   const dispatch = useAppDispatch();
 
@@ -17,7 +17,7 @@ export const CreateCabinetScenarioComponent: React.FC = () => {
     if (!institution.id) return;
     let res = await dispatch(createCabinetThunk({ institutionId: institution.id, cabinetNumber: value }));
     if (res.meta.requestStatus === "fulfilled") {
-      getCabinetsThunk();
+      fetchCabinetsThunk({ page: 0, perPage: 6, new: true });
     }
   };
 

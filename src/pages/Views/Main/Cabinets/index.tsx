@@ -6,22 +6,23 @@ import AddNewButton from "components/Basic/Buttons/AddNew";
 import { CreateCabinetScript } from "./Scenario";
 import { Scenario } from "components/Basic/Scenario";
 import { QRCodeSVG } from "qrcode.react";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
+import { LoadingTransitionComponent } from "components/Basic/Loader";
 
 const ViewCabinets: React.FC = () => {
   let navigate = useNavigate();
 
-  const { getCabinetsThunk } = useAction();
-
+  const { fetchCabinetsThunk } = useAction();
+  const [page, setPage] = useState(1);
+  const nextPage = () => setPage(p => p + 1);
+  useEffect(() => {
+    fetchCabinetsThunk({ page, perPage: 5 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
 
   const createCabinetModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
 
-  useEffect(() => {
-    getCabinetsThunk();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const { cabinetData } = useAppSelector(state => state.cabinet);
+  const { data, loading } = useAppSelector(state => state.viewCabinets);
 
   return (
     <>
@@ -29,7 +30,7 @@ const ViewCabinets: React.FC = () => {
       <div className={styles.wrapperViewCabinets}>
         <AddNewButton onClick={() => createCabinetModalRef.current?.createModal()} title='Добавить новый кабинет +' />
 
-        {cabinetData?.map(cabinet => (
+        {data?.map(cabinet => (
           <div
             onClick={() => {
               navigate(`${cabinetViewPath}/${cabinet.cabinetNumber}`);
@@ -46,6 +47,7 @@ const ViewCabinets: React.FC = () => {
           </div>
         ))}
       </div>
+      {loading && <LoadingTransitionComponent />}
     </>
   );
 };
