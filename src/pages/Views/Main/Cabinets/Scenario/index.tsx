@@ -1,6 +1,5 @@
 import { Script } from "components/Basic/Scenario";
 import { useState } from "react";
-import api from "helpers/axios";
 import { useAction, useAppSelector } from "helpers/redux";
 import styles from "./view.main.cabinets.scenario.module.scss";
 import Input from "components/Basic/Input";
@@ -22,32 +21,6 @@ export const CreateCabinetScenarioComponent: React.FC = () => {
   };
 
   const [cabinetNumber, setCabinetNumber] = useState<string>("");
-
-
-  // useEffect(() => {
-  //   setInstitution(valueSelector);
-  // }, [valueSelector]);
-
-  const createCabinet = (value: string) => {
-    // (async () => {
-    //   try {
-    //     let res = await api.post("/cabinet/create", { institution: institution.id, cabinetNumber: value });
-    //     if (res.status === 200) {
-    //       await api.get("/cabinet/all").then(res => {
-    //         updateCabinets(res.data);
-    //       });
-
-    //     } else {
-    //       // console.log(res.data);
-    //       // setError("Произошла ошибка при создании кабинета");
-    //     }
-    //     }
-    //   } catch (error) {
-    //     // console.log(error);
-    //     // setError("Произошла ошибка при создании кабинета");
-    //   }
-    // })();
-  };
 
   return (
     <div className={styles.createCabinet}>
