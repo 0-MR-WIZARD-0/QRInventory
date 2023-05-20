@@ -25,9 +25,7 @@ export const CreateCabinetScenarioComponent: React.FC = () => {
   return (
     <div className={styles.createCabinet}>
       <h2>Создание кабинета</h2>
-      {/* <input onChange={e => setCabinetNumber(e.target.value)} placeholder='Номер кабинета' /> */}
       <Input name='cabinet-number' value={cabinetNumber} onChange={e => setCabinetNumber(e.target.value)} placeholder={"503-А"} label='Номер кабинета' />
-      {/* <button onClick={() => createCabinet(cabinetNumber)}>Создать</button> */}
       <DefaultButton component={<>Создать</>} onSumbit={() => createCabinet(cabinetNumber)} />
     </div>
   );
