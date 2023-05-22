@@ -17,8 +17,8 @@ export const fetchCabinetsThunk = createAsyncThunk<any, { page: number; perPage:
   try {
     const state = getState() as RootState;
     const { page, perPage } = params;
-    const cabinets = await api.get<any, { data: { cabinets: Cabinet[] } }>("/cabinet/all", { params: { take: perPage, skip: (page - 1) * perPage, institution: state.institution.id } }).then(res => res.data.cabinets);
-    return fulfillWithValue(cabinets);
+    const res = await api.get<any, { data: { cabinets: Cabinet[] } }>("/cabinet/all", { params: { take: perPage, skip: (page - 1) * perPage, institution: state.institution.id } }).then(res => res.data);
+    return fulfillWithValue(res);
   } catch (error) {
     return rejectWithValue(RejectResponses.cabinetsError);
   }
@@ -31,8 +31,8 @@ export const fetchItemsThunk = createAsyncThunk<any, { page: number; perPage: nu
     const state = getState() as RootState;
     if (params.new) dispatch(viewItemsActions.updateItems([]));
     const { page, perPage } = params;
-    const items = await api.get<any, { data: { items: Item[] } }>("/item/all", { params: { take: perPage, skip: params.new ? 0 : (page - 1) * perPage, institution: state.institution.id } }).then(res => res.data.items);
-    return fulfillWithValue(items);
+    const res = await api.get<any, { data: { items: Item[] } }>("/item/all", { params: { take: perPage, skip: params.new ? 0 : (page - 1) * perPage, institution: state.institution.id } }).then(res => res.data);
+    return fulfillWithValue(res);
   } catch (error) {
     return rejectWithValue(RejectResponses.itemsError);
   }
@@ -43,8 +43,8 @@ export const fetchUsersThunk = createAsyncThunk<any, { page: number; perPage: nu
     const state = getState() as RootState;
     if (params.new) dispatch(viewUsersActions.updateUsers([]));
     const { page, perPage } = params;
-    const users = await api.get<any, { data: { users: User[] } }>("/user/all", { params: { take: perPage, skip: (page - 1) * perPage, institution: state.institution.id } }).then(res => res.data.users);
-    return fulfillWithValue(users);
+    const res = await api.get<any, { data: { users: User[] } }>("/user/all", { params: { take: perPage, skip: (page - 1) * perPage, institution: state.institution.id } }).then(res => res.data);
+    return fulfillWithValue(res);
   } catch (error) {
     return rejectWithValue(RejectResponses.usersError);
   }

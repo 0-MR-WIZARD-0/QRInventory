@@ -1,6 +1,5 @@
 import { useAction, useAppSelector } from "helpers/redux";
 import styles from "./view.main.items.module.scss";
-import api from "helpers/axios";
 import { useEffect, useRef, useState } from "react";
 import { Scenario } from "components/Basic/Scenario";
 import { CreateItemScript } from "./Scenario";
@@ -9,13 +8,14 @@ import { LoadingTransitionComponent } from "components/Basic/Loader";
 
 const ViewItems: React.FC = () => {
   const { fetchItemsThunk } = useAction();
+  const { id } = useAppSelector(state => state.institution);
 
   const [page, setPage] = useState(1);
   const nextPage = () => setPage(p => p + 1);
   useEffect(() => {
     fetchItemsThunk({ page, perPage: 5 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  }, [page, id]);
 
   const createItemModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
 

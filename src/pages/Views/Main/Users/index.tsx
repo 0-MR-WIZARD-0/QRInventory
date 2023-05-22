@@ -8,6 +8,7 @@ import { LoadingTransitionComponent } from "components/Basic/Loader";
 
 const ViewUsers: React.FC = () => {
   const createUserModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
+  const { id } = useAppSelector(state => state.institution);
 
   const { fetchUsersThunk } = useAction();
   const [page, setPage] = useState(1);
@@ -15,7 +16,7 @@ const ViewUsers: React.FC = () => {
   useEffect(() => {
     fetchUsersThunk({ page, perPage: 5 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  }, [page, id]);
 
   const { data, loading } = useAppSelector(state => state.viewUsers);
 
