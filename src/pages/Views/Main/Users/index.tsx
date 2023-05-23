@@ -6,11 +6,14 @@ import { CreateUserScript } from "./Scenario";
 import { useAction, useAppSelector } from "helpers/redux";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
 import { useObserver } from "helpers/hooks";
-import ViewItem from "pages/Views/Sub/Item";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { User } from "types/User";
 import { useInView } from "react-intersection-observer";
 import { usersViewPath } from "types/App";
+
+const paginationSettings = {
+  perPage: 5
+};
 
 type ViewUserProps = {
   navigate: NavigateFunction;
@@ -45,7 +48,9 @@ const ViewUsers: React.FC = () => {
   const { fetchUsersThunk } = useAction();
   const [page, setPage] = useState(1);
   useEffect(() => {
-    fetchUsersThunk({ page, perPage: 5 });
+    if (!data || data.length < paginationSettings.perPage * page) {
+      fetchUsersThunk({ page, perPage: paginationSettings.perPage });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, id]);
 

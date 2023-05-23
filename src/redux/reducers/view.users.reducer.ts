@@ -36,7 +36,7 @@ const ViewUsersSlice = createSlice({
       return { ...state, loading: false };
     });
     builder.addCase(institutionActions.setInstitution, (state, action) => {
-      return { ...state, data: [] };
+      return { ...state, data: [], maxElements: -1 };
     });
   }
 });

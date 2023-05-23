@@ -11,6 +11,10 @@ import { NavigateFunction, useNavigate } from "react-router-dom";
 import { itemViewPath } from "types/App";
 import { useInView } from "react-intersection-observer";
 
+const paginationSettings = {
+  perPage: 5
+};
+
 type ViewItemProps = {
   navigate: NavigateFunction;
   item: Item;
@@ -45,7 +49,9 @@ const ViewItems: React.FC = () => {
 
   const [page, setPage] = useState(1);
   useEffect(() => {
-    fetchItemsThunk({ page, perPage: 5 });
+    if (!data || data.length < paginationSettings.perPage * page) {
+      fetchItemsThunk({ page, perPage: paginationSettings.perPage });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, institution.id]);
 

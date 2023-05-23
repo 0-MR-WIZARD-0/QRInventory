@@ -13,6 +13,10 @@ import { Cabinet } from "types/Cabinet";
 import { useInView } from "react-intersection-observer";
 import { useObserver } from "helpers/hooks";
 
+const paginationSettings = {
+  perPage: 7
+};
+
 type ViewCabinetProps = {
   navigate: NavigateFunction;
   cabinet: Cabinet;
@@ -48,14 +52,16 @@ const ViewCabinets: React.FC = () => {
   const navigate = useNavigate();
   const institution = useAppSelector(state => state.institution);
 
+  const { data, loading, maxElements } = useAppSelector(state => state.viewCabinets);
   const { fetchCabinetsThunk } = useAction();
   const [page, setPage] = useState(1);
   useEffect(() => {
-    fetchCabinetsThunk({ page, perPage: 7 });
+    if (!data || data.length < paginationSettings.perPage * page) {
+      fetchCabinetsThunk({ page, perPage: paginationSettings.perPage });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, institution.id]);
 
-  const { data, loading, maxElements } = useAppSelector(state => state.viewCabinets);
   const onLastInView = (entires: IntersectionObserverEntry[]) => {
     if (!loading && data && data.length < maxElements) {
       if (entires[0].isIntersecting) setPage(p => p + 1);
