@@ -1,4 +1,4 @@
-import { Routes, Route, Outlet } from "react-router-dom";
+import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 
 import { Roles } from "types/User";
@@ -22,19 +22,17 @@ import ViewUsers from "pages/Views/Main/Users";
 import ViewUser from "pages/Views/Sub/User";
 import ViewCabinet from "pages/Views/Sub/Cabinet";
 import ViewItem from "pages/Views/Sub/Item";
-import { LoadingTransitionComponent } from "components/Basic/Loader";
-import NoSelect from "pages/Views/Main/NoSelect";
 import EditCabinet from "pages/Views/Edit/Cabinets";
 import EditItem from "pages/Views/Edit/Item";
 import EditUser from "pages/Views/Edit/User";
 import Logout from "pages/Auth/Logout";
+import { LoadingTransitionComponent } from "components/Basic/Loader";
 
 import BackButtonWrapper from "components/Complex/BackButtonWrapper";
 
 import DeleteCabinet from "pages/Views/Delete/Cabinet";
 import DeleteUser from "pages/Views/Delete/User";
 import DeleteItem from "pages/Views/Delete/Item";
-
 
 function App() {
   const { fetchUserThunk } = useAction();
@@ -57,7 +55,7 @@ function App() {
             <Route path={RoutesEnum.logout} element={<Logout />} />
           </Route>
           <Route path={RoutesEnum.main} element={<ProtectedPage component={<Main />} />}>
-            <Route index element={<NoSelect />} />
+            <Route index element={<Navigate to={MainViewRoutes.cabinets} />} />
             <Route path={MainViewRoutes.cabinets} element={<ProtectedPage component={<ViewCabinets />} roles={[Roles.admin, Roles.teacher]} />} />
             <Route path={MainViewRoutes.institutions} element={<ProtectedPage component={<ViewInstitutions />} roles={[Roles.admin]} />} />
             <Route path={MainViewRoutes.items} element={<ProtectedPage component={<ViewItems />} roles={[Roles.admin, Roles.teacher]} />} />
@@ -69,21 +67,18 @@ function App() {
 
               <Route path='edit' element={<ProtectedPage component={<EditCabinet />} roles={[Roles.admin, Roles.teacher]} />} />
 
-              <Route path='delete' element={<ProtectedPage component={<DeleteCabinet/>} roles={[Roles.admin, Roles.teacher]} />}/>
-
+              <Route path='delete' element={<ProtectedPage component={<DeleteCabinet />} roles={[Roles.admin, Roles.teacher]} />} />
             </Route>
             <Route path={`${MainViewRoutes.items}/:id`}>
               <Route index element={<ViewItem />} />
               <Route path='edit' element={<ProtectedPage component={<EditItem />} roles={[Roles.admin]} />} />
-              <Route path='delete' element={<ProtectedPage component={<DeleteUser/>} roles={[Roles.admin, Roles.teacher]} />}/>
-
+              <Route path='delete' element={<ProtectedPage component={<DeleteUser />} roles={[Roles.admin, Roles.teacher]} />} />
             </Route>
             <Route path={`${MainViewRoutes.users}/:id`}>
               <Route index element={<ViewUser />} />
               <Route path='edit' element={<ProtectedPage component={<EditUser />} roles={[Roles.admin]} />} />
-              <Route path='delete' element={<ProtectedPage component={<DeleteItem/>} roles={[Roles.admin, Roles.teacher]} />}/>
+              <Route path='delete' element={<ProtectedPage component={<DeleteItem />} roles={[Roles.admin, Roles.teacher]} />} />
             </Route>
-
           </Route>
           <Route path={RoutesEnum.profile} element={<ProtectedPage component={<BackButtonWrapper component={<Outlet />} />} />}>
             <Route index element={<ViewUser />} />

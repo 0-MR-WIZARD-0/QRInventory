@@ -11,6 +11,7 @@ import { LoadingTransitionComponent } from "components/Basic/Loader";
 import { Cabinet } from "types/Cabinet";
 
 import { useInView } from "react-intersection-observer";
+import { useObserver } from "helpers/hooks";
 
 type ViewCabinetProps = {
   navigate: NavigateFunction;
@@ -45,41 +46,24 @@ const ViewCabinet: React.FC<ViewCabinetProps> = ({ cabinet, navigate, lastElemen
 
 const ViewCabinets: React.FC = () => {
   let navigate = useNavigate();
-  const { id } = useAppSelector(state => state.institution);
+  const institution = useAppSelector(state => state.institution);
 
   const { fetchCabinetsThunk } = useAction();
   const [page, setPage] = useState(1);
   useEffect(() => {
     fetchCabinetsThunk({ page, perPage: 7 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, id]);
+  }, [page, institution.id]);
 
   const { data, loading, maxElements } = useAppSelector(state => state.viewCabinets);
-
-  const observer = useRef<IntersectionObserver>();
-  const lastItemRef = useRef<HTMLDivElement | null>(null);
   const onLastInView = (entires: IntersectionObserverEntry[]) => {
     if (!loading && data && data.length < maxElements) {
-      if (entires[0].isIntersecting) {
-        setPage(p => p + 1);
-        // console.log("last el in view");
-      }
+      if (entires[0].isIntersecting) setPage(p => p + 1);
     }
   };
-
-  useEffect(() => {
-    observer.current = new IntersectionObserver(onLastInView, { root: document, threshold: 0.5 });
-    if (lastItemRef.current) {
-      observer.current.observe(lastItemRef.current);
-    }
-
-    return () => {
-      observer.current?.disconnect();
-    };
-  });
+  const [lastItemRef] = useObserver(onLastInView);
 
   const createCabinetModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
-
   return (
     <>
       <Scenario ref={createCabinetModalRef} modalName='create-cabinet' script={CreateCabinetScript} />
