@@ -3,14 +3,15 @@ import api from "helpers/axios";
 import { LoginFormProps, User } from "types/User";
 
 enum RejectResponses {
-  unauthorized = "Пользователь не авторизован"
+  unauthorized = "Пользователь не авторизован",
+  passwords_mismatch = "Пароли не сходятся"
 }
 
 // https://stackoverflow.com/questions/67227015/how-to-use-createasyncthunk-with-typescript-how-to-set-types-for-the-pending
 export const fetchUserThunk = createAsyncThunk("auth/fetch", async (params, { fulfillWithValue, rejectWithValue }) => {
   try {
-    const user = await api.get<any, { data: User | undefined }>("/user").then(res => res.data);
-    return fulfillWithValue(user);
+    const res = await api.get<any, { data: User | undefined }>("/user").then(res => res.data);
+    return fulfillWithValue(res);
   } catch (error) {
     return rejectWithValue(RejectResponses.unauthorized);
   }
@@ -19,8 +20,8 @@ export const fetchUserThunk = createAsyncThunk("auth/fetch", async (params, { fu
 // https://stackoverflow.com/questions/67227015/how-to-use-createasyncthunk-with-typescript-how-to-set-types-for-the-pending
 export const loginUserThunk = createAsyncThunk<any, LoginFormProps>("auth/login", async (params, { fulfillWithValue, rejectWithValue }) => {
   try {
-    const user = await api.post<any, { data: User | undefined }>("/auth/login", params).then(res => res.data);
-    return fulfillWithValue(user);
+    const res = await api.post<any, { data: User | undefined }>("/auth/login", params).then(res => res.data);
+    return fulfillWithValue(res);
   } catch (error) {
     return rejectWithValue(RejectResponses.unauthorized);
   }
@@ -32,5 +33,14 @@ export const logoutUserThunk = createAsyncThunk("auth/logout", async (params, { 
     return fulfillWithValue(null);
   } catch (error) {
     return fulfillWithValue(null);
+  }
+});
+
+export const validatePasswordThunk = createAsyncThunk<any, { password: string }>("auth/validate", async (params, { fulfillWithValue, rejectWithValue }) => {
+  try {
+    const res = await api.post("/auth/validate-password", { inputPassword: params.password });
+    return fulfillWithValue(res);
+  } catch (error) {
+    return rejectWithValue(RejectResponses.passwords_mismatch);
   }
 });

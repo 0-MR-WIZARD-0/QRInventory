@@ -55,7 +55,6 @@ const ViewCabinet: React.FC = () => {
     (async () => {
       try {
         if (!id) return navigate(`/${MainViewRoutes.cabinets}`);
-        console.log(data);
         let existing = data?.find(e => e.id === id);
         if (existing) return setPageCabinetData(existing);
         else {

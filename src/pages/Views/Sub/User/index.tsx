@@ -1,6 +1,6 @@
 import { MenuBar } from "components/Complex/MenuBar";
 import { useAppSelector } from "helpers/redux";
-import { Navigate /*useParams*/, useLocation, useParams } from "react-router-dom";
+import { Navigate /*useParams*/, useLocation, useNavigate, useParams } from "react-router-dom";
 import { roledUserEditDataBarOptions, Roles, User } from "types/User";
 import styles from "./view.sub.user.module.scss";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
@@ -9,6 +9,9 @@ import { useEffect, useState } from "react";
 import ProtectedComponent from "components/Protected/Component";
 import { ImageState } from "types/UI";
 import AvatarElement from "components/Complex/AvatarElement";
+import { fetchUserThunk } from "redux/actions/users.actions";
+import { useAppDispatch } from "redux/store";
+import { MainViewRoutes } from "types/Routes";
 
 const formatFullName = (name: string) => {
   return name
@@ -62,24 +65,50 @@ const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, institut
 };
 
 const ViewUser = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { id } = useParams();
   const { userData } = useAppSelector(state => state.user);
+  const { data } = useAppSelector(state => state.viewUsers);
   const [pageUserData, setPageUserData] = useState<User | null | undefined>();
+  // useEffect(() => {
+  //   if (id === undefined) {
+  //     setPageUserData(userData);
+  //   } else {
+  //     // взять из кеша или получить
+  //     (async () => {
+  //       const res = await dispatch(fetchUserThunk({ id }))
+  //       if(res.meta.requestStatus === 'fulfilled') {
+  //         setPageUserData(res.payload)
+  //       } else {
+  //         setPageUserData(null)
+  //       }
+  //     })();
+  //   }
+  // }, [id, userData]);
   useEffect(() => {
-    if (id === undefined) {
-      setPageUserData(userData);
-    } else {
-      // взять из кеша или получить
-      (async () => {
-        try {
-          const userResData = (await api.get("/user/search", { params: { id } })).data;
-          setPageUserData(userResData);
-        } catch (error) {
-          setPageUserData(null);
+    (async () => {
+      if (!userData) return;
+
+      try {
+        let existing = data?.find(e => e.id === (id ?? userData.id));
+        if (existing) return setPageUserData(existing);
+        else {
+          let res = await dispatch(fetchUserThunk({ id: id ?? userData.id }));
+
+          if (res.meta.requestStatus === "rejected") {
+            console.log("Произошла ошибка при загрузке пользователя");
+            return navigate(`/${MainViewRoutes.users}`);
+          }
+
+          return setPageUserData(res.payload);
         }
-      })();
-    }
-  }, [id, userData]);
+      } catch (error) {
+        return setPageUserData(null);
+      }
+    })();
+    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userData]);
 
   if (!userData) return <Navigate to={"signin"} />;
 
