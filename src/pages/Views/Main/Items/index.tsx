@@ -12,7 +12,7 @@ const ViewItems: React.FC = () => {
   useEffect(() => {
     (async () => {
       await api.get("/item/all").then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         updateItem(res.data);
       });
     })();

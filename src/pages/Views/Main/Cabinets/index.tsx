@@ -14,7 +14,7 @@ const ViewCabinets: React.FC = () => {
   const { getCabinetsThunk } = useAction();
 
   const createCabinetModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
-
+  
   useEffect(() => {
     getCabinetsThunk();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -25,6 +25,7 @@ const ViewCabinets: React.FC = () => {
   return (
     <>
       <Scenario ref={createCabinetModalRef} modalName='create-cabinet' script={CreateCabinetScript} />
+     
       <div className={styles.wrapperViewCabinets}>
         <AddNewButton onClick={() => createCabinetModalRef.current?.createModal()} title='Добавить новый кабинет +' />
         {cabinetData?.map(cabinet => (

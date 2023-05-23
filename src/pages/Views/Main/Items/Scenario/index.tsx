@@ -3,44 +3,48 @@ import DefaultButton from "components/Basic/Buttons/Default";
 import Icon from "components/Basic/Icon";
 import Input from "components/Basic/Input";
 import { Script } from "components/Basic/Scenario"
-
 import api from "helpers/axios";
 import { useState } from "react";
 import styles from "./view.main.items.scenario.module.scss"
+import { FormProvider, useForm } from "react-hook-form";
+import { articleValidation, titleValidation } from "validation/validation";
 
 const CreateItemScenarioComponent: React.FC = () => {
-  const [article, setArticle] = useState<string>("");
-  const [name, setName] = useState<string>("");
+  // const [article, setArticle] = useState<string>("");
+  // const [name, setName] = useState<string>("");
 
-  const createItem = (article: string, name: string) => {
-    (async () => {
-      try {
-        let res = await api.post("/item/create", {
-          article: article,
-          name: name
-        });
-        if (res.status === 200) {
-          // createItem()
-          console.log(res.data);
+  // const createItem = (article: string, name: string) => {
+  //   (async () => {
+  //     try {
+  //       let res = await api.post("/item/create", {
+  //         article: article,
+  //         name: name
+  //       });
+  //       if (res.status === 200) {
+  //         // createItem()
+  //         console.log(res.data);
           
-          console.log(res.data);
-        } else {
-          console.log(res.data);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }
+  //         console.log(res.data);
+  //       } else {
+  //         console.log(res.data);
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   })();
+  // }
 
+  const methods = useForm({mode: "onBlur"});
 
-
+  const onSubmit = methods.handleSubmit((data) => {
+    console.log(data);
+  })
 
     return (
+      <FormProvider {...methods}>
       <div className={styles.createItem}>
         <h2>Создание предмета</h2>
-        <div className={styles.imageWrapper}
-        >
+        <div className={styles.imageWrapper}>
             <label>
               <Icon icon='image' />
               <input 
@@ -50,10 +54,11 @@ const CreateItemScenarioComponent: React.FC = () => {
               <span>макс 5мб</span>
             </label>
         </div>
-        <Input name='article' value={""} onChange={()=>{}} placeholder={"I-504-DS"} label='артикул' />
-        <Input name='name' value={""} onChange={()=>{}} placeholder={"стул обыкновенный"} label='название' />
-        <DefaultButton component={<>Создать</>} onSumbit={() => {}} />
+        <Input {...articleValidation}/>
+        <Input {...titleValidation}/>
+        <DefaultButton component={<>Создать</>} onSumbit={onSubmit} />
       </div>
+      </FormProvider>
     );
   }
 

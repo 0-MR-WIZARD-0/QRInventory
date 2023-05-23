@@ -14,7 +14,8 @@ const Search:React.FC<Props> = ({items, setValue}) => {
     }
 
   return (
-    <Input name='password' onChange={() => {}} value={""} label='Артикул'/>
+    // <Input name='password' onChange={() => {}} value={""} label='Артикул'/>
+    <></>
   )
 }
 

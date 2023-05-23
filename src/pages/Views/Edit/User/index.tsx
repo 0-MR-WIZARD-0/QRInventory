@@ -68,10 +68,10 @@ const UserComponent: React.FC = () => {
           </div>
           )}
           <div>
-            <Input name='fullname' onChange={() => {}} value={""} label='фио' />
+            {/* <Input name='fullname' onChange={() => {}} value={""} label='фио' />
             <Input name='email' onChange={() => {}} value={""} label='почта' />
             <Input name='oldPassword' onChange={() => {}} value={""} label='старый пароль' type="password"/>
-            <Input name='newPassword' onChange={() => {}} value={""} label='новый пароль' type="password"/>
+            <Input name='newPassword' onChange={() => {}} value={""} label='новый пароль' type="password"/> */}
           </div>
         </div>
       </div>

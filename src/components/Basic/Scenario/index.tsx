@@ -23,6 +23,7 @@ type ScenarioProps = {
 
 export type ResolverCallback = (promise: Promise<any>) => void;
 
+
 export const Scenario = forwardRef<ScenarioModalHandle, ScenarioProps>(({ modalName, script }, ref) => {
   const [page, setPage] = useState<number>(0);
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -32,13 +33,13 @@ export const Scenario = forwardRef<ScenarioModalHandle, ScenarioProps>(({ modalN
   };
   
   const closeModal = () => {
-    setIsOpen(false);
-  };
+      setIsOpen(false);
+    };
+
 
   useImperativeHandle(ref, () => ({
     createModal,
     closeModal
-    // setPage
   }));
 
   const resolveCallback: ResolverCallback = async (promise: Promise<Boolean>) => {
@@ -63,8 +64,7 @@ export const Scenario = forwardRef<ScenarioModalHandle, ScenarioProps>(({ modalN
       {createElement(script[page].content, { cb: resolveCallback })}
     </Modal>
   );
+
 });
 
 Scenario.displayName = "Scenario";
-
-// export default 

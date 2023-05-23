@@ -1,4 +1,3 @@
-import api from "helpers/axios";
 import { useAction } from "helpers/redux";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";

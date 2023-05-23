@@ -7,7 +7,7 @@ const DeleteUserComponent:React.FC = () => {
         <div className={styles.wrapper}>
             <h3>Удаление пользователя {""}</h3>
             <p>Для продолжения необходимо ввести пароль от аккаунта</p>
-            <Input name='password' onChange={() => {}} value={""} label='пароль' type="password" />
+            {/* <Input name='password' onChange={() => {}} value={""} label='пароль' type="password" /> */}
             <DefaultButton component={<p>Удалить пользователя</p>} onSumbit={()=>{}}/>
         </div>
     )

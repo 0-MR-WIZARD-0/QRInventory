@@ -5,8 +5,13 @@ import { useState } from "react";
 import styles from "./view.main.users.scenario.module.scss"
 import Input from "components/Basic/Input";
 import DefaultButton from "components/Basic/Buttons/Default";
+import { FormProvider, useForm } from "react-hook-form";
+import { fullNameValidation, emailValidation, passwordValidation } from "validation/validation";
 
 const CreateUserScenarioComponent: React.FC = () => {
+
+  const methods = useForm({mode: "onBlur"});
+
   const institution = useAppSelector(state => state.institution);
 
   const [fullname, setFullname] = useState<string>("");
@@ -14,7 +19,6 @@ const CreateUserScenarioComponent: React.FC = () => {
   const [password, setPassword] = useState<string>("");
 
   const { createUsers } = useAction();
-
 
   const createUser = (fullname: string, email: string, password: string) => {
     (async () => {
@@ -37,23 +41,20 @@ const CreateUserScenarioComponent: React.FC = () => {
     })();
   };
 
+  const onSubmit = methods.handleSubmit((data) => {
+    console.log(data);
+  })
+
   return (
-    <div className={styles.createUser}>
-      <h2>Создание пользователя</h2>
-      <Input name='fullName' value={""} onChange={()=>{}} placeholder={""} label='фио' />
-      <Input name='email' value={""} onChange={()=>{}} placeholder={"test@email.com"} label='email' />
-      <Input name='password' value={""} onChange={()=>{}} label='пароль' type="password"/>
-      <DefaultButton component={<>Создать</>} onSumbit={() => {}} />
-      {/* <input placeholder='ФИО' type='text' onChange={e => setFullname(e.target.value)} />
-      <input placeholder='Email' type='text' onChange={e => setEmail(e.target.value)} />
-      <input placeholder='Password' type='password' onChange={e => setPassword(e.target.value)} /> */}
-      {/* <button
-        onClick={e => {
-          createUser(fullname, email, password);
-        }}>
-        Создать
-      </button> */}
-    </div>
+    <FormProvider {...methods}>
+      <div className={styles.createUser}>
+        <h2>Создание пользователя</h2>
+        <Input {...fullNameValidation}/>
+        <Input {...emailValidation}/>
+        <Input {...passwordValidation}/>      
+        <DefaultButton component={<>Создать</>} onSumbit={onSubmit} />
+      </div>
+    </FormProvider>
   );
 };
 
