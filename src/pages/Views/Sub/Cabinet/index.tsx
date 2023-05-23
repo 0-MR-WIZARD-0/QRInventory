@@ -1,4 +1,4 @@
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import api from "helpers/axios";
 import { Cabinet } from "types/Cabinet";
@@ -10,11 +10,12 @@ import { MenuBar } from "components/Complex/MenuBar";
 import DropList from "components/Complex/DropList";
 import { useAppSelector } from "helpers/redux";
 import styles from "./view.sub.cabinet.module.scss";
+import { useAppDispatch } from "redux/store";
+import { MainViewRoutes } from "types/Routes";
+import { fetchCabinetThunk } from "redux/actions/cabinets.actions";
 
 const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teachers }) => {
   const location = useLocation();
-
-  const { userData } = useAppSelector(state => state.user);
 
   return (
     <>
@@ -28,36 +29,51 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
         </h1>
       </div>
       <div>
-        <DropList items={items} cabinetId={id}/>
-        <DropList teachers={teachers}/>
-          <ProtectedComponent
-            component={
-              <div className={styles.menuBar}>
-                <p>Панель управления кабинетом</p>
-                <MenuBar barOptions={roledCabinetEditDataBarOptions["admin"]} />
-              </div>
-            }
-          />
+        <DropList items={items} cabinetId={id} />
+        <DropList teachers={teachers} />
+        <ProtectedComponent
+          component={
+            <div className={styles.menuBar}>
+              <p>Панель управления кабинетом</p>
+              <MenuBar barOptions={roledCabinetEditDataBarOptions["admin"]} />
+            </div>
+          }
+        />
       </div>
     </>
   );
 };
 
 const ViewCabinet: React.FC = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { id } = useParams();
+  const { data } = useAppSelector(state => state.viewCabinets);
   const [pageCabinetData, setPageCabinetData] = useState<Cabinet | null | undefined>();
 
   useEffect(() => {
     (async () => {
       try {
-        const cabinetData = (await api.get("/cabinet/", { params: { cabinet: id } })).data;
-        setPageCabinetData(cabinetData);
+        if (!id) return navigate(`/${MainViewRoutes.cabinets}`);
+        console.log(data);
+        let existing = data?.find(e => e.id === id);
+        if (existing) return setPageCabinetData(existing);
+        else {
+          let res = await dispatch(fetchCabinetThunk({ id }));
+
+          if (res.meta.requestStatus === "rejected") {
+            console.log("Произошла ошибка при загрузке кабинета");
+            return navigate(`/${MainViewRoutes.cabinets}`);
+          }
+
+          return setPageCabinetData(res.payload);
+        }
       } catch (error) {
-        setPageCabinetData(null);
+        return setPageCabinetData(null);
       }
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (pageCabinetData === undefined) return <LoadingTransitionComponent />;
   if (pageCabinetData === null) return <b>произошла ошибка при загрузке кабинета или он не найден</b>;

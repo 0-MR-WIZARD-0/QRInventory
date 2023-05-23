@@ -18,9 +18,13 @@ export const createCabinetThunk = createAsyncThunk<any, { institutionId: string;
 
 export const fetchCabinetThunk = createAsyncThunk<any, { id: string }>("cabinet/fetch", async (params, { dispatch, rejectWithValue, fulfillWithValue }) => {
   try {
-    const cabinet = (await api.get("/cabinet/", { params: { cabinet: params.id } })).data;
+    const cabinet = (await api.get("/cabinet/", { params: { id: params.id } })).data;
     return fulfillWithValue(cabinet);
   } catch (error) {
     return rejectWithValue(RejectResponses.createCabinetError);
   }
 });
+
+// edit cabinet thunk
+
+// delete cabinet thunk

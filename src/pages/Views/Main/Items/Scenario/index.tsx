@@ -1,34 +1,28 @@
 import DefaultButton from "components/Basic/Buttons/Default";
 import Icon from "components/Basic/Icon";
 import Input from "components/Basic/Input";
-import { Script } from "components/Basic/Scenario";
+import { ResolverCallback, Script } from "components/Basic/Scenario";
 import api from "helpers/axios";
+import { useAppSelector } from "helpers/redux";
 import { useState } from "react";
+import { createItemThunk } from "redux/actions/items.actions";
+import { useAppDispatch } from "redux/store";
 import styles from "./view.main.items.scenario.module.scss";
 
-const CreateItemScenarioComponent: React.FC = () => {
+const CreateItemScenarioComponent: React.FC<{ cb: ResolverCallback }> = ({ cb }) => {
+  const institution = useAppSelector(state => state.institution);
+  const dispatch = useAppDispatch();
   const [article, setArticle] = useState<string>("");
   const [name, setName] = useState<string>("");
 
-  const createItem = (article: string, name: string) => {
-    (async () => {
-      try {
-        let res = await api.post("/item/create", {
-          article: article,
-          name: name
-        });
-        if (res.status === 200) {
-          // createItem()
-          console.log(res.data);
-
-          console.log(res.data);
-        } else {
-          console.log(res.data);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    })();
+  const onSubmit = async () => {
+    if (!institution.id) return console.log("Ошибка, не выбрано учреждение");
+    const res = await dispatch(createItemThunk({ institutionId: institution.id, article, name }));
+    if (res.meta.requestStatus === "fulfilled") {
+      cb(Promise.resolve(true));
+    } else {
+      return console.log("Ошибка при создании предмета");
+    }
   };
 
   return (
@@ -48,7 +42,7 @@ const CreateItemScenarioComponent: React.FC = () => {
       </div>
       <Input name='article' value={article} onChange={e => setArticle(e.target.value)} placeholder={"I-504-DS"} label='артикул' />
       <Input name='name' value={name} onChange={e => setName(e.target.value)} placeholder={"стул обыкновенный"} label='название' />
-      <DefaultButton component={<>Создать</>} onSumbit={() => {}} />
+      <DefaultButton component={<>Создать</>} onSumbit={onSubmit} />
     </div>
   );
 };

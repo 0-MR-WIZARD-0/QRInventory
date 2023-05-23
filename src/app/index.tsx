@@ -64,9 +64,7 @@ function App() {
           <Route path={RoutesEnum.view} element={<BackButtonWrapper component={<Outlet />} />}>
             <Route path={`${MainViewRoutes.cabinets}/:id`}>
               <Route index element={<ViewCabinet />} />
-
               <Route path='edit' element={<ProtectedPage component={<EditCabinet />} roles={[Roles.admin, Roles.teacher]} />} />
-
               <Route path='delete' element={<ProtectedPage component={<DeleteCabinet />} roles={[Roles.admin, Roles.teacher]} />} />
             </Route>
             <Route path={`${MainViewRoutes.items}/:id`}>

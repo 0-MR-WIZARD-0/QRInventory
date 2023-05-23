@@ -31,7 +31,7 @@ const ViewCabinet: React.FC<ViewCabinetProps> = ({ cabinet, navigate, lastElemen
         }
       }}
       onClick={() => {
-        navigate(`${cabinetViewPath}/${cabinet.cabinetNumber}`);
+        navigate(`${cabinetViewPath}/${cabinet.id}`);
       }}
       key={cabinet.id}>
       <div className={styles.img}>{inView && <QRCodeSVG value={`${cabinetViewPath}/${cabinet.cabinetNumber}`} />}</div>
@@ -45,7 +45,7 @@ const ViewCabinet: React.FC<ViewCabinetProps> = ({ cabinet, navigate, lastElemen
 };
 
 const ViewCabinets: React.FC = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const institution = useAppSelector(state => state.institution);
 
   const { fetchCabinetsThunk } = useAction();

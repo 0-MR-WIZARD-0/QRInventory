@@ -11,10 +11,14 @@ export const CreateCabinetScenarioComponent: React.FC<{ cb: ResolverCallback }> 
   const institution = useAppSelector(state => state.institution);
   const dispatch = useAppDispatch();
 
-  const createCabinet = async (value: string) => {
-    if (!institution.id) return;
-    await dispatch(createCabinetThunk({ institutionId: institution.id, cabinetNumber: value }));
-    cb(Promise.resolve(true));
+  const createCabinet = async () => {
+    if (!institution.id) return console.log("Ошибка, не выбрано учреждение");
+    const res = await dispatch(createCabinetThunk({ institutionId: institution.id, cabinetNumber }));
+    if (res.meta.requestStatus === "fulfilled") {
+      cb(Promise.resolve(true));
+    } else {
+      return console.log("Ошибка при создании кабинета");
+    }
   };
 
   const [cabinetNumber, setCabinetNumber] = useState<string>("");
@@ -23,7 +27,7 @@ export const CreateCabinetScenarioComponent: React.FC<{ cb: ResolverCallback }> 
     <div className={styles.createCabinet}>
       <h2>Создание кабинета</h2>
       <Input name='cabinet-number' value={cabinetNumber} onChange={e => setCabinetNumber(e.target.value)} placeholder={"503-А"} label='Номер кабинета' />
-      <DefaultButton component={<>Создать</>} onSumbit={() => createCabinet(cabinetNumber)} />
+      <DefaultButton component={<>Создать</>} onSumbit={createCabinet} />
     </div>
   );
 };
