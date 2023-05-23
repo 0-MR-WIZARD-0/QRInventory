@@ -4,11 +4,15 @@ import { MenuBar } from "components/Complex/MenuBar";
 import ProtectedComponent from "components/Protected/Component";
 import api from "helpers/axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Item } from "types/Item";
 import { ImageState } from "types/UI";
 import { roledUserEditDataBarOptions } from "types/User";
 import styles from "./view.sub.item.module.scss";
+import { fetchItemThunk } from "redux/actions/items.actions";
+import { useAppDispatch } from "redux/store";
+import { useAppSelector } from "helpers/redux";
+import { MainViewRoutes } from "types/Routes";
 
 const ItemComponent: React.FC<Item> = ({ article, id, imageId, name }) => {
   const [avatar, setAvatar] = useState<ImageState>(undefined);
@@ -52,18 +56,35 @@ const ItemComponent: React.FC<Item> = ({ article, id, imageId, name }) => {
 };
 
 const ViewItem = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { id } = useParams();
+  const { data } = useAppSelector(state => state.viewItems);
   const [pageItemData, setPageItemData] = useState<Item | null | undefined>();
+
   useEffect(() => {
     (async () => {
       try {
-        const itemResData = (await api.get("/item", { params: { id } })).data;
-        setPageItemData(itemResData);
+        if (!id) return navigate(`/${MainViewRoutes.items}`);
+        console.log(data);
+        let existing = data?.find(e => e.id === id);
+        if (existing) return setPageItemData(existing);
+        else {
+          let res = await dispatch(fetchItemThunk({ id }));
+
+          if (res.meta.requestStatus === "rejected") {
+            console.log("Произошла ошибка при загрузке кабинета");
+            return navigate(`/${MainViewRoutes.cabinets}`);
+          }
+
+          return setPageItemData(res.payload);
+        }
       } catch (error) {
-        setPageItemData(null);
+        return setPageItemData(null);
       }
     })();
-  }, [id]);
+    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (pageItemData === undefined) return <LoadingTransitionComponent />;
   if (pageItemData === null) return <b>произошла ошибка при загрузке предмета или он не найден</b>;

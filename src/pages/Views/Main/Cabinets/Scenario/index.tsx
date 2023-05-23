@@ -1,23 +1,23 @@
-import { Script } from "components/Basic/Scenario";
+import { ResolverCallback, Script } from "components/Basic/Scenario";
 import { useState } from "react";
-import api from "helpers/axios";
-import { useAction, useAppSelector } from "helpers/redux";
+import { useAppSelector } from "helpers/redux";
 import styles from "./view.main.cabinets.scenario.module.scss";
 import Input from "components/Basic/Input";
 import DefaultButton from "components/Basic/Buttons/Default";
 import { useAppDispatch } from "redux/store";
 import { createCabinetThunk } from "redux/actions/cabinets.actions";
 
-export const CreateCabinetScenarioComponent: React.FC = () => {
-  const { getCabinetsThunk } = useAction();
+export const CreateCabinetScenarioComponent: React.FC<{ cb: ResolverCallback }> = ({ cb }) => {
   const institution = useAppSelector(state => state.institution);
   const dispatch = useAppDispatch();
 
-  const createCabinet = async (value: string) => {
-    if (!institution.id) return;
-    let res = await dispatch(createCabinetThunk({ institutionId: institution.id, cabinetNumber: value }));
+  const createCabinet = async () => {
+    if (!institution.id) return console.log("Ошибка, не выбрано учреждение");
+    const res = await dispatch(createCabinetThunk({ institutionId: institution.id, cabinetNumber }));
     if (res.meta.requestStatus === "fulfilled") {
-      getCabinetsThunk();
+      cb(Promise.resolve(true));
+    } else {
+      return console.log("Ошибка при создании кабинета");
     }
   };
 
@@ -27,7 +27,7 @@ export const CreateCabinetScenarioComponent: React.FC = () => {
     <div className={styles.createCabinet}>
       <h2>Создание кабинета</h2>
       <Input name='cabinet-number' value={cabinetNumber} onChange={e => setCabinetNumber(e.target.value)} placeholder={"503-А"} label='Номер кабинета' />
-      <DefaultButton component={<>Создать</>} onSumbit={() => createCabinet(cabinetNumber)} />
+      <DefaultButton component={<>Создать</>} onSumbit={createCabinet} />
     </div>
   );
 };
