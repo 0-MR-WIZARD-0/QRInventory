@@ -1,90 +1,113 @@
 import Input from "components/Basic/Input";
-import styles from "./view.edit.user.module.scss"
+import styles from "./view.edit.user.module.scss";
 import Icon from "components/Basic/Icon";
 import { useState, useEffect } from "react";
+import { useAppDispatch } from "redux/store";
+import { editUserThunk, fetchUserThunk } from "redux/actions/users.actions";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useAppSelector } from "helpers/redux";
+import { User } from "types/User";
+import { MainViewRoutes } from "types/Routes";
+import { LoadingTransitionComponent } from "components/Basic/Loader";
+import { useImage } from "helpers/hooks";
+import EditPageWrapper from "components/Complex/Wrappers/EditPageWrapper";
 
-const imageMimeType = /image\/(png|jpg|jpeg|.gif)/i;
+const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, role }) => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const location = useLocation().pathname.split("/");
 
-const UserComponent: React.FC = () => {
+  const { changeHandler, fileDataURL } = useImage();
 
-  const [file, setFile] = useState<File | null>(null);
-  const [fileDataURL, setFileDataURL] = useState<string | null>(null);
-
-  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files || !e.target.files[0]) {
-      alert("Файлы не выбраны");
-      return;
-    }
-    const file = e.target.files[0];
-    if (!file.type.match(imageMimeType)) {
-      alert("Тип файла не подходит для изображения предмета");
-      return;
-    }
-    setFile(file);
+  const [data, setData] = useState<{ fullName: string; email: string; oldPassword: string; newPassword: string }>({ email, fullName, oldPassword: "", newPassword: "" });
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setData(d => ({ ...d, [e.target.name]: e.target.value }));
   };
 
-  useEffect(() => {
-    let fileReader: FileReader;
-    let isCancel = false;
-    if (file) {
-      fileReader = new FileReader();
-      fileReader.onload = e => {
-        const { result } = e.target!;
-        if (result && !isCancel) {
-          setFileDataURL(result as string);
-        }
-      };
-      fileReader.readAsDataURL(file);
+  const onSubmit = async () => {
+    console.log("Пустое поле не будет правиться в базе данных");
+    const res = await dispatch(editUserThunk({ id, fullName: data.fullName.length > 5 ? data.fullName : undefined, email: data.email.length > 7 ? data.email : undefined }));
+    console.log(res);
+
+    if (res.meta.requestStatus === "fulfilled") {
+      console.log("Пользователь отредактирован");
+      return navigate(location.slice(0, location.length - 1).join("/"));
+    } else {
+      console.log("Произошла ошибка при редактировании пользователя");
+      console.log(res.payload);
     }
-    return () => {
-      isCancel = true;
-      if (fileReader && fileReader.readyState === 1) {
-        fileReader.abort();
-      }
-    };
-  }, [file]);
+  };
 
   return (
-    <>
-      <div className={styles.wrapper}>
-
-        <h3 className={styles.title}>Редактирование аккаунта</h3>
-        <div>
-        {fileDataURL ? (
-            <>
-              <img alt='изображение предмета' src={fileDataURL} draggable={false} />
-              <input onChange={changeHandler} type='file' accept='.png, .jpg, .jpeg' />
-            </>
-          ) : (
+    <EditPageWrapper
+      onSubmit={onSubmit}
+      component={
+        <div className={styles.wrapper}>
+          <h3 className={styles.title}>Редактирование аккаунта</h3>
           <div className={styles.imageWrapper}>
+            {fileDataURL ? (
+              <div className={styles.dropDownImage}>
+                <img alt='изображение предмета' src={fileDataURL} draggable={false} />
+                <input onChange={changeHandler} type='file' accept='.png, .jpg, .jpeg' />
+              </div>
+            ) : (
+              <div className={styles.dropDownPreview}>
                 <Icon icon='image' />
                 <label>
-                  <input
-                    onChange={changeHandler}
-                    type='file' accept='.png, .jpg, .jpeg' />
+                  <input onChange={changeHandler} type='file' accept='.png, .jpg, .jpeg' />
                   <h5>Выбрать фотографию аккаунта</h5>
                   <span>макс 5мб</span>
                 </label>
-          </div>
-          )}
-          <div>
-            <Input name='fullname' onChange={() => {}} value={""} label='фио' />
-            <Input name='email' onChange={() => {}} value={""} label='почта' />
-            <Input name='oldPassword' onChange={() => {}} value={""} label='старый пароль' type="password"/>
-            <Input name='newPassword' onChange={() => {}} value={""} label='новый пароль' type="password"/>
+              </div>
+            )}
+            <div>
+              <Input name='fullName' onChange={onChange} value={data.fullName} label='фио' />
+              <Input name='email' onChange={onChange} value={data.email} label='почта' />
+              <Input name='oldPassword' onChange={onChange} value={data.oldPassword} label='старый пароль' type='password' />
+              <Input name='newPassword' onChange={onChange} value={data.newPassword} label='новый пароль' type='password' />
+            </div>
           </div>
         </div>
-      </div>
-      <div className={styles.bottomMenu}>
-        <button className={styles.button}>отменить</button>
-        <button className={styles.button}>сохранить</button>
-      </div>
-    </>
-  )
+      }
+    />
+  );
 };
 
 const EditUser: React.FC = () => {
-  return <UserComponent />;
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const { id } = useParams();
+  const { userData } = useAppSelector(state => state.user);
+  const { data } = useAppSelector(state => state.viewUsers);
+  const [pageUserData, setPageUserData] = useState<User | null | undefined>();
+  useEffect(() => {
+    (async () => {
+      if (!userData) return;
+
+      try {
+        let existing = data?.find(e => e.id === (id ?? userData.id));
+        if (existing) return setPageUserData(existing);
+        else {
+          let res = await dispatch(fetchUserThunk({ id: id ?? userData.id }));
+
+          if (res.meta.requestStatus === "rejected") {
+            console.log("Произошла ошибка при загрузке пользователя");
+            return navigate(`/${MainViewRoutes.users}`);
+          }
+
+          return setPageUserData(res.payload);
+        }
+      } catch (error) {
+        return setPageUserData(null);
+      }
+    })();
+    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userData]);
+
+  if (pageUserData === undefined) return <LoadingTransitionComponent />;
+  if (pageUserData === null) return <b>произошла ошибка при загрузке пользователя или он не найден</b>;
+  return <UserComponent {...pageUserData} />;
 };
 
 export default EditUser;

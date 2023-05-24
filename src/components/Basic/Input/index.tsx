@@ -13,7 +13,7 @@ type InputProps = {
 const Input: React.FC<InputProps> = ({ label, name, placeholder, onChange, value, type }) => {
   return (
     <div className={styles.inputWrapper}>
-      <input id={name} placeholder={placeholder} value={value} onChange={onChange} type={type ?? "text"} />
+      <input id={name} name={name} placeholder={placeholder} value={value} onChange={onChange} type={type ?? "text"} />
       {label !== undefined && <label htmlFor={name}>{label}</label>}
     </div>
   );

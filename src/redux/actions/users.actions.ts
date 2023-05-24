@@ -29,6 +29,22 @@ export const fetchUserThunk = createAsyncThunk<any, { id: string }>("user/fetch"
   }
 });
 
-// edit user
+export const editUserThunk = createAsyncThunk<any, { id: string; fullName?: string; email?: string }>("user/edit", async (params, { dispatch, rejectWithValue, fulfillWithValue }) => {
+  try {
+    const res = (await api.patch("/user/edit", { ...params })).data;
+    return fulfillWithValue(res);
+  } catch (error) {
+    return rejectWithValue(RejectResponses.editUserError);
+  }
+});
+
+export const deleteUSerThunk = createAsyncThunk<any, { id: string }>("user/delete", async (params, { rejectWithValue, fulfillWithValue }) => {
+  try {
+    const res = (await api.delete(`/item/${params.id}`)).data;
+    return fulfillWithValue(res);
+  } catch (error) {
+    return rejectWithValue(RejectResponses.deleteUserError);
+  }
+});
 
 // delete user

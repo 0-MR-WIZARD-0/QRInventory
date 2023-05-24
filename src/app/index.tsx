@@ -28,7 +28,7 @@ import EditUser from "pages/Views/Edit/User";
 import Logout from "pages/Auth/Logout";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
 
-import BackButtonWrapper from "components/Complex/BackButtonWrapper";
+import BackButtonWrapper from "components/Complex/Wrappers/BackButtonWrapper";
 
 import DeleteCabinet from "pages/Views/Delete/Cabinet";
 import DeleteUser from "pages/Views/Delete/User";
