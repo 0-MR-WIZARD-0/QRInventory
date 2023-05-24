@@ -103,6 +103,29 @@ export const roledCabinetEditDataBarOptions: RoledMenuBarOptions = {
   ]
 };
 
+export const roledItemEditDataBarOptions: RoledMenuBarOptions = {
+  teacher: [
+    {
+      title: "редактирование",
+      link: "edit"
+    },
+    {
+      title: "удаление",
+      link: "delete"
+    }
+  ],
+  admin: [
+    {
+      title: "редактирование",
+      link: "edit"
+    },
+    {
+      title: "удаление",
+      link: "delete"
+    }
+  ]
+};
+
 export type LoginFormProps = {
   email: string;
   password: string;

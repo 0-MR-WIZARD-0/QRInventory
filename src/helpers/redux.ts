@@ -8,3 +8,5 @@ export const useAction = () => {
 };
 
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+
+export const onlyUnique = (v: { id: string }, i: number, a: any[]) => a.findIndex(v2 => v2.id === v.id) === i;

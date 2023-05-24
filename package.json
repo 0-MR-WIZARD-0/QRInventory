@@ -19,6 +19,7 @@
     "qrcode.react": "^3.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-intersection-observer": "^9.4.3",
     "react-hook-form": "^7.43.9",
     "react-modal": "^3.16.1",
     "react-redux": "^8.0.5",
@@ -32,9 +33,7 @@
     "storybook-addon-react-router-v6": "^0.3.5",
     "typed-scss-modules": "^7.1.0",
     "typescript": "^4.9.5",
-    "utils": "^0.3.1",
-    "web-vitals": "^2.1.4",
-    "yup": "^1.1.1"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "cross-env NODE_ENV=development cross-env DANGEROUSLY_DISABLE_HOST_CHECK=true react-scripts start",

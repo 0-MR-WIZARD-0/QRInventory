@@ -7,7 +7,7 @@ import { NodeENV } from "types/App";
 import { emailValidation, passwordValidation } from "validation/validation";
 import { Scenario } from "components/Basic/Scenario";
 import { AuthErrorScript, AuthResetScript } from "./Scenario";
-import { loginUserThunk } from "redux/actions/user.actions";
+import { loginUserThunk } from "redux/actions/auth.actions";
 import { useAppDispatch } from "redux/store";
 import { FormProvider, useForm } from "react-hook-form";
 
