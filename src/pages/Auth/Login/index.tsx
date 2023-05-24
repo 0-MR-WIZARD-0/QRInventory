@@ -1,17 +1,14 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import DefaultButton from "components/Basic/Buttons/Default";
 import Input from "components/Basic/Input";
 import styles from "styles/globalStyle.module.scss";
-import { NodeENV } from "types/App";
 import { emailValidation, passwordValidation } from "validation/validation";
 import { Scenario } from "components/Basic/Scenario";
 import { AuthErrorScript, AuthResetScript } from "./Scenario";
 import { loginUserThunk } from "redux/actions/auth.actions";
 import { useAppDispatch } from "redux/store";
 import { FormProvider, useForm } from "react-hook-form";
-
-// const testData = process.env.NODE_ENV !== NodeENV.prod ? { email: "test@mail.com", password: "any-password" } : { email: "", password: "" };
 
 const Login = () => {
 
@@ -22,22 +19,6 @@ const Login = () => {
 
   const authErrorModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
   const authResetModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
-
-  //                                          потом поменять на пустые значения
-  //                                                        |
-  //                                                        v
-  // const [formState, setFormState] = useState<FormProps>(testData);
-  
-  // const updateState = (e: React.ChangeEvent<HTMLInputElement>) => setFormState(state => ({ ...state, [e.target.id]: e.target.value }));
-  // const onSumbit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, data) => {
-  //   e.preventDefault();
-    
-  //   // let res = await dispatch(loginUserThunk(formState));
-  //   // if (res.meta.requestStatus === "fulfilled") {
-  //   //   navigator("/", { replace: true });
-  //   // }
-
-  // };
 
   const onSubmit = methods.handleSubmit( async (data:any) => {
     let res = await dispatch(loginUserThunk(data));
@@ -55,7 +36,7 @@ const Login = () => {
           <div className={styles.container}>
             <h2>Авторизация</h2>
             <p>Для продолжения необходимо ввести данные аккаунта</p>
-            <form action='' method='post' className='form'>
+            <form action='' method='post' className={styles.form}>
               <Input {...emailValidation}/>
               <Input {...passwordValidation}/>
               <DefaultButton component={<div>продолжить</div>} onSumbit={onSubmit} />
