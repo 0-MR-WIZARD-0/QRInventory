@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const useObserver = (cb: (entires: IntersectionObserverEntry[]) => void) => {
   const observer = useRef<IntersectionObserver>();
@@ -16,4 +16,44 @@ export const useObserver = (cb: (entires: IntersectionObserverEntry[]) => void) 
   });
 
   return [ref];
+};
+
+const imageMimeType = /image\/(png|jpg|jpeg|.gif)/i;
+export const useImage = () => {
+  const [file, setFile] = useState<File | null>(null);
+  const [fileDataURL, setFileDataURL] = useState<string | null>(null);
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || !e.target.files[0]) {
+      alert("Файлы не выбраны");
+      return;
+    }
+    const file = e.target.files[0];
+    if (!file.type.match(imageMimeType)) {
+      alert("Тип файла не подходит для изображения предмета");
+      return;
+    }
+    setFile(file);
+  };
+  useEffect(() => {
+    let fileReader: FileReader;
+    let isCancel = false;
+    if (file) {
+      fileReader = new FileReader();
+      fileReader.onload = e => {
+        const { result } = e.target!;
+        if (result && !isCancel) {
+          setFileDataURL(result as string);
+        }
+      };
+      fileReader.readAsDataURL(file);
+    }
+    return () => {
+      isCancel = true;
+      if (fileReader && fileReader.readyState === 1) {
+        fileReader.abort();
+      }
+    };
+  }, [file]);
+
+  return { fileDataURL, changeHandler };
 };

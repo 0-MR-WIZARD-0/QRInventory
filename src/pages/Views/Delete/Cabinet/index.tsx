@@ -10,11 +10,10 @@ import { useAppDispatch } from "redux/store";
 import { deleteCabinetThunk, fetchCabinetThunk } from "redux/actions/cabinets.actions";
 import { validatePasswordThunk } from "redux/actions/auth.actions";
 import { MainViewRoutes } from "types/Routes";
-import { passwordValidation } from "validation/validation";
+import { passwordValidation } from "validation";
 import { useForm, FormProvider } from "react-hook-form";
 
 const DeleteCabinetComponent: React.FC = () => {
-
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -24,7 +23,7 @@ const DeleteCabinetComponent: React.FC = () => {
 
   const [cabinetInfo, setCabinetInfo] = useState<Cabinet>();
 
-  const methods = useForm({mode: "onBlur"});
+  const methods = useForm({ mode: "onBlur" });
 
   useEffect(() => {
     (async () => {
@@ -54,13 +53,12 @@ const DeleteCabinetComponent: React.FC = () => {
     }
   };
 
-  const onSubmit = methods.handleSubmit(async (data) => {
-    const res = await dispatch(validatePasswordThunk({password: data.password}));
-    
+  const onSubmit = methods.handleSubmit(async data => {
+    const res = await dispatch(validatePasswordThunk({ password: data.password }));
+
     if (res.payload === true) return deleteCabinet();
     else CheckPasswordModalRef.current?.createModal();
-    
-  })
+  });
 
   return (
     <FormProvider {...methods}>
@@ -69,7 +67,7 @@ const DeleteCabinetComponent: React.FC = () => {
       <div className={styles.wrapper}>
         <h3>Удаление кабинета</h3>
         <p>Для продолжения необходимо ввести пароль от аккаунта</p>
-        <Input {...passwordValidation}/>
+        <Input {...passwordValidation} />
         <DefaultButton component={<p>Удалить кабинет</p>} onSumbit={onSubmit} />
       </div>
     </FormProvider>

@@ -30,6 +30,7 @@ const ItemComponent: React.FC<Item> = ({ article, id, imageId, name }) => {
         setAvatar(null);
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imageId]);
 
   return (
@@ -70,7 +71,7 @@ const ViewItem = () => {
         if (existing) return setPageItemData(existing);
         else {
           let res = await dispatch(fetchItemThunk({ id }));
-          
+
           if (res.meta.requestStatus === "rejected") {
             console.log("Произошла ошибка при загрузке предмета");
             return navigate(`/${MainViewRoutes.cabinets}`);
@@ -82,7 +83,7 @@ const ViewItem = () => {
         return setPageItemData(null);
       }
     })();
-    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (pageItemData === undefined) return <LoadingTransitionComponent />;
