@@ -4,21 +4,18 @@ import DefaultButton from "components/Basic/Buttons/Default";
 import Input from "components/Basic/Input";
 import styles from "styles/globalStyle.module.scss";
 import { NodeENV } from "types/App";
-import { useAction } from "helpers/redux";
-import api from "helpers/axios";
+import { emailValidation, passwordValidation } from "validation";
 import { Scenario } from "components/Basic/Scenario";
 import { AuthErrorScript, AuthResetScript } from "./Scenario";
 import { loginUserThunk } from "redux/actions/auth.actions";
 import { useAppDispatch } from "redux/store";
+import { FormProvider, useForm } from "react-hook-form";
 
-type FormProps = {
-  email: string;
-  password: string;
-};
-
-const testData = process.env.NODE_ENV !== NodeENV.prod ? { email: "test@mail.com", password: "any-password" } : { email: "", password: "" };
+// const testData = process.env.NODE_ENV !== NodeENV.prod ? { email: "test@mail.com", password: "any-password" } : { email: "", password: "" };
 
 const Login = () => {
+  const methods = useForm({ mode: "onBlur" });
+
   const navigator = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -28,19 +25,28 @@ const Login = () => {
   //                                          потом поменять на пустые значения
   //                                                        |
   //                                                        v
-  const [formState, setFormState] = useState<FormProps>(testData);
-  const updateState = (e: React.ChangeEvent<HTMLInputElement>) => setFormState(state => ({ ...state, [e.target.id]: e.target.value }));
-  const onSumbit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
+  // const [formState, setFormState] = useState<FormProps>(testData);
 
-    let res = await dispatch(loginUserThunk(formState));
+  // const updateState = (e: React.ChangeEvent<HTMLInputElement>) => setFormState(state => ({ ...state, [e.target.id]: e.target.value }));
+  // const onSumbit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, data) => {
+  //   e.preventDefault();
+
+  //   // let res = await dispatch(loginUserThunk(formState));
+  //   // if (res.meta.requestStatus === "fulfilled") {
+  //   //   navigator("/", { replace: true });
+  //   // }
+
+  // };
+
+  const onSubmit = methods.handleSubmit(async (data: any) => {
+    let res = await dispatch(loginUserThunk(data));
     if (res.meta.requestStatus === "fulfilled") {
       navigator("/", { replace: true });
     }
-  };
+  });
 
   return (
-    <>
+    <FormProvider {...methods}>
       <Scenario ref={authErrorModalRef} modalName='auth-error' script={AuthErrorScript} />
       <Scenario ref={authResetModalRef} modalName='auth-reset' script={AuthResetScript} />
       <main>
@@ -49,11 +55,9 @@ const Login = () => {
             <h2>Авторизация</h2>
             <p>Для продолжения необходимо ввести данные аккаунта</p>
             <form action='' method='post' className='form'>
-              <Input name='email' label='почта' value={formState.email} onChange={updateState} />
-              <Input name='password' label='пароль' value={formState.password} onChange={updateState} type='password' />
-
-              <DefaultButton component={<div>продолжить</div>} onSumbit={onSumbit} />
-
+              <Input {...emailValidation} />
+              <Input {...passwordValidation} />
+              <DefaultButton component={<div>продолжить</div>} onSumbit={onSubmit} />
               <Link to={""} onClick={() => authResetModalRef.current?.createModal()}>
                 Забыл(а) пароль
               </Link>
@@ -61,7 +65,7 @@ const Login = () => {
           </div>
         </div>
       </main>
-    </>
+    </FormProvider>
   );
 };
 

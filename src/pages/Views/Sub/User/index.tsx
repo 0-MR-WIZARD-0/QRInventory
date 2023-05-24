@@ -92,7 +92,7 @@ const ViewUser = () => {
         return setPageUserData(null);
       }
     })();
-    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData]);
 
   if (!userData) return <Navigate to={"signin"} />;

@@ -32,6 +32,7 @@ const ViewInsitutions: React.FC = () => {
   return (
     <>
       <Scenario ref={createInstitutionModalRef} modalName='create-institution' script={CreateInstitutionScript} />
+      
       <div className={styles.wrapperViewInstitutions}>
         <AddNewButton onClick={() => createInstitutionModalRef.current?.createModal()} title='Добавить новое учреждение +' />
         {userData?.institutions?.map(elem => (

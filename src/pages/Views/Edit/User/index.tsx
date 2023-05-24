@@ -11,6 +11,8 @@ import { MainViewRoutes } from "types/Routes";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
 import { useImage } from "helpers/hooks";
 import EditPageWrapper from "components/Complex/Wrappers/EditPageWrapper";
+import { useForm } from "react-hook-form";
+import { emailValidation, fullNameValidation, passwordValidation } from "validation";
 
 const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, role }) => {
   const navigate = useNavigate();
@@ -19,12 +21,9 @@ const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, role }) 
 
   const { changeHandler, fileDataURL } = useImage();
 
-  const [data, setData] = useState<{ fullName: string; email: string; oldPassword: string; newPassword: string }>({ email, fullName, oldPassword: "", newPassword: "" });
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData(d => ({ ...d, [e.target.name]: e.target.value }));
-  };
+  const methods = useForm({ mode: "onBlur" });
 
-  const onSubmit = async () => {
+  const onSubmit = methods.handleSubmit(async data => {
     console.log("Пустое поле не будет правиться в базе данных");
     const res = await dispatch(editUserThunk({ id, fullName: data.fullName.length > 5 ? data.fullName : undefined, email: data.email.length > 7 ? data.email : undefined }));
     console.log(res);
@@ -36,7 +35,7 @@ const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, role }) 
       console.log("Произошла ошибка при редактировании пользователя");
       console.log(res.payload);
     }
-  };
+  });
 
   return (
     <EditPageWrapper
@@ -61,10 +60,10 @@ const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, role }) 
               </div>
             )}
             <div>
-              <Input name='fullName' onChange={onChange} value={data.fullName} label='фио' />
-              <Input name='email' onChange={onChange} value={data.email} label='почта' />
-              <Input name='oldPassword' onChange={onChange} value={data.oldPassword} label='старый пароль' type='password' />
-              <Input name='newPassword' onChange={onChange} value={data.newPassword} label='новый пароль' type='password' />
+              <Input {...fullNameValidation} />
+              <Input {...emailValidation} />
+              <Input {...passwordValidation} label='старый пароль' />
+              <Input {...passwordValidation} label='новый пароль' />
             </div>
           </div>
         </div>

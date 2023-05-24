@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Item } from "types/Item";
 import { ImageState } from "types/UI";
-import { roledUserEditDataBarOptions } from "types/User";
+import { roledItemEditDataBarOptions } from "types/User";
 import styles from "./view.sub.item.module.scss";
 import { fetchItemThunk } from "redux/actions/items.actions";
 import { useAppDispatch } from "redux/store";
@@ -30,6 +30,7 @@ const ItemComponent: React.FC<Item> = ({ article, id, imageId, name }) => {
         setAvatar(null);
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imageId]);
 
   return (
@@ -46,8 +47,8 @@ const ItemComponent: React.FC<Item> = ({ article, id, imageId, name }) => {
       <ProtectedComponent
         component={
           <div className={styles.menuBar}>
-            <p>Панель управления пользователем</p>
-            <MenuBar barOptions={roledUserEditDataBarOptions["admin"]} />
+            <p>Панель управления предметом</p>
+            <MenuBar barOptions={roledItemEditDataBarOptions["admin"]} />
           </div>
         }
       />
@@ -66,14 +67,13 @@ const ViewItem = () => {
     (async () => {
       try {
         if (!id) return navigate(`/${MainViewRoutes.items}`);
-        console.log(data);
         let existing = data?.find(e => e.id === id);
         if (existing) return setPageItemData(existing);
         else {
           let res = await dispatch(fetchItemThunk({ id }));
 
           if (res.meta.requestStatus === "rejected") {
-            console.log("Произошла ошибка при загрузке кабинета");
+            console.log("Произошла ошибка при загрузке предмета");
             return navigate(`/${MainViewRoutes.cabinets}`);
           }
 
@@ -83,7 +83,7 @@ const ViewItem = () => {
         return setPageItemData(null);
       }
     })();
-    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (pageItemData === undefined) return <LoadingTransitionComponent />;

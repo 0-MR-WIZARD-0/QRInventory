@@ -1,6 +1,5 @@
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import api from "helpers/axios";
 import { Cabinet } from "types/Cabinet";
 import { QRCodeSVG } from "qrcode.react";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
@@ -71,7 +70,7 @@ const ViewCabinet: React.FC = () => {
         return setPageCabinetData(null);
       }
     })();
-    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (pageCabinetData === undefined) return <LoadingTransitionComponent />;

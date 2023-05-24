@@ -55,6 +55,7 @@ const ViewCabinets: React.FC = () => {
   const { data, loading, maxElements } = useAppSelector(state => state.viewCabinets);
   const { fetchCabinetsThunk } = useAction();
   const [page, setPage] = useState(1);
+
   useEffect(() => {
     if (!data || data.length < paginationSettings.perPage * page) {
       fetchCabinetsThunk({ page, perPage: paginationSettings.perPage });
@@ -73,6 +74,7 @@ const ViewCabinets: React.FC = () => {
   return (
     <>
       <Scenario ref={createCabinetModalRef} modalName='create-cabinet' script={CreateCabinetScript} />
+     
       <div className={styles.wrapperViewCabinets}>
         <AddNewButton onClick={() => createCabinetModalRef.current?.createModal()} title='Добавить новый кабинет +' />
         {data?.map((cabinet, i) => (

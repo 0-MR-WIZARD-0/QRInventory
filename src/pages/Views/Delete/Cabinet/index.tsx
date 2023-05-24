@@ -10,6 +10,8 @@ import { useAppDispatch } from "redux/store";
 import { deleteCabinetThunk, fetchCabinetThunk } from "redux/actions/cabinets.actions";
 import { validatePasswordThunk } from "redux/actions/auth.actions";
 import { MainViewRoutes } from "types/Routes";
+import { passwordValidation } from "validation";
+import { useForm, FormProvider } from "react-hook-form";
 
 const DeleteCabinetComponent: React.FC = () => {
   const { id } = useParams();
@@ -20,6 +22,8 @@ const DeleteCabinetComponent: React.FC = () => {
   const CheckPasswordModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
 
   const [cabinetInfo, setCabinetInfo] = useState<Cabinet>();
+
+  const methods = useForm({ mode: "onBlur" });
 
   useEffect(() => {
     (async () => {
@@ -35,8 +39,6 @@ const DeleteCabinetComponent: React.FC = () => {
     })();
   }, [id]);
 
-  const [password, setPassword] = useState<string>("");
-
   const deleteCabinet = async () => {
     if (cabinetInfo && cabinetInfo.id) {
       const res = await dispatch(deleteCabinetThunk({ id: cabinetInfo.id }));
@@ -51,29 +53,24 @@ const DeleteCabinetComponent: React.FC = () => {
     }
   };
 
-  const checkPassword = async () => {
-    const res = await dispatch(validatePasswordThunk({ password }));
+  const onSubmit = methods.handleSubmit(async data => {
+    const res = await dispatch(validatePasswordThunk({ password: data.password }));
 
-    if (res.meta.requestStatus === "fulfilled") return deleteCabinet();
-    else {
-      return () => {
-        console.log(res.payload);
-        CheckPasswordModalRef.current?.createModal();
-      };
-    }
-  };
+    if (res.payload === true) return deleteCabinet();
+    else CheckPasswordModalRef.current?.createModal();
+  });
 
   return (
-    <>
+    <FormProvider {...methods}>
       <Scenario ref={DeleteCabinetModalRef} modalName='delete-cabinet-error' script={DeleteCabinetErrorScript} />
       <Scenario ref={CheckPasswordModalRef} modalName='check-password-error' script={CheckPasswordErrorScript} />
       <div className={styles.wrapper}>
-        <h3>Удаление кабинета {id}</h3>
+        <h3>Удаление кабинета</h3>
         <p>Для продолжения необходимо ввести пароль от аккаунта</p>
-        <Input name='password' onChange={e => setPassword(e.target.value)} value={password} label='пароль' type='password' />
-        <DefaultButton component={<p>Удалить кабинет</p>} onSumbit={checkPassword} />
+        <Input {...passwordValidation} />
+        <DefaultButton component={<p>Удалить кабинет</p>} onSumbit={onSubmit} />
       </div>
-    </>
+    </FormProvider>
   );
 };
 
@@ -82,3 +79,5 @@ const DeleteCabinet: React.FC = () => {
 };
 
 export default DeleteCabinet;
+
+//не обновляется стейт после удаления

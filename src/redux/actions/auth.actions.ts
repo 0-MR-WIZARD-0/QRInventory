@@ -39,7 +39,7 @@ export const logoutUserThunk = createAsyncThunk("auth/logout", async (params, { 
 export const validatePasswordThunk = createAsyncThunk<any, { password: string }>("auth/validate", async (params, { fulfillWithValue, rejectWithValue }) => {
   try {
     const res = await api.post("/auth/validate-password", { inputPassword: params.password });
-    return fulfillWithValue(res);
+    return fulfillWithValue(res.data);
   } catch (error) {
     return rejectWithValue(RejectResponses.passwords_mismatch);
   }

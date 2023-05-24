@@ -68,6 +68,7 @@ const ViewItems: React.FC = () => {
   return (
     <>
       <Scenario ref={createItemModalRef} modalName='create-item' script={CreateItemScript} />
+      
       <div className={styles.wrapperViewItems}>
         <AddNewButton onClick={() => createItemModalRef.current?.createModal()} title='Добавить новый предмет +' />
         {data?.map((item, i) => (

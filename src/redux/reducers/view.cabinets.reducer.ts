@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { onlyUnique } from "helpers/redux";
-// import onlyUnique from "helpers/redux";
 import { createCabinetThunk } from "redux/actions/cabinets.actions";
 import { fetchCabinetsThunk } from "redux/actions/views.main.actions";
 import { Cabinet } from "types/Cabinet";

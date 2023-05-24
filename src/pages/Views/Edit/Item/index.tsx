@@ -70,8 +70,8 @@ const ItemComponent: React.FC = () => {
             </div>
           )}
           <div className={styles.buttonWrapper}>
-            <Input name='name' onChange={() => {}} value={""} label='название' placeholder='стул обыкновенный' />
-            <Input name='article' onChange={() => {}} value={""} label='артикул' placeholder='Ш-504-301' />
+            {/* <Input name='name' onChange={() => {}} value={""} label='название' placeholder='стул обыкновенный' />
+            <Input name='article' onChange={() => {}} value={""} label='артикул' placeholder='Ш-504-301' /> */}
           </div>
         </div>
       </div>
