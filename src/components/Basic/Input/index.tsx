@@ -23,20 +23,25 @@ export const isFormInvalid = (error: object) => {
   return false;
 };
 
-const Input: React.FC<InputProps> = ({ label, type, placeholder, validation, name }) => {
-  const {
-    register,
-    formState: { errors }
-  } = useFormContext();
-  const inputError = findInputError(errors, name);
-  const isInvalid = isFormInvalid(inputError);
+const Input: React.FC<InputProps> = ({label, type, placeholder, validation, name}) => {
 
+  const { register, formState: {errors} } = useFormContext();
+
+  const inputError = findInputError(errors, name)
+  const isInvalid = isFormInvalid(inputError)
+ 
   return (
-    <div className={styles.inputWrapper}>
-      <input placeholder={placeholder} type={type} {...register(name, validation)} />
-      {label !== undefined && <label htmlFor={name}>{label}</label>}
-      {isInvalid && <p>{inputError.error?.message}</p>}
-    </div>
+    <>
+      <div className={styles.inputWrapper}>
+        <input 
+          placeholder={placeholder} 
+          type={type}
+          {...register(name, validation)}
+        />
+        {label !== undefined && <label htmlFor={name}>{label}</label>}
+      </div>
+      {isInvalid && <span>{inputError.error?.message}</span>}
+    </>
   );
 };
 

@@ -23,7 +23,7 @@ const DeleteCabinetComponent: React.FC = () => {
 
   const [cabinetInfo, setCabinetInfo] = useState<Cabinet>();
 
-  const methods = useForm({ mode: "onBlur" });
+  const methods = useForm<{password: string}>({ mode: "onBlur" });
 
   useEffect(() => {
     (async () => {

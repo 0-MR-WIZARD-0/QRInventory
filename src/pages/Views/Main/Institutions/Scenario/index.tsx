@@ -1,7 +1,6 @@
 import DefaultButton from "components/Basic/Buttons/Default";
 import Input from "components/Basic/Input";
 import { Script } from "components/Basic/Scenario";
-// import api from "helpers/axios";
 // import { useState } from "react";
 import styles from "./view.main.institutions.scenario.module.scss";
 import { titleInstitutionValidation } from "validation";
@@ -30,8 +29,7 @@ export const CreateInstitutionScenarioComponent: React.FC = () => {
   // };
 
   const onSubmit = methods.handleSubmit(data => {
-    console.log(data);
-    methods.getValues("name");
+    
   });
 
   return (

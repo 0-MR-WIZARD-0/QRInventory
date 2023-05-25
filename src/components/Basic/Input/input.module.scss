@@ -2,7 +2,7 @@
 
 .inputWrapper {
   position: relative;
-  margin-bottom: 15px;
+  margin-bottom: 8px;
 
   input {
     border-radius: 15px;
@@ -40,10 +40,12 @@
     color: $gray-100;
     font-weight: 600;
 
-    z-index: 2;
   }
-  p {
-    position: absolute;
-    bottom: -60%;
-  }
+}
+
+span{
+  text-align: start;
+  padding-bottom: 8px;
+  color: $secondary;
+  font-weight: bold;
 }
