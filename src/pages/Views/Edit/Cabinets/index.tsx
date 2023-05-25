@@ -1,4 +1,3 @@
-import Input from "components/Basic/Input";
 import styles from "./view.edit.cabinet.module.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";

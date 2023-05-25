@@ -3,7 +3,7 @@ import { Scenario } from "components/Basic/Scenario";
 import { useEffect, useRef, useState } from "react";
 import { CreateUserScript } from "./Scenario";
 import { useAction, useAppSelector } from "helpers/redux";
-import { useObserver } from "helpers/hooks";
+import { useListenOnline, useObserver } from "helpers/hooks";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { Roles, User } from "types/User";
 import { useInView } from "react-intersection-observer";
@@ -56,20 +56,30 @@ const ViewUsers: React.FC = () => {
   const createUserModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
   const institution = useAppSelector(state => state.institution);
 
+  const { data, loading, maxElements, error } = useAppSelector(state => state.viewUsers);
+  const { isOnline } = useListenOnline();
   const { fetchUsersThunk } = useAction();
   const [page, setPage] = useState(1);
-  useEffect(() => {
+
+  const fetchData = () => {
     if (!data || data.length < paginationSettings.perPage * page) {
-      fetchUsersThunk({ page, perPage: paginationSettings.perPage });
+      return fetchUsersThunk({ page, perPage: paginationSettings.perPage });
     }
+  };
+  useEffect(() => {
+    if (!error) fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, institution.id]);
+  useEffect(() => {
+    if (error && isOnline && (!data || data.length < paginationSettings.perPage * page)) {
+      fetchData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error, isOnline]);
 
   useEffect(() => {
     setPage(1);
   }, [institution.id]);
-
-  const { data, loading, maxElements } = useAppSelector(state => state.viewUsers);
 
   const onLastInView = (entires: IntersectionObserverEntry[]) => {
     if (!loading && data && data.length < maxElements) {
@@ -82,9 +92,10 @@ const ViewUsers: React.FC = () => {
     <>
       <Scenario ref={createUserModalRef} modalName='create-user' script={CreateUserScript} />
       <ViewsWrapper
-        addNewButton={<AddNewButton onClick={() => createUserModalRef.current?.createModal()} title='Добавить нового учителя +' />}
-        children={data ? data.map((cabinet, i) => <ViewUser key={cabinet.id} user={cabinet} navigate={navigate} lastElementRef={i === data.length - 1 ? lastItemRef : undefined} />) : undefined}
+        addNewButton={<ProtectedComponent component={<AddNewButton onClick={() => createUserModalRef.current?.createModal()} title='Добавить нового учителя +' />} roles={[Roles.admin]} />}
+        children={data ? data.map((cabinet, i) => <ViewUser key={cabinet.id} user={cabinet} navigate={navigate} lastElementRef={error ? undefined : i === data.length - 1 ? lastItemRef : undefined} />) : undefined}
         loading={loading}
+        error={error}
       />
     </>
   );

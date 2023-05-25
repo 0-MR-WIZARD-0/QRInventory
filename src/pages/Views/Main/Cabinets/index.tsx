@@ -6,13 +6,13 @@ import { CreateCabinetScript } from "./Scenario";
 import { Scenario } from "components/Basic/Scenario";
 import { QRCodeSVG } from "qrcode.react";
 import { useRef, useEffect, useState, memo } from "react";
-import { LoadingTransitionComponent } from "components/Basic/Loader";
 import { Cabinet } from "types/Cabinet";
-
 import { useInView } from "react-intersection-observer";
-import { useObserver } from "helpers/hooks";
+import { useListenOnline, useObserver } from "helpers/hooks";
 import ViewsWrapper from "components/Complex/Wrappers/ViewsWrapper";
 import styles from "components/Complex/Wrappers/ViewsWrapper/view.wrapper.module.scss";
+import ProtectedComponent from "components/Protected/Component";
+import { Roles } from "types/User";
 
 const paginationSettings = {
   perPage: 7
@@ -55,17 +55,26 @@ const ViewCabinet: React.FC<ViewCabinetProps> = memo(
 const ViewCabinets: React.FC = () => {
   const navigate = useNavigate();
   const institution = useAppSelector(state => state.institution);
-
-  const { data, loading, maxElements } = useAppSelector(state => state.viewCabinets);
+  const { data, loading, maxElements, error } = useAppSelector(state => state.viewCabinets);
   const { fetchCabinetsThunk } = useAction();
   const [page, setPage] = useState(1);
+  const { isOnline } = useListenOnline();
 
-  useEffect(() => {
+  const fetchData = () => {
     if (!data || data.length < paginationSettings.perPage * page) {
-      fetchCabinetsThunk({ page, perPage: paginationSettings.perPage });
+      return fetchCabinetsThunk({ page, perPage: paginationSettings.perPage });
     }
+  };
+  useEffect(() => {
+    if (!error) fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, institution.id]);
+  useEffect(() => {
+    if (error && isOnline && (!data || data.length < paginationSettings.perPage * page)) {
+      fetchData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error, isOnline]);
 
   useEffect(() => {
     setPage(1);
@@ -83,9 +92,10 @@ const ViewCabinets: React.FC = () => {
     <>
       <Scenario ref={createCabinetModalRef} modalName='create-cabinet' script={CreateCabinetScript} />
       <ViewsWrapper
-        addNewButton={<AddNewButton onClick={() => createCabinetModalRef.current?.createModal()} title='Добавить новый кабинет +' />}
-        children={data ? data.map((cabinet, i) => <ViewCabinet key={cabinet.id} cabinet={cabinet} navigate={navigate} lastElementRef={i === data.length - 1 ? lastItemRef : undefined} />) : undefined}
+        addNewButton={<ProtectedComponent component={<AddNewButton onClick={() => createCabinetModalRef.current?.createModal()} title='Добавить новый кабинет +' />} roles={[Roles.admin, Roles.teacher]} />}
+        children={data ? data.map((cabinet, i) => <ViewCabinet key={cabinet.id} cabinet={cabinet} navigate={navigate} lastElementRef={error ? undefined : i === data.length - 1 ? lastItemRef : undefined} />) : undefined}
         loading={loading}
+        error={error}
       />
     </>
   );

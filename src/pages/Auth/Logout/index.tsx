@@ -11,7 +11,8 @@ const Logout: React.FC = () => {
   useEffect(() => {
     logoutUserThunk();
     navigate(`/${RoutesEnum.auth}/${RoutesEnum.signIn}`);
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [logoutUserThunk, navigate]);
 
   return (
     <div className={styles.wrapper}>

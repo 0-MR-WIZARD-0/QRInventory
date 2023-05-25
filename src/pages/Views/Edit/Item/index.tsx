@@ -1,6 +1,4 @@
 import Icon from "components/Basic/Icon";
-import Image from "components/Basic/Image";
-import Input from "components/Basic/Input";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
 import { useAppSelector } from "helpers/redux";
 import { useEffect, useState } from "react";
@@ -118,7 +116,7 @@ const EditItem: React.FC = () => {
         return setPageitemData(null);
       }
     })();
-    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (pageItemData === undefined) return <LoadingTransitionComponent />;

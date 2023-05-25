@@ -7,11 +7,12 @@ type ViewsWrapperProps = {
   addNewButton: React.ReactNode;
   children: React.ReactNode[] | undefined;
   loading: boolean;
+  error: string | undefined;
 };
-const ViewsWrapper: React.FC<ViewsWrapperProps> = ({ children, addNewButton, loading }) => {
+const ViewsWrapper: React.FC<ViewsWrapperProps> = ({ children, addNewButton, loading, error }) => {
   return (
     <div className={styles.wrapper}>
-      {addNewButton}
+      <ProtectedComponent component={addNewButton} roles={[Roles.admin]} />
       {children !== undefined && children.length > 0 ? (
         children
       ) : (
@@ -20,7 +21,13 @@ const ViewsWrapper: React.FC<ViewsWrapperProps> = ({ children, addNewButton, loa
           <ProtectedComponent component={<p>проверьте выбранное учреждение</p>} roles={[Roles.admin]} />
         </div>
       )}
-      {loading && <LoadingTransitionComponent />}
+      {error ? (
+        <div className={styles.noDataBoundary}>
+          <h4>Произошла ошибка при загрузке данных</h4>
+        </div>
+      ) : (
+        loading === true && <LoadingTransitionComponent />
+      )}
     </div>
   );
 };
