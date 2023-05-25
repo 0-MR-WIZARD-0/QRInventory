@@ -11,6 +11,9 @@ import { MainViewRoutes } from "types/Routes";
 import EditPageWrapper from "components/Complex/Wrappers/EditPageWrapper";
 import styles from "components/Complex/Wrappers/EditPageWrapper/edit.page.wrapper.module.scss";
 import stylesComponent from "./view.edit.item.module.scss";
+import { useForm, FormProvider } from "react-hook-form";
+import { nameValidation, articleValidation } from "validation";
+import Input from "components/Basic/Input";
 
 const imageMimeType = /image\/(png|jpg|jpeg|.gif)/i;
 
@@ -54,6 +57,8 @@ const ItemComponent: React.FC<Item> = ({ article, id, imageId, institution }) =>
   }, [file]);
 
   const onSubmit = async () => {};
+
+  const methods = useForm({ mode: "onBlur" });
 
   return (
 

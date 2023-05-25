@@ -11,8 +11,8 @@ import { MainViewRoutes } from "types/Routes";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
 import { useImage } from "helpers/hooks";
 import EditPageWrapper from "components/Complex/Wrappers/EditPageWrapper";
-import { useForm } from "react-hook-form";
 import { emailValidation, fullNameValidation, passwordValidation } from "validation";
+import { useForm, FormProvider } from "react-hook-form";
 
 const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, role }) => {
   const navigate = useNavigate();
@@ -41,6 +41,7 @@ const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, role }) 
     <EditPageWrapper
       onSubmit={onSubmit}
       component={
+        <FormProvider {...methods}>
         <div className={styles.wrapper}>
           <h3 className={styles.title}>Редактирование аккаунта</h3>
           <div className={styles.imageWrapper}>
@@ -67,6 +68,7 @@ const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, role }) 
             </div>
           </div>
         </div>
+        </FormProvider>
       }
     />
   );
