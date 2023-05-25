@@ -32,7 +32,7 @@ const Input: React.FC<InputProps> = ({ label, type, placeholder, validation, nam
   const isInvalid = isFormInvalid(inputError);
 
   return (
-    <div className={styles.inputWrapper}>
+    <div style={isInvalid ? { marginBottom: "30px" } : {}} className={styles.inputWrapper}>
       <input placeholder={placeholder} type={type} {...register(name, validation)} />
       {label !== undefined && <label htmlFor={name}>{label}</label>}
       {isInvalid && <p>{inputError.error?.message}</p>}

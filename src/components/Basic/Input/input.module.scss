@@ -13,6 +13,10 @@
     font-weight: 600;
     color: $gray-100;
 
+    &::placeholder {
+      color: $black-p30;
+    }
+
     &:-webkit-autofill {
       box-shadow: inset 0 0 0 1000px #fff;
     }
@@ -45,5 +49,8 @@
   p {
     position: absolute;
     bottom: -60%;
+
+    font-weight: bold;
+    color: $red;
   }
 }

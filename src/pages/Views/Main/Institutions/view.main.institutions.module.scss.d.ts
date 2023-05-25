@@ -1,1 +1,1 @@
-export const wrapperViewInstitutions: string;
+export const wrapper: string;
