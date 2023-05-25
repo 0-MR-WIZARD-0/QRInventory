@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { onlyUnique } from "helpers/redux";
+import { createItemThunk } from "redux/actions/items.actions";
 import { fetchItemsThunk } from "redux/actions/views.main.actions";
 import { Item } from "types/Item";
 import { institutionActions } from "./institution.reducer";
@@ -30,6 +31,9 @@ const ViewItemsSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(fetchItemsThunk.pending, (state, action) => {
       return { ...state, loading: true, error: undefined };
+    });
+    builder.addCase(createItemThunk.fulfilled, (state, action) => {
+      return { loading: false, data: state.data ? [...state.data, action.payload].filter(onlyUnique) : [action.payload], maxElements: state.maxElements + 1, error: undefined };
     });
     builder.addCase(fetchItemsThunk.fulfilled, (state, action) => {
       return { loading: false, data: state.data ? [...state.data, ...action.payload.items].filter(onlyUnique) : action.payload.items, maxElements: action.payload.total, error: undefined };

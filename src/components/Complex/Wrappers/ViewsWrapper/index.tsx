@@ -12,7 +12,7 @@ type ViewsWrapperProps = {
 const ViewsWrapper: React.FC<ViewsWrapperProps> = ({ children, addNewButton, loading, error }) => {
   return (
     <div className={styles.wrapper}>
-      <ProtectedComponent component={addNewButton} roles={[Roles.admin]} />
+      {addNewButton}
       {children !== undefined && children.length > 0 ? (
         children
       ) : (

@@ -11,7 +11,7 @@ export type User = {
 
   avatarId: string | null;
   institutions: Institution[];
-  teacherInstitution: TeacherInstitution
+  teacherInstitution: TeacherInstitution;
 };
 
 export enum UserErrors {
@@ -35,6 +35,10 @@ export const roledMenuBarOptions: RoledMenuBarOptions = {
     {
       link: MainViewRoutes.cabinets,
       title: "QR-коды"
+    },
+    {
+      link: MainViewRoutes.items,
+      title: "Предметы"
     }
   ],
   admin: [
@@ -43,16 +47,16 @@ export const roledMenuBarOptions: RoledMenuBarOptions = {
       title: "QR-коды"
     },
     {
-      link: MainViewRoutes.institutions,
-      title: "Организации"
-    },
-    {
       link: MainViewRoutes.items,
       title: "Предметы"
     },
     {
       link: MainViewRoutes.users,
       title: "Пользователи"
+    },
+    {
+      link: MainViewRoutes.institutions,
+      title: "Организации"
     }
   ]
 };
