@@ -63,6 +63,10 @@ const ViewCabinets: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, institution.id]);
 
+  useEffect(() => {
+    setPage(1);
+  }, [institution.id]);
+
   const onLastInView = (entires: IntersectionObserverEntry[]) => {
     if (!loading && data && data.length < maxElements) {
       if (entires[0].isIntersecting) setPage(p => p + 1);
@@ -74,7 +78,7 @@ const ViewCabinets: React.FC = () => {
   return (
     <>
       <Scenario ref={createCabinetModalRef} modalName='create-cabinet' script={CreateCabinetScript} />
-     
+
       <div className={styles.wrapperViewCabinets}>
         <AddNewButton onClick={() => createCabinetModalRef.current?.createModal()} title='Добавить новый кабинет +' />
         {data?.map((cabinet, i) => (

@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import DefaultButton from "components/Basic/Buttons/Default";
 import Input from "components/Basic/Input";
 import styles from "styles/globalStyle.module.scss";
-import { emailValidation, passwordValidation } from "validation/validation";
+import { emailValidation, passwordValidation } from "validation";
 import { Scenario } from "components/Basic/Scenario";
 import { AuthErrorScript, AuthResetScript } from "./Scenario";
 import { loginUserThunk } from "redux/actions/auth.actions";
@@ -11,8 +11,7 @@ import { useAppDispatch } from "redux/store";
 import { FormProvider, useForm } from "react-hook-form";
 
 const Login = () => {
-
-  const methods = useForm({mode: "onBlur"});
+  const methods = useForm({ mode: "onBlur" });
 
   const navigator = useNavigate();
   const dispatch = useAppDispatch();
@@ -20,12 +19,12 @@ const Login = () => {
   const authErrorModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
   const authResetModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
 
-  const onSubmit = methods.handleSubmit( async (data:any) => {
+  const onSubmit = methods.handleSubmit(async (data: any) => {
     let res = await dispatch(loginUserThunk(data));
     if (res.meta.requestStatus === "fulfilled") {
       navigator("/", { replace: true });
     }
-  })
+  });
 
   return (
     <FormProvider {...methods}>

@@ -55,6 +55,10 @@ const ViewItems: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, institution.id]);
 
+  useEffect(() => {
+    setPage(1);
+  }, [institution.id]);
+
   const createItemModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
 
   const { data, loading, maxElements } = useAppSelector(state => state.viewItems);
@@ -68,7 +72,7 @@ const ViewItems: React.FC = () => {
   return (
     <>
       <Scenario ref={createItemModalRef} modalName='create-item' script={CreateItemScript} />
-      
+
       <div className={styles.wrapperViewItems}>
         <AddNewButton onClick={() => createItemModalRef.current?.createModal()} title='Добавить новый предмет +' />
         {data?.map((item, i) => (

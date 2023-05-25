@@ -71,21 +71,6 @@ const ViewUser = () => {
   const { userData } = useAppSelector(state => state.user);
   const { data } = useAppSelector(state => state.viewUsers);
   const [pageUserData, setPageUserData] = useState<User | null | undefined>();
-  // useEffect(() => {
-  //   if (id === undefined) {
-  //     setPageUserData(userData);
-  //   } else {
-  //     // взять из кеша или получить
-  //     (async () => {
-  //       const res = await dispatch(fetchUserThunk({ id }))
-  //       if(res.meta.requestStatus === 'fulfilled') {
-  //         setPageUserData(res.payload)
-  //       } else {
-  //         setPageUserData(null)
-  //       }
-  //     })();
-  //   }
-  // }, [id, userData]);
   useEffect(() => {
     (async () => {
       if (!userData) return;
@@ -107,7 +92,7 @@ const ViewUser = () => {
         return setPageUserData(null);
       }
     })();
-    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData]);
 
   if (!userData) return <Navigate to={"signin"} />;

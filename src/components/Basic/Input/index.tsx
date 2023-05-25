@@ -9,19 +9,19 @@ type InputProps = {
   name: string;
 };
 
-export function findInputError(errors: any, name: string):{error?: {type: string, message: string, ref: any}} {
+export function findInputError(errors: any, name: string): { error?: { type: string; message: string; ref: any } } {
   const filtered = Object.keys(errors)
-  .filter(key => key.includes(name))
-  .reduce((cur, key) => {
-      return Object.assign(cur, { error: errors[key] })
-    }, {})
-  return filtered
+    .filter(key => key.includes(name))
+    .reduce((cur, key) => {
+      return Object.assign(cur, { error: errors[key] });
+    }, {});
+  return filtered;
 }
 
-export const isFormInvalid = (error:object) => {
-  if (Object.keys(error).length > 0) return true
-  return false
-}
+export const isFormInvalid = (error: object) => {
+  if (Object.keys(error).length > 0) return true;
+  return false;
+};
 
 const Input: React.FC<InputProps> = ({label, type, placeholder, validation, name}) => {
 

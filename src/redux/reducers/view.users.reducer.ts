@@ -5,13 +5,13 @@ import { User } from "types/User";
 import { institutionActions } from "./institution.reducer";
 
 type InitialState = {
-  data: User[];
+  data: User[] | undefined;
   loading: boolean;
   maxElements: number;
 };
 
 const initialState: InitialState = {
-  data: [],
+  data: undefined,
   loading: true,
   maxElements: -1
 };

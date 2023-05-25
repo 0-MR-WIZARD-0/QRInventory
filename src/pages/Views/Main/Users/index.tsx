@@ -43,7 +43,7 @@ const ViewUser: React.FC<ViewUserProps> = ({ navigate, user, lastElementRef }) =
 const ViewUsers: React.FC = () => {
   const navigate = useNavigate();
   const createUserModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
-  const { id } = useAppSelector(state => state.institution);
+  const institution = useAppSelector(state => state.institution);
 
   const { fetchUsersThunk } = useAction();
   const [page, setPage] = useState(1);
@@ -52,7 +52,11 @@ const ViewUsers: React.FC = () => {
       fetchUsersThunk({ page, perPage: paginationSettings.perPage });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, id]);
+  }, [page, institution.id]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [institution.id]);
 
   const { data, loading, maxElements } = useAppSelector(state => state.viewUsers);
 

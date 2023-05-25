@@ -39,7 +39,7 @@ const CabinetComponent: React.FC = () => {
         return setPageCabinetData(null);
       }
     })();
-    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onSubmit = async () => {

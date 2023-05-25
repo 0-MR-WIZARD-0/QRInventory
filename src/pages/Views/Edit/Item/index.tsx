@@ -3,6 +3,8 @@ import Image from "components/Basic/Image";
 import Input from "components/Basic/Input";
 import { useEffect, useState } from "react";
 import styles from "./view.edit.item.module.scss";
+import { nameValidation, articleValidation } from "validation";
+import { FormProvider, useForm } from "react-hook-form";
 
 const imageMimeType = /image\/(png|jpg|jpeg|.gif)/i;
 
@@ -12,6 +14,13 @@ type DropImageProps = {
 };
 
 const ItemComponent: React.FC = () => {
+
+  const methods = useForm({ mode: "onBlur" });
+
+  const onSubmit = methods.handleSubmit(async (data: any) => {
+    
+  });
+
   const [file, setFile] = useState<File | null>(null);
   const [fileDataURL, setFileDataURL] = useState<string | null>(null);
 
@@ -51,6 +60,7 @@ const ItemComponent: React.FC = () => {
 
   return (
     <>
+      <FormProvider {...methods}>
       <div className={styles.wrapper}>
         <h3 className={styles.title}>Редактирование предмета</h3>
         <div className={styles.controlsWrapper}>
@@ -70,8 +80,8 @@ const ItemComponent: React.FC = () => {
             </div>
           )}
           <div className={styles.buttonWrapper}>
-            {/* <Input name='name' onChange={() => {}} value={""} label='название' placeholder='стул обыкновенный' />
-            <Input name='article' onChange={() => {}} value={""} label='артикул' placeholder='Ш-504-301' /> */}
+            <Input {...nameValidation}/>
+            <Input {...articleValidation}/>
           </div>
         </div>
       </div>
@@ -79,6 +89,7 @@ const ItemComponent: React.FC = () => {
         <button className={styles.button}>отменить</button>
         <button className={styles.button}>сохранить</button>
       </div>
+      </FormProvider>
     </>
   );
 };
