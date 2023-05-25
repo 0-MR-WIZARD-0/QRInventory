@@ -13,7 +13,7 @@
 
   row-gap: 5px;
 
-  &>label {
+  & > label {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -22,12 +22,12 @@
     cursor: pointer;
   }
 
-  input[type=file] {
-      outline: 0;
-      opacity: 0;
-      pointer-events: none;
-      user-select: none;
-      width: 100%;
+  input[type="file"] {
+    outline: 0;
+    opacity: 0;
+    pointer-events: none;
+    user-select: none;
+    width: 100%;
   }
 
   h5,
@@ -49,9 +49,11 @@
   }
 
   i {
+    display: flex;
     width: 70px;
     height: 70px;
     background-color: $gray-100;
+    margin: 10px 0;
   }
 }
 

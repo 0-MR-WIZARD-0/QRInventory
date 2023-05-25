@@ -11,7 +11,7 @@
     border: 2px solid $gray-100;
     padding-left: 15px;
     font-weight: 600;
-    color: $gray-100 !important;
+    color: $gray-100;
 
     &:-webkit-autofill {
       box-shadow: inset 0 0 0 1000px #fff;
@@ -42,7 +42,7 @@
 
     z-index: 2;
   }
-  p{
+  p {
     position: absolute;
     bottom: -60%;
   }

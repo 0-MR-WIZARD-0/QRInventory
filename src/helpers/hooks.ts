@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 export const useObserver = (cb: (entires: IntersectionObserverEntry[]) => void) => {
   const observer = useRef<IntersectionObserver>();
-  const ref = useRef<HTMLDivElement | null>(null);
+  const ref = useRef<any | null>(null);
 
   useEffect(() => {
     observer.current = new IntersectionObserver(cb, { root: document, threshold: 0.5 });

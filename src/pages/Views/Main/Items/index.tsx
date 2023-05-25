@@ -1,5 +1,4 @@
 import { useAction, useAppSelector } from "helpers/redux";
-import styles from "./view.main.items.module.scss";
 import { useEffect, useRef, useState } from "react";
 import { Scenario } from "components/Basic/Scenario";
 import { CreateItemScript } from "./Scenario";
@@ -10,6 +9,9 @@ import { Item } from "types/Item";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { itemViewPath } from "types/App";
 import { useInView } from "react-intersection-observer";
+import ViewsWrapper from "components/Complex/Wrappers/ViewsWrapper";
+import styles from "components/Complex/Wrappers/ViewsWrapper/view.wrapper.module.scss";
+import Icon from "components/Basic/Icon";
 
 const paginationSettings = {
   perPage: 5
@@ -18,13 +20,13 @@ const paginationSettings = {
 type ViewItemProps = {
   navigate: NavigateFunction;
   item: Item;
-  lastElementRef?: React.MutableRefObject<HTMLDivElement | null>;
+  lastElementRef?: React.MutableRefObject<HTMLButtonElement | null>;
 };
 const ViewItem: React.FC<ViewItemProps> = ({ navigate, item, lastElementRef }) => {
   const { ref, inView } = useInView({ threshold: 0 });
 
   return (
-    <div
+    <button
       ref={el => {
         ref(el);
         if (lastElementRef) {
@@ -35,10 +37,12 @@ const ViewItem: React.FC<ViewItemProps> = ({ navigate, item, lastElementRef }) =
       onClick={() => {
         navigate(`${itemViewPath}/${item.id}`);
       }}>
-      <div className={styles.img}>{item.imageId && inView ? <img src={`/image/${item.imageId}`} alt={item.article} draggable={false} /> : <></>}</div>
+      <div className={styles.img}>{item.imageId && inView ? <img src={`/image/${item.imageId}`} alt={item.article} draggable={false} /> : inView ? <Icon icon='image' /> : <></>}</div>
       <h3>{item.name}</h3>
-      <p>Артикул: {item.article}</p>
-    </div>
+      <div className={styles.info}>
+        <p>Артикул: {item.article}</p>
+      </div>
+    </button>
   );
 };
 
@@ -72,14 +76,11 @@ const ViewItems: React.FC = () => {
   return (
     <>
       <Scenario ref={createItemModalRef} modalName='create-item' script={CreateItemScript} />
-
-      <div className={styles.wrapperViewItems}>
-        <AddNewButton onClick={() => createItemModalRef.current?.createModal()} title='Добавить новый предмет +' />
-        {data?.map((item, i) => (
-          <ViewItem key={item.id} item={item} navigate={navigate} lastElementRef={i === data.length - 1 ? lastItemRef : undefined} />
-        ))}
-      </div>
-      {loading && <LoadingTransitionComponent />}
+      <ViewsWrapper
+        addNewButton={<AddNewButton onClick={() => createItemModalRef.current?.createModal()} title='Добавить новый предмет +' />}
+        children={data ? data.map((item, i) => <ViewItem key={item.id} item={item} navigate={navigate} lastElementRef={i === data.length - 1 ? lastItemRef : undefined} />) : undefined}
+        loading={loading}
+      />
     </>
   );
 };
