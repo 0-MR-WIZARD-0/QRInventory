@@ -11,7 +11,7 @@
     border: 2px solid $gray-100;
     padding-left: 15px;
     font-weight: 600;
-    color: $gray-100 !important;
+    color: $gray-100;
 
     &:-webkit-autofill {
       box-shadow: inset 0 0 0 1000px #fff;
@@ -40,14 +40,11 @@
     color: $gray-100;
     font-weight: 600;
 
-    // z-index: 2;
   }
-
 }
 
 span{
   text-align: start;
-  // padding-left: 30px;
   padding-bottom: 8px;
   color: $secondary;
   font-weight: bold;

@@ -37,6 +37,7 @@ const DeleteCabinetComponent: React.FC = () => {
         };
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const deleteCabinet = async () => {

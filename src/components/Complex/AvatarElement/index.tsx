@@ -15,7 +15,7 @@ const AvatarElement: React.FC<{ img: ImageState }> = ({ img }) => {
       if (img?.length === 0 || typeof img !== "string") {
         return <div className={styles.noImage}>Нет изображения</div>;
       } else {
-        return <img className={styles.image} draggable={false} src={img as string} />;
+        return <img className={styles.image} draggable={false} src={img} alt='аватар/превью элемента' />;
       }
   }
 };

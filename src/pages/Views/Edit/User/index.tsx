@@ -101,7 +101,7 @@ const EditUser: React.FC = () => {
         return setPageUserData(null);
       }
     })();
-    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData]);
 
   if (pageUserData === undefined) return <LoadingTransitionComponent />;

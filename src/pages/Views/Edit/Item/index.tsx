@@ -1,25 +1,20 @@
 import Icon from "components/Basic/Icon";
-import Image from "components/Basic/Image";
-import Input from "components/Basic/Input";
+import { LoadingTransitionComponent } from "components/Basic/Loader";
+import { useAppSelector } from "helpers/redux";
 import { useEffect, useState } from "react";
-import styles from "./view.edit.item.module.scss";
-import { nameValidation, articleValidation } from "validation";
-import { FormProvider, useForm } from "react-hook-form";
+
+import { useNavigate, useParams } from "react-router";
+import { fetchItemThunk } from "redux/actions/items.actions";
+import { useAppDispatch } from "redux/store";
+import { Item } from "types/Item";
+import { MainViewRoutes } from "types/Routes";
+import EditPageWrapper from "components/Complex/Wrappers/EditPageWrapper";
+import styles from "components/Complex/Wrappers/EditPageWrapper/edit.page.wrapper.module.scss";
+import stylesComponent from "./view.edit.item.module.scss";
 
 const imageMimeType = /image\/(png|jpg|jpeg|.gif)/i;
 
-type DropImageProps = {
-  onImageSelect: (x: any) => any;
-  image: any | undefined;
-};
-
-const ItemComponent: React.FC = () => {
-
-  const methods = useForm({ mode: "onBlur" });
-
-  const onSubmit = methods.handleSubmit(async (data: any) => {
-    
-  });
+const ItemComponent: React.FC<Item> = ({ article, id, imageId, institution }) => {
 
   const [file, setFile] = useState<File | null>(null);
   const [fileDataURL, setFileDataURL] = useState<string | null>(null);
@@ -58,43 +53,81 @@ const ItemComponent: React.FC = () => {
     };
   }, [file]);
 
+  const onSubmit = async () => {};
+
   return (
-    <>
-      <FormProvider {...methods}>
-      <div className={styles.wrapper}>
-        <h3 className={styles.title}>Редактирование предмета</h3>
-        <div className={styles.controlsWrapper}>
-          {fileDataURL ? (
-            <>
-              <input onChange={changeHandler} type='file' accept='.png, .jpg, .jpeg' />
-              <img alt='изображение предмета' src={fileDataURL} draggable={false} />
-            </>
-          ) : (
-            <div className={styles.imageWrapper}>
-              <label>
-                <Icon icon='image' />
+
+    <EditPageWrapper
+      onSubmit={onSubmit}
+      component={
+        <FormProvider {...methods}>
+        <div className={styles.wrapper}>
+          <h3 className={stylesComponent.title}>Редактирование предмета {article}</h3>
+          <div className={stylesComponent.controlsWrapper}>
+            {fileDataURL ? (
+              <>
                 <input onChange={changeHandler} type='file' accept='.png, .jpg, .jpeg' />
-                <h5>Выбрать фотографию предмета</h5>
-                <span>макс 5мб</span>
-              </label>
+                <img alt='изображение предмета' src={fileDataURL} draggable={false} />
+              </>
+            ) : (
+              <div className={stylesComponent.imageWrapper}>
+                <label>
+                  <Icon icon='image' />
+                  <input onChange={changeHandler} type='file' accept='.png, .jpg, .jpeg' />
+                  <h5>Выбрать фотографию предмета</h5>
+                  <span>макс 5мб</span>
+                </label>
+              </div>
+            )}
+            <div className={stylesComponent.buttonWrapper}>
+              <Input {...nameValidation}/>
+              <Input {...articleValidation}/>
             </div>
-          )}
-          <div className={styles.buttonWrapper}>
-            <Input {...nameValidation}/>
-            <Input {...articleValidation}/>
           </div>
         </div>
-      </div>
-      <div className={styles.bottomMenu}>
-        <button className={styles.button}>отменить</button>
-        <button className={styles.button}>сохранить</button>
-      </div>
-      </FormProvider>
-    </>
+        </FormProvider>
+      }
+    />
+
   );
 };
 const EditItem: React.FC = () => {
-  return <ItemComponent />;
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const { id } = useParams();
+  const { data } = useAppSelector(state => state.viewItems);
+  const [pageItemData, setPageitemData] = useState<Item | null | undefined>();
+  useEffect(() => {
+    (async () => {
+      if (!id) {
+        console.log("Произошла ошибка при загрузке предмета");
+        return navigate(`/${MainViewRoutes.items}`);
+      }
+
+      try {
+        let existing = data?.find(e => e.id === id);
+        if (existing) return setPageitemData(existing);
+        else {
+          let res = await dispatch(fetchItemThunk({ id }));
+
+          if (res.meta.requestStatus === "rejected") {
+            console.log("Произошла ошибка при загрузке предмета");
+            return navigate(`/${MainViewRoutes.items}`);
+          }
+
+          return setPageitemData(res.payload);
+        }
+      } catch (error) {
+        return setPageitemData(null);
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (pageItemData === undefined) return <LoadingTransitionComponent />;
+  if (pageItemData === null) return <b>произошла ошибка при загрузке предмета или он не найден</b>;
+  return <ItemComponent {...pageItemData} />;
 };
 
 export default EditItem;
