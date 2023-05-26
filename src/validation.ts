@@ -101,3 +101,8 @@ export const titleInstitutionValidation = {
     }
   }
 };
+
+export const searchValidation = {
+  name: "search",
+  type: "text",
+};

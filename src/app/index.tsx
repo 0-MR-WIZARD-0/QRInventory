@@ -22,7 +22,7 @@ import ViewUsers from "pages/Views/Main/Users";
 import ViewUser from "pages/Views/Sub/User";
 import ViewCabinet from "pages/Views/Sub/Cabinet";
 import ViewItem from "pages/Views/Sub/Item";
-import EditCabinet from "pages/Views/Edit/Cabinets";
+import EditCabinet from "pages/Views/Edit/Cabinet";
 import EditItem from "pages/Views/Edit/Item";
 import EditUser from "pages/Views/Edit/User";
 import Logout from "pages/Auth/Logout";

@@ -5,7 +5,7 @@ type InputProps = {
   label: string;
   type: string;
   placeholder?: string;
-  validation: Object;
+  validation?: Object;
   name: string;
 };
 

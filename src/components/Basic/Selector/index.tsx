@@ -5,6 +5,7 @@ import { SelectMessages } from "types/UI";
 import { User } from "types/User";
 import { Institution } from "types/Institution";
 import { useAction, useAppSelector } from "helpers/redux";
+import { useEffect } from "react";
 
 type SelectorProps = {
   userData: User;
@@ -17,6 +18,14 @@ const Selector: React.FC<SelectorProps> = ({ userData }) => {
 
   const { setInstitution } = useAction();
   const institution = useAppSelector(state => state.institution);
+
+  useEffect(()=>{
+    console.log(institution);
+    console.log(userData.institutions);
+    
+    
+    // setInstitution()
+  },[userData])
 
   return (
     <Select

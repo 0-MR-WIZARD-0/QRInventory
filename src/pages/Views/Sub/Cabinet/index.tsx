@@ -12,9 +12,20 @@ import styles from "./view.sub.cabinet.module.scss";
 import { useAppDispatch } from "redux/store";
 import { MainViewRoutes } from "types/Routes";
 import { fetchCabinetThunk } from "redux/actions/cabinets.actions";
+import { Item } from "types/Item";
+import { Teacher } from "types/Teacher";
 
 const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teachers }) => {
   const location = useLocation();
+
+
+  const formatItems = (items: Item[]) => {
+    return items.map(i => ({ key: i.id, name: i.name, value: i.article }));
+  };
+
+  const formatTeachers = (teachers: Teacher[]) => {
+    return teachers.map(i => ({ key: i.id, name: i.fullName, value: i.email }));
+  };
 
   return (
     <>
@@ -28,8 +39,14 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
         </h1>
       </div>
       <div>
-        <DropList items={items} cabinetId={id} />
-        <DropList teachers={teachers} />
+        <DropList 
+          options={formatItems(items as Item[])}
+          enableSearch = {true}
+        />
+        <DropList 
+          options={formatTeachers(teachers as Teacher[])}
+          enableSearch = {true}
+        />
         <ProtectedComponent
           component={
             <div className={styles.menuBar}>

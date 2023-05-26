@@ -10,9 +10,20 @@ import { LoadingTransitionComponent } from "components/Basic/Loader";
 import ProtectedComponent from "components/Protected/Component";
 import { Roles } from "types/User";
 import EditPageWrapper from "components/Complex/Wrappers/EditPageWrapper";
+import DropList from "components/Complex/DropList";
+import { Teacher } from "types/Teacher";
+import { Item } from "types/Item";
 
 const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teachers }) => {
   const navigate = useNavigate();
+
+  const formatItems = (items: Item[]) => {
+    return items.map(i => ({ key: i.id, name: i.name, value: i.article }));
+  };
+
+  const formatTeachers = (teachers: Teacher[]) => {
+    return teachers.map(i => ({ key: i.id, name: i.fullName, value: i.email }));
+  };
 
   const onSubmit = async () => {
     // edit data bla bla
@@ -26,11 +37,26 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
       component={
         <div className={styles.wrapper}>
           <h3 className={styles.title}>Редактирование кабинета {cabinetNumber}</h3>
-          <ul>Колледж бизнес технологий</ul>
-          {/* Дроплист учителей только у админа в нем возможность добавить в кабинет или удалить, method patch */}
-          <ProtectedComponent component={<ul>Учителя (4)</ul>} roles={[Roles.admin]} />
-          <ProtectedComponent component={<ul>Учителя без изменения данных (4)</ul>} roles={[Roles.teacher]} />
-          <ul>Предметы (10)</ul>
+          <p>Колледж бизнес технологий</p>
+
+          <ProtectedComponent 
+            component={
+              <DropList
+                options={formatTeachers(teachers as Teacher[])}
+              />
+            } 
+            roles={[Roles.admin]} 
+          />
+          <ProtectedComponent 
+            component={
+              <DropList
+                options={formatTeachers(teachers as Teacher[])}
+              />
+            } 
+            roles={[Roles.teacher]} 
+          />
+          <DropList options={formatItems(items as Item[])}/>
+          
         </div>
       }
     />

@@ -1,4 +1,4 @@
-import { LoadingTransitionComponent } from "components/Basic/Loader";
+// import { LoadingTransitionComponent } from "components/Basic/Loader";
 import ProtectedComponent from "components/Protected/Component";
 import { Roles } from "types/User";
 import styles from "./view.wrapper.module.scss";
@@ -10,6 +10,7 @@ type ViewsWrapperProps = {
   error: string | undefined;
 };
 const ViewsWrapper: React.FC<ViewsWrapperProps> = ({ children, addNewButton, loading, error }) => {
+
   return (
     <div className={styles.wrapper}>
       {addNewButton}
@@ -26,8 +27,10 @@ const ViewsWrapper: React.FC<ViewsWrapperProps> = ({ children, addNewButton, loa
           <h4>Произошла ошибка при загрузке данных</h4>
         </div>
       ) : (
-        loading === true && <LoadingTransitionComponent />
-      )}
+        // loading === true && <LoadingTransitionComponent />
+        ""
+      )
+      }
     </div>
   );
 };

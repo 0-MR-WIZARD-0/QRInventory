@@ -94,7 +94,7 @@ const ViewUsers: React.FC = () => {
       <Scenario ref={createUserModalRef} modalName='create-user' script={CreateUserScript} />
       <ViewsWrapper
         addNewButton={<ProtectedComponent component={<AddNewButton onClick={() => createUserModalRef.current?.createModal()} title='Добавить нового учителя +' />} roles={[Roles.admin]} />}
-        children={data ? data.map((cabinet, i) => <ViewUser key={cabinet.id} user={cabinet} navigate={navigate} lastElementRef={error ? undefined : i === data.length - 1 ? lastItemRef : undefined} />) : undefined}
+        children={data ? data.map((user, i) => <ViewUser key={user.id} user={user} navigate={navigate} lastElementRef={error ? undefined : i === data.length - 1 ? lastItemRef : undefined} />) : undefined}
         loading={loading}
         error={error}
       />
