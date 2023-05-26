@@ -1,15 +1,6 @@
 import React, { useState, useRef } from "react";
 import styles from "./droplist.module.scss";
-import { Item } from "types/Item";
 import Search from "components/Basic/Search";
-
-import { Teacher } from "types/Teacher";
-
-// type Props = {
-  // items?: Item[];
-  // teachers?: Teacher[];
-  // cabinetId?: string;
-// };
 
 interface Option {
   key: string;
@@ -20,9 +11,10 @@ interface Option {
 interface DropDownProps {
   options: Option[];
   enableSearch?: boolean;
+  enableEdit?: boolean;
 }
 
-const DropList: React.FC<DropDownProps> = ({ options, enableSearch = false }) => {
+const DropList: React.FC<DropDownProps> = ({ options, enableSearch = false, enableEdit = false }) => {
   const container = useRef<HTMLInputElement>(null);
 
   const [dropdownState, setDropdownState] = useState({ open: false });
@@ -51,8 +43,16 @@ const DropList: React.FC<DropDownProps> = ({ options, enableSearch = false }) =>
                   <img alt=""/>
                 </div>
                 <div>
-                  <p>{option.name}</p>
-                  <p>{option.value}</p>
+                  <div>
+                    <p>{option.name}</p>
+                    <p>{option.value}</p>
+                  </div>
+                  {/* {enableEdit && (
+                    <div>
+                      <button>Добавить</button>
+                      <button>удалить</button>
+                    </div>
+                  )} */}
                 </div>
               </li>
             ))}

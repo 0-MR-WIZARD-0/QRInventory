@@ -24,8 +24,6 @@ const ViewInstitution: React.FC<ViewInstitutionProps> = memo(
   ({ institution, lastElementRef }) => {
     const { setInstitution } = useAction();
 
-    console.log(institution.teachers);
-
     return (
       <button ref={lastElementRef} key={institution.id} onClick={() => setInstitution({ id: institution.id, name: institution.name })}>
         <h3>{institution.name}</h3>
@@ -49,7 +47,7 @@ const ViewInsitutions: React.FC = () => {
   const { isOnline } = useListenOnline();
 
   const fetchData = () => {
-    if (!data || data.length < paginationSettings.perPage * page) {
+    if (data === undefined || (data.length < paginationSettings.perPage * page && data.length < maxElements)) {
       return fetchInstitutionsThunk({ page, perPage: paginationSettings.perPage });
     }
   };
@@ -62,10 +60,10 @@ const ViewInsitutions: React.FC = () => {
       fetchData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error, isOnline]);
+  }, [isOnline]);
 
   const onLastInView = (entires: IntersectionObserverEntry[]) => {
-    if (page * paginationSettings.perPage >= maxElements) return;
+    if (page * paginationSettings.perPage >= maxElements || error) return;
     if (!loading && data && data.length < maxElements) {
       if (entires[0].isIntersecting) setPage(p => p + 1);
     }

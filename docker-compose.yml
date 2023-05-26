@@ -2,6 +2,7 @@ version: "3"
 services:
   qr-inventory-front:
     container_name: qr-inventory-front
+    restart: unless-stopped
     build: .
     environment:
       env_file: .env

@@ -43,19 +43,24 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
             component={
               <DropList
                 options={formatTeachers(teachers as Teacher[])}
+                enableSearch={true}
+                enableEdit={true}
               />
             } 
             roles={[Roles.admin]} 
           />
+
           <ProtectedComponent 
             component={
               <DropList
                 options={formatTeachers(teachers as Teacher[])}
+                enableSearch={true}
               />
             } 
             roles={[Roles.teacher]} 
           />
-          <DropList options={formatItems(items as Item[])}/>
+
+          <DropList options={formatItems(items as Item[])} enableSearch={true} enableEdit={true}/>
           
         </div>
       }

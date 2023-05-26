@@ -41,7 +41,9 @@
     "test": "react-scripts test",
     "styles": "npx typed-scss-modules src --watch",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "serve": "serve -s build",
+    "docker:compose": "docker-compose up --build -d"
   },
   "eslintConfig": {
     "extends": [

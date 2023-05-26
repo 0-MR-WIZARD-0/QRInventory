@@ -33,7 +33,7 @@ export const passwordValidation = {
   name: "password",
   label: "Пароль",
   type: "password",
-  placeholder: "any-password",
+  placeholder: "••••••••",
   validation: {
     required: {
       value: true,
