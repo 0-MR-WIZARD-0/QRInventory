@@ -65,6 +65,7 @@ const ViewInsitutions: React.FC = () => {
   }, [error, isOnline]);
 
   const onLastInView = (entires: IntersectionObserverEntry[]) => {
+    if (page * paginationSettings.perPage >= maxElements) return;
     if (!loading && data && data.length < maxElements) {
       if (entires[0].isIntersecting) setPage(p => p + 1);
     }
