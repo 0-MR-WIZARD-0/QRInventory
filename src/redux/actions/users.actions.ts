@@ -38,7 +38,7 @@ export const editUserThunk = createAsyncThunk<any, { id: string; fullName?: stri
   }
 });
 
-export const deleteUSerThunk = createAsyncThunk<any, { id: string }>("user/delete", async (params, { rejectWithValue, fulfillWithValue }) => {
+export const deleteUserThunk = createAsyncThunk<any, { id: string }>("user/delete", async (params, { rejectWithValue, fulfillWithValue }) => {
   try {
     const res = (await api.delete(`/item/${params.id}`)).data;
     return fulfillWithValue(res);
