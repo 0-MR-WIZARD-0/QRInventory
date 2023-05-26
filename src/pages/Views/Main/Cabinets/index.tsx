@@ -67,11 +67,11 @@ const ViewCabinets: React.FC = () => {
   };
   useEffect(() => {
     // console.log(page);
-    if (!error) fetchData();
+    if (!error && institution.id) fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, institution.id]);
   useEffect(() => {
-    if (error && isOnline && (!data || data.length < paginationSettings.perPage * page)) {
+    if (institution.id && error && isOnline && (!data || data.length < paginationSettings.perPage * page)) {
       fetchData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
