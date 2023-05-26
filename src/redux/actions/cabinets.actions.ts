@@ -39,6 +39,7 @@ export const editCabinetThunk = createAsyncThunk<any, { id: string; institutionI
 export const deleteCabinetThunk = createAsyncThunk<any, { id: string }>("cabinet/delete", async (params, { rejectWithValue, fulfillWithValue }) => {
   try {
     const res = (await api.delete(`/cabinet/${params.id}`)).data;
+    console.log(res);
     return fulfillWithValue(res);
   } catch (error) {
     return rejectWithValue(RejectResponses.deleteCabinetError);
