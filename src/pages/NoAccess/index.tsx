@@ -22,6 +22,7 @@ const NoAccessPage = () => {
     }, 1000);
 
     return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [countdown]);
 
   if (!error) return <Navigate to={"/"} />;

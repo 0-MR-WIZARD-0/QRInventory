@@ -56,7 +56,7 @@ const ViewItems: React.FC = () => {
   const [page, setPage] = useState(1);
 
   const fetchData = () => {
-    if (!data || data.length < paginationSettings.perPage * page) {
+    if (data === undefined || (data.length < paginationSettings.perPage * page && data.length < maxElements)) {
       return fetchItemsThunk({ page, perPage: paginationSettings.perPage });
     }
   };
@@ -69,7 +69,7 @@ const ViewItems: React.FC = () => {
       fetchData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error, isOnline]);
+  }, [isOnline]);
 
   useEffect(() => {
     setPage(1);
@@ -78,7 +78,7 @@ const ViewItems: React.FC = () => {
   const createItemModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
 
   const onLastInView = (entires: IntersectionObserverEntry[]) => {
-    if (page * paginationSettings.perPage >= maxElements) return;
+    if (page * paginationSettings.perPage >= maxElements || error) return;
     if (!loading && data && data.length < maxElements) {
       if (entires[0].isIntersecting) setPage(p => p + 1);
     }

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { onlyUnique } from "helpers/redux";
-import { createItemThunk } from "redux/actions/items.actions";
+import { createItemThunk, deleteItemThunk } from "redux/actions/items.actions";
 import { fetchItemsThunk } from "redux/actions/views.main.actions";
 import { Item } from "types/Item";
 import { institutionActions } from "./institution.reducer";
@@ -42,7 +42,10 @@ const ViewItemsSlice = createSlice({
       return { ...state, loading: false, error: (action.payload as { payload: string }).payload ?? "Произошла ошибка при загрузке предметов" };
     });
     builder.addCase(institutionActions.setInstitution, (state, action) => {
-      return { ...state, data: [], maxElements: -1 };
+      return { ...state, data: undefined, maxElements: -1 };
+    });
+    builder.addCase(deleteItemThunk.fulfilled, (state, action) => {
+      return { ...state, data: state.data?.filter(c => c.id !== action.meta.arg.id), error: undefined };
     });
   }
 });

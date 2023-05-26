@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { onlyUnique } from "helpers/redux";
-import { createCabinetThunk } from "redux/actions/cabinets.actions";
+import { createCabinetThunk, deleteCabinetThunk } from "redux/actions/cabinets.actions";
 import { fetchCabinetsThunk } from "redux/actions/views.main.actions";
 import { Cabinet } from "types/Cabinet";
 import { institutionActions } from "./institution.reducer";
@@ -42,7 +42,10 @@ const ViewCabinetsSlice = createSlice({
       return { ...state, loading: false, error: (action.payload as { payload: string }).payload ?? "Произошла ошибка при загрузке кабинетов" };
     });
     builder.addCase(institutionActions.setInstitution, (state, action) => {
-      return { ...state, data: [], maxElements: -1 };
+      return { ...state, data: undefined, maxElements: -1 };
+    });
+    builder.addCase(deleteCabinetThunk.fulfilled, (state, action) => {
+      return { ...state, data: state.data?.filter(c => c.id !== action.meta.arg.id), error: undefined };
     });
   }
 });

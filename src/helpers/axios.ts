@@ -7,7 +7,7 @@ const api = axios.create({
   baseURL,
   withCredentials: true
 });
-api.defaults.baseURL = process.env.NODE_ENV !== NodeENV.prod ? process.env.REACT_API_DEV_HOST : process.env.REACT_API_HOST;
+api.defaults.baseURL = baseURL;
 
 // if (process.env.NODE_ENV) {
 //   api.interceptors.request.use(request => {
