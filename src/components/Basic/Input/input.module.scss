@@ -13,6 +13,10 @@
     font-weight: 600;
     color: $gray-100;
 
+    &::placeholder {
+      color: $black-p30;
+    }
+
     &:-webkit-autofill {
       box-shadow: inset 0 0 0 1000px #fff;
     }
@@ -40,10 +44,18 @@
     color: $gray-100;
     font-weight: 600;
 
+    z-index: 2;
+  }
+  p {
+    position: absolute;
+    bottom: -60%;
+
+    font-weight: bold;
+    color: $red;
   }
 }
 
-span{
+span {
   text-align: start;
   padding-bottom: 8px;
   color: $secondary;

@@ -1,35 +1,23 @@
 import DefaultButton from "components/Basic/Buttons/Default";
 import Input from "components/Basic/Input";
-import { Script } from "components/Basic/Scenario";
-// import { useState } from "react";
+import { ResolverCallback, Script } from "components/Basic/Scenario";
 import styles from "./view.main.institutions.scenario.module.scss";
 import { titleInstitutionValidation } from "validation";
 import { FormProvider, useForm } from "react-hook-form";
+import { createInstitutionThunk } from "redux/actions/institutions.actions";
+import { useAppDispatch } from "redux/store";
 
-export const CreateInstitutionScenarioComponent: React.FC = () => {
-  const methods = useForm({ mode: "onBlur" });
+export const CreateInstitutionScenarioComponent: React.FC<{ cb: ResolverCallback }> = ({ cb }) => {
+  const methods = useForm<{ name: string }>({ mode: "onBlur" });
+  const dispatch = useAppDispatch();
 
-  // const [input, setInput] = useState<string>("");
-  // const { postInstitution } = useAction();
-
-  // const createInstitution = (value: string) => {
-  //   (async () => {
-  //     try {
-  //       let res = await api.post("/institution/create", { name: `${value}` });
-  //       if (res.status === 200) {
-  //         // postInstitution(res.data);
-  //         // getInstitution(res.data)
-  //       } else {
-  //         console.log(res.data);
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   })();
-  // };
-
-  const onSubmit = methods.handleSubmit(data => {
-    
+  const onSubmit = methods.handleSubmit(async data => {
+    const res = await dispatch(createInstitutionThunk({ name: data.name }));
+    if (res.meta.requestStatus === "fulfilled") {
+      cb(Promise.resolve(true));
+    } else {
+      return console.log("Ошибка при создании учреждения");
+    }
   });
 
   return (

@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "helpers/axios";
+import { viewInstitutionsActions } from "redux/reducers/view.institutions.reducer";
 import { viewItemsActions } from "redux/reducers/view.items.reducer";
 import { viewUsersActions } from "redux/reducers/view.users.reducer";
 import { RootState } from "redux/rootReducer";
@@ -44,6 +45,18 @@ export const fetchUsersThunk = createAsyncThunk<any, { page: number; perPage: nu
     if (params.new) dispatch(viewUsersActions.updateUsers([]));
     const { page, perPage } = params;
     const res = await api.get<any, { data: { users: User[] } }>("/user/all", { params: { take: perPage, skip: (page - 1) * perPage, institution: state.institution.id } }).then(res => res.data);
+    return fulfillWithValue(res);
+  } catch (error) {
+    return rejectWithValue(RejectResponses.usersError);
+  }
+});
+
+export const fetchInstitutionsThunk = createAsyncThunk<any, { page: number; perPage: number; new?: true }>("views/institutions", async (params, { dispatch, fulfillWithValue, rejectWithValue, getState }) => {
+  try {
+    const state = getState() as RootState;
+    if (params.new) dispatch(viewInstitutionsActions.updateInstitutions([]));
+    const { page, perPage } = params;
+    const res = await api.get<any, { data: { users: User[] } }>("/institution/all", { params: { take: perPage, skip: (page - 1) * perPage, institution: state.institution.id } }).then(res => res.data);
     return fulfillWithValue(res);
   } catch (error) {
     return rejectWithValue(RejectResponses.usersError);

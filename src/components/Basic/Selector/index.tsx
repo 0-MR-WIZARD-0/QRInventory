@@ -4,7 +4,6 @@ import { Organization } from "./selector.interface";
 import { SelectMessages } from "types/UI";
 import { User } from "types/User";
 import { Institution } from "types/Institution";
-import { useState } from "react";
 import { useAction, useAppSelector } from "helpers/redux";
 
 type SelectorProps = {
@@ -17,11 +16,6 @@ const Selector: React.FC<SelectorProps> = ({ userData }) => {
   };
 
   const { setInstitution } = useAction();
-
-  // позже заменить на стейт
-  // const [selectedInstitution, setSelectedInstitution] = useState<string | undefined>(undefined);
-  // ты должен менять стейт!
-
   const institution = useAppSelector(state => state.institution);
 
   return (

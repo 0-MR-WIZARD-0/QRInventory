@@ -1,9 +1,9 @@
-import { Cabinet } from "./Cabinet";
-
 export type Institution = {
   id: string;
   name: string;
-  cabinets: Cabinet[];
+  cabinets: number;
+  items: number;
+  teachers: number;
 };
 
 export type InstitutionShort = {
