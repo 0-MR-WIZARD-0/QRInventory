@@ -4,7 +4,7 @@
   "private": true,
   "proxy": "http://localhost:5000",
   "dependencies": {
-    "@hookform/resolvers": "^3.1.0",
+    "@hookform/resolvers": "3.0.1",
     "@reduxjs/toolkit": "^1.9.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -41,7 +41,9 @@
     "test": "react-scripts test",
     "styles": "npx typed-scss-modules src --watch",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "serve": "serve -s build",
+    "docker:compose": "docker-compose up --build -d"
   },
   "eslintConfig": {
     "extends": [
