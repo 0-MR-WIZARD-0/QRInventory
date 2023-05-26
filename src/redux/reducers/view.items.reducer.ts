@@ -42,7 +42,7 @@ const ViewItemsSlice = createSlice({
       return { ...state, loading: false, error: (action.payload as { payload: string }).payload ?? "Произошла ошибка при загрузке предметов" };
     });
     builder.addCase(institutionActions.setInstitution, (state, action) => {
-      return { ...state, data: [], maxElements: -1 };
+      return { ...state, data: undefined, maxElements: -1 };
     });
   }
 });

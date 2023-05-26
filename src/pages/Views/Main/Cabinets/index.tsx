@@ -61,7 +61,7 @@ const ViewCabinets: React.FC = () => {
   const { isOnline } = useListenOnline();
 
   const fetchData = () => {
-    if (!data || data.length < paginationSettings.perPage * page) {
+    if (data === undefined || (data.length < paginationSettings.perPage * page && data.length < maxElements)) {
       return fetchCabinetsThunk({ page, perPage: paginationSettings.perPage });
     }
   };

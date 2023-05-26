@@ -56,7 +56,7 @@ const ViewItems: React.FC = () => {
   const [page, setPage] = useState(1);
 
   const fetchData = () => {
-    if (!data || data.length < paginationSettings.perPage * page) {
+    if (data === undefined || (data.length < paginationSettings.perPage * page && data.length < maxElements)) {
       return fetchItemsThunk({ page, perPage: paginationSettings.perPage });
     }
   };
