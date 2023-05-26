@@ -35,9 +35,9 @@ const Login = () => {
           <div className={styles.container}>
             <h2>Авторизация</h2>
             <p>Для продолжения необходимо ввести данные аккаунта</p>
-            <form action='' method='post' className='form'>
-              <Input {...emailValidation} />
-              <Input {...passwordValidation} />
+            <form action='' method='post' className={styles.form}>
+              <Input {...emailValidation}/>
+              <Input {...passwordValidation}/>
               <DefaultButton component={<div>продолжить</div>} onSumbit={onSubmit} />
               <Link to={""} onClick={() => authResetModalRef.current?.createModal()}>
                 Забыл(а) пароль

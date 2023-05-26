@@ -2,6 +2,7 @@ import Icon from "components/Basic/Icon";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
 import { useAppSelector } from "helpers/redux";
 import { useEffect, useState } from "react";
+
 import { useNavigate, useParams } from "react-router";
 import { fetchItemThunk } from "redux/actions/items.actions";
 import { useAppDispatch } from "redux/store";
@@ -10,10 +11,14 @@ import { MainViewRoutes } from "types/Routes";
 import EditPageWrapper from "components/Complex/Wrappers/EditPageWrapper";
 import styles from "components/Complex/Wrappers/EditPageWrapper/edit.page.wrapper.module.scss";
 import stylesComponent from "./view.edit.item.module.scss";
+import { useForm, FormProvider } from "react-hook-form";
+import { nameValidation, articleValidation } from "validation";
+import Input from "components/Basic/Input";
 
 const imageMimeType = /image\/(png|jpg|jpeg|.gif)/i;
 
 const ItemComponent: React.FC<Item> = ({ article, id, imageId, institution }) => {
+
   const [file, setFile] = useState<File | null>(null);
   const [fileDataURL, setFileDataURL] = useState<string | null>(null);
 
@@ -53,10 +58,14 @@ const ItemComponent: React.FC<Item> = ({ article, id, imageId, institution }) =>
 
   const onSubmit = async () => {};
 
+  const methods = useForm({ mode: "onBlur" });
+
   return (
+
     <EditPageWrapper
       onSubmit={onSubmit}
       component={
+        <FormProvider {...methods}>
         <div className={styles.wrapper}>
           <h3 className={stylesComponent.title}>Редактирование предмета {article}</h3>
           <div className={stylesComponent.controlsWrapper}>
@@ -76,13 +85,15 @@ const ItemComponent: React.FC<Item> = ({ article, id, imageId, institution }) =>
               </div>
             )}
             <div className={stylesComponent.buttonWrapper}>
-              {/* <Input name='name' onChange={() => {}} value={""} label='название' placeholder='стул обыкновенный' />
-            <Input name='article' onChange={() => {}} value={""} label='артикул' placeholder='Ш-504-301' /> */}
+              <Input {...nameValidation}/>
+              <Input {...articleValidation}/>
             </div>
           </div>
         </div>
+        </FormProvider>
       }
     />
+
   );
 };
 const EditItem: React.FC = () => {

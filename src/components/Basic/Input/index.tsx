@@ -28,15 +28,18 @@ const Input: React.FC<InputProps> = ({ label, type, placeholder, validation, nam
     register,
     formState: { errors }
   } = useFormContext();
+
   const inputError = findInputError(errors, name);
   const isInvalid = isFormInvalid(inputError);
 
   return (
-    <div style={isInvalid ? { marginBottom: "30px" } : {}} className={styles.inputWrapper}>
-      <input placeholder={placeholder} type={type} {...register(name, validation)} />
-      {label !== undefined && <label htmlFor={name}>{label}</label>}
-      {isInvalid && <p>{inputError.error?.message}</p>}
-    </div>
+    <>
+      <div className={styles.inputWrapper}>
+        <input placeholder={placeholder} type={type} {...register(name, validation)} />
+        {label !== undefined && <label htmlFor={name}>{label}</label>}
+      </div>
+      {isInvalid && <span>{inputError.error?.message}</span>}
+    </>
   );
 };
 

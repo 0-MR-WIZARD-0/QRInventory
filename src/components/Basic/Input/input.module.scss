@@ -2,7 +2,7 @@
 
 .inputWrapper {
   position: relative;
-  margin-bottom: 15px;
+  margin-bottom: 8px;
 
   input {
     border-radius: 15px;
@@ -53,4 +53,11 @@
     font-weight: bold;
     color: $red;
   }
+}
+
+span {
+  text-align: start;
+  padding-bottom: 8px;
+  color: $secondary;
+  font-weight: bold;
 }
