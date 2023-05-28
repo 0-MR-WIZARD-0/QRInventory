@@ -47,4 +47,3 @@ export const deleteItemThunk = createAsyncThunk<any, { id: string }>("cabinet/de
 
 // edit item thunk
 
-// delete item thunk

@@ -5,7 +5,7 @@ import { Cabinet } from "types/Cabinet";
 import { useAppDispatch } from "redux/store";
 import { useAppSelector } from "helpers/redux";
 import { MainViewRoutes } from "types/Routes";
-import { fetchCabinetThunk } from "redux/actions/cabinets.actions";
+import { editCabinetThunk, fetchCabinetThunk } from "redux/actions/cabinets.actions";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
 import ProtectedComponent from "components/Protected/Component";
 import { Roles } from "types/User";
@@ -19,8 +19,6 @@ import Input from "components/Basic/Input";
 
 const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teachers }) => {
   const navigate = useNavigate();
-
-  
 
   const formatItems = (items: Item[]) => {
     return items.map(i => ({ key: i.id, name: i.name, value: i.article }));
@@ -36,7 +34,6 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
     return navigate(`/${MainViewRoutes.cabinets}`);
   };
 
-
   const methods = useForm();
   const institution = useAppSelector(state => state.institution);
 
@@ -50,10 +47,10 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
               <div>
                 <FormProvider {...methods}>
                   <Input {...cabinetValidation} 
-                  // value={cabinetNumber} disabled={true}
+                  value={cabinetNumber} disabled={true}
                   /> 
                   <Input {...titleInstitutionValidation} 
-                  // value={institution.name?.toString()} disabled={true}
+                  value={institution.name?.toString()} disabled={true}
                   />
                 </FormProvider>
               </div>

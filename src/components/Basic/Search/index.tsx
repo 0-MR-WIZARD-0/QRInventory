@@ -1,26 +1,35 @@
 import Input from "../Input";
 import { searchValidation } from "validation";
 import { useForm, FormProvider } from "react-hook-form";
+import { useEffect, useState } from "react";
 
-interface SearchInputProps {
-  searchTerm: string;
-  onSearchChange: (term: string) => void;
+interface SearchProps {
+  items: any[];
+  onSearch: (filteredItems: any[]) => void;
 }
 
-const Search: React.FC<SearchInputProps> = ({ searchTerm, onSearchChange }) => {
+const Search: React.FC<SearchProps> = ({ items, onSearch }) => {
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    const filtered = items.filter(item =>
+      item.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    onSearch(filtered);
+  }, [items, searchTerm, onSearch]);
+
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const term = event.target.value;
-    onSearchChange(term);
+    setSearchTerm(term);
   };
 
   const methods = useForm({ mode: "onBlur" });
 
   return (
     <FormProvider {...methods}>
-    {/* //   <Input {...searchValidation} label="Поиск" /> */}
-    <Input {...searchValidation} label="Поиск" onChange={handleInputChange} value={searchTerm} />
-
+      {/* //   <Input {...searchValidation} label="Поиск" /> */}
+      <Input {...searchValidation} label="Поиск" onChange={handleSearch} value={searchTerm} />
     </FormProvider>
   );
 };
