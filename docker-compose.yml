@@ -2,14 +2,18 @@ version: "3"
 services:
   qr-inventory-front:
     container_name: qr-inventory-front
-    restart: unless-stopped
+    # restart: unless-stopped
     build: .
-    environment:
-      env_file: .env
+    env_file:
+      - .env
     ports:
       - "80:80"
     networks:
       - qr-inventory-proxy
+    # command: >
+    # /bin/sh -c "envsubst '$${DOMAIN}' < /etc/nginx/conf.d/default.conf > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+
+# /etc/nginx/conf.d/default.conf
 networks:
   qr-inventory-proxy:
     name: qr-inventory
