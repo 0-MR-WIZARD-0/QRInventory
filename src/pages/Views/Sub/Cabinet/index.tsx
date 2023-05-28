@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Cabinet } from "types/Cabinet";
 import { QRCodeSVG } from "qrcode.react";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
-import { roledCabinetEditDataBarOptions } from "types/User";
+import { roledCabinetEditDataBarOptions, roledUserDataBarOptions, roledUserEditDataBarOptions } from "types/User";
 import ProtectedComponent from "components/Protected/Component";
 import { MenuBar } from "components/Complex/MenuBar";
 import DropList from "components/Complex/DropList";
@@ -41,17 +41,15 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
       <div>
         <DropList 
           options={formatItems(items as Item[])}
-          enableSearch = {true}
         />
         <DropList 
           options={formatTeachers(teachers as Teacher[])}
-          enableSearch = {true}
         />
         <ProtectedComponent
           component={
             <div className={styles.menuBar}>
               <p>Панель управления кабинетом</p>
-              <MenuBar barOptions={roledCabinetEditDataBarOptions["admin"]} />
+              <MenuBar barOptions={roledUserEditDataBarOptions["admin"]} />
             </div>
           }
         />

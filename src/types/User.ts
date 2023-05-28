@@ -29,6 +29,7 @@ export enum Roles {
 }
 
 export type RoledMenuBarOptions = { teacher: MenuBarData[]; admin: MenuBarData[] };
+export type RoledMenuOnlyAdminOptions = {admin: MenuBarData[]};
 
 export const roledMenuBarOptions: RoledMenuBarOptions = {
   teacher: [
@@ -61,25 +62,15 @@ export const roledMenuBarOptions: RoledMenuBarOptions = {
   ]
 };
 
-export const roledUserEditDataBarOptions: RoledMenuBarOptions = {
-  teacher: [
-    {
-      title: "редактирование",
-      link: "/profile/edit"
-    },
-    {
-      title: "выйти",
-      link: "/auth/logout"
-    }
-  ],
+export const roledUserEditDataBarOptions: RoledMenuOnlyAdminOptions = {
   admin: [
     {
       title: "редактирование",
-      link: "/profile/edit"
+      link: "edit"
     },
     {
-      title: "выйти",
-      link: "/auth/logout"
+      title: "удаление",
+      link: "delete"
     }
   ]
 };
@@ -126,6 +117,29 @@ export const roledItemEditDataBarOptions: RoledMenuBarOptions = {
     {
       title: "удаление",
       link: "delete"
+    }
+  ]
+};
+
+export const roledUserDataBarOptions: RoledMenuBarOptions = {
+  teacher: [
+    {
+      title: "редактирование",
+      link: "/profile/edit"
+    },
+    {
+      title: "выйти",
+      link: "/auth/logout"
+    }
+  ],
+  admin: [
+    {
+      title: "редактирование",
+      link: "/profile/edit"
+    },
+    {
+      title: "выйти",
+      link: "/auth/logout"
     }
   ]
 };

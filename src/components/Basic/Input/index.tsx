@@ -2,11 +2,14 @@ import { useFormContext } from "react-hook-form";
 import styles from "./input.module.scss";
 
 type InputProps = {
-  label: string;
+  label?: string;
   type: string;
   placeholder?: string;
   validation?: Object;
   name: string;
+  value?: string;
+  disabled?: boolean;
+  onChange?: any
 };
 
 export function findInputError(errors: any, name: string): { error?: { type: string; message: string; ref: any } } {
@@ -23,7 +26,7 @@ export const isFormInvalid = (error: object) => {
   return false;
 };
 
-const Input: React.FC<InputProps> = ({ label, type, placeholder, validation, name }) => {
+const Input: React.FC<InputProps> = ({ label, validation, name, placeholder, value, onChange}) => {
   const {
     register,
     formState: { errors }
@@ -35,7 +38,7 @@ const Input: React.FC<InputProps> = ({ label, type, placeholder, validation, nam
   return (
     <>
       <div className={styles.inputWrapper}>
-        <input placeholder={placeholder} type={type} {...register(name, validation)} />
+        <input {...register(name, validation)} placeholder={placeholder} value={value} disabled={false} onChange={onChange}/>
         {label !== undefined && <label htmlFor={name}>{label}</label>}
       </div>
       {isInvalid && <span>{inputError.error?.message}</span>}

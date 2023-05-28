@@ -1,7 +1,7 @@
 import { MenuBar } from "components/Complex/MenuBar";
 import { useAppSelector } from "helpers/redux";
 import { Navigate /*useParams*/, useLocation, useNavigate, useParams } from "react-router-dom";
-import { roledUserEditDataBarOptions, Roles, User } from "types/User";
+import { roledUserDataBarOptions, roledUserEditDataBarOptions, Roles, User } from "types/User";
 import styles from "./view.sub.user.module.scss";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
 import api from "helpers/axios";
@@ -21,6 +21,12 @@ const formatFullName = (name: string) => {
 };
 
 const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, institutions, role }) => {
+
+  const {userData} = useAppSelector(state => state.user)
+
+  console.log(userData?.id);
+  
+
   const location = useLocation();
 
   const [avatar, setAvatar] = useState<ImageState>(undefined);
@@ -56,7 +62,7 @@ const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, institut
         component={
           <div className={styles.menuBar}>
             <p>Панель управления пользователем</p>
-            <MenuBar barOptions={roledUserEditDataBarOptions["admin"]} />
+            {userData?.id !== id ? <MenuBar barOptions={roledUserEditDataBarOptions["admin"]} /> : <MenuBar barOptions={roledUserDataBarOptions["admin"]} />}
           </div>
         }
       />

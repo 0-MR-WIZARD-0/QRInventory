@@ -57,6 +57,7 @@ const ViewItems: React.FC = () => {
 
   const fetchData = () => {
     if (data === undefined || (data.length < paginationSettings.perPage * page && data.length < maxElements)) {
+      
       return fetchItemsThunk({ page, perPage: paginationSettings.perPage });
     }
   };
@@ -70,7 +71,8 @@ const ViewItems: React.FC = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOnline]);
-
+  
+  console.log(data);
   useEffect(() => {
     setPage(1);
   }, [institution.id]);
