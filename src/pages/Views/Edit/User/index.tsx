@@ -1,8 +1,5 @@
 import Input from "components/Basic/Input";
-// import styles from "./view.edit.user.module.scss";
-import stylesComponent from "./view.edit.user.module.scss";
-import styles from "components/Complex/Wrappers/EditPageWrapper/edit.page.wrapper.module.scss";
-import Icon from "components/Basic/Icon";
+import styles from "./view.edit.user.module.scss";
 import { useState, useEffect } from "react";
 import { useAppDispatch } from "redux/store";
 import { editUserThunk, fetchUserThunk } from "redux/actions/users.actions";
@@ -42,9 +39,9 @@ const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, role }) 
       onSubmit={onSubmit}
       component={
         <FormProvider {...methods}>
-        <div className={stylesComponent.wrapper}>
-          <h3 className={stylesComponent.title}>Редактирование аккаунта</h3>
-          <div className={stylesComponent.imageWrapper}>
+        <div className={styles.wrapper}>
+          <h3>Редактирование аккаунта</h3>
+          <div className={styles.wrapperEdit}>
             <ImageElement/>
             <div>
               <Input {...fullNameValidation} />
