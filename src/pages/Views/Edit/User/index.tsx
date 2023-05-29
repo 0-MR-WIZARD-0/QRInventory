@@ -18,7 +18,12 @@ const UserComponent: React.FC<User> = ({ email, fullName, id }) => {
   const dispatch = useAppDispatch();
   const location = useLocation().pathname.split("/");
 
-  const methods = useForm({ mode: "onBlur" });
+  const methods = useForm<{fullName: string, email: string}>({ mode: "onBlur" });
+
+  const [info, setInfo] = useState({
+    fullName: fullName || "Токарев Виктор Александрович",
+    email: email || "temp@mail.ru"
+  })
 
   const onSubmit = methods.handleSubmit(async data => {
     console.log("Пустое поле не будет правиться в базе данных");

@@ -1,8 +1,8 @@
 import { LoadingTransitionComponent } from "components/Basic/Loader";
 import { useAppSelector } from "helpers/redux";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
-import { fetchItemThunk } from "redux/actions/items.actions";
+import { useLocation, useNavigate, useParams } from "react-router";
+import { editItemThunk, fetchItemThunk } from "redux/actions/items.actions";
 import { useAppDispatch } from "redux/store";
 import { Item } from "types/Item";
 import { MainViewRoutes } from "types/Routes";
@@ -13,11 +13,29 @@ import { nameValidation, articleValidation } from "validation";
 import Input from "components/Basic/Input";
 import ImageElement from "components/Complex/ImageElement";
 
-const ItemComponent: React.FC<Item> = ({ name, article }) => {
+const ItemComponent: React.FC<Item> = ({ name, article, id }) => {
 
-  const onSubmit = async () => {};
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const location = useLocation().pathname.split("/");
 
-  const methods = useForm({ mode: "onBlur" });
+  const methods = useForm<{name: string, article: string}>({ mode: "onBlur" });
+
+  const [info, setInfo] = useState({
+    name: name || "",
+    article: article || ""
+  })
+
+  const onSubmit = methods.handleSubmit(async data => {
+    if (data.article.length && data.name.length !== 0){
+      const res = await dispatch(editItemThunk({ id, name: data.name, article: data.article}));
+      if (res.meta.requestStatus === "fulfilled") {
+        return navigate(location.slice(0, location.length - 1).join("/"));
+      } else {
+        console.log(res.payload);
+      }
+    }
+  });
 
   return (
     <EditPageWrapper
@@ -29,8 +47,8 @@ const ItemComponent: React.FC<Item> = ({ name, article }) => {
           <div className={styles.wrapperEdit}>
             <ImageElement/>
             <div>
-              <Input {...nameValidation} placeholder={name}/>
-              <Input {...articleValidation} placeholder={article}/>
+              <Input {...nameValidation} value={info.name} onChange={(e:any)=>setInfo({ ...info, name: e.target.value })}/>
+              <Input {...articleValidation} value={info.article} onChange={(e:any)=>setInfo({ ...info, article: e.target.value })}/>
             </div>
           </div>
         </div>
