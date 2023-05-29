@@ -34,6 +34,8 @@ const ItemComponent: React.FC<Item> = ({ name, article, id }) => {
       } else {
         console.log(res.payload);
       }
+    }else{
+      console.log("Присутствуют незаполненные поля");
     }
   });
 

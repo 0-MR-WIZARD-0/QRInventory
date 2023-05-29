@@ -46,6 +46,40 @@ export const passwordValidation = {
   }
 };
 
+export const oldPasswordValidation = {
+  name: "oldPassword",
+  label: "Старый пароль",
+  type: "password",
+  placeholder: "••••••••",
+  validation: {
+    required: {
+      value: true,
+      message: "Обязательно к заполнению"
+    },
+    minLength: {
+      value: 8,
+      message: "Минимум 8 символов"
+    }
+  }
+};
+
+export const newPasswordValidation = {
+  name: "newPassword",
+  label: "Новый пароль",
+  type: "password",
+  placeholder: "••••••••",
+  validation: {
+    required: {
+      value: true,
+      message: "Обязательно к заполнению"
+    },
+    minLength: {
+      value: 8,
+      message: "Минимум 8 символов"
+    }
+  }
+};
+
 export const cabinetValidation = {
   name: "cabinetNumber",
   label: "Номер кабинета",

@@ -4,6 +4,7 @@
       &Image {
         width: 218px;
         height: 218px;
+        position: relative;
         img {
           border-radius: 20px;
           width: 100%;
@@ -47,6 +48,7 @@
 
       width: calc(100% + 8px);
       height: calc(100% + 8px);
+      height: 218px;
       position: absolute;
       left: -4px;
       top: -4px;

@@ -9,7 +9,7 @@ import { User } from "types/User";
 import { MainViewRoutes } from "types/Routes";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
 import EditPageWrapper from "components/Complex/Wrappers/EditPageWrapper";
-import { emailValidation, fullNameValidation, passwordValidation } from "validation";
+import { emailValidation, fullNameValidation, newPasswordValidation, oldPasswordValidation } from "validation";
 import { useForm, FormProvider } from "react-hook-form";
 import ImageElement from "components/Complex/ImageElement";
 
@@ -18,25 +18,30 @@ const UserComponent: React.FC<User> = ({ email, fullName, id }) => {
   const dispatch = useAppDispatch();
   const location = useLocation().pathname.split("/");
 
-  const methods = useForm<{fullName: string, email: string}>({ mode: "onBlur" });
+  const methods = useForm<{fullName: string, email: string, oldPassword: string, newPassword: string}>({ mode: "onBlur" });
 
   const [info, setInfo] = useState({
     fullName: fullName || "Токарев Виктор Александрович",
-    email: email || "temp@mail.ru"
+    email: email || "temp@mail.ru",
   })
-
+  
   const onSubmit = methods.handleSubmit(async data => {
-    console.log("Пустое поле не будет правиться в базе данных");
-    const res = await dispatch(editUserThunk({ id, fullName: data.fullName.length > 5 ? data.fullName : undefined, email: data.email.length > 7 ? data.email : undefined }));
-    console.log(res);
+    
+    console.log(data);
 
-    if (res.meta.requestStatus === "fulfilled") {
-      console.log("Пользователь отредактирован");
-      return navigate(location.slice(0, location.length - 1).join("/"));
-    } else {
-      console.log("Произошла ошибка при редактировании пользователя");
-      console.log(res.payload);
-    }
+    //что входит в edit User ?! 
+    //Postman - old password, new password 
+    //edituser - fullname, email
+
+    // const res = await dispatch(editUserThunk({id, fullName: data.fullName, email: data.email}))
+    // if (res.meta.requestStatus === "fulfilled") {
+    //   console.log("Пользователь отредактирован");
+    //   return navigate(location.slice(0, location.length - 1).join("/"));
+    // } else {
+    //   console.log("Произошла ошибка при редактировании пользователя");
+    //   console.log(res.payload);
+    // }
+
   });
 
   return (
@@ -49,10 +54,10 @@ const UserComponent: React.FC<User> = ({ email, fullName, id }) => {
           <div className={styles.wrapperEdit}>
             <ImageElement/>
             <div>
-              <Input {...fullNameValidation} placeholder={fullName}/>
-              <Input {...emailValidation} placeholder={email}/>
-              <Input {...passwordValidation} label='старый пароль' />
-              <Input {...passwordValidation} label='новый пароль' />
+              <Input {...fullNameValidation} value={fullName} onChange={(e:any)=>setInfo({ ...info, fullName: e.target.value })}/>
+              <Input {...emailValidation} value={email} onChange={(e:any)=>setInfo({ ...info, email: e.target.value })}/>
+              <Input {...oldPasswordValidation} />
+              <Input {...newPasswordValidation} />
             </div>
           </div>
         </div>

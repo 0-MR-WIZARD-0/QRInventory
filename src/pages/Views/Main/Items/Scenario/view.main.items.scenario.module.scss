@@ -8,28 +8,14 @@
 }
 
 .imageWrapper {
+
+    width: 100%;
     height: 218px;
     flex-shrink: 0;
     color: $gray-100;
-    border: 4px dashed $gray-100;
-    border-radius: 20px;
-    row-gap: 5px;
-  
-    &>label {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      cursor: pointer;
-    }
-  
-    input[type=file] {
-        outline: 0;
-        opacity: 0;
-        pointer-events: none;
-        user-select: none;
-        width: 100%;
+
+    &>div {
+        width: 100% !important;
     }
 
 }

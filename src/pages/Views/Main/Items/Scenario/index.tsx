@@ -1,5 +1,4 @@
 import DefaultButton from "components/Basic/Buttons/Default";
-import Icon from "components/Basic/Icon";
 import Input from "components/Basic/Input";
 import { ResolverCallback, Script } from "components/Basic/Scenario";
 import styles from "./view.main.items.scenario.module.scss";
@@ -8,6 +7,7 @@ import { articleValidation, nameValidation } from "validation";
 import { useAppDispatch } from "redux/store";
 import { createItemThunk } from "redux/actions/items.actions";
 import { useAppSelector } from "helpers/redux";
+import ImageElement from "components/Complex/ImageElement";
 
 const CreateItemScenarioComponent: React.FC<{ cb: ResolverCallback }> = ({ cb }) => {
   const methods = useForm<{ article: string; name: string }>({ mode: "onBlur" });
@@ -29,16 +29,7 @@ const CreateItemScenarioComponent: React.FC<{ cb: ResolverCallback }> = ({ cb })
       <div className={styles.createItem}>
         <h2>Создание предмета</h2>
         <div className={styles.imageWrapper}>
-          <label>
-            <Icon icon='image' />
-            <input
-              // onChange={changeHandler}
-              type='file'
-              accept='.png, .jpg, .jpeg'
-            />
-            <h5>Выбрать фотографию предмета</h5>
-            <span>макс 5мб</span>
-          </label>
+          <ImageElement/>
         </div>
         <Input {...articleValidation} />
         <Input {...nameValidation} />
