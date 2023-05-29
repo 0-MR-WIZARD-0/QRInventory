@@ -26,7 +26,7 @@ export const isFormInvalid = (error: object) => {
   return false;
 };
 
-const Input: React.FC<InputProps> = ({ label, validation, name, placeholder, value, onChange}) => {
+const Input: React.FC<InputProps> = ({ label, validation, name, type, placeholder, value, onChange}) => {
   const {
     register,
     formState: { errors }
@@ -38,7 +38,7 @@ const Input: React.FC<InputProps> = ({ label, validation, name, placeholder, val
   return (
     <>
       <div className={styles.inputWrapper}>
-        <input {...register(name, validation)} placeholder={placeholder} value={value} disabled={false} onChange={onChange}/>
+        <input {...register(name, validation)} placeholder={placeholder} value={value} disabled={false} onChange={onChange} type={type}/>
         {label !== undefined && <label htmlFor={name}>{label}</label>}
       </div>
       {isInvalid && <span>{inputError.error?.message}</span>}
