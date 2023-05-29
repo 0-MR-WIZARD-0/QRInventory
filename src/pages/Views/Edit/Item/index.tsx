@@ -13,7 +13,7 @@ import { nameValidation, articleValidation } from "validation";
 import Input from "components/Basic/Input";
 import ImageElement from "components/Complex/ImageElement";
 
-const ItemComponent: React.FC<Item> = ({ article, id, imageId, institution }) => {
+const ItemComponent: React.FC<Item> = ({ name, article }) => {
 
   const onSubmit = async () => {};
 
@@ -29,8 +29,8 @@ const ItemComponent: React.FC<Item> = ({ article, id, imageId, institution }) =>
           <div className={styles.wrapperEdit}>
             <ImageElement/>
             <div>
-              <Input {...nameValidation}/>
-              <Input {...articleValidation}/>
+              <Input {...nameValidation} placeholder={name}/>
+              <Input {...articleValidation} placeholder={article}/>
             </div>
           </div>
         </div>

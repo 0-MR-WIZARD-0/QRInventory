@@ -13,7 +13,7 @@ import { emailValidation, fullNameValidation, passwordValidation } from "validat
 import { useForm, FormProvider } from "react-hook-form";
 import ImageElement from "components/Complex/ImageElement";
 
-const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, role }) => {
+const UserComponent: React.FC<User> = ({ email, fullName, id }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const location = useLocation().pathname.split("/");
@@ -40,12 +40,12 @@ const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, role }) 
       component={
         <FormProvider {...methods}>
         <div className={styles.wrapper}>
-          <h3>Редактирование аккаунта</h3>
+          <h3>Редактирование аккаунта {fullName}</h3>
           <div className={styles.wrapperEdit}>
             <ImageElement/>
             <div>
-              <Input {...fullNameValidation} />
-              <Input {...emailValidation} />
+              <Input {...fullNameValidation} placeholder={fullName}/>
+              <Input {...emailValidation} placeholder={email}/>
               <Input {...passwordValidation} label='старый пароль' />
               <Input {...passwordValidation} label='новый пароль' />
             </div>
