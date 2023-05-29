@@ -14,76 +14,23 @@ import stylesComponent from "./view.edit.item.module.scss";
 import { useForm, FormProvider } from "react-hook-form";
 import { nameValidation, articleValidation } from "validation";
 import Input from "components/Basic/Input";
-
-const imageMimeType = /image\/(png|jpg|jpeg|.gif)/i;
+import ImageElement from "components/Complex/ImageElement";
 
 const ItemComponent: React.FC<Item> = ({ article, id, imageId, institution }) => {
-
-  const [file, setFile] = useState<File | null>(null);
-  const [fileDataURL, setFileDataURL] = useState<string | null>(null);
-
-  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files || !e.target.files[0]) {
-      alert("Файлы не выбраны");
-      return;
-    }
-    const file = e.target.files[0];
-    if (!file.type.match(imageMimeType)) {
-      alert("Тип файла не подходит для изображения предмета");
-      return;
-    }
-    setFile(file);
-  };
-
-  useEffect(() => {
-    let fileReader: FileReader;
-    let isCancel = false;
-    if (file) {
-      fileReader = new FileReader();
-      fileReader.onload = e => {
-        const { result } = e.target!;
-        if (result && !isCancel) {
-          setFileDataURL(result as string);
-        }
-      };
-      fileReader.readAsDataURL(file);
-    }
-    return () => {
-      isCancel = true;
-      if (fileReader && fileReader.readyState === 1) {
-        fileReader.abort();
-      }
-    };
-  }, [file]);
 
   const onSubmit = async () => {};
 
   const methods = useForm({ mode: "onBlur" });
 
   return (
-
     <EditPageWrapper
       onSubmit={onSubmit}
       component={
         <FormProvider {...methods}>
-        <div className={styles.wrapper}>
+        <div className={stylesComponent.wrapper}>
           <h3 className={stylesComponent.title}>Редактирование предмета {article}</h3>
           <div className={stylesComponent.controlsWrapper}>
-            {fileDataURL ? (
-              <>
-                <input onChange={changeHandler} type='file' accept='.png, .jpg, .jpeg' />
-                <img alt='изображение предмета' src={fileDataURL} draggable={false} />
-              </>
-            ) : (
-              <div className={stylesComponent.imageWrapper}>
-                <label>
-                  <Icon icon='image' />
-                  <input onChange={changeHandler} type='file' accept='.png, .jpg, .jpeg' />
-                  <h5>Выбрать фотографию предмета</h5>
-                  <span>макс 5мб</span>
-                </label>
-              </div>
-            )}
+            <ImageElement/>
             <div className={stylesComponent.buttonWrapper}>
               <Input {...nameValidation}/>
               <Input {...articleValidation}/>

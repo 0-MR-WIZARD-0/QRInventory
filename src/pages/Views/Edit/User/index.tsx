@@ -1,5 +1,7 @@
 import Input from "components/Basic/Input";
-import styles from "./view.edit.user.module.scss";
+// import styles from "./view.edit.user.module.scss";
+import stylesComponent from "./view.edit.user.module.scss";
+import styles from "components/Complex/Wrappers/EditPageWrapper/edit.page.wrapper.module.scss";
 import Icon from "components/Basic/Icon";
 import { useState, useEffect } from "react";
 import { useAppDispatch } from "redux/store";
@@ -9,17 +11,15 @@ import { useAppSelector } from "helpers/redux";
 import { User } from "types/User";
 import { MainViewRoutes } from "types/Routes";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
-import { useImage } from "helpers/hooks";
 import EditPageWrapper from "components/Complex/Wrappers/EditPageWrapper";
 import { emailValidation, fullNameValidation, passwordValidation } from "validation";
 import { useForm, FormProvider } from "react-hook-form";
+import ImageElement from "components/Complex/ImageElement";
 
 const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, role }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const location = useLocation().pathname.split("/");
-
-  const { changeHandler, fileDataURL } = useImage();
 
   const methods = useForm({ mode: "onBlur" });
 
@@ -42,24 +42,10 @@ const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, role }) 
       onSubmit={onSubmit}
       component={
         <FormProvider {...methods}>
-        <div className={styles.wrapper}>
-          <h3 className={styles.title}>Редактирование аккаунта</h3>
-          <div className={styles.imageWrapper}>
-            {fileDataURL ? (
-              <div className={styles.dropDownImage}>
-                <img alt='изображение предмета' src={fileDataURL} draggable={false} />
-                <input onChange={changeHandler} type='file' accept='.png, .jpg, .jpeg' />
-              </div>
-            ) : (
-              <div className={styles.dropDownPreview}>
-                <Icon icon='image' />
-                <label>
-                  <input onChange={changeHandler} type='file' accept='.png, .jpg, .jpeg' />
-                  <h5>Выбрать фотографию аккаунта</h5>
-                  <span>макс 5мб</span>
-                </label>
-              </div>
-            )}
+        <div className={stylesComponent.wrapper}>
+          <h3 className={stylesComponent.title}>Редактирование аккаунта</h3>
+          <div className={stylesComponent.imageWrapper}>
+            <ImageElement/>
             <div>
               <Input {...fullNameValidation} />
               <Input {...emailValidation} />
