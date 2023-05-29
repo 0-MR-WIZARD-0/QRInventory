@@ -28,6 +28,7 @@ export const ActionCreators = {
   ...viewCabinetsActions,
   ...viewItemsActions,
   ...viewInstitutionsActions,
+  
 
   fetchUserThunk,
   loginUserThunk,

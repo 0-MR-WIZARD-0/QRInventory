@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Cabinet } from "types/Cabinet";
 import { QRCodeSVG } from "qrcode.react";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
-import { roledCabinetEditDataBarOptions, roledUserDataBarOptions, roledUserEditDataBarOptions } from "types/User";
+import { roledUserEditDataBarOptions } from "types/User";
 import ProtectedComponent from "components/Protected/Component";
 import { MenuBar } from "components/Complex/MenuBar";
 import DropList from "components/Complex/DropList";

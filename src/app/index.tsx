@@ -31,7 +31,7 @@ import { LoadingTransitionComponent } from "components/Basic/Loader";
 import BackButtonWrapper from "components/Complex/Wrappers/BackButtonWrapper";
 
 import DeleteCabinet from "pages/Views/Delete/Cabinet";
-// import DeleteUser from "pages/Views/Delete/User";
+import DeleteUser from "pages/Views/Delete/User";
 import DeleteItem from "pages/Views/Delete/Item";
 
 function App() {
@@ -75,7 +75,7 @@ function App() {
             <Route path={`${MainViewRoutes.users}/:id`}>
               <Route index element={<ViewUser />} />
               <Route path='edit' element={<ProtectedPage component={<EditUser />} roles={[Roles.admin]} />} />
-              <Route path='delete' element={<ProtectedPage component={<DeleteItem />} roles={[Roles.admin, Roles.teacher]} />} />
+              <Route path='delete' element={<ProtectedPage component={<DeleteUser />} roles={[Roles.admin, Roles.teacher]} />} />
             </Route>
           </Route>
           <Route path={RoutesEnum.profile} element={<ProtectedPage component={<BackButtonWrapper component={<Outlet />} />} />}>

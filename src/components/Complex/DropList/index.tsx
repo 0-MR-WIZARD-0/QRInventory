@@ -1,12 +1,6 @@
 import React, { useState, useRef } from "react";
 import styles from "./droplist.module.scss";
-import Search from "components/Basic/Search";
-import { useAction, useAppSelector } from "helpers/redux";
-import { useDispatch } from "react-redux";
-import api from "helpers/axios";
-import { RootState } from "redux/rootReducer";
-import { response } from "express";
-// import { fetchItemsSearchThunk } from "redux/actions/views.main.actions";
+import { useAppSelector } from "helpers/redux";
 
 interface Option {
   key: string;

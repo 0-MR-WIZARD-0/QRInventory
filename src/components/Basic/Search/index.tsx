@@ -28,7 +28,6 @@ const Search: React.FC<SearchProps> = ({ items, onSearch }) => {
 
   return (
     <FormProvider {...methods}>
-      {/* //   <Input {...searchValidation} label="Поиск" /> */}
       <Input {...searchValidation} label="Поиск" onChange={handleSearch} value={searchTerm} />
     </FormProvider>
   );

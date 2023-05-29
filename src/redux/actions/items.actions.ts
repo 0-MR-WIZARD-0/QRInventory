@@ -44,6 +44,3 @@ export const deleteItemThunk = createAsyncThunk<any, { id: string }>("cabinet/de
     return rejectWithValue(RejectResponses.deleteItemError);
   }
 });
-
-// edit item thunk
-
