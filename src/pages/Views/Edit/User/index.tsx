@@ -23,24 +23,21 @@ const UserComponent: React.FC<User> = ({ email, fullName, id }) => {
   const [info, setInfo] = useState({
     fullName: fullName || "Токарев Виктор Александрович",
     email: email || "temp@mail.ru",
+    // oldPassword: 
   })
   
   const onSubmit = methods.handleSubmit(async data => {
     
     console.log(data);
 
-    //что входит в edit User ?! 
-    //Postman - old password, new password 
-    //edituser - fullname, email
-
-    // const res = await dispatch(editUserThunk({id, fullName: data.fullName, email: data.email}))
-    // if (res.meta.requestStatus === "fulfilled") {
-    //   console.log("Пользователь отредактирован");
-    //   return navigate(location.slice(0, location.length - 1).join("/"));
-    // } else {
-    //   console.log("Произошла ошибка при редактировании пользователя");
-    //   console.log(res.payload);
-    // }
+    const res = await dispatch(editUserThunk({id, fullName: data.fullName, email: data.email}))
+    if (res.meta.requestStatus === "fulfilled") {
+      console.log("Пользователь отредактирован");
+      return navigate(location.slice(0, location.length - 1).join("/"));
+    } else {
+      console.log("Произошла ошибка при редактировании пользователя");
+      console.log(res.payload);
+    }
 
   });
 
@@ -54,8 +51,8 @@ const UserComponent: React.FC<User> = ({ email, fullName, id }) => {
           <div className={styles.wrapperEdit}>
             <ImageElement/>
             <div>
-              <Input {...fullNameValidation} value={fullName} onChange={(e:any)=>setInfo({ ...info, fullName: e.target.value })}/>
-              <Input {...emailValidation} value={email} onChange={(e:any)=>setInfo({ ...info, email: e.target.value })}/>
+              <Input {...fullNameValidation} value={info.fullName} onChange={(e:any)=>setInfo({ ...info, fullName: e.target.value })}/>
+              <Input {...emailValidation} value={info.email} onChange={(e:any)=>setInfo({ ...info, email: e.target.value })}/>
               <Input {...oldPasswordValidation} />
               <Input {...newPasswordValidation} />
             </div>

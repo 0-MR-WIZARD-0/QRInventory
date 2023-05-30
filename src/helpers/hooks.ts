@@ -33,6 +33,8 @@ export const useImage = () => {
       return;
     }
     setFile(file);
+    console.log(file);
+    
   };
   useEffect(() => {
     let fileReader: FileReader;
