@@ -3,3 +3,5 @@
 .env*
 server_ssh.txt
 server_ssh.ppk
+certificates/*.crt
+certificates/*.key
