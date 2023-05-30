@@ -44,7 +44,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "serve": "serve -s build",
-    "docker:compose": "docker-compose up --build -d"
+    "docker:compose:dev": "docker-compose -f docker-compose.dev.yml up --build -d"
   },
   "eslintConfig": {
     "extends": [
