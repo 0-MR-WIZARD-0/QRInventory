@@ -19,8 +19,12 @@ jobs:
           echo REACT_APP_DOMAIN="${{ vars.REACT_APP_DOMAIN }}" >> .env | 
           echo REACT_APP_API_HOST="${{ vars.REACT_APP_API_HOST }}" >> .env
           echo GENERATE_SOURCEMAP="${{ vars.GENERATE_SOURCEMAP }}" >> .env
-          echo SSL_CRT_FILE="../certificates/your_domain.crt" >> .env
-          echo SSL_KEY_FILE="../certificates/your_domain.key" >> .env
+          echo SSL_CRT_FILE="certificates/your_domain.crt" >> .env
+          echo SSL_KEY_FILE="certificates/your_domain.key" >> .env
+
+      - name: Копирование сертификатов
+        run: |
+          cp -r ../../../../certificates ./certificates
 
       - name: Сборка Docker и деплой
         run: |

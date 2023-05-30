@@ -5,14 +5,9 @@ RUN npm ci --legacy-peer-deps
 COPY . ./
 RUN npm run build
 
-FROM nginx:1.16.0-alpine as nmgix-dev
+FROM nginx:1.16.0-alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY certificates /etc/nginx/certificates
-COPY --from=builder /dist/build /usr/share/nginx/html
-
-FROM nginx:1.16.0-alpine as nmgix-prod
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY ../certificates /etc/nginx/certificates
 COPY --from=builder /dist/build /usr/share/nginx/html
 
 EXPOSE 80 443
