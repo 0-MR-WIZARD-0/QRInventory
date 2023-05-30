@@ -2,3 +2,5 @@
 /build
 .env*
 package-lock.json
+server_ssh.txt
+server_ssh.ppk

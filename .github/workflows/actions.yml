@@ -1,0 +1,29 @@
+name: Деплой фронтенда
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+      - name: Получение репозитория
+        uses: actions/checkout@v3.5.2
+
+      - name: Настройка .env
+        run: |
+          touch .env
+          echo REACT_APP_DOMAIN="${{ vars.REACT_APP_DOMAIN }}" >> .env | 
+          echo REACT_APP_API_HOST="${{ vars.REACT_APP_API_HOST }}" >> .env
+
+      - name: Сборка Docker и деплой
+        run: |
+          docker-compose up --build -d
