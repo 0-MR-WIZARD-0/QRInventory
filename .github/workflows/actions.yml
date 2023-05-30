@@ -23,7 +23,7 @@ jobs:
           touch .env
           echo REACT_APP_DOMAIN="${{ vars.REACT_APP_DOMAIN }}" >> .env | 
           echo REACT_APP_API_HOST="${{ vars.REACT_APP_API_HOST }}" >> .env
-          echo REACT_APP_API_HOST="${{ vars.GENERATE_SOURCEMAP }}" >> .env
+          echo GENERATE_SOURCEMAP="${{ vars.GENERATE_SOURCEMAP }}" >> .env
 
       - name: Сборка Docker и деплой
         run: |
