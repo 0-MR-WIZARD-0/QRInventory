@@ -5,7 +5,6 @@ services:
     restart: unless-stopped
     build:
       context: .
-      target: nmgix-prod
     env_file:
       - .env
     ports:
