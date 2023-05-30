@@ -1,6 +1,6 @@
 # Фронтенд часть приложения инвентаризации колледжа
 
-[![Деплой фронтенда](https://github.com/nmgix/QRInventory/actions/workflows/actions.yml/badge.svg)](https://github.com/nmgix/QRInventory/actions/workflows/actions.yml)
+[![Деплой фронтенда](https://github.com/0-MR-WIZARD-0/QRInventory/actions/workflows/actions.yml/badge.svg)](https://github.com/0-MR-WIZARD-0/QRInventory/actions/workflows/actions.yml)
 
 ## Настройка
 
@@ -31,7 +31,6 @@
       1. [x] Кнопка `назад` или `на главную`
          > Должна быть на всех страницах кроме главной (для админа и учителя)
       2. [x] Дефолтная кнопкая
-      <!-- 3. [ ] `Добавить новый *` -->
    8. [x] Сценарий
       > модалки на создание [x] Например перед удалением кабинета надо подтвердить пароль
 
