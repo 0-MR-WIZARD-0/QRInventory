@@ -2,3 +2,5 @@ node_modules
 Dockerfile
 .dockerignore
 /build
+server_ssh.txt
+server_ssh.ppk

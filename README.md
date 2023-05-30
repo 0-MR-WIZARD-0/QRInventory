@@ -1,14 +1,15 @@
 # Фронтенд часть приложения инвентаризации колледжа
 
+[![Деплой фронтенда](https://github.com/nmgix/QRInventory/actions/workflows/actions.yml/badge.svg)](https://github.com/nmgix/QRInventory/actions/workflows/actions.yml)
+
 ## Настройка
 
 1. Подготовить `.env` файл
 
 ```md
     DOMAIN=qrinventory.ru
-    PORT=3000
-    REACT_APP_API_HOST=http://localhost/api
-    REACT_APP_API_DEV_HOST=http://localhost:5000
+    REACT_APP_API_HOST=/api
+    GENERATE_SOURCEMAP=false
 ```
 
 ## Что необходимо выполнить
