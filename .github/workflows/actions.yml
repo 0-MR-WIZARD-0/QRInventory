@@ -24,7 +24,7 @@ jobs:
 
       - name: Копирование сертификатов
         run: |
-          cp ../../../../certificates ./
+          cp -rv ../../../../certificates ./
 
       - name: Сборка Docker и деплой
         run: |
