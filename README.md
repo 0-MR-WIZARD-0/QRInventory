@@ -1,6 +1,6 @@
 # Фронтенд часть приложения инвентаризации колледжа
 
-[![Деплой фронтенда](https://github.com/nmgix/QRInventory/actions/workflows/actions.yml/badge.svg)](https://github.com/nmgix/QRInventory/actions/workflows/actions.yml)
+[![Деплой фронтенда](https://github.com/0-MR-WIZARD-0/QRInventory/actions/workflows/actions.yml/badge.svg)](https://github.com/0-MR-WIZARD-0/QRInventory/actions/workflows/actions.yml)
 
 ## Настройка
 
