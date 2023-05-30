@@ -4,6 +4,7 @@ COPY package*.json ./
 RUN npm ci --legacy-peer-deps
 COPY . ./
 RUN npm run build
+# RUN npm --max_old_space_size=768 cross-env NODE_ENV=production react-scripts build
 
 FROM nginx:1.16.0-alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf
