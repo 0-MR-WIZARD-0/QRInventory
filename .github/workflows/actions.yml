@@ -27,6 +27,4 @@ jobs:
 
       - name: Сборка Docker и деплой
         run: |
-          docker-compose build
-          docker-compose down 
-          docker-compose up -d
+          docker-compose up --build -d --force-recreate
