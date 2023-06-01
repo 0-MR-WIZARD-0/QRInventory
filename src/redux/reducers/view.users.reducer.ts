@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { onlyUnique } from "helpers/redux";
-import { createUserThunk, deleteUserThunk } from "redux/actions/users.actions";
+import { createUserThunk, deleteUserThunk, editUserThunk } from "redux/actions/users.actions";
 import { fetchUsersThunk } from "redux/actions/views.main.actions";
 import { User } from "types/User";
 import { institutionActions } from "./institution.reducer";
@@ -45,6 +45,9 @@ const ViewUsersSlice = createSlice({
       return { ...state, data: undefined, maxElements: -1 };
     });
     builder.addCase(deleteUserThunk.fulfilled, (state, action) => {
+      return { ...state, data: state.data?.filter(c => c.id !== action.meta.arg.id), error: undefined };
+    });
+    builder.addCase(editUserThunk.fulfilled, (state, action) => {
       return { ...state, data: state.data?.filter(c => c.id !== action.meta.arg.id), error: undefined };
     });
   }

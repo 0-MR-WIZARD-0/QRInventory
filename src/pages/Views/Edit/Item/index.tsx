@@ -39,6 +39,9 @@ const ItemComponent: React.FC<Item> = ({ name, article, id }) => {
     }
   });
 
+  console.log(id);
+  
+
   return (
     <EditPageWrapper
       onSubmit={onSubmit}

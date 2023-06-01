@@ -89,6 +89,9 @@ const ViewUsers: React.FC = () => {
   };
   const [lastItemRef] = useObserver(onLastInView);
 
+  console.log(data);
+  
+
   return (
     <>
       <Scenario ref={createUserModalRef} modalName='create-user' script={CreateUserScript} />

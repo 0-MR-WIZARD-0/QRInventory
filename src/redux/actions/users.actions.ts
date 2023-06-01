@@ -29,9 +29,9 @@ export const fetchUserThunk = createAsyncThunk<any, { id: string }>("user/fetch"
   }
 });
 
-export const editUserThunk = createAsyncThunk<any, { id: string; fullName?: string; email?: string, oldPassword?: string, newPassword?: string }>("user/edit", async (params, { dispatch, rejectWithValue, fulfillWithValue }) => {
+export const editUserThunk = createAsyncThunk<any, { id: string; fullName: string; email: string, oldPassword?: string, newPassword?: string }>("user/edit", async (params, { dispatch, rejectWithValue, fulfillWithValue }) => {
   try {
-    const res = (await api.patch("/user/edit", { ...params })).data;
+    const res = (await api.patch(`/user/edit?id=${params.id}`, { ...params })).data;
     return fulfillWithValue(res);
   } catch (error) {
     return rejectWithValue(RejectResponses.editUserError);
@@ -46,5 +46,3 @@ export const deleteUserThunk = createAsyncThunk<any, { id: string }>("user/delet
     return rejectWithValue(RejectResponses.deleteUserError);
   }
 });
-
-// delete user

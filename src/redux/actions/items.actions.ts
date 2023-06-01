@@ -36,6 +36,15 @@ export const editItemThunk = createAsyncThunk<any, { id: string; article?: strin
   }
 });
 
+// export const imageItemThunk = createAsyncThunk<any, { id: string; file:  }>("item/edit", async (params, { rejectWithValue, fulfillWithValue }) => {
+//   try {
+//     const res = (await api.patch("/item/edit", { ...params })).data;
+//     return fulfillWithValue(res);
+//   } catch (error) {
+//     return rejectWithValue(RejectResponses.editItemError);
+//   }
+// });
+
 export const deleteItemThunk = createAsyncThunk<any, { id: string }>("cabinet/delete", async (params, { rejectWithValue, fulfillWithValue }) => {
   try {
     const res = (await api.delete(`/item/${params.id}`)).data;

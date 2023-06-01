@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { onlyUnique } from "helpers/redux";
-import { createItemThunk, deleteItemThunk } from "redux/actions/items.actions";
+import { createItemThunk, deleteItemThunk, editItemThunk } from "redux/actions/items.actions";
 import { fetchItemsThunk } from "redux/actions/views.main.actions";
 import { Item } from "types/Item";
 import { institutionActions } from "./institution.reducer";
@@ -45,6 +45,9 @@ const ViewItemsSlice = createSlice({
       return { ...state, data: undefined, maxElements: -1 };
     });
     builder.addCase(deleteItemThunk.fulfilled, (state, action) => {
+      return { ...state, data: state.data?.filter(c => c.id !== action.meta.arg.id), error: undefined };
+    });
+    builder.addCase(editItemThunk.fulfilled, (state, action) => {
       return { ...state, data: state.data?.filter(c => c.id !== action.meta.arg.id), error: undefined };
     });
   }

@@ -23,22 +23,30 @@ const UserComponent: React.FC<User> = ({ email, fullName, id }) => {
   const [info, setInfo] = useState({
     fullName: fullName || "Токарев Виктор Александрович",
     email: email || "temp@mail.ru",
-    // oldPassword: 
+    oldPassword: "",
+    newPassword: ""
   })
   
   const onSubmit = methods.handleSubmit(async data => {
-    
-    console.log(data);
-
-    const res = await dispatch(editUserThunk({id, fullName: data.fullName, email: data.email}))
-    if (res.meta.requestStatus === "fulfilled") {
-      console.log("Пользователь отредактирован");
-      return navigate(location.slice(0, location.length - 1).join("/"));
-    } else {
-      console.log("Произошла ошибка при редактировании пользователя");
-      console.log(res.payload);
+    if(info.oldPassword.length && info.newPassword.length){
+      const res = await dispatch(editUserThunk({id, fullName: data.fullName, email: data.email, oldPassword: data.oldPassword, newPassword: data.newPassword }))
+      if (res.meta.requestStatus === "fulfilled") {
+        console.log("Пользователь отредактирован");
+        return navigate(location.slice(0, location.length - 1).join("/"));
+      } else {
+        console.log("Произошла ошибка при редактировании пользователя");
+        console.log(res.payload);
+      }
+    }else{
+      const res = await dispatch(editUserThunk({id, fullName: data.fullName, email: data.email }))
+      if (res.meta.requestStatus === "fulfilled") {
+        console.log("Пользователь отредактирован");
+        return navigate(location.slice(0, location.length - 1).join("/"));
+      } else {
+        console.log("Произошла ошибка при редактировании пользователя");
+        console.log(res.payload);
+      }
     }
-
   });
 
   return (
@@ -53,8 +61,8 @@ const UserComponent: React.FC<User> = ({ email, fullName, id }) => {
             <div>
               <Input {...fullNameValidation} value={info.fullName} onChange={(e:any)=>setInfo({ ...info, fullName: e.target.value })}/>
               <Input {...emailValidation} value={info.email} onChange={(e:any)=>setInfo({ ...info, email: e.target.value })}/>
-              <Input {...oldPasswordValidation} />
-              <Input {...newPasswordValidation} />
+              <Input {...oldPasswordValidation} value={info.oldPassword} onChange={(e:any)=>setInfo({...info, oldPassword: e.target.value})}/>
+              <Input {...newPasswordValidation}  value={info.newPassword} onChange={(e:any)=>setInfo({...info, newPassword: e.target.value})}/>
             </div>
           </div>
         </div>

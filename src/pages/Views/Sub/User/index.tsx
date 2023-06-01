@@ -24,9 +24,6 @@ const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, institut
 
   const {userData} = useAppSelector(state => state.user)
 
-  console.log(userData?.id);
-  
-
   const location = useLocation();
 
   const [avatar, setAvatar] = useState<ImageState>(undefined);

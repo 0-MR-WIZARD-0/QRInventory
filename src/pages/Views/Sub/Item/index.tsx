@@ -42,6 +42,7 @@ const ItemComponent: React.FC<Item> = ({ article, id, imageId, name }) => {
         </div>
         <div>
           <h1>{name}</h1>
+          <p>{article}</p>
         </div>
       </div>
       <ProtectedComponent

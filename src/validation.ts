@@ -68,10 +68,6 @@ export const oldPasswordValidation = {
   type: "password",
   placeholder: "••••••••",
   validation: {
-    // required: {
-    //   value: true,
-    //   message: "Обязательно к заполнению"
-    // },
     minLength: {
       value: 8,
       message: "Минимум 8 символов"
@@ -89,10 +85,6 @@ export const newPasswordValidation = {
   type: "password",
   placeholder: "••••••••",
   validation: {
-    // required: {
-    //   value: true,
-    //   message: "Обязательно к заполнению"
-    // },
     minLength: {
       value: 8,
       message: "Минимум 8 символов"
