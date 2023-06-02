@@ -2,6 +2,7 @@ import Input from "../Input";
 import { searchValidation } from "validation";
 import { useForm, FormProvider } from "react-hook-form";
 import { useEffect, useState } from "react";
+import api from "helpers/axios";
 
 interface SearchProps {
   items: any[];
@@ -13,6 +14,9 @@ const Search: React.FC<SearchProps> = ({ items, onSearch }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
+
+
+
     const filtered = items.filter(item =>
       item.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
