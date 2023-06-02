@@ -2,10 +2,15 @@
 @import "styles/colors.scss";
 
 .wrapper {
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
+
+  p {
+    margin-top: 10px;
+  }
+
   .imageWrapper {
     cursor: pointer;
     width: 100%;

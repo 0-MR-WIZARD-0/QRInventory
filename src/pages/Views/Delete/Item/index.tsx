@@ -12,6 +12,7 @@ import { deleteItemThunk, fetchItemThunk } from "redux/actions/items.actions";
 import { MainViewRoutes } from "types/Routes";
 import { validatePasswordThunk } from "redux/actions/auth.actions";
 import { CheckPasswordErrorScript, DeleteItemErrorScript } from "./Scenario";
+import { setError } from "redux/reducers/error.reducer";
 
 const DeleteItemComponent: React.FC = () => {
 
@@ -28,14 +29,12 @@ const DeleteItemComponent: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      if (!id) return console.log("Отсутствует id");
+      if (!id) return  dispatch(setError('Произошла ошибка: невалидный ID. Обратитесь к администратору!'));
       const res = await dispatch(fetchItemThunk({ id }));
       if (res.meta.requestStatus === "fulfilled") return setItemInfo(res.payload);
       else {
-        return () => {
-          console.log(res.payload);
-          return navigate(-1);
-        };
+        dispatch(setError('Произошла ошибка: невалидный ID. Обратитесь к администратору!'));
+        return navigate(-1);
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -45,14 +44,8 @@ const DeleteItemComponent: React.FC = () => {
   const deleteUser = async () => {
     if (itemInfo && itemInfo.id) {
       const res = await dispatch(deleteItemThunk({ id: itemInfo.id }));
-      if (res.meta.requestStatus === "fulfilled") {
-        return navigate(`/${MainViewRoutes.items}`);
-      } else {
-        return () => {
-          console.log(res.payload);
-          return DeleteItemModalRef.current?.createModal();
-        };
-      }
+      if (res.meta.requestStatus === "fulfilled") return navigate(`/${MainViewRoutes.items}`);
+      else return DeleteItemModalRef.current?.createModal();
     }
   };
 

@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "helpers/axios";
 import { LoginFormProps, User } from "types/User";
 
-enum RejectResponses {
+export enum RejectResponsesAuth {
   unauthorized = "Пользователь не авторизован",
   passwords_mismatch = "Пароли не сходятся"
 }
@@ -13,7 +13,7 @@ export const fetchUserThunk = createAsyncThunk("auth/fetch", async (params, { fu
     const res = await api.get<any, { data: User | undefined }>("/user").then(res => res.data);
     return fulfillWithValue(res);
   } catch (error) {
-    return rejectWithValue(RejectResponses.unauthorized);
+    rejectWithValue(RejectResponsesAuth.unauthorized);
   }
 });
 
@@ -23,7 +23,7 @@ export const loginUserThunk = createAsyncThunk<any, LoginFormProps>("auth/login"
     const res = await api.post<any, { data: User | undefined }>("/auth/login", params).then(res => res.data);
     return fulfillWithValue(res);
   } catch (error) {
-    return rejectWithValue(RejectResponses.unauthorized);
+    return rejectWithValue(RejectResponsesAuth.unauthorized);
   }
 });
 
@@ -41,6 +41,6 @@ export const validatePasswordThunk = createAsyncThunk<any, { password: string }>
     const res = await api.post("/auth/validate-password", { inputPassword: params.password });
     return fulfillWithValue(res.data);
   } catch (error) {
-    return rejectWithValue(RejectResponses.passwords_mismatch);
+    return rejectWithValue(RejectResponsesAuth.passwords_mismatch);
   }
 });

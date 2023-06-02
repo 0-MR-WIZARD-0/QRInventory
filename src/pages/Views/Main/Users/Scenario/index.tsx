@@ -6,7 +6,8 @@ import DefaultButton from "components/Basic/Buttons/Default";
 import { FormProvider, useForm } from "react-hook-form";
 import { fullNameValidation, emailValidation, passwordValidation } from "validation";
 import { useAppDispatch } from "redux/store";
-import { createUserThunk } from "redux/actions/users.actions";
+import { RejectResponsesUser, createUserThunk } from "redux/actions/users.actions";
+import { setError } from "redux/reducers/error.reducer";
 
 const CreateUserScenarioComponent: React.FC<{ cb: ResolverCallback }> = ({ cb }) => {
   const methods = useForm({ mode: "onBlur" });
@@ -14,13 +15,11 @@ const CreateUserScenarioComponent: React.FC<{ cb: ResolverCallback }> = ({ cb })
   const dispatch = useAppDispatch();
 
   const onSubmit = methods.handleSubmit(async data => {
-    if (!institution.id) return console.log("Ошибка, не выбрано учреждение");
+    if (!institution.id) return dispatch(setError("Учреждение отсутствует, либо не выбрано!"));
     const res = await dispatch(createUserThunk({ email: data.email, fullName: data.fullName, password: data.password, teacherInstitution: institution.id }));
     if (res.meta.requestStatus === "fulfilled") {
       cb(Promise.resolve(true));
-    } else {
-      return console.log("Ошибка при создании пользователя");
-    }
+    } else return dispatch(setError(RejectResponsesUser.createUserError))
   });
 
   return (

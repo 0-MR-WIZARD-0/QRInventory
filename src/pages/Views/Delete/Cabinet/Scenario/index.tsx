@@ -1,10 +1,12 @@
 import { Script } from "components/Basic/Scenario";
+import { RejectResponsesAuth } from "redux/actions/auth.actions";
+import { RejectResponsesCabinet } from "redux/actions/cabinets.actions";
 
 const DeleteCabinetScenarioComponent: React.FC = () => {
     return (
       <div>
         <h2>Удаление кабинета</h2>
-        <span>Произошла ошибка при удалении кабинета</span>
+        <span>{RejectResponsesCabinet.deleteCabinetError}</span>
       </div>
     );
   };
@@ -15,13 +17,12 @@ const DeleteCabinetScenarioComponent: React.FC = () => {
       onSuccess: -1
     }
   };
-  
 
   const CheckPasswordScenarioComponent: React.FC = () => {
     return (
       <div>
         <h2>Удаление кабинета</h2>
-        <span>Введен неверный пароль</span>
+        <span>{RejectResponsesAuth.passwords_mismatch}</span>
       </div>
     );
   };

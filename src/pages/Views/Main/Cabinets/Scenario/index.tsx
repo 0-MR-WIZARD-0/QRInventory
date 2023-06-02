@@ -4,9 +4,10 @@ import styles from "./view.main.cabinets.scenario.module.scss";
 import Input from "components/Basic/Input";
 import DefaultButton from "components/Basic/Buttons/Default";
 import { useAppDispatch } from "redux/store";
-import { createCabinetThunk } from "redux/actions/cabinets.actions";
+import { RejectResponsesCabinet, createCabinetThunk } from "redux/actions/cabinets.actions";
 import { useForm, FormProvider } from "react-hook-form";
 import { cabinetValidation } from "validation";
+import { setError } from "redux/reducers/error.reducer";
 
 export const CreateCabinetScenarioComponent: React.FC<{ cb: ResolverCallback }> = ({ cb }) => {
   const institution = useAppSelector(state => state.institution);
@@ -15,13 +16,11 @@ export const CreateCabinetScenarioComponent: React.FC<{ cb: ResolverCallback }> 
   const methods = useForm({ mode: "onBlur" });
 
   const onSubmit = methods.handleSubmit(async data => {
-    if (!institution.id) return console.log("Ошибка, не выбрано учреждение");
+    if (!institution.id) return dispatch(setError("Учреждение отсутствует, либо не выбрано!"));
     const res = await dispatch(createCabinetThunk({ institutionId: institution.id, cabinetNumber: data.cabinetNumber }));
     if (res.meta.requestStatus === "fulfilled") {
       cb(Promise.resolve(true));
-    } else {
-      return console.log("Ошибка при создании кабинета");
-    }
+    } else return dispatch(setError(RejectResponsesCabinet.createCabinetError))
   });
 
   return (

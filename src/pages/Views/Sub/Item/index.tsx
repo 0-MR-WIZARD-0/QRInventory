@@ -9,10 +9,11 @@ import { Item } from "types/Item";
 import { ImageState } from "types/UI";
 import { roledItemEditDataBarOptions } from "types/User";
 import styles from "./view.sub.item.module.scss";
-import { fetchItemThunk } from "redux/actions/items.actions";
+import { RejectResponsesItem, fetchItemThunk } from "redux/actions/items.actions";
 import { useAppDispatch } from "redux/store";
 import { useAppSelector } from "helpers/redux";
 import { MainViewRoutes } from "types/Routes";
+import { setError } from "redux/reducers/error.reducer";
 
 const ItemComponent: React.FC<Item> = ({ article, id, imageId, name }) => {
   const [avatar, setAvatar] = useState<ImageState>(undefined);
@@ -74,7 +75,7 @@ const ViewItem = () => {
           let res = await dispatch(fetchItemThunk({ id }));
 
           if (res.meta.requestStatus === "rejected") {
-            console.log("Произошла ошибка при загрузке предмета");
+            dispatch(setError(RejectResponsesItem.fetchItemError))
             return navigate(`/${MainViewRoutes.cabinets}`);
           }
 
@@ -88,7 +89,7 @@ const ViewItem = () => {
   }, []);
 
   if (pageItemData === undefined) return <LoadingTransitionComponent />;
-  if (pageItemData === null) return <b>произошла ошибка при загрузке предмета или он не найден</b>;
+  if (pageItemData === null) return <b>Произошла ошибка при загрузке предмета или он не найден.</b>;
   return <ItemComponent {...pageItemData} />;
 };
 

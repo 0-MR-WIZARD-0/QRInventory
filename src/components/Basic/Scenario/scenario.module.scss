@@ -1,7 +1,9 @@
 @import "styles/colors.scss";
+@import "styles/breakpoint.module.scss";
 
 .wrapper {
   position: absolute;
+  text-align: center;
   z-index: 99;
   top: 50%;
   left: 50%;
@@ -12,4 +14,9 @@
   border: 2px solid $secondary;
 
   padding: 20px;
+
+  @media screen and (max-width: $breakpoint-mid-tablet) {
+    width: 288px;
+  }
+
 }

@@ -116,7 +116,7 @@ export const cabinetValidation = {
     },
     pattern: {
       value: /^[а-яА-ЯёЁ0-9]+(-[а-яА-ЯёЁ0-9]+)*$/,
-      message: "Невалидное значения"
+      message: "Формат: 1, 504, 504-Я"
     }
   }
 };
@@ -141,7 +141,7 @@ export const articleValidation = {
     },
     pattern: {
       value: /^[а-яА-ЯёЁ0-9]+(-[а-яА-ЯёЁ0-9]+)*$/,
-      message: "Невалидное значение"
+      message: "Формат: Ш-503-К, 5997207710014"
     }
   }
 };
@@ -166,7 +166,7 @@ export const nameValidation = {
     },
     pattern: {
       value: /^(([а-яА-ЯёЁ0-9]+)\s?)*$/,
-      message: "Невалидное значение"
+      message: "Формат: стул обыкновенный, парта"
     }
   }
 };
@@ -191,7 +191,7 @@ export const titleInstitutionValidation = {
     },
     pattern: {
       value: /^(([а-яА-ЯёЁ0-9]+)\s?)*$/,
-      message: "Невалидное значение"
+      message: "Формат: КБТ, Колледж Бизнес Технологий"
     }
   }
 };

@@ -2,8 +2,9 @@
 @import "styles/breakpoint.module.scss";
 
 .wrapper {
+  position: relative;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 
   h3{
     font-weight: 700;
@@ -15,7 +16,6 @@
 
   .bottomMenu {
     max-width: 700px;
-    position: fixed;
     display: flex;
     flex-direction: row;
     column-gap: 14px;
@@ -53,4 +53,5 @@
       }
     }
   }
+
 }

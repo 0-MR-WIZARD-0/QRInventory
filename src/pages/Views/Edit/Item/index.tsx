@@ -2,7 +2,7 @@ import { LoadingTransitionComponent } from "components/Basic/Loader";
 import { useAppSelector } from "helpers/redux";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
-import { editItemThunk, fetchItemThunk } from "redux/actions/items.actions";
+import { RejectResponsesItem, editItemThunk, fetchItemThunk } from "redux/actions/items.actions";
 import { useAppDispatch } from "redux/store";
 import { Item } from "types/Item";
 import { MainViewRoutes } from "types/Routes";
@@ -12,6 +12,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import { nameValidation, articleValidation } from "validation";
 import Input from "components/Basic/Input";
 import ImageElement from "components/Complex/ImageElement";
+import { setError } from "redux/reducers/error.reducer";
 
 const ItemComponent: React.FC<Item> = ({ name, article, id }) => {
 
@@ -29,18 +30,10 @@ const ItemComponent: React.FC<Item> = ({ name, article, id }) => {
   const onSubmit = methods.handleSubmit(async data => {
     if (data.article.length && data.name.length !== 0){
       const res = await dispatch(editItemThunk({ id, name: data.name, article: data.article}));
-      if (res.meta.requestStatus === "fulfilled") {
-        return navigate(location.slice(0, location.length - 1).join("/"));
-      } else {
-        console.log(res.payload);
-      }
-    }else{
-      console.log("Присутствуют незаполненные поля");
-    }
+      if (res.meta.requestStatus === "fulfilled") return navigate(location.slice(0, location.length - 1).join("/"));
+      else return dispatch(setError(RejectResponsesItem.editItemError))
+    }else return dispatch(setError("Присутствуют незаполненные поля"))
   });
-
-  console.log(id);
-  
 
   return (
     <EditPageWrapper
@@ -73,7 +66,7 @@ const EditItem: React.FC = () => {
   useEffect(() => {
     (async () => {
       if (!id) {
-        console.log("Произошла ошибка при загрузке предмета");
+        dispatch(setError(RejectResponsesItem.fetchItemError))
         return navigate(`/${MainViewRoutes.items}`);
       }
 
@@ -84,7 +77,7 @@ const EditItem: React.FC = () => {
           let res = await dispatch(fetchItemThunk({ id }));
 
           if (res.meta.requestStatus === "rejected") {
-            console.log("Произошла ошибка при загрузке предмета");
+            dispatch(setError(RejectResponsesItem.fetchItemError))
             return navigate(`/${MainViewRoutes.items}`);
           }
 
@@ -98,7 +91,7 @@ const EditItem: React.FC = () => {
   }, []);
 
   if (pageItemData === undefined) return <LoadingTransitionComponent />;
-  if (pageItemData === null) return <b>произошла ошибка при загрузке предмета или он не найден</b>;
+  if (pageItemData === null) return <b>Произошла ошибка при загрузке предмета или он не найден.</b>;
   return <ItemComponent {...pageItemData} />;
 };
 

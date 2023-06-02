@@ -66,7 +66,6 @@ const ViewCabinets: React.FC = () => {
     }
   };
   useEffect(() => {
-    // console.log(page);
     if (!error && institution.id) fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, institution.id]);
@@ -82,7 +81,6 @@ const ViewCabinets: React.FC = () => {
   }, [institution.id]);
 
   const onLastInView = (entires: IntersectionObserverEntry[]) => {
-    // console.log(data);
     if (page * paginationSettings.perPage >= maxElements) return;
     if (!loading && data && data.length < maxElements) {
       if (entires[0].isIntersecting) setPage(p => p + 1);

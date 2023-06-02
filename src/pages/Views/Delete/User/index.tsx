@@ -12,6 +12,7 @@ import { useAppDispatch } from "redux/store";
 import { User } from "types/User";
 import { Scenario } from "components/Basic/Scenario";
 import { CheckPasswordErrorScript, DeleteUserErrorScript } from "./Scenario";
+import { setError } from "redux/reducers/error.reducer";
 
 const DeleteUserComponent: React.FC = () => {
 
@@ -28,14 +29,12 @@ const DeleteUserComponent: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      if (!id) return console.log("Отсутствует id");
+      if (!id) return dispatch(setError('Произошла ошибка: невалидный ID. Обратитесь к администратору!'));
       const res = await dispatch(fetchUserThunk({ id }));
       if (res.meta.requestStatus === "fulfilled") return setUserInfo(res.payload);
       else {
-        return () => {
-          console.log(res.payload);
-          return navigate(-1);
-        };
+        dispatch(setError('Произошла ошибка: невалидный ID. Обратитесь к администратору!'));
+        return navigate(-1);
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -44,15 +43,11 @@ const DeleteUserComponent: React.FC = () => {
 
   const deleteUser = async () => {
     if (userInfo && userInfo.id) {
+
       const res = await dispatch(deleteUserThunk({ id: userInfo.id }));
-      if (res.meta.requestStatus === "fulfilled") {
-        return navigate(`/${MainViewRoutes.users}`);
-      } else {
-        return () => {
-          console.log(res.payload);
-          return DeleteUserModalRef.current?.createModal();
-        };
-      }
+      
+      if (res.meta.requestStatus === "fulfilled") return navigate(`/${MainViewRoutes.users}`);
+      else return DeleteUserModalRef.current?.createModal();
     }
   };
 

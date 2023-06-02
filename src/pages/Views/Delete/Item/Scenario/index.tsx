@@ -1,4 +1,5 @@
 import { Script } from "components/Basic/Scenario";
+import { RejectResponsesAuth } from "redux/actions/auth.actions";
 
 const DeleteItemScenarioComponent: React.FC = () => {
     return (
@@ -21,7 +22,7 @@ const DeleteItemScenarioComponent: React.FC = () => {
     return (
       <div>
         <h2>Удаление предмета</h2>
-        <span>Введен неверный пароль</span>
+        <span>{RejectResponsesAuth.passwords_mismatch}</span>
       </div>
     );
   };

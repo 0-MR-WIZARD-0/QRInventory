@@ -7,10 +7,13 @@ import viewCabinetsReducer, { viewCabinetsActions } from "./reducers/view.cabine
 import viewItemsReducer, { viewItemsActions } from "./reducers/view.items.reducer";
 import userReducer, { userActions } from "./reducers/user.reducer";
 import viewInstitutionsReducer, { viewInstitutionsActions } from "./reducers/view.institutions.reducer";
+import errorReducer from './reducers/error.reducer';
 
 export const rootReducer = combineReducers({
   user: userReducer,
   institution: institutionReducer,
+  error: errorReducer,
+
 
   viewUsers: viewUsersReducer,
   viewCabinets: viewCabinetsReducer,

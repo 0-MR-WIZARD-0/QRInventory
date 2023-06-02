@@ -11,13 +11,13 @@ import { useAppSelector } from "helpers/redux";
 import styles from "./view.sub.cabinet.module.scss";
 import { useAppDispatch } from "redux/store";
 import { MainViewRoutes } from "types/Routes";
-import { fetchCabinetThunk } from "redux/actions/cabinets.actions";
+import { RejectResponsesCabinet, fetchCabinetThunk } from "redux/actions/cabinets.actions";
 import { Item } from "types/Item";
 import { Teacher } from "types/Teacher";
+import { setError } from "redux/reducers/error.reducer";
 
 const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teachers }) => {
   const location = useLocation();
-
 
   const formatItems = (items: Item[]) => {
     return items.map(i => ({ key: i.id, name: i.name, value: i.article }));
@@ -75,7 +75,7 @@ const ViewCabinet: React.FC = () => {
           let res = await dispatch(fetchCabinetThunk({ id }));
 
           if (res.meta.requestStatus === "rejected") {
-            console.log("Произошла ошибка при загрузке кабинета");
+            dispatch(setError(RejectResponsesCabinet.fetchCabinetError))
             return navigate(`/${MainViewRoutes.cabinets}`);
           }
 
@@ -89,7 +89,7 @@ const ViewCabinet: React.FC = () => {
   }, []);
 
   if (pageCabinetData === undefined) return <LoadingTransitionComponent />;
-  if (pageCabinetData === null) return <b>произошла ошибка при загрузке кабинета или он не найден</b>;
+  if (pageCabinetData === null) return <b>Произошла ошибка при загрузке кабинета или он не найден.</b>;
 
   return <CabinetComponent {...pageCabinetData} />;
 };

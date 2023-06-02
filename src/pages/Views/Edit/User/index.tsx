@@ -2,7 +2,7 @@ import Input from "components/Basic/Input";
 import styles from "./view.edit.user.module.scss";
 import { useState, useEffect } from "react";
 import { useAppDispatch } from "redux/store";
-import { editUserThunk, fetchUserThunk } from "redux/actions/users.actions";
+import { RejectResponsesUser, editUserThunk, fetchUserThunk } from "redux/actions/users.actions";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAppSelector } from "helpers/redux";
 import { User } from "types/User";
@@ -12,6 +12,7 @@ import EditPageWrapper from "components/Complex/Wrappers/EditPageWrapper";
 import { emailValidation, fullNameValidation, newPasswordValidation, oldPasswordValidation } from "validation";
 import { useForm, FormProvider } from "react-hook-form";
 import ImageElement from "components/Complex/ImageElement";
+import { setError } from "redux/reducers/error.reducer";
 
 const UserComponent: React.FC<User> = ({ email, fullName, id }) => {
   const navigate = useNavigate();
@@ -30,22 +31,12 @@ const UserComponent: React.FC<User> = ({ email, fullName, id }) => {
   const onSubmit = methods.handleSubmit(async data => {
     if(info.oldPassword.length && info.newPassword.length){
       const res = await dispatch(editUserThunk({id, fullName: data.fullName, email: data.email, oldPassword: data.oldPassword, newPassword: data.newPassword }))
-      if (res.meta.requestStatus === "fulfilled") {
-        console.log("Пользователь отредактирован");
-        return navigate(location.slice(0, location.length - 1).join("/"));
-      } else {
-        console.log("Произошла ошибка при редактировании пользователя");
-        console.log(res.payload);
-      }
+      if (res.meta.requestStatus === "fulfilled") return navigate(location.slice(0, location.length - 1).join("/"));
+      else dispatch(setError(RejectResponsesUser.editUserError + " Возможно введен неверный старый пароль."))
     }else{
       const res = await dispatch(editUserThunk({id, fullName: data.fullName, email: data.email }))
-      if (res.meta.requestStatus === "fulfilled") {
-        console.log("Пользователь отредактирован");
-        return navigate(location.slice(0, location.length - 1).join("/"));
-      } else {
-        console.log("Произошла ошибка при редактировании пользователя");
-        console.log(res.payload);
-      }
+      if (res.meta.requestStatus === "fulfilled") return navigate(location.slice(0, location.length - 1).join("/"));
+      else dispatch(setError(RejectResponsesUser.editUserError));
     }
   });
 
@@ -91,7 +82,7 @@ const EditUser: React.FC = () => {
           let res = await dispatch(fetchUserThunk({ id: id ?? userData.id }));
 
           if (res.meta.requestStatus === "rejected") {
-            console.log("Произошла ошибка при загрузке пользователя");
+            dispatch(setError(RejectResponsesUser.fetchUserError))
             return navigate(`/${MainViewRoutes.users}`);
           }
 
@@ -105,7 +96,7 @@ const EditUser: React.FC = () => {
   }, [userData]);
 
   if (pageUserData === undefined) return <LoadingTransitionComponent />;
-  if (pageUserData === null) return <b>произошла ошибка при загрузке пользователя или он не найден</b>;
+  if (pageUserData === null) return <b>Произошла ошибка при загрузке пользователя или он не найден.</b>;
   return <UserComponent {...pageUserData} />;
 };
 

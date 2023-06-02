@@ -2,11 +2,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "helpers/axios";
 import { User } from "types/User";
 
-enum RejectResponses {
-  createUserError = "Произошла ошибка при создании пользователя",
-  fetchUserError = "Произошла ошибка при получении пользователя",
-  editUserError = "Произошла ошибка при изменении пользователя",
-  deleteUserError = "Произошла ошибка при удалении пользователя"
+export enum RejectResponsesUser {
+  createUserError = "Произошла ошибка при создании пользователя. Обратитесь к администратоору!",
+  fetchUserError = "Произошла ошибка при получении пользователя. Обратитесь к администратоору!",
+  editUserError = "Произошла ошибка при изменении пользователя. Обратитесь к администратоору!",
+  deleteUserError = "Произошла ошибка при удалении пользователя. Обратитесь к администратоору!"
 }
 
 export const createUserThunk = createAsyncThunk<any, { fullName: string; email: string; password: string; teacherInstitution: string }>("user/create", async (params, { dispatch, fulfillWithValue, rejectWithValue }) => {
@@ -16,7 +16,7 @@ export const createUserThunk = createAsyncThunk<any, { fullName: string; email: 
     const res = await api.post<any, { data: User }>("/user/create", { email, fullName, password, teacherInstitution }).then(res => res.data);
     return fulfillWithValue(res);
   } catch (error) {
-    return rejectWithValue(RejectResponses.createUserError);
+    return rejectWithValue(RejectResponsesUser.createUserError);
   }
 });
 
@@ -25,7 +25,7 @@ export const fetchUserThunk = createAsyncThunk<any, { id: string }>("user/fetch"
     const res = (await api.get("/user/search", { params: { id: params.id } })).data;
     return fulfillWithValue(res);
   } catch (error) {
-    return rejectWithValue(RejectResponses.fetchUserError);
+    return rejectWithValue(RejectResponsesUser.fetchUserError);
   }
 });
 
@@ -34,7 +34,7 @@ export const editUserThunk = createAsyncThunk<any, { id: string; fullName: strin
     const res = (await api.patch(`/user/edit?id=${params.id}`, { ...params })).data;
     return fulfillWithValue(res);
   } catch (error) {
-    return rejectWithValue(RejectResponses.editUserError);
+    return rejectWithValue(RejectResponsesUser.editUserError);
   }
 });
 
@@ -43,6 +43,6 @@ export const deleteUserThunk = createAsyncThunk<any, { id: string }>("user/delet
     const res = (await api.delete(`/user/${params.id}`)).data;
     return fulfillWithValue(res);
   } catch (error) {
-    return rejectWithValue(RejectResponses.deleteUserError);
+    return rejectWithValue(RejectResponsesUser.deleteUserError);
   }
 });

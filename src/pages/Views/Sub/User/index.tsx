@@ -9,9 +9,10 @@ import { useEffect, useState } from "react";
 import ProtectedComponent from "components/Protected/Component";
 import { ImageState } from "types/UI";
 import AvatarElement from "components/Complex/AvatarElement";
-import { fetchUserThunk } from "redux/actions/users.actions";
+import { RejectResponsesUser, fetchUserThunk } from "redux/actions/users.actions";
 import { useAppDispatch } from "redux/store";
 import { MainViewRoutes } from "types/Routes";
+import { setError } from "redux/reducers/error.reducer";
 
 const formatFullName = (name: string) => {
   return name
@@ -85,7 +86,7 @@ const ViewUser = () => {
           let res = await dispatch(fetchUserThunk({ id: id ?? userData.id }));
 
           if (res.meta.requestStatus === "rejected") {
-            console.log("Произошла ошибка при загрузке пользователя");
+            dispatch(setError(RejectResponsesUser.fetchUserError))
             return navigate(`/${MainViewRoutes.users}`);
           }
 
@@ -101,7 +102,7 @@ const ViewUser = () => {
   if (!userData) return <Navigate to={"signin"} />;
 
   if (pageUserData === undefined) return <LoadingTransitionComponent />;
-  if (pageUserData === null) return <b>произошла ошибка при загрузке пользователя или он не найден</b>;
+  if (pageUserData === null) return <b>Произошла ошибка при загрузке пользователя или он не найден.</b>;
   return <UserComponent {...pageUserData} />;
 };
 

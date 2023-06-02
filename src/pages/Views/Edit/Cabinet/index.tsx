@@ -5,7 +5,7 @@ import { Cabinet } from "types/Cabinet";
 import { useAppDispatch } from "redux/store";
 import { useAppSelector } from "helpers/redux";
 import { MainViewRoutes } from "types/Routes";
-import { editCabinetThunk, fetchCabinetThunk } from "redux/actions/cabinets.actions";
+import { fetchCabinetThunk } from "redux/actions/cabinets.actions";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
 import ProtectedComponent from "components/Protected/Component";
 import { Roles } from "types/User";
@@ -114,7 +114,7 @@ const EditCabinet: React.FC = () => {
   }, []);
 
   if (pageCabinetData === undefined) return <LoadingTransitionComponent />;
-  if (pageCabinetData === null) return <b>произошла ошибка при загрузке кабинета или он не найден</b>;
+  if (pageCabinetData === null) return <b>Произошла ошибка при загрузке кабинета или он не найден.</b>;
   return <CabinetComponent {...pageCabinetData} />;
 };
 

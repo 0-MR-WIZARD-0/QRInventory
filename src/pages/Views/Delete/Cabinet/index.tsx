@@ -12,6 +12,7 @@ import { validatePasswordThunk } from "redux/actions/auth.actions";
 import { MainViewRoutes } from "types/Routes";
 import { passwordValidation } from "validation";
 import { useForm, FormProvider } from "react-hook-form";
+import { setError } from "redux/reducers/error.reducer";
 
 const DeleteCabinetComponent: React.FC = () => {
   const { id } = useParams();
@@ -27,14 +28,12 @@ const DeleteCabinetComponent: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      if (!id) return console.log("Отсутствует id");
+      if (!id) return dispatch(setError('Произошла ошибка: невалидный ID. Обратитесь к администратору!'));
       const res = await dispatch(fetchCabinetThunk({ id }));
       if (res.meta.requestStatus === "fulfilled") return setCabinetInfo(res.payload);
       else {
-        return () => {
-          console.log(res.payload);
-          return navigate(-1);
-        };
+        dispatch(setError('Произошла ошибка: невалидный ID. Обратитесь к администратору!'));
+        return navigate(-1);
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -43,14 +42,8 @@ const DeleteCabinetComponent: React.FC = () => {
   const deleteCabinet = async () => {
     if (cabinetInfo && cabinetInfo.id) {
       const res = await dispatch(deleteCabinetThunk({ id: cabinetInfo.id }));
-      if (res.meta.requestStatus === "fulfilled") {
-        return navigate(`/${MainViewRoutes.cabinets}`);
-      } else {
-        return () => {
-          console.log(res.payload);
-          return DeleteCabinetModalRef.current?.createModal();
-        };
-      }
+      if (res.meta.requestStatus === "fulfilled") return navigate(`/${MainViewRoutes.cabinets}`)
+      else return DeleteCabinetModalRef.current?.createModal()
     }
   };
 
@@ -80,5 +73,3 @@ const DeleteCabinet: React.FC = () => {
 };
 
 export default DeleteCabinet;
-
-//не обновляется стейт после удаления

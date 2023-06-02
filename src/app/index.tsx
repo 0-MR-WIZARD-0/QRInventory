@@ -33,19 +33,22 @@ import BackButtonWrapper from "components/Complex/Wrappers/BackButtonWrapper";
 import DeleteCabinet from "pages/Views/Delete/Cabinet";
 import DeleteUser from "pages/Views/Delete/User";
 import DeleteItem from "pages/Views/Delete/Item";
+import PopUp from "components/Basic/PopUp";
 
 function App() {
   const { fetchUserThunk } = useAction();
   const { loading } = useAppSelector(state => state.user);
-
+  const {error} = useAppSelector(state => state.error);
+  
   useEffect(() => {
     fetchUserThunk();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  
   return (
     <div className={styles.app}>
       <Header />
+      <PopUp error={error?.toString()} />
       {loading ? (
         <LoadingTransitionComponent />
       ) : (

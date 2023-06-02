@@ -1,10 +1,12 @@
 import { Script } from "components/Basic/Scenario";
+import { RejectResponsesAuth } from "redux/actions/auth.actions";
+import { RejectResponsesUser } from "redux/actions/users.actions";
 
 const DeleteUserScenarioComponent: React.FC = () => {
     return (
       <div>
         <h2>Удаление пользователя</h2>
-        <span>Произошла ошибка при удалении пользователя</span>
+        <span>{RejectResponsesUser.deleteUserError}</span>
       </div>
     );
   };
@@ -21,7 +23,7 @@ const DeleteUserScenarioComponent: React.FC = () => {
     return (
       <div>
         <h2>Удаление пользователя</h2>
-        <span>Введен неверный пароль</span>
+        <span>{RejectResponsesAuth.passwords_mismatch}</span>
       </div>
     );
   };
