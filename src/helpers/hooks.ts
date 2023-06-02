@@ -1,6 +1,4 @@
-import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import api from "./axios";
 
 export const useObserver = (cb: (entires: IntersectionObserverEntry[]) => void) => {
   const observer = useRef<IntersectionObserver>();
@@ -34,6 +32,7 @@ export const useImage = () => {
       alert("Тип файла не подходит для изображения предмета");
       return;
     }
+    setFile(file);
   };
   useEffect(() => {
     let fileReader: FileReader;

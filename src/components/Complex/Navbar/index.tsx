@@ -2,7 +2,6 @@ import { MenuBar } from "components/Complex/MenuBar";
 import ProtectedComponent from "components/Protected/Component";
 import { useAppSelector } from "helpers/redux";
 import { roledMenuBarOptions, RoledMenuBarOptions, Roles } from "types/User";
-
 import Selector from "../../Basic/Selector";
 import styles from "./navbar.module.scss";
 

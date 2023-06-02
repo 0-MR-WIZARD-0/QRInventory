@@ -30,7 +30,7 @@ const Login = () => {
     <FormProvider {...methods}>
       <Scenario ref={authErrorModalRef} modalName='auth-error' script={AuthErrorScript} />
       <Scenario ref={authResetModalRef} modalName='auth-reset' script={AuthResetScript} />
-      <main>
+      <main style={{marginTop: "15px"}}>
         <div className={styles.containerWrapper}>
           <div className={styles.container}>
             <h2>Авторизация</h2>
