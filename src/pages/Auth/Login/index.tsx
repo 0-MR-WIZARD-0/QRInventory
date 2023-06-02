@@ -5,10 +5,11 @@ import Input from "components/Basic/Input";
 import styles from "styles/globalStyle.module.scss";
 import { emailValidation, passwordValidation } from "validation";
 import { Scenario } from "components/Basic/Scenario";
-import { AuthErrorScript, AuthResetScript } from "./Scenario";
-import { loginUserThunk } from "redux/actions/auth.actions";
+import { AuthResetScript } from "./Scenario";
+import { RejectResponsesAuth, loginUserThunk } from "redux/actions/auth.actions";
 import { useAppDispatch } from "redux/store";
 import { FormProvider, useForm } from "react-hook-form";
+import { setError } from "redux/reducers/error.reducer";
 
 const Login = () => {
   const methods = useForm({ mode: "onBlur" });
@@ -16,19 +17,16 @@ const Login = () => {
   const navigator = useNavigate();
   const dispatch = useAppDispatch();
 
-  const authErrorModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
   const authResetModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
 
   const onSubmit = methods.handleSubmit(async (data: any) => {
     let res = await dispatch(loginUserThunk(data));
-    if (res.meta.requestStatus === "fulfilled") {
-      navigator("/", { replace: true });
-    }
+    if (res.meta.requestStatus === "fulfilled") navigator("/", { replace: true });
+    else return dispatch(setError(RejectResponsesAuth.unauthorized));
   });
 
   return (
     <FormProvider {...methods}>
-      <Scenario ref={authErrorModalRef} modalName='auth-error' script={AuthErrorScript} />
       <Scenario ref={authResetModalRef} modalName='auth-reset' script={AuthResetScript} />
       <main style={{marginTop: "15px"}}>
         <div className={styles.containerWrapper}>

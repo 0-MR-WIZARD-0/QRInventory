@@ -1,3 +1,5 @@
+@import "styles/breakpoint.module.scss";
+
 .popup {
     max-width: 700px;
     padding: 20px;
@@ -7,6 +9,10 @@
     transition: top 0.5s ease-in-out;
     color: white;
     animation: slideDown 0.5s ease-in-out forwards;
+
+    @media screen and (max-width: $breakpoint-max-tablet) {
+      margin-top: 10px;
+    }
   
     @keyframes slideDown {
       from {

@@ -1,22 +1,6 @@
 import { Script } from "components/Basic/Scenario";
 import styles from "./login.scenario.module.scss";
 
-const AuthErrorScenarioComponent: React.FC = () => {
-  return (
-    <div className={styles.authError}>
-      <h2>Авторизация</h2>
-      <span>Произошла ошибка при авторизации</span>
-    </div>
-  );
-};
-export const AuthErrorScript: Script = {
-  0: {
-    content: AuthErrorScenarioComponent,
-    onFailure: -1,
-    onSuccess: -1
-  }
-};
-
 const AuthResetScenarioComponent: React.FC = () => {
   return (
     <div className={styles.authReset}>

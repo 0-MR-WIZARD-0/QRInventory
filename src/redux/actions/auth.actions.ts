@@ -3,7 +3,7 @@ import api from "helpers/axios";
 import { LoginFormProps, User } from "types/User";
 
 export enum RejectResponsesAuth {
-  unauthorized = "Пользователь не авторизован",
+  unauthorized = "Пользователь не авторизован. Проверьте правильность введения почты и пароля!",
   passwords_mismatch = "Пароли не сходятся"
 }
 

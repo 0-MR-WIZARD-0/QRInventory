@@ -13,8 +13,8 @@ const PopUp: React.FC<PopupProps> = ({error}) => {
     useEffect(() => {
         if (error) {
           setTimeout(() => {
-            dispatch(clearError());
-          }, 1000);
+            // dispatch(clearError());
+          }, 2000);
         }
       }, [error, dispatch]);
     
