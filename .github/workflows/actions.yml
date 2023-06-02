@@ -26,10 +26,14 @@ jobs:
         run: |
           cp -rv ../../../../certificates ./
 
+      - name: Сборка Docker
+        run: |
+          docker-compose build
+
       - name: Удаление контейнера
         run: |
           docker-compose down
 
-      - name: Сборка Docker и деплой
+      - name: Деплой
         run: |
-          docker-compose up --build -d --force-recreate
+          docker-compose up -d --force-recreate
