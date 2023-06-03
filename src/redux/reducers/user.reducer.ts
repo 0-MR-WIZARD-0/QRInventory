@@ -61,6 +61,7 @@ const UserSlice = createSlice({
           fetchUserThunk.rejected.toString(),
           loginUserThunk.rejected.toString(),
           logoutUserThunk.rejected.toString(),
+          logoutUserThunk.fulfilled.toString()
         ].indexOf(action.type) > -1,
       (state, action) => {
         return {
