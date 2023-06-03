@@ -34,7 +34,6 @@ const reducers: { [name in keyof typeof ErrorCategories]: string[] } = {
   cabinet: [],
   institution: [createInstitutionThunk.rejected.toString()],
   item: [],
-  // сюда любые остальные
   default: []
 };
 
