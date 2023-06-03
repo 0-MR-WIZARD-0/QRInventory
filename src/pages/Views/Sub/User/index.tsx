@@ -20,7 +20,6 @@ const formatFullName = (name: string) => {
     .join(" ");
 };
 
-
 const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, institutions, role }) => {
   const { userData } = useAppSelector(state => state.user);
 
