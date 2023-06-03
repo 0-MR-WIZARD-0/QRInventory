@@ -1,7 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AxiosError } from "axios";
 import { fetchUserThunk, loginUserThunk, logoutUserThunk } from "redux/actions/auth.actions";
+import { BackendError } from "types/App";
 import { FulfilledAction, PendingAction, RejectedAction } from "types/Redux";
 import { User } from "types/User";
+import { DefaultErrors } from "./errors.reducer";
 
 type InitialState = {
   userData: User | undefined;
@@ -60,7 +63,18 @@ const UserSlice = createSlice({
           logoutUserThunk.fulfilled.toString()
         ].indexOf(action.type) > -1,
       (state, action) => {
-        return { ...state, userData: undefined, loading: false, error: action.payload as string };
+        return {
+          ...state,
+          userData: undefined,
+          loading: false,
+          error: (action.payload as AxiosError<BackendError>).response
+            ? (action.payload as AxiosError<BackendError>).response?.data.description ??
+              (action.payload as AxiosError<BackendError>).response?.data.message ??
+              DefaultErrors.unexpectedError
+            : (action.payload as BackendError).description ??
+              (action.payload as BackendError).message ??
+              DefaultErrors.unexpectedError
+        };
       }
     );
     builder.addMatcher(

@@ -6,10 +6,9 @@ import styles from "styles/globalStyle.module.scss";
 import { emailValidation, passwordValidation } from "validation";
 import { Scenario } from "components/Basic/Scenario";
 import { AuthResetScript } from "./Scenario";
-import { RejectResponsesAuth, loginUserThunk } from "redux/actions/auth.actions";
+import { loginUserThunk } from "redux/actions/auth.actions";
 import { useAppDispatch } from "redux/store";
 import { FormProvider, useForm } from "react-hook-form";
-import { setError } from "redux/reducers/error.reducer";
 
 const Login = () => {
   const methods = useForm({ mode: "onBlur" });
@@ -22,20 +21,19 @@ const Login = () => {
   const onSubmit = methods.handleSubmit(async (data: any) => {
     let res = await dispatch(loginUserThunk(data));
     if (res.meta.requestStatus === "fulfilled") navigator("/", { replace: true });
-    else return dispatch(setError(RejectResponsesAuth.unauthorized));
   });
 
   return (
     <FormProvider {...methods}>
       <Scenario ref={authResetModalRef} modalName='auth-reset' script={AuthResetScript} />
-      <main style={{marginTop: "15px"}}>
+      <main style={{ marginTop: "15px" }}>
         <div className={styles.containerWrapper}>
           <div className={styles.container}>
             <h2>Авторизация</h2>
             <p>Для продолжения необходимо ввести данные аккаунта</p>
             <form action='' method='post' className={styles.form}>
-              <Input {...emailValidation}/>
-              <Input {...passwordValidation}/>
+              <Input {...emailValidation} />
+              <Input {...passwordValidation} />
               <DefaultButton component={<div>продолжить</div>} onSumbit={onSubmit} />
               <Link to={""} onClick={() => authResetModalRef.current?.createModal()}>
                 Забыл(а) пароль

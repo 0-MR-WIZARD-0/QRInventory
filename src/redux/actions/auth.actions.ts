@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "helpers/axios";
+import { BackendError } from "types/App";
 import { LoginFormProps, User } from "types/User";
 
 export enum RejectResponsesAuth {
@@ -12,11 +13,14 @@ export const fetchUserThunk = createAsyncThunk(
   "auth/fetch",
   async (params, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const res = await api.get<any, { data: User | undefined }>("/user").then(res => res.data);
-      if (!res) return rejectWithValue(RejectResponsesAuth.unauthorized);
-      return fulfillWithValue(res);
+      const res = await api.get<any, { data: User | BackendError | undefined }>("/user");
+      if (!res || !(res.data as User)?.id)
+        throw new Error(
+          (res.data as BackendError)?.description ?? RejectResponsesAuth.unauthorized
+        );
+      return fulfillWithValue(res.data);
     } catch (error) {
-      rejectWithValue(RejectResponsesAuth.unauthorized);
+      return rejectWithValue(error);
     }
   }
 );
@@ -26,14 +30,18 @@ export const loginUserThunk = createAsyncThunk<any, LoginFormProps>(
   "auth/login",
   async (params, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const res = await api
-        .post<any, { data: User | undefined }>("/auth/login", params)
-        .then(res => res.data);
-      if (!res) return rejectWithValue(RejectResponsesAuth.unauthorized);
+      const res = await api.post<any, { data: User | BackendError | undefined }>(
+        "/auth/login",
+        params
+      );
+      if (!res || !(res.data as User)?.id)
+        throw new Error(
+          (res.data as BackendError)?.description ?? RejectResponsesAuth.unauthorized
+        );
 
-      return fulfillWithValue(res);
+      return fulfillWithValue(res.data);
     } catch (error) {
-      return rejectWithValue(RejectResponsesAuth.unauthorized);
+      return rejectWithValue(error);
     }
   }
 );

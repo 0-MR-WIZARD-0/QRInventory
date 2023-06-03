@@ -7,14 +7,13 @@ import { roledUserEditDataBarOptions } from "types/User";
 import ProtectedComponent from "components/Protected/Component";
 import { MenuBar } from "components/Complex/MenuBar";
 import DropList from "components/Complex/DropList";
-import { useAppSelector } from "helpers/redux";
+import { useAction, useAppSelector } from "helpers/redux";
 import styles from "./view.sub.cabinet.module.scss";
 import { useAppDispatch } from "redux/store";
 import { MainViewRoutes } from "types/Routes";
 import { RejectResponsesCabinet, fetchCabinetThunk } from "redux/actions/cabinets.actions";
 import { Item } from "types/Item";
 import { Teacher } from "types/Teacher";
-import { setError } from "redux/reducers/error.reducer";
 
 const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teachers }) => {
   const location = useLocation();
@@ -30,7 +29,9 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
   return (
     <>
       <div className={styles.wrapper}>
-        <div className={styles.imageWrapper} onClick={() => navigator.clipboard.writeText(window.location.href)}>
+        <div
+          className={styles.imageWrapper}
+          onClick={() => navigator.clipboard.writeText(window.location.href)}>
           <QRCodeSVG value={location.pathname} />
           <button>тап сюда или на qr чтобы скопировать ссылку</button>
         </div>
@@ -39,12 +40,8 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
         </h1>
       </div>
       <div>
-        <DropList 
-          options={formatItems(items as Item[])}
-        />
-        <DropList 
-          options={formatTeachers(teachers as Teacher[])}
-        />
+        <DropList options={formatItems(items as Item[])} />
+        <DropList options={formatTeachers(teachers as Teacher[])} />
         <ProtectedComponent
           component={
             <div className={styles.menuBar}>
@@ -61,6 +58,7 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
 const ViewCabinet: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { addError } = useAction();
   const { id } = useParams();
   const { data } = useAppSelector(state => state.viewCabinets);
   const [pageCabinetData, setPageCabinetData] = useState<Cabinet | null | undefined>();
@@ -75,7 +73,7 @@ const ViewCabinet: React.FC = () => {
           let res = await dispatch(fetchCabinetThunk({ id }));
 
           if (res.meta.requestStatus === "rejected") {
-            dispatch(setError(RejectResponsesCabinet.fetchCabinetError))
+            addError({ type: "cabinet", description: RejectResponsesCabinet.fetchCabinetError });
             return navigate(`/${MainViewRoutes.cabinets}`);
           }
 
@@ -89,7 +87,8 @@ const ViewCabinet: React.FC = () => {
   }, []);
 
   if (pageCabinetData === undefined) return <LoadingTransitionComponent />;
-  if (pageCabinetData === null) return <b>Произошла ошибка при загрузке кабинета или он не найден.</b>;
+  if (pageCabinetData === null)
+    return <b>Произошла ошибка при загрузке кабинета или он не найден.</b>;
 
   return <CabinetComponent {...pageCabinetData} />;
 };

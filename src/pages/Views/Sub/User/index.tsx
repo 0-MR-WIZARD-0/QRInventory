@@ -1,5 +1,5 @@
 import { MenuBar } from "components/Complex/MenuBar";
-import { useAppSelector } from "helpers/redux";
+import { useAction, useAppSelector } from "helpers/redux";
 import { Navigate /*useParams*/, useLocation, useNavigate, useParams } from "react-router-dom";
 import { roledUserDataBarOptions, roledUserEditDataBarOptions, Roles, User } from "types/User";
 import styles from "./view.sub.user.module.scss";
@@ -12,7 +12,6 @@ import AvatarElement from "components/Complex/AvatarElement";
 import { RejectResponsesUser, fetchUserThunk } from "redux/actions/users.actions";
 import { useAppDispatch } from "redux/store";
 import { MainViewRoutes } from "types/Routes";
-import { setError } from "redux/reducers/error.reducer";
 
 const formatFullName = (name: string) => {
   return name
@@ -22,8 +21,7 @@ const formatFullName = (name: string) => {
 };
 
 const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, institutions, role }) => {
-
-  const {userData} = useAppSelector(state => state.user)
+  const { userData } = useAppSelector(state => state.user);
 
   const location = useLocation();
 
@@ -47,9 +45,15 @@ const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, institut
   return (
     <>
       <div className={styles.wrapper}>
-        <div className={styles.imageWrapper} onClick={() => location.pathname !== "/profile" && navigator.clipboard.writeText(window.location.href)}>
+        <div
+          className={styles.imageWrapper}
+          onClick={() =>
+            location.pathname !== "/profile" && navigator.clipboard.writeText(window.location.href)
+          }>
           <AvatarElement img={avatar} />
-          {location.pathname !== "/profile" && <button>тап сюда или на фото чтобы скопировать ссылку</button>}
+          {location.pathname !== "/profile" && (
+            <button>тап сюда или на фото чтобы скопировать ссылку</button>
+          )}
         </div>
         <div className={styles.fio}>
           <h1>{role === Roles.admin ? "Администратор" : formatFullName(fullName)}</h1>
@@ -60,7 +64,11 @@ const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, institut
         component={
           <div className={styles.menuBar}>
             <p>Панель управления пользователем</p>
-            {userData?.id !== id ? <MenuBar barOptions={roledUserEditDataBarOptions["admin"]} /> : <MenuBar barOptions={roledUserDataBarOptions["admin"]} />}
+            {userData?.id !== id ? (
+              <MenuBar barOptions={roledUserEditDataBarOptions["admin"]} />
+            ) : (
+              <MenuBar barOptions={roledUserDataBarOptions["admin"]} />
+            )}
           </div>
         }
       />
@@ -71,6 +79,7 @@ const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, institut
 const ViewUser = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { addError } = useAction();
   const { id } = useParams();
   const { userData } = useAppSelector(state => state.user);
   const { data } = useAppSelector(state => state.viewUsers);
@@ -86,7 +95,7 @@ const ViewUser = () => {
           let res = await dispatch(fetchUserThunk({ id: id ?? userData.id }));
 
           if (res.meta.requestStatus === "rejected") {
-            dispatch(setError(RejectResponsesUser.fetchUserError))
+            addError({ type: "user", description: RejectResponsesUser.fetchUserError });
             return navigate(`/${MainViewRoutes.users}`);
           }
 
@@ -102,7 +111,8 @@ const ViewUser = () => {
   if (!userData) return <Navigate to={"signin"} />;
 
   if (pageUserData === undefined) return <LoadingTransitionComponent />;
-  if (pageUserData === null) return <b>Произошла ошибка при загрузке пользователя или он не найден.</b>;
+  if (pageUserData === null)
+    return <b>Произошла ошибка при загрузке пользователя или он не найден.</b>;
   return <UserComponent {...pageUserData} />;
 };
 

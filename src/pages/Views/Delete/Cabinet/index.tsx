@@ -12,27 +12,29 @@ import { validatePasswordThunk } from "redux/actions/auth.actions";
 import { MainViewRoutes } from "types/Routes";
 import { passwordValidation } from "validation";
 import { useForm, FormProvider } from "react-hook-form";
-import { setError } from "redux/reducers/error.reducer";
+import { DefaultErrors } from "redux/reducers/errors.reducer";
+import { useAction } from "helpers/redux";
 
 const DeleteCabinetComponent: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { addError } = useAction();
 
   const DeleteCabinetModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
   const CheckPasswordModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
 
   const [cabinetInfo, setCabinetInfo] = useState<Cabinet>();
 
-  const methods = useForm<{password: string}>({ mode: "onBlur" });
+  const methods = useForm<{ password: string }>({ mode: "onBlur" });
 
   useEffect(() => {
     (async () => {
-      if (!id) return dispatch(setError('Произошла ошибка: невалидный ID. Обратитесь к администратору!'));
+      if (!id) return addError({ type: "cabinet", description: DefaultErrors.invalidId });
       const res = await dispatch(fetchCabinetThunk({ id }));
       if (res.meta.requestStatus === "fulfilled") return setCabinetInfo(res.payload);
       else {
-        dispatch(setError('Произошла ошибка: невалидный ID. Обратитесь к администратору!'));
+        addError({ type: "cabinet", description: DefaultErrors.invalidId });
         return navigate(-1);
       }
     })();
@@ -42,8 +44,8 @@ const DeleteCabinetComponent: React.FC = () => {
   const deleteCabinet = async () => {
     if (cabinetInfo && cabinetInfo.id) {
       const res = await dispatch(deleteCabinetThunk({ id: cabinetInfo.id }));
-      if (res.meta.requestStatus === "fulfilled") return navigate(`/${MainViewRoutes.cabinets}`)
-      else return DeleteCabinetModalRef.current?.createModal()
+      if (res.meta.requestStatus === "fulfilled") return navigate(`/${MainViewRoutes.cabinets}`);
+      else return DeleteCabinetModalRef.current?.createModal();
     }
   };
 
@@ -56,8 +58,16 @@ const DeleteCabinetComponent: React.FC = () => {
 
   return (
     <FormProvider {...methods}>
-      <Scenario ref={DeleteCabinetModalRef} modalName='delete-cabinet-error' script={DeleteCabinetErrorScript} />
-      <Scenario ref={CheckPasswordModalRef} modalName='check-password-error' script={CheckPasswordErrorScript} />
+      <Scenario
+        ref={DeleteCabinetModalRef}
+        modalName='delete-cabinet-error'
+        script={DeleteCabinetErrorScript}
+      />
+      <Scenario
+        ref={CheckPasswordModalRef}
+        modalName='check-password-error'
+        script={CheckPasswordErrorScript}
+      />
       <div className={styles.wrapper}>
         <h3>Удаление кабинета</h3>
         <p>Для продолжения необходимо ввести пароль от аккаунта</p>
