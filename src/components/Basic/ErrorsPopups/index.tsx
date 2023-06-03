@@ -3,6 +3,8 @@ import { useAction, useAppSelector } from "helpers/redux";
 import { ErrorCategories, ErrorPopup } from "redux/reducers/errors.reducer";
 import { memo, useEffect } from "react";
 
+const notificationTimeout = 3000;
+
 const ErrorPopupComponent: React.FC<ErrorPopup> = memo(
   ({ id, description, type }) => {
     const { removeError } = useAction();
@@ -10,11 +12,11 @@ const ErrorPopupComponent: React.FC<ErrorPopup> = memo(
     useEffect(() => {
       let timeout = setTimeout(() => {
         removeError({ id });
-      }, 5000);
+      }, notificationTimeout);
 
       return () => clearTimeout(timeout);
-      
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -40,8 +42,7 @@ const ErrorsPopupWrapper: React.FC = () => {
   const errors = useAppSelector(state => state.errors);
 
   return (
-    <div
-      className = {styles.popup}>
+    <div className={styles.popup}>
       {errors.map(e => (
         <ErrorPopupComponent key={e.id} {...e} />
       ))}

@@ -64,12 +64,12 @@ const ErrorsSlice = createSlice({
             return [
               ...state,
               {
-                description: (action.payload as AxiosError<BackendError>).response
+                description: (action.payload as AxiosError<BackendError>)?.response
                   ? (action.payload as AxiosError<BackendError>).response?.data.description ??
                     (action.payload as AxiosError<BackendError>).response?.data.message ??
                     DefaultErrors.unexpectedError
-                  : (action.payload as BackendError).description ??
-                    (action.payload as BackendError).message ??
+                  : (action.payload as BackendError)?.description ??
+                    (action.payload as BackendError)?.message ??
                     DefaultErrors.unexpectedError,
                 type: k as keyof typeof ErrorCategories,
                 id: uuid

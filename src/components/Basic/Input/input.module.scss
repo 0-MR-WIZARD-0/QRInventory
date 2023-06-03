@@ -4,7 +4,7 @@
   position: relative;
   margin-bottom: 8px;
 
-  input {
+  & > input {
     border-radius: 15px;
     height: 50px;
     width: 100%;
@@ -33,7 +33,7 @@
     }
   }
 
-  label {
+  & > label {
     position: absolute;
     bottom: -15%;
     left: 20px;
@@ -46,12 +46,24 @@
 
     z-index: 2;
   }
-  p {
-    position: absolute;
-    bottom: -60%;
+  & > .passwordShowToggle {
+    width: 20px;
+    height: 20px;
+    border: none;
+    background-color: transparent;
 
-    font-weight: bold;
-    color: $red;
+    cursor: pointer;
+
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
+
+    i {
+      width: 100%;
+      height: 100%;
+      background-color: $gray-900;
+    }
   }
 
   & ~ span {
