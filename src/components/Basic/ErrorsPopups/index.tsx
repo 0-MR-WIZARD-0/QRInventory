@@ -8,9 +8,12 @@ const ErrorPopupComponent: React.FC<ErrorPopup> = memo(
     const { removeError } = useAction();
 
     useEffect(() => {
-      setTimeout(() => {
+      let timeout = setTimeout(() => {
         removeError({ id });
       }, 5000);
+
+      return () => clearTimeout(timeout);
+      
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -21,8 +24,10 @@ const ErrorPopupComponent: React.FC<ErrorPopup> = memo(
           borderRadius: "10px",
           left: "50%",
           padding: "15px",
-          width: "100%"
-        }}>
+          width: "100%",
+          cursor: "pointer"
+        }}
+        onClick={() => removeError({ id })}>
         <h5>Ошибка/{ErrorCategories[type]}</h5>
         <p style={{ fontSize: "16px" }}>{description}</p>
       </div>
