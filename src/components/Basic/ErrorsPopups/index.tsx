@@ -1,7 +1,8 @@
-import styles from "./ErrorsPopups.module.scss";
 import { useAction, useAppSelector } from "helpers/redux";
 import { ErrorCategories, ErrorPopup } from "redux/reducers/errors.reducer";
 import { memo, useEffect } from "react";
+
+const notificationTimeout = 3000;
 
 const ErrorPopupComponent: React.FC<ErrorPopup> = memo(
   ({ id, description, type }) => {
@@ -10,7 +11,7 @@ const ErrorPopupComponent: React.FC<ErrorPopup> = memo(
     useEffect(() => {
       let timeout = setTimeout(() => {
         removeError({ id });
-      }, 5000);
+      }, notificationTimeout);
 
       return () => clearTimeout(timeout);
     }, []);

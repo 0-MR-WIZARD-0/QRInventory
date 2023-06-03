@@ -67,12 +67,12 @@ const UserSlice = createSlice({
           ...state,
           userData: undefined,
           loading: false,
-          error: (action.payload as AxiosError<BackendError>).response
+          error: (action.payload as AxiosError<BackendError>)?.response
             ? (action.payload as AxiosError<BackendError>).response?.data.description ??
               (action.payload as AxiosError<BackendError>).response?.data.message ??
               DefaultErrors.unexpectedError
-            : (action.payload as BackendError).description ??
-              (action.payload as BackendError).message ??
+            : (action.payload as BackendError)?.description ??
+              (action.payload as BackendError)?.message ??
               DefaultErrors.unexpectedError
         };
       }
