@@ -20,7 +20,7 @@ const formatFullName = (name: string) => {
     .join(" ");
 };
 
-const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, institutions, role }) => {
+const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, role }) => {
   const { userData } = useAppSelector(state => state.user);
 
   const location = useLocation();

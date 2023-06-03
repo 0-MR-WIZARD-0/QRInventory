@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 import { generateShortUUID } from "helpers/functions";
-import { fetchUserThunk, loginUserThunk } from "redux/actions/auth.actions";
+import { fetchUserThunk, loginUserThunk, validatePasswordThunk } from "redux/actions/auth.actions";
 import { BackendError } from "types/App";
 import { RejectedAction } from "types/Redux";
 

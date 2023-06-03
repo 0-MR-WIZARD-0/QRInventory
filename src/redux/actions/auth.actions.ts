@@ -4,7 +4,7 @@ import { BackendError } from "types/App";
 import { LoginFormProps, User } from "types/User";
 
 export enum RejectResponsesAuth {
-  unauthorized = "Пользователь не авторизован. Проверьте правильность введения почты и пароля!",
+  unauthorized = "Пользователь не авторизован",
   passwords_mismatch = "Пароли не сходятся"
 }
 
@@ -62,7 +62,14 @@ export const validatePasswordThunk = createAsyncThunk<any, { password: string }>
   "auth/validate",
   async (params, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const res = await api.post("/auth/validate-password", { inputPassword: params.password });
+      const res = await api.post<any, {data: User | BackendError | undefined}>(
+        "/auth/validate-password",
+        { inputPassword: params.password 
+      });
+      if(!res || !(res.data as User)?.id)
+        throw new Error(
+          (res.data as BackendError)?.description ?? RejectResponsesAuth.passwords_mismatch
+        )
       return fulfillWithValue(res.data);
     } catch (error) {
       return rejectWithValue(RejectResponsesAuth.passwords_mismatch);
