@@ -26,7 +26,6 @@ export type ErrorPopup = {
   type: keyof typeof ErrorCategories;
   description: string;
 };
-
 const initialState: ErrorPopup[] = [];
 
 const reducers: { [name in keyof typeof ErrorCategories]: string[] } = {
