@@ -41,7 +41,6 @@ const ViewUser: React.FC<ViewUserProps> = ({ navigate, user, lastElementRef }) =
       <ProtectedComponent
         component={
           <div className={styles.info}>
-            {/* или в скольких кабинетах учитель присутствует */}
             <p>{user.email}</p>
           </div>
         }
@@ -88,9 +87,6 @@ const ViewUsers: React.FC = () => {
     }
   };
   const [lastItemRef] = useObserver(onLastInView);
-
-  console.log(data);
-  
 
   return (
     <>

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
-import { fetchUserThunk, loginUserThunk, logoutUserThunk } from "redux/actions/auth.actions";
+import { fetchUserThunk, loginUserThunk, logoutUserThunk, validatePasswordThunk } from "redux/actions/auth.actions";
 import { BackendError } from "types/App";
 import { FulfilledAction, PendingAction, RejectedAction } from "types/Redux";
 import { User } from "types/User";
@@ -39,7 +39,8 @@ const UserSlice = createSlice({
   extraReducers: builder => {
     builder.addMatcher(
       (action: FulfilledAction) =>
-        [fetchUserThunk.fulfilled.toString(), loginUserThunk.fulfilled.toString()].indexOf(
+        [fetchUserThunk.fulfilled.toString(), loginUserThunk.fulfilled.toString(), logoutUserThunk.fulfilled.toString(), 
+        ].indexOf(
           action.type
         ) > -1,
       (state, action) => {
@@ -82,7 +83,7 @@ const UserSlice = createSlice({
         [
           fetchUserThunk.pending.toString(),
           loginUserThunk.pending.toString(),
-          logoutUserThunk.pending.toString()
+          logoutUserThunk.pending.toString(),
         ].indexOf(action.type) > -1,
       (state, action) => {
         return { ...state, loading: true };

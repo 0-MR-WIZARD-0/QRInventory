@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 import { generateShortUUID } from "helpers/functions";
-import { fetchUserThunk, loginUserThunk } from "redux/actions/auth.actions";
 import { createInstitutionThunk } from "redux/actions/institutions.actions";
+import { fetchUserThunk, loginUserThunk, validatePasswordThunk } from "redux/actions/auth.actions";
 import { BackendError } from "types/App";
 import { RejectedAction } from "types/Redux";
 
@@ -26,6 +26,7 @@ export type ErrorPopup = {
   type: keyof typeof ErrorCategories;
   description: string;
 };
+
 const initialState: ErrorPopup[] = [];
 
 const reducers: { [name in keyof typeof ErrorCategories]: string[] } = {

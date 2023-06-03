@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import styles from "./droplist.module.scss";
-import { useAppSelector } from "helpers/redux";
+import Search from "components/Basic/Search";
 
 interface Option {
   key: string;
@@ -28,7 +28,6 @@ const DropList: React.FC<DropDownProps> = ({ options, enableSearch = false, enab
     }
   };
   
-  const institution = useAppSelector(state => state.institution);
 
   return (
     <div className={styles.container} ref={container}>
@@ -38,7 +37,7 @@ const DropList: React.FC<DropDownProps> = ({ options, enableSearch = false, enab
       </button>
       {dropdownState.open && (
         <div>
-          {/* {enableSearch && ( <Search searchTerm={""} onSearchChange={} /> )} */}
+          {enableSearch && ( <Search /> )}
           <ul>
             {options.map((option) => (
               <li key={option.key}>
