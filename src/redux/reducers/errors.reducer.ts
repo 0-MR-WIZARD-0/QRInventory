@@ -73,7 +73,7 @@ const ErrorsSlice = createSlice({
                   : (action.payload as BackendError).description ??
                     (action.payload as BackendError).message ??
                     DefaultErrors.unexpectedError,
-                type: "user",
+                type: k as keyof typeof ErrorCategories,
                 id: uuid
               }
             ];
