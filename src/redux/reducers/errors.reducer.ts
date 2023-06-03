@@ -26,7 +26,6 @@ export type ErrorPopup = {
   type: keyof typeof ErrorCategories;
   description: string;
 };
-
 const initialState: ErrorPopup[] = [];
 
 const reducers: { [name in keyof typeof ErrorCategories]: string[] } = {
@@ -35,7 +34,6 @@ const reducers: { [name in keyof typeof ErrorCategories]: string[] } = {
   cabinet: [],
   institution: [createInstitutionThunk.rejected.toString()],
   item: [],
-  // сюда любые остальные
   default: []
 };
 
@@ -73,7 +71,7 @@ const ErrorsSlice = createSlice({
                   : (action.payload as BackendError).description ??
                     (action.payload as BackendError).message ??
                     DefaultErrors.unexpectedError,
-                type: "user",
+                type: k as keyof typeof ErrorCategories,
                 id: uuid
               }
             ];
