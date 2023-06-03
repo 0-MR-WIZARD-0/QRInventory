@@ -10,24 +10,22 @@ type ProtectedProps = {
 };
 
 const ProtectedPage: React.FC<ProtectedProps> = ({ component, onlyGuest, roles }) => {
-  const { userData } = useAppSelector(state => state.user);
+  const { userData, error } = useAppSelector(state => state.user);
   const { setError } = useAction();
 
   if (onlyGuest) {
     if (!userData) return <>{component}</>;
     else return <Navigate to={RoutesEnum.main} />;
   } else {
-    if (!userData) {
-      return <Navigate to={`/${RoutesEnum.noAccess}`} />;
-    } else {
-      if (roles) {
-        if (roles.includes(userData.role)) return <>{component}</>;
-        else {
-          setError(UserErrors.user_not_authed);
-          return <Navigate to={`/${RoutesEnum.noAccess}`} />;
-        }
-      } else return <>{component}</>;
-    }
+    if (error || !userData) return <Navigate to={`/${RoutesEnum.noAccess}`} />;
+
+    if (roles) {
+      if (roles.includes(userData.role)) return <>{component}</>;
+      else {
+        setError(UserErrors.user_not_authed);
+        return <Navigate to={`/${RoutesEnum.noAccess}`} />;
+      }
+    } else return <>{component}</>;
   }
 };
 

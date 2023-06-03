@@ -35,20 +35,41 @@ const UserSlice = createSlice({
   },
   extraReducers: builder => {
     builder.addMatcher(
-      (action: FulfilledAction) => [fetchUserThunk.fulfilled.toString(), loginUserThunk.fulfilled.toString()].indexOf(action.type) > -1,
+      (action: FulfilledAction) =>
+        [fetchUserThunk.fulfilled.toString(), loginUserThunk.fulfilled.toString()].indexOf(
+          action.type
+        ) > -1,
       (state, action) => {
+        if (!action.payload)
+          return {
+            ...state,
+            userData: undefined,
+            loading: false,
+            error: "Произошла ошибка при загрузке пользователя"
+          };
         return { ...state, userData: action.payload, loading: false, error: undefined };
       }
     );
 
     builder.addMatcher(
-      (action: RejectedAction) => [fetchUserThunk.rejected.toString(), loginUserThunk.rejected.toString(), logoutUserThunk.rejected.toString(), logoutUserThunk.fulfilled.toString()].indexOf(action.type) > -1,
+      (action: RejectedAction) =>
+        [
+          fetchUserThunk.rejected.toString(),
+          loginUserThunk.rejected.toString(),
+          logoutUserThunk.rejected.toString(),
+          logoutUserThunk.fulfilled.toString()
+        ].indexOf(action.type) > -1,
       (state, action) => {
         return { ...state, userData: undefined, loading: false, error: action.payload as string };
       }
     );
     builder.addMatcher(
-      (action: PendingAction) => [fetchUserThunk.pending.toString(), loginUserThunk.pending.toString(), logoutUserThunk.pending.toString()].indexOf(action.type) > -1,
+      (action: PendingAction) =>
+        [
+          fetchUserThunk.pending.toString(),
+          loginUserThunk.pending.toString(),
+          logoutUserThunk.pending.toString()
+        ].indexOf(action.type) > -1,
       (state, action) => {
         return { ...state, loading: true };
       }
