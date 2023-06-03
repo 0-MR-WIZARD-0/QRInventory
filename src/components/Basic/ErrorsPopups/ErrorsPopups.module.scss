@@ -1,28 +1,33 @@
 @import "styles/breakpoint.module.scss";
 
 .popup {
-    max-width: 700px;
-    padding: 20px;
-    border-radius: 20px;
-    border: none;
-    background-color: rgba(255, 0, 0, 0.8); 
-    transition: top 0.5s ease-in-out;
-    color: white;
-    animation: slideDown 0.5s ease-in-out forwards;
+
+    position: fixed;
+    left: 75%;
+    padding: 16px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 10px;
+    z-index: 3;
+    max-width: 330px;
 
     @media screen and (max-width: $breakpoint-max-tablet) {
-      margin-top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      right: 0;
+      padding: 16px 16px;
+      max-width: 700px;
+      width: 100%;
     }
-  
-    @keyframes slideDown {
-      from {
-        transform: translateY(-100%);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
+    
+    @media screen and (min-width: 700px) and (max-width: 1419px){
+      left: 50%;
+      transform: translateX(-50%);
+      right: 0;
+      padding: 16px 0px;
+      max-width: 700px;
+      width: 100%;
     }
 
-  }
+}
