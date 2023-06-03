@@ -33,59 +33,109 @@ import BackButtonWrapper from "components/Complex/Wrappers/BackButtonWrapper";
 import DeleteCabinet from "pages/Views/Delete/Cabinet";
 import DeleteUser from "pages/Views/Delete/User";
 import DeleteItem from "pages/Views/Delete/Item";
-import PopUp from "components/Basic/PopUp";
 
 function App() {
   const { fetchUserThunk } = useAction();
   const { loading } = useAppSelector(state => state.user);
-  const {error} = useAppSelector(state => state.error);
-  
+
   useEffect(() => {
     fetchUserThunk();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
+
   return (
     <div className={styles.app}>
       <Header />
-      <PopUp error={error?.toString()} />
       {loading ? (
         <LoadingTransitionComponent />
       ) : (
         <Routes>
           <Route path={RoutesEnum.auth}>
-            <Route path={RoutesEnum.signIn} element={<ProtectedPage component={<Login />} onlyGuest />} />
+            <Route
+              path={RoutesEnum.signIn}
+              element={<ProtectedPage component={<Login />} onlyGuest />}
+            />
             <Route path={RoutesEnum.logout} element={<Logout />} />
           </Route>
           <Route path={RoutesEnum.main} element={<ProtectedPage component={<Main />} />}>
             <Route index element={<Navigate to={MainViewRoutes.cabinets} />} />
-            <Route path={MainViewRoutes.cabinets} element={<ProtectedPage component={<ViewCabinets />} roles={[Roles.admin, Roles.teacher]} />} />
-            <Route path={MainViewRoutes.institutions} element={<ProtectedPage component={<ViewInstitutions />} roles={[Roles.admin]} />} />
-            <Route path={MainViewRoutes.items} element={<ProtectedPage component={<ViewItems />} roles={[Roles.admin, Roles.teacher]} />} />
-            <Route path={MainViewRoutes.users} element={<ProtectedPage component={<ViewUsers />} roles={[Roles.admin]} />} />
+            <Route
+              path={MainViewRoutes.cabinets}
+              element={
+                <ProtectedPage component={<ViewCabinets />} roles={[Roles.admin, Roles.teacher]} />
+              }
+            />
+            <Route
+              path={MainViewRoutes.institutions}
+              element={<ProtectedPage component={<ViewInstitutions />} roles={[Roles.admin]} />}
+            />
+            <Route
+              path={MainViewRoutes.items}
+              element={
+                <ProtectedPage component={<ViewItems />} roles={[Roles.admin, Roles.teacher]} />
+              }
+            />
+            <Route
+              path={MainViewRoutes.users}
+              element={<ProtectedPage component={<ViewUsers />} roles={[Roles.admin]} />}
+            />
           </Route>
           <Route path={RoutesEnum.view} element={<BackButtonWrapper component={<Outlet />} />}>
             <Route path={`${MainViewRoutes.cabinets}/:id`}>
               <Route index element={<ViewCabinet />} />
-              <Route path='edit' element={<ProtectedPage component={<EditCabinet />} roles={[Roles.admin, Roles.teacher]} />} />
-              <Route path='delete' element={<ProtectedPage component={<DeleteCabinet />} roles={[Roles.admin, Roles.teacher]} />} />
+              <Route
+                path='edit'
+                element={
+                  <ProtectedPage component={<EditCabinet />} roles={[Roles.admin, Roles.teacher]} />
+                }
+              />
+              <Route
+                path='delete'
+                element={
+                  <ProtectedPage
+                    component={<DeleteCabinet />}
+                    roles={[Roles.admin, Roles.teacher]}
+                  />
+                }
+              />
             </Route>
             <Route path={`${MainViewRoutes.items}/:id`}>
               <Route index element={<ViewItem />} />
-              <Route path='edit' element={<ProtectedPage component={<EditItem />} roles={[Roles.admin]} />} />
-              <Route path='delete' element={<ProtectedPage component={<DeleteItem />} roles={[Roles.admin, Roles.teacher]} />} />
+              <Route
+                path='edit'
+                element={<ProtectedPage component={<EditItem />} roles={[Roles.admin]} />}
+              />
+              <Route
+                path='delete'
+                element={
+                  <ProtectedPage component={<DeleteItem />} roles={[Roles.admin, Roles.teacher]} />
+                }
+              />
             </Route>
             <Route path={`${MainViewRoutes.users}/:id`}>
               <Route index element={<ViewUser />} />
-              <Route path='edit' element={<ProtectedPage component={<EditUser />} roles={[Roles.admin]} />} />
-              <Route path='delete' element={<ProtectedPage component={<DeleteUser />} roles={[Roles.admin, Roles.teacher]} />} />
+              <Route
+                path='edit'
+                element={<ProtectedPage component={<EditUser />} roles={[Roles.admin]} />}
+              />
+              <Route
+                path='delete'
+                element={
+                  <ProtectedPage component={<DeleteUser />} roles={[Roles.admin, Roles.teacher]} />
+                }
+              />
             </Route>
           </Route>
-          <Route path={RoutesEnum.profile} element={<ProtectedPage component={<BackButtonWrapper component={<Outlet />} />} />}>
+          <Route
+            path={RoutesEnum.profile}
+            element={<ProtectedPage component={<BackButtonWrapper component={<Outlet />} />} />}>
             <Route index element={<ViewUser />} />
             <Route path='edit' element={<EditUser />} />
           </Route>
-          <Route path={RoutesEnum.noAccess} element={<BackButtonWrapper component={<NoAccessPage />} />} />
+          <Route
+            path={RoutesEnum.noAccess}
+            element={<BackButtonWrapper component={<NoAccessPage />} />}
+          />
           <Route path={RoutesEnum.all} element={<BackButtonWrapper component={<Page404 />} />} />
         </Routes>
       )}

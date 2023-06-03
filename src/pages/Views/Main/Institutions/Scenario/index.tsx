@@ -4,19 +4,27 @@ import { ResolverCallback, Script } from "components/Basic/Scenario";
 import styles from "./view.main.institutions.scenario.module.scss";
 import { titleInstitutionValidation } from "validation";
 import { FormProvider, useForm } from "react-hook-form";
-import { RejectResponsesInstitution, createInstitutionThunk } from "redux/actions/institutions.actions";
+import {
+  RejectResponsesInstitution,
+  createInstitutionThunk
+} from "redux/actions/institutions.actions";
 import { useAppDispatch } from "redux/store";
-import { setError } from "redux/reducers/error.reducer";
+import { useAction } from "helpers/redux";
 
 export const CreateInstitutionScenarioComponent: React.FC<{ cb: ResolverCallback }> = ({ cb }) => {
   const methods = useForm<{ name: string }>({ mode: "onBlur" });
   const dispatch = useAppDispatch();
+  const { addError } = useAction();
 
   const onSubmit = methods.handleSubmit(async data => {
     const res = await dispatch(createInstitutionThunk({ name: data.name }));
     if (res.meta.requestStatus === "fulfilled") {
       cb(Promise.resolve(true));
-    } else return dispatch(setError(RejectResponsesInstitution.createInstitutionError))
+    } else
+      return addError({
+        type: "institution",
+        description: RejectResponsesInstitution.createInstitutionError
+      });
   });
 
   return (

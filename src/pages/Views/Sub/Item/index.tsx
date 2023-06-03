@@ -11,9 +11,8 @@ import { roledItemEditDataBarOptions } from "types/User";
 import styles from "./view.sub.item.module.scss";
 import { RejectResponsesItem, fetchItemThunk } from "redux/actions/items.actions";
 import { useAppDispatch } from "redux/store";
-import { useAppSelector } from "helpers/redux";
+import { useAction, useAppSelector } from "helpers/redux";
 import { MainViewRoutes } from "types/Routes";
-import { setError } from "redux/reducers/error.reducer";
 
 const ItemComponent: React.FC<Item> = ({ article, id, imageId, name }) => {
   const [avatar, setAvatar] = useState<ImageState>(undefined);
@@ -37,7 +36,9 @@ const ItemComponent: React.FC<Item> = ({ article, id, imageId, name }) => {
   return (
     <>
       <div className={styles.wrapper}>
-        <div className={styles.imageWrapper} onClick={() => navigator.clipboard.writeText(window.location.href)}>
+        <div
+          className={styles.imageWrapper}
+          onClick={() => navigator.clipboard.writeText(window.location.href)}>
           <AvatarElement img={avatar} />
           <button>тап сюда или на фото чтобы скопировать ссылку</button>
         </div>
@@ -61,6 +62,7 @@ const ItemComponent: React.FC<Item> = ({ article, id, imageId, name }) => {
 const ViewItem = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { addError } = useAction();
   const { id } = useParams();
   const { data } = useAppSelector(state => state.viewItems);
   const [pageItemData, setPageItemData] = useState<Item | null | undefined>();
@@ -75,7 +77,7 @@ const ViewItem = () => {
           let res = await dispatch(fetchItemThunk({ id }));
 
           if (res.meta.requestStatus === "rejected") {
-            dispatch(setError(RejectResponsesItem.fetchItemError))
+            addError({ type: "item", description: RejectResponsesItem.fetchItemError });
             return navigate(`/${MainViewRoutes.cabinets}`);
           }
 

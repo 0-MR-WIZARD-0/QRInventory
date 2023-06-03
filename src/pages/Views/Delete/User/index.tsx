@@ -12,47 +12,45 @@ import { useAppDispatch } from "redux/store";
 import { User } from "types/User";
 import { Scenario } from "components/Basic/Scenario";
 import { CheckPasswordErrorScript, DeleteUserErrorScript } from "./Scenario";
-import { setError } from "redux/reducers/error.reducer";
+import { useAction } from "helpers/redux";
+import { DefaultErrors } from "redux/reducers/errors.reducer";
 
 const DeleteUserComponent: React.FC = () => {
-
   const { id } = useParams();
   const navigate = useNavigate();
-  const dispatch = useAppDispatch()
-  
+  const dispatch = useAppDispatch();
+  const { addError } = useAction();
+
   const DeleteUserModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
   const CheckPasswordModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
-  
+
   const [userInfo, setUserInfo] = useState<User>();
-  
-  const methods = useForm<{password: string}>({ mode: "onBlur" });
+
+  const methods = useForm<{ password: string }>({ mode: "onBlur" });
 
   useEffect(() => {
     (async () => {
-      if (!id) return dispatch(setError('Произошла ошибка: невалидный ID. Обратитесь к администратору!'));
+      if (!id) return addError({ type: "user", description: DefaultErrors.invalidId });
       const res = await dispatch(fetchUserThunk({ id }));
       if (res.meta.requestStatus === "fulfilled") return setUserInfo(res.payload);
       else {
-        dispatch(setError('Произошла ошибка: невалидный ID. Обратитесь к администратору!'));
+        addError({ type: "user", description: DefaultErrors.invalidId });
         return navigate(-1);
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-
   const deleteUser = async () => {
     if (userInfo && userInfo.id) {
-
       const res = await dispatch(deleteUserThunk({ id: userInfo.id }));
-      
+
       if (res.meta.requestStatus === "fulfilled") return navigate(`/${MainViewRoutes.users}`);
       else return DeleteUserModalRef.current?.createModal();
     }
   };
 
   const onSubmit = methods.handleSubmit(async data => {
-    
     const res = await dispatch(validatePasswordThunk({ password: data.password }));
 
     if (res.payload === true) return deleteUser();
@@ -61,8 +59,16 @@ const DeleteUserComponent: React.FC = () => {
 
   return (
     <FormProvider {...methods}>
-      <Scenario ref={DeleteUserModalRef} modalName='delete-user-error' script={DeleteUserErrorScript} />
-      <Scenario ref={CheckPasswordModalRef} modalName='check-password-error' script={CheckPasswordErrorScript} />
+      <Scenario
+        ref={DeleteUserModalRef}
+        modalName='delete-user-error'
+        script={DeleteUserErrorScript}
+      />
+      <Scenario
+        ref={CheckPasswordModalRef}
+        modalName='check-password-error'
+        script={CheckPasswordErrorScript}
+      />
       <div className={styles.wrapper}>
         <h3>Удаление пользователя {""}</h3>
         <p>Для продолжения необходимо ввести пароль от аккаунта</p>

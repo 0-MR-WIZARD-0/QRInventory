@@ -12,34 +12,34 @@ import { deleteItemThunk, fetchItemThunk } from "redux/actions/items.actions";
 import { MainViewRoutes } from "types/Routes";
 import { validatePasswordThunk } from "redux/actions/auth.actions";
 import { CheckPasswordErrorScript, DeleteItemErrorScript } from "./Scenario";
-import { setError } from "redux/reducers/error.reducer";
+import { useAction } from "helpers/redux";
+import { DefaultErrors } from "redux/reducers/errors.reducer";
 
 const DeleteItemComponent: React.FC = () => {
-
   const { id } = useParams();
   const navigate = useNavigate();
-  const dispatch = useAppDispatch()
-  
+  const dispatch = useAppDispatch();
+  const { addError } = useAction();
+
   const DeleteItemModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
   const CheckPasswordModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
-  
+
   const [itemInfo, setItemInfo] = useState<Item>();
-  
-  const methods = useForm<{password: string}>({ mode: "onBlur" });
+
+  const methods = useForm<{ password: string }>({ mode: "onBlur" });
 
   useEffect(() => {
     (async () => {
-      if (!id) return  dispatch(setError('Произошла ошибка: невалидный ID. Обратитесь к администратору!'));
+      if (!id) return addError({ type: "item", description: DefaultErrors.invalidId });
       const res = await dispatch(fetchItemThunk({ id }));
       if (res.meta.requestStatus === "fulfilled") return setItemInfo(res.payload);
       else {
-        dispatch(setError('Произошла ошибка: невалидный ID. Обратитесь к администратору!'));
+        addError({ type: "item", description: DefaultErrors.invalidId });
         return navigate(-1);
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
-
 
   const deleteUser = async () => {
     if (itemInfo && itemInfo.id) {
@@ -50,7 +50,6 @@ const DeleteItemComponent: React.FC = () => {
   };
 
   const onSubmit = methods.handleSubmit(async data => {
-    
     const res = await dispatch(validatePasswordThunk({ password: data.password }));
 
     if (res.payload === true) return deleteUser();
@@ -59,8 +58,16 @@ const DeleteItemComponent: React.FC = () => {
 
   return (
     <FormProvider {...methods}>
-      <Scenario ref={DeleteItemModalRef} modalName='delete-item-error' script={DeleteItemErrorScript} />
-      <Scenario ref={CheckPasswordModalRef} modalName='check-password-error' script={CheckPasswordErrorScript} />
+      <Scenario
+        ref={DeleteItemModalRef}
+        modalName='delete-item-error'
+        script={DeleteItemErrorScript}
+      />
+      <Scenario
+        ref={CheckPasswordModalRef}
+        modalName='check-password-error'
+        script={CheckPasswordErrorScript}
+      />
       <div className={styles.wrapper}>
         <h3>Удаление предмета</h3>
         <p>Для продолжения необходимо ввести пароль от аккаунта</p>

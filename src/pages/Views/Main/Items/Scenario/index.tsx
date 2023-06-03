@@ -6,21 +6,25 @@ import { useForm, FormProvider } from "react-hook-form";
 import { articleValidation, nameValidation } from "validation";
 import { useAppDispatch } from "redux/store";
 import { RejectResponsesItem, createItemThunk } from "redux/actions/items.actions";
-import { useAppSelector } from "helpers/redux";
+import { useAction, useAppSelector } from "helpers/redux";
 import ImageElement from "components/Complex/ImageElement";
-import { setError } from "redux/reducers/error.reducer";
+import { DefaultErrors } from "redux/reducers/errors.reducer";
 
 const CreateItemScenarioComponent: React.FC<{ cb: ResolverCallback }> = ({ cb }) => {
   const methods = useForm<{ article: string; name: string }>({ mode: "onBlur" });
   const dispatch = useAppDispatch();
   const institution = useAppSelector(state => state.institution);
+  const { addError } = useAction();
 
   const onSubmit = methods.handleSubmit(async data => {
-    if (!institution.id) return dispatch(setError("Учреждение отсутствует, либо не выбрано!"));
-    const res = await dispatch(createItemThunk({ institutionId: institution.id, article: data.article, name: data.name }));
+    if (!institution.id)
+      return addError({ type: "item", description: DefaultErrors.institutionNotSelected });
+    const res = await dispatch(
+      createItemThunk({ institutionId: institution.id, article: data.article, name: data.name })
+    );
     if (res.meta.requestStatus === "fulfilled") {
       cb(Promise.resolve(true));
-    } else return dispatch(setError(RejectResponsesItem.createItemError))
+    } else return addError({ type: "item", description: RejectResponsesItem.createItemError });
   });
 
   return (
@@ -28,7 +32,7 @@ const CreateItemScenarioComponent: React.FC<{ cb: ResolverCallback }> = ({ cb })
       <div className={styles.createItem}>
         <h2>Создание предмета</h2>
         <div className={styles.imageWrapper}>
-          <ImageElement/>
+          <ImageElement />
         </div>
         <Input {...articleValidation} />
         <Input {...nameValidation} />

@@ -8,3 +8,5 @@ export enum NodeENV {
 export const cabinetViewPath = `/${RoutesEnum.view}/${MainViewRoutes.cabinets}`;
 export const itemViewPath = `/${RoutesEnum.view}/${MainViewRoutes.items}`;
 export const usersViewPath = `/${RoutesEnum.view}/${MainViewRoutes.users}`;
+
+export type BackendError = { message: string; description: string };
