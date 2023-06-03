@@ -3,7 +3,9 @@ import styles from "./icon.module.scss";
 enum AvailableIcons {
   "logo",
   "profile",
-  "image"
+  "image",
+  "eye-password-hide",
+  "eye-password-show"
 }
 
 type IconProps = {
@@ -13,7 +15,17 @@ type IconProps = {
 };
 
 const Icon: React.FC<IconProps> = ({ icon, width, height }) => {
-  return <i className={styles.icon} style={{ width, height, WebkitMask: `url(/resources/svg/${icon}.svg) no-repeat 50% 50%`, WebkitMaskSize: "contain" }} />;
+  return (
+    <i
+      className={styles.icon}
+      style={{
+        width,
+        height,
+        WebkitMask: `url(/resources/svg/${icon}.svg)  50% 50% / contain no-repeat`,
+        WebkitMaskSize: "contain"
+      }}
+    />
+  );
 };
 
 export default Icon;
