@@ -12,9 +12,10 @@ interface DropDownProps {
   options: Option[];
   enableSearch?: boolean;
   enableEdit?: boolean;
+  searchBy?: string
 }
 
-const DropList: React.FC<DropDownProps> = ({ options, enableSearch = false, enableEdit = false}) => {
+const DropList: React.FC<DropDownProps> = ({ options, enableSearch = false, enableEdit = false, searchBy}) => {
   
   const container = useRef<HTMLInputElement>(null);
   
@@ -27,7 +28,6 @@ const DropList: React.FC<DropDownProps> = ({ options, enableSearch = false, enab
       setDropdownState({ open: !dropdownState.open });
     }
   };
-  
 
   return (
     <div className={styles.container} ref={container}>
@@ -37,27 +37,29 @@ const DropList: React.FC<DropDownProps> = ({ options, enableSearch = false, enab
       </button>
       {dropdownState.open && (
         <div>
-          {enableSearch && ( <Search /> )}
+          {enableSearch && ( <Search searchBy={searchBy}/> )}
           <ul>
-            {options.map((option) => (
-              <li key={option.key}>
-                <div>
-                  <img alt=""/>
-                </div>
-                <div>
+            {options.length ? 
+              (options.map((option) => (
+                <li key={option.key}>
                   <div>
-                    <p>{option.name}</p>
-                    <p>{option.value}</p>
+                    <img alt=""/>
                   </div>
-                  {/* {enableEdit && (
+                  <div>
+                    <div>
+                      <p>{option.name}</p>
+                      <p>{option.value}</p>
+                    </div>
+                    {/* {enableEdit && (
                     <div>
                       <button>Добавить</button>
                       <button>удалить</button>
                     </div>
                   )} */}
-                </div>
-              </li>
-            ))}
+                  </div>
+                </li>
+              ))) : <span style={{display: 'flex', justifyContent: 'center', height: '160px', alignItems: "center"}}>{} отсутствуют</span>
+            }
           </ul>
         </div>
       )}

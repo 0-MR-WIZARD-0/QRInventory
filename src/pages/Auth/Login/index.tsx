@@ -25,7 +25,7 @@ const Login = () => {
 
   return (
     <FormProvider {...methods}>
-      <Scenario ref={authResetModalRef} modalName='auth-reset' script={AuthResetScript} />
+      <Scenario ref={authResetModalRef} modalName='auth-reset' script={AuthResetScript}/>
       <main style={{ marginTop: "15px" }}>
         <div className={styles.containerWrapper}>
           <div className={styles.container}>

@@ -7,27 +7,32 @@
   }
 
   .button {
-    border: none;
+    border: 1px solid $secondary;
     border-radius: 15px;
     height: 50px;
     width: 100%;
     color: $black;
-    background-color: $white;
     margin-bottom: 10px;
+    background-color: $white;
+    &Open{
+      border: none;
+      border-radius: 15px 15px 0 0;
+      border-top: 1px solid $secondary;
+      border-left: 1px solid $secondary;
+      border-right: 1px solid $secondary;
+      width: 100%;
+      color: $black;
+      height: 50px;
+      background-color: $white;
+    }
   }
   
-  .buttonOpen {
-    border: none;
-    border-radius: 15px 15px 0 0;
-    height: 45px;
-    width: 100%;
-    color: $black;
-    background-color: $white;
-  }
-
   & > div {
     border-radius: 0 0 15px 15px;
     background-color: $white;
+    border-bottom: 1px solid $secondary;
+    border-left: 1px solid $secondary;
+    border-right: 1px solid $secondary;
     &:first-of-type{
       margin-bottom: 10px;
     }

@@ -13,7 +13,6 @@ export type Script = {
 type ScenarioModalHandle = {
   createModal: () => void;
   closeModal: () => void;
-  // setPage: (n: number) => void;
 };
 
 type ScenarioProps = {
@@ -22,7 +21,6 @@ type ScenarioProps = {
 };
 
 export type ResolverCallback = (promise: Promise<any>) => void;
-
 
 export const Scenario = forwardRef<ScenarioModalHandle, ScenarioProps>(({ modalName, script }, ref) => {
   const [page, setPage] = useState<number>(0);

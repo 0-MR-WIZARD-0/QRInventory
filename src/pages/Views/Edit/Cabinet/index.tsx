@@ -61,6 +61,7 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
                         options={formatTeachers(teachers as Teacher[])}
                         enableSearch={true}
                         enableEdit={true}
+                        searchBy="teachers"
                       />
                     } 
                     roles={[Roles.admin]} 
@@ -70,11 +71,12 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
                       <DropList
                         options={formatTeachers(teachers as Teacher[])}
                         enableSearch={true}
+                        searchBy="teachers"
                       />
                     } 
                     roles={[Roles.teacher]} 
                   />
-                  <DropList options={formatItems(items as Item[])} enableSearch={true} enableEdit={true}/>
+                  <DropList options={formatItems(items as Item[])} enableSearch={true} enableEdit={true} searchBy="items"/>
               </div>
           </div>
         </div>

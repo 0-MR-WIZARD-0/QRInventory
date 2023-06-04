@@ -22,7 +22,7 @@
     bottom: 30vh;
     width: 50%;
 
-    @media screen and (max-width: $breakpoint-max-tablet) {
+    @media screen and (max-width: $breakpoint-pc) {
       bottom: 10vh;
       margin: 0 auto;
       padding: 16px;
