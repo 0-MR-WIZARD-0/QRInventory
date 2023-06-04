@@ -6,7 +6,7 @@ import DefaultButton from "components/Basic/Buttons/Default";
 import { FormProvider, useForm } from "react-hook-form";
 import { fullNameValidation, emailValidation, passwordValidation } from "validation";
 import { useAppDispatch } from "redux/store";
-import { RejectResponsesUser, createUserThunk } from "redux/actions/users.actions";
+import { createUserThunk } from "redux/actions/users.actions";
 import { DefaultErrors } from "redux/reducers/errors.reducer";
 
 const CreateUserScenarioComponent: React.FC<{ cb: ResolverCallback }> = ({ cb }) => {
@@ -26,9 +26,7 @@ const CreateUserScenarioComponent: React.FC<{ cb: ResolverCallback }> = ({ cb })
         teacherInstitution: institution.id
       })
     );
-    if (res.meta.requestStatus === "fulfilled") {
-      cb(Promise.resolve(true));
-    } else return addError({ type: "user", description: RejectResponsesUser.createUserError });
+    if (res.meta.requestStatus === "fulfilled") cb(Promise.resolve(true));
   });
 
   return (

@@ -4,7 +4,7 @@ import styles from "./view.main.cabinets.scenario.module.scss";
 import Input from "components/Basic/Input";
 import DefaultButton from "components/Basic/Buttons/Default";
 import { useAppDispatch } from "redux/store";
-import { RejectResponsesCabinet, createCabinetThunk } from "redux/actions/cabinets.actions";
+import { createCabinetThunk } from "redux/actions/cabinets.actions";
 import { useForm, FormProvider } from "react-hook-form";
 import { cabinetValidation } from "validation";
 import { DefaultErrors } from "redux/reducers/errors.reducer";
@@ -25,8 +25,6 @@ export const CreateCabinetScenarioComponent: React.FC<{ cb: ResolverCallback }> 
 
     if (res.meta.requestStatus === "fulfilled") cb(Promise.resolve(true));
     
-    // else
-    //   return addError({ type: "cabinet", description: RejectResponsesCabinet.createCabinetError });
   });
 
   return (

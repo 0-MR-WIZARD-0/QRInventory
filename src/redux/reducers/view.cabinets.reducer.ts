@@ -4,10 +4,6 @@ import { createCabinetThunk, deleteCabinetThunk } from "redux/actions/cabinets.a
 import { fetchCabinetsThunk } from "redux/actions/views.main.actions";
 import { Cabinet } from "types/Cabinet";
 import { institutionActions } from "./institution.reducer";
-import { FulfilledAction, PendingAction, RejectedAction } from "types/Redux";
-import { AxiosError } from "axios";
-import { BackendError } from "types/App";
-import { DefaultErrors } from "./errors.reducer";
 
 type InitialState = {
   data: Cabinet[] | undefined;

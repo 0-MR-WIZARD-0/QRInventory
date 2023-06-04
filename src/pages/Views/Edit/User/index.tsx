@@ -2,7 +2,7 @@ import Input from "components/Basic/Input";
 import styles from "./view.edit.user.module.scss";
 import { useState, useEffect } from "react";
 import { useAppDispatch } from "redux/store";
-import { RejectResponsesUser, editUserThunk, fetchUserThunk } from "redux/actions/users.actions";
+import { RejectResponsesUser, editUserThunk, fetchUserIdThunk } from "redux/actions/users.actions";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAction, useAppSelector } from "helpers/redux";
 import { User } from "types/User";
@@ -122,7 +122,7 @@ const EditUser: React.FC = () => {
         let existing = data?.find(e => e.id === (id ?? userData.id));
         if (existing) return setPageUserData(existing);
         else {
-          let res = await dispatch(fetchUserThunk({ id: id ?? userData.id }));
+          let res = await dispatch(fetchUserIdThunk({ id: id ?? userData.id }));
 
           if (res.meta.requestStatus === "rejected") {
             addError({ type: "user", description: RejectResponsesUser.fetchUserError });

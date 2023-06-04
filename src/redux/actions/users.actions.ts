@@ -29,7 +29,7 @@ export const createUserThunk = createAsyncThunk<any, { fullName: string; email: 
   }
 });
 
-export const fetchUserThunk = createAsyncThunk<any, { id: string }>(
+export const fetchUserIdThunk = createAsyncThunk<any, { id: string }>(
   "user/fetch",
   async (params, { dispatch, rejectWithValue, fulfillWithValue }) => {
     try {

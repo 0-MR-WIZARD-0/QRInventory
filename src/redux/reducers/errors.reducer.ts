@@ -5,6 +5,8 @@ import { createInstitutionThunk } from "redux/actions/institutions.actions";
 import { fetchUserThunk, loginUserThunk } from "redux/actions/auth.actions";
 import { BackendError } from "types/App";
 import { RejectedAction } from "types/Redux";
+import { createCabinetThunk } from "redux/actions/cabinets.actions";
+import { createUserThunk, fetchUserIdThunk } from "redux/actions/users.actions";
 
 export enum DefaultErrors {
   institutionNotSelected = "Учреждение отсутствует, либо не выбрано",
@@ -29,9 +31,9 @@ export type ErrorPopup = {
 const initialState: ErrorPopup[] = [];
 
 const reducers: { [name in keyof typeof ErrorCategories]: string[] } = {
-  user: [fetchUserThunk.rejected.toString()],
+  user: [fetchUserThunk.rejected.toString(), createUserThunk.rejected.toString(), fetchUserIdThunk.rejected.toString()],
   auth: [loginUserThunk.rejected.toString()],
-  cabinet: [],
+  cabinet: [createCabinetThunk.rejected.toString()],
   institution: [createInstitutionThunk.rejected.toString()],
   item: [],
   default: []

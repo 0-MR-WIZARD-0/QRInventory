@@ -1,6 +1,6 @@
 import { MenuBar } from "components/Complex/MenuBar";
 import { useAction, useAppSelector } from "helpers/redux";
-import { Navigate /*useParams*/, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import { roledUserDataBarOptions, roledUserEditDataBarOptions, Roles, User } from "types/User";
 import styles from "./view.sub.user.module.scss";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import ProtectedComponent from "components/Protected/Component";
 import { ImageState } from "types/UI";
 import AvatarElement from "components/Complex/AvatarElement";
-import { RejectResponsesUser, fetchUserThunk } from "redux/actions/users.actions";
+import { RejectResponsesUser, fetchUserIdThunk } from "redux/actions/users.actions";
 import { useAppDispatch } from "redux/store";
 import { MainViewRoutes } from "types/Routes";
 
@@ -20,10 +20,16 @@ const formatFullName = (name: string) => {
     .join(" ");
 };
 
-const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, institutions, role }) => {
+const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, role }) => {
   const { userData } = useAppSelector(state => state.user);
 
   const location = useLocation();
+
+  console.log(location);
+
+  console.log(userData?.id);
+  
+  
 
   const [avatar, setAvatar] = useState<ImageState>(undefined);
   useEffect(() => {
@@ -86,16 +92,17 @@ const ViewUser = () => {
   const [pageUserData, setPageUserData] = useState<User | null | undefined>();
   useEffect(() => {
     (async () => {
-      if (!userData) return;
+      if (!userData) return null;
 
       try {
         let existing = data?.find(e => e.id === (id ?? userData.id));
+        
         if (existing) return setPageUserData(existing);
         else {
-          let res = await dispatch(fetchUserThunk({ id: id ?? userData.id }));
-
+          let res = await dispatch(fetchUserIdThunk({ id: id ?? userData.id }));
+          
           if (res.meta.requestStatus === "rejected") {
-            addError({ type: "user", description: RejectResponsesUser.fetchUserError });
+            // addError({ type: "user", description: RejectResponsesUser.fetchUserError });
             return navigate(`/${MainViewRoutes.users}`);
           }
 

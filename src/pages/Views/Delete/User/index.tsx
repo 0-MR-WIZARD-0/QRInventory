@@ -5,7 +5,7 @@ import { passwordValidation } from "validation";
 import { useForm, FormProvider } from "react-hook-form";
 import { validatePasswordThunk } from "redux/actions/auth.actions";
 import { useEffect, useRef, useState } from "react";
-import { deleteUserThunk, fetchUserThunk } from "redux/actions/users.actions";
+import { deleteUserThunk, fetchUserIdThunk } from "redux/actions/users.actions";
 import { MainViewRoutes } from "types/Routes";
 import { useNavigate, useParams } from "react-router";
 import { useAppDispatch } from "redux/store";
@@ -31,7 +31,7 @@ const DeleteUserComponent: React.FC = () => {
   useEffect(() => {
     (async () => {
       if (!id) return addError({ type: "user", description: DefaultErrors.invalidId });
-      const res = await dispatch(fetchUserThunk({ id }));
+      const res = await dispatch(fetchUserIdThunk({ id }));
       if (res.meta.requestStatus === "fulfilled") return setUserInfo(res.payload);
       else {
         addError({ type: "user", description: DefaultErrors.invalidId });
