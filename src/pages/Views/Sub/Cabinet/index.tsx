@@ -7,11 +7,11 @@ import { roledUserEditDataBarOptions } from "types/User";
 import ProtectedComponent from "components/Protected/Component";
 import { MenuBar } from "components/Complex/MenuBar";
 import DropList from "components/Complex/DropList";
-import { useAction, useAppSelector } from "helpers/redux";
+import { useAppSelector } from "helpers/redux";
 import styles from "./view.sub.cabinet.module.scss";
 import { useAppDispatch } from "redux/store";
 import { MainViewRoutes } from "types/Routes";
-import { RejectResponsesCabinet, fetchCabinetThunk } from "redux/actions/cabinets.actions";
+import { fetchCabinetThunk } from "redux/actions/cabinets.actions";
 import { Item } from "types/Item";
 import { Teacher } from "types/Teacher";
 
@@ -58,7 +58,6 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
 const ViewCabinet: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { addError } = useAction();
   const { id } = useParams();
   const { data } = useAppSelector(state => state.viewCabinets);
   const [pageCabinetData, setPageCabinetData] = useState<Cabinet | null | undefined>();
@@ -73,7 +72,6 @@ const ViewCabinet: React.FC = () => {
           let res = await dispatch(fetchCabinetThunk({ id }));
 
           if (res.meta.requestStatus === "rejected") {
-            addError({ type: "cabinet", description: RejectResponsesCabinet.fetchCabinetError });
             return navigate(`/${MainViewRoutes.cabinets}`);
           }
 

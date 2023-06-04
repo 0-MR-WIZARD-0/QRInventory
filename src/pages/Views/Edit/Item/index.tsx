@@ -2,7 +2,7 @@ import { LoadingTransitionComponent } from "components/Basic/Loader";
 import { useAction, useAppSelector } from "helpers/redux";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
-import { RejectResponsesItem, editItemThunk, fetchItemThunk } from "redux/actions/items.actions";
+import { editItemThunk, fetchItemThunk } from "redux/actions/items.actions";
 import { useAppDispatch } from "redux/store";
 import { Item } from "types/Item";
 import { MainViewRoutes } from "types/Routes";
@@ -31,7 +31,6 @@ const ItemComponent: React.FC<Item> = ({ name, article, id }) => {
       const res = await dispatch(editItemThunk({ id, name: data.name, article: data.article }));
       if (res.meta.requestStatus === "fulfilled")
         return navigate(location.slice(0, location.length - 1).join("/"));
-      else return addError({ type: "item", description: RejectResponsesItem.editItemError });
     } else return addError({ type: "item", description: "Присутствуют незаполненные поля" });
   });
 
@@ -69,13 +68,11 @@ const EditItem: React.FC = () => {
 
   const { id } = useParams();
   const { data } = useAppSelector(state => state.viewItems);
-  const { addError } = useAction();
 
   const [pageItemData, setPageitemData] = useState<Item | null | undefined>();
   useEffect(() => {
     (async () => {
       if (!id) {
-        addError({ type: "item", description: RejectResponsesItem.fetchItemError });
         return navigate(`/${MainViewRoutes.items}`);
       }
 
@@ -86,7 +83,6 @@ const EditItem: React.FC = () => {
           let res = await dispatch(fetchItemThunk({ id }));
 
           if (res.meta.requestStatus === "rejected") {
-            // addError({ type: "item", description: RejectResponsesItem.fetchItemError });
             return navigate(`/${MainViewRoutes.items}`);
           }
 

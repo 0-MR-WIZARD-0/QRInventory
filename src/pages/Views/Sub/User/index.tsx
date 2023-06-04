@@ -1,5 +1,5 @@
 import { MenuBar } from "components/Complex/MenuBar";
-import { useAction, useAppSelector } from "helpers/redux";
+import { useAppSelector } from "helpers/redux";
 import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import { roledUserDataBarOptions, roledUserEditDataBarOptions, Roles, User } from "types/User";
 import styles from "./view.sub.user.module.scss";
@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import ProtectedComponent from "components/Protected/Component";
 import { ImageState } from "types/UI";
 import AvatarElement from "components/Complex/AvatarElement";
-import { RejectResponsesUser, fetchUserIdThunk } from "redux/actions/users.actions";
+import { fetchUserIdThunk } from "redux/actions/users.actions";
 import { useAppDispatch } from "redux/store";
 import { MainViewRoutes } from "types/Routes";
 
@@ -24,12 +24,6 @@ const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, role }) 
   const { userData } = useAppSelector(state => state.user);
 
   const location = useLocation();
-
-  console.log(location);
-
-  console.log(userData?.id);
-  
-  
 
   const [avatar, setAvatar] = useState<ImageState>(undefined);
   useEffect(() => {
@@ -85,11 +79,11 @@ const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, role }) 
 const ViewUser = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { addError } = useAction();
   const { id } = useParams();
   const { userData } = useAppSelector(state => state.user);
   const { data } = useAppSelector(state => state.viewUsers);
   const [pageUserData, setPageUserData] = useState<User | null | undefined>();
+
   useEffect(() => {
     (async () => {
       if (!userData) return null;
@@ -102,7 +96,6 @@ const ViewUser = () => {
           let res = await dispatch(fetchUserIdThunk({ id: id ?? userData.id }));
           
           if (res.meta.requestStatus === "rejected") {
-            // addError({ type: "user", description: RejectResponsesUser.fetchUserError });
             return navigate(`/${MainViewRoutes.users}`);
           }
 

@@ -9,9 +9,9 @@ import { Item } from "types/Item";
 import { ImageState } from "types/UI";
 import { roledItemEditDataBarOptions } from "types/User";
 import styles from "./view.sub.item.module.scss";
-import { RejectResponsesItem, fetchItemThunk } from "redux/actions/items.actions";
+import { fetchItemThunk } from "redux/actions/items.actions";
 import { useAppDispatch } from "redux/store";
-import { useAction, useAppSelector } from "helpers/redux";
+import { useAppSelector } from "helpers/redux";
 import { MainViewRoutes } from "types/Routes";
 
 const ItemComponent: React.FC<Item> = ({ article, id, imageId, name }) => {
@@ -62,11 +62,10 @@ const ItemComponent: React.FC<Item> = ({ article, id, imageId, name }) => {
 const ViewItem = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { addError } = useAction();
   const { id } = useParams();
   const { data } = useAppSelector(state => state.viewItems);
   const [pageItemData, setPageItemData] = useState<Item | null | undefined>();
-
+  
   useEffect(() => {
     (async () => {
       try {
@@ -77,7 +76,6 @@ const ViewItem = () => {
           let res = await dispatch(fetchItemThunk({ id }));
 
           if (res.meta.requestStatus === "rejected") {
-            // addError({ type: "item", description: RejectResponsesItem.fetchItemError });
             return navigate(`/${MainViewRoutes.cabinets}`);
           }
 

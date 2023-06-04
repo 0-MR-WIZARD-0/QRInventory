@@ -111,7 +111,6 @@ const EditUser: React.FC = () => {
   const { id } = useParams();
   const { userData } = useAppSelector(state => state.user);
   const { data } = useAppSelector(state => state.viewUsers);
-  const { addError } = useAction();
 
   const [pageUserData, setPageUserData] = useState<User | null | undefined>();
   useEffect(() => {
@@ -125,7 +124,6 @@ const EditUser: React.FC = () => {
           let res = await dispatch(fetchUserIdThunk({ id: id ?? userData.id }));
 
           if (res.meta.requestStatus === "rejected") {
-            addError({ type: "user", description: RejectResponsesUser.fetchUserError });
             return navigate(`/${MainViewRoutes.users}`);
           }
 

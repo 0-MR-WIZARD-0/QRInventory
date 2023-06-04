@@ -25,7 +25,6 @@ const CreateItemScenarioComponent: React.FC<{ cb: ResolverCallback }> = ({ cb })
     if (res.meta.requestStatus === "fulfilled") {
       cb(Promise.resolve(true));
     } 
-    // else return addError({ type: "item", description: RejectResponsesItem.createItemError });
   });
 
   return (
