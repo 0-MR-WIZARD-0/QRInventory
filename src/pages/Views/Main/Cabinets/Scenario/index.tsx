@@ -17,15 +17,16 @@ export const CreateCabinetScenarioComponent: React.FC<{ cb: ResolverCallback }> 
   const methods = useForm({ mode: "onBlur" });
 
   const onSubmit = methods.handleSubmit(async data => {
-    if (!institution.id)
-      return addError({ type: "cabinet", description: DefaultErrors.institutionNotSelected });
+    if (!institution.id) return addError({ type: "cabinet", description: DefaultErrors.institutionNotSelected });
+
     const res = await dispatch(
       createCabinetThunk({ institutionId: institution.id, cabinetNumber: data.cabinetNumber })
     );
-    if (res.meta.requestStatus === "fulfilled") {
-      cb(Promise.resolve(true));
-    } else
-      return addError({ type: "cabinet", description: RejectResponsesCabinet.createCabinetError });
+
+    if (res.meta.requestStatus === "fulfilled") cb(Promise.resolve(true));
+    
+    // else
+    //   return addError({ type: "cabinet", description: RejectResponsesCabinet.createCabinetError });
   });
 
   return (

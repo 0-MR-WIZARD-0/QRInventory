@@ -105,3 +105,7 @@ React and NestJS, a match made in coding fruition.
 Together they create, pushing boundaries and beyond,
 In the ever-evolving world of tech, they respond.
 ```
+
+// ошибка создания предмета (их две одна непредвиденная другая нужная)\
+// можно зарегать туже самую почту (а фио нельзя, наобот должно быть) 
+// учреждения ошибка и запись существует

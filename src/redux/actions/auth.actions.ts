@@ -5,7 +5,8 @@ import { LoginFormProps, User } from "types/User";
 
 export enum RejectResponsesAuth {
   unauthorized = "Пользователь не авторизован",
-  passwords_mismatch = "Пароли не сходятся"
+  passwords_mismatch = "Пароли не сходятся",
+  logout = "Произошла ошибка при выходе"
 }
 
 // https://stackoverflow.com/questions/67227015/how-to-use-createasyncthunk-with-typescript-how-to-set-types-for-the-pending
@@ -48,12 +49,16 @@ export const loginUserThunk = createAsyncThunk<any, LoginFormProps>(
 
 export const logoutUserThunk = createAsyncThunk(
   "auth/logout",
-  async (params, { fulfillWithValue }) => {
+  async (params, { fulfillWithValue, rejectWithValue }) => {
     try {
-      await api.get("/auth/logout");
+      const res = await api.get<any, {data: User | BackendError | undefined}>("/auth/logout");
+      if (!res || !(res.data as User)?.id)
+        throw new Error(
+          (res.data as BackendError)?.description ?? RejectResponsesAuth.logout
+        );
       return fulfillWithValue(null);
     } catch (error) {
-      return fulfillWithValue(null);
+      return rejectWithValue(error);
     }
   }
 );
@@ -72,7 +77,7 @@ export const validatePasswordThunk = createAsyncThunk<any, { password: string }>
         );
       return fulfillWithValue(res.data);
     } catch (error) {
-      return rejectWithValue(RejectResponsesAuth.passwords_mismatch);
+      return rejectWithValue(error);
     }
   }
 );

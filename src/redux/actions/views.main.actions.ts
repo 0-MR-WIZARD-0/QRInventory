@@ -4,6 +4,7 @@ import { viewInstitutionsActions } from "redux/reducers/view.institutions.reduce
 import { viewItemsActions } from "redux/reducers/view.items.reducer";
 import { viewUsersActions } from "redux/reducers/view.users.reducer";
 import { RootState } from "redux/rootReducer";
+import { BackendError } from "types/App";
 import { Cabinet } from "types/Cabinet";
 import { Item } from "types/Item";
 import { User } from "types/User";
@@ -18,7 +19,7 @@ export const fetchCabinetsThunk = createAsyncThunk<any, { page: number; perPage:
   try {
     const state = getState() as RootState;
     const { page, perPage } = params;
-    const res = await api.get<any, { data: { cabinets: Cabinet[] } }>("/cabinet/all", { params: { take: perPage, skip: (page - 1) * perPage, institution: state.institution.id } }).then(res => res.data);
+    const res = await api.get<any, { data: { cabinets: Cabinet[] | BackendError | undefined } }>("/cabinet/all", { params: { take: perPage, skip: (page - 1) * perPage, institution: state.institution.id } }).then(res => res.data);
     return fulfillWithValue(res);
   } catch (error) {
     return rejectWithValue(RejectResponsesViews.cabinetsError);
@@ -31,7 +32,7 @@ export const fetchItemsThunk = createAsyncThunk<any, { page: number; perPage: nu
     const state = getState() as RootState;
     if (params.new) dispatch(viewItemsActions.updateItems([]));
     const { page, perPage } = params;
-    const res = await api.get<any, { data: { items: Item[] } }>("/item/all", { params: { take: perPage, skip: params.new ? 0 : (page - 1) * perPage, institution: state.institution.id } }).then(res => res.data);
+    const res = await api.get<any, { data: { items: Item[] | BackendError | undefined } }>("/item/all", { params: { take: perPage, skip: params.new ? 0 : (page - 1) * perPage, institution: state.institution.id } }).then(res => res.data);
     return fulfillWithValue(res);
   } catch (error) {
     return rejectWithValue(RejectResponsesViews.itemsError);
@@ -43,7 +44,7 @@ export const fetchUsersThunk = createAsyncThunk<any, { page: number; perPage: nu
     const state = getState() as RootState;
     if (params.new) dispatch(viewUsersActions.updateUsers([]));
     const { page, perPage } = params;
-    const res = await api.get<any, { data: { users: User[] } }>("/user/all", { params: { take: perPage, skip: (page - 1) * perPage, institution: state.institution.id } }).then(res => res.data);
+    const res = await api.get<any, { data: { users: User[] | BackendError | undefined } }>("/user/all", { params: { take: perPage, skip: (page - 1) * perPage, institution: state.institution.id } }).then(res => res.data);
     return fulfillWithValue(res);
   } catch (error) {
     return rejectWithValue(RejectResponsesViews.usersError);
@@ -55,7 +56,7 @@ export const fetchInstitutionsThunk = createAsyncThunk<any, { page: number; perP
     const state = getState() as RootState;
     if (params.new) dispatch(viewInstitutionsActions.updateInstitutions([]));
     const { page, perPage } = params;
-    const res = await api.get<any, { data: { users: User[] } }>("/institution/all", { params: { take: perPage, skip: (page - 1) * perPage, institution: state.institution.id } }).then(res => res.data);
+    const res = await api.get<any, { data: { users: User[] | BackendError | undefined } }>("/institution/all", { params: { take: perPage, skip: (page - 1) * perPage, institution: state.institution.id } }).then(res => res.data);
     return fulfillWithValue(res);
   } catch (error) {
     return rejectWithValue(RejectResponsesViews.usersError);

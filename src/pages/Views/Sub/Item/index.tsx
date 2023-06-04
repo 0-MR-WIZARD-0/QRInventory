@@ -77,7 +77,7 @@ const ViewItem = () => {
           let res = await dispatch(fetchItemThunk({ id }));
 
           if (res.meta.requestStatus === "rejected") {
-            addError({ type: "item", description: RejectResponsesItem.fetchItemError });
+            // addError({ type: "item", description: RejectResponsesItem.fetchItemError });
             return navigate(`/${MainViewRoutes.cabinets}`);
           }
 
