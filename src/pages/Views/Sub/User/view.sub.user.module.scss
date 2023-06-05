@@ -11,6 +11,10 @@
     width: 245px;
     margin-bottom: 10px;
 
+    & > div {
+      height: auto;
+    }
+
     img {
       width: 100%;
     }

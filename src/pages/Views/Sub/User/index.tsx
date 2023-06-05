@@ -1,5 +1,5 @@
 import { MenuBar } from "components/Complex/MenuBar";
-import { useAppSelector } from "helpers/redux";
+import { useAction, useAppSelector } from "helpers/redux";
 import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import { roledUserDataBarOptions, roledUserEditDataBarOptions, Roles, User } from "types/User";
 import styles from "./view.sub.user.module.scss";
@@ -45,15 +45,9 @@ const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, role }) 
   return (
     <>
       <div className={styles.wrapper}>
-        <div
-          className={styles.imageWrapper}
-          onClick={() =>
-            location.pathname !== "/profile" && navigator.clipboard.writeText(window.location.href)
-          }>
+        <div className={styles.imageWrapper} onClick={() => location.pathname !== "/profile" && navigator.clipboard.writeText(window.location.href)}>
           <AvatarElement img={avatar} />
-          {location.pathname !== "/profile" && (
-            <button>тап сюда или на фото чтобы скопировать ссылку</button>
-          )}
+          {location.pathname !== "/profile" && <button>тап сюда или на фото чтобы скопировать ссылку</button>}
         </div>
         <div className={styles.fio}>
           <h1>{role === Roles.admin ? "Администратор" : formatFullName(fullName)}</h1>
@@ -80,39 +74,32 @@ const ViewUser = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { id } = useParams();
-  const { userData } = useAppSelector(state => state.user);
+  const { userData, loading } = useAppSelector(state => state.user);
   const { data } = useAppSelector(state => state.viewUsers);
   const [pageUserData, setPageUserData] = useState<User | null | undefined>();
 
   useEffect(() => {
-    (async () => {
-      if (!userData) return null;
-
-      try {
-        let existing = data?.find(e => e.id === (id ?? userData.id));
-        
+    if (id) {
+      (async () => {
+        let existing = data?.find(e => e.id === id);
         if (existing) return setPageUserData(existing);
-        else {
-          let res = await dispatch(fetchUserIdThunk({ id: id ?? userData.id }));
-          
-          if (res.meta.requestStatus === "rejected") {
-            return navigate(`/${MainViewRoutes.users}`);
-          }
 
-          return setPageUserData(res.payload);
+        let res = await dispatch(fetchUserIdThunk({ id }));
+        if (res.meta.requestStatus === "rejected") {
+          return navigate(`/${MainViewRoutes.users}`);
         }
-      } catch (error) {
-        return setPageUserData(null);
-      }
-    })();
+        return setPageUserData(res.payload);
+      })();
+    } else {
+      return setPageUserData(userData);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData]);
 
   if (!userData) return <Navigate to={"signin"} />;
 
   if (pageUserData === undefined) return <LoadingTransitionComponent />;
-  if (pageUserData === null)
-    return <b>Произошла ошибка при загрузке пользователя или он не найден.</b>;
+  if (pageUserData === null) return <b>Произошла ошибка при загрузке пользователя или он не найден.</b>;
   return <UserComponent {...pageUserData} />;
 };
 

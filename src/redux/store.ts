@@ -36,7 +36,7 @@ const store = configureStore({
           editUserThunk.rejected.toString(),
           deleteUserThunk.fulfilled.toString(),
           deleteUserThunk.rejected.toString(),
-          
+
           //cabinets
           createCabinetThunk.fulfilled.toString(),
           createCabinetThunk.rejected.toString(),
@@ -46,7 +46,7 @@ const store = configureStore({
           editCabinetThunk.rejected.toString(),
           deleteCabinetThunk.fulfilled.toString(),
           deleteCabinetThunk.rejected.toString(),
-          
+
           //items
           createItemThunk.fulfilled.toString(),
           createItemThunk.rejected.toString(),
@@ -56,11 +56,11 @@ const store = configureStore({
           editItemThunk.rejected.toString(),
           deleteItemThunk.fulfilled.toString(),
           deleteItemThunk.rejected.toString(),
-          
+
           //institutions
           createInstitutionThunk.fulfilled.toString(),
           createInstitutionThunk.rejected.toString(),
-          
+
           //views
           fetchCabinetsThunk.fulfilled.toString(),
           fetchCabinetsThunk.rejected.toString(),
@@ -69,7 +69,7 @@ const store = configureStore({
           fetchUsersThunk.fulfilled.toString(),
           fetchUsersThunk.rejected.toString(),
           fetchInstitutionsThunk.fulfilled.toString(),
-          fetchInstitutionsThunk.rejected.toString(),
+          fetchInstitutionsThunk.rejected.toString()
         ]
       }
     })

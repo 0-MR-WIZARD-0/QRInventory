@@ -38,10 +38,7 @@ const UserSlice = createSlice({
   },
   extraReducers: builder => {
     builder.addMatcher(
-      (action: FulfilledAction) =>
-        [fetchUserThunk.fulfilled.toString(), loginUserThunk.fulfilled.toString()].indexOf(
-          action.type
-        ) > -1,
+      (action: FulfilledAction) => [fetchUserThunk.fulfilled.toString(), loginUserThunk.fulfilled.toString()].indexOf(action.type) > -1,
       (state, action) => {
         if (!action.payload)
           return {
@@ -71,19 +68,13 @@ const UserSlice = createSlice({
             ? (action.payload as AxiosError<BackendError>).response?.data.description ??
               (action.payload as AxiosError<BackendError>).response?.data.message ??
               DefaultErrors.unexpectedError
-            : (action.payload as BackendError)?.description ??
-              (action.payload as BackendError)?.message ??
-              DefaultErrors.unexpectedError
+            : (action.payload as BackendError)?.description ?? (action.payload as BackendError)?.message ?? DefaultErrors.unexpectedError
         };
       }
     );
     builder.addMatcher(
       (action: PendingAction) =>
-        [
-          fetchUserThunk.pending.toString(),
-          loginUserThunk.pending.toString(),
-          logoutUserThunk.pending.toString()
-        ].indexOf(action.type) > -1,
+        [fetchUserThunk.pending.toString(), loginUserThunk.pending.toString(), logoutUserThunk.pending.toString()].indexOf(action.type) > -1,
       (state, action) => {
         return { ...state, loading: true };
       }

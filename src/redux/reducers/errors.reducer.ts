@@ -32,7 +32,12 @@ export type ErrorPopup = {
 const initialState: ErrorPopup[] = [];
 
 const reducers: { [name in keyof typeof ErrorCategories]: string[] } = {
-  user: [fetchUserThunk.rejected.toString(), createUserThunk.rejected.toString(), fetchUserIdThunk.rejected.toString(), editUserThunk.rejected.toString()],
+  user: [
+    fetchUserThunk.rejected.toString(),
+    createUserThunk.rejected.toString(),
+    fetchUserIdThunk.rejected.toString(),
+    editUserThunk.rejected.toString()
+  ],
   auth: [loginUserThunk.rejected.toString(), logoutUserThunk.rejected.toString(), validatePasswordThunk.rejected.toString()],
   cabinet: [createCabinetThunk.rejected.toString(), fetchCabinetThunk.rejected.toString(), editCabinetThunk.rejected.toString()],
   institution: [createInstitutionThunk.rejected.toString()],
@@ -57,12 +62,8 @@ const ErrorsSlice = createSlice({
       {},
       Object.keys(reducers).map(k => {
         return builder.addMatcher(
-          (action: RejectedAction) =>
-            [...reducers[k as keyof typeof ErrorCategories]].indexOf(action.type) > -1,
-          (
-            state,
-            action: PayloadAction<BackendError> | PayloadAction<AxiosError<BackendError>>
-          ) => {
+          (action: RejectedAction) => [...reducers[k as keyof typeof ErrorCategories]].indexOf(action.type) > -1,
+          (state, action: PayloadAction<BackendError> | PayloadAction<AxiosError<BackendError>>) => {
             const uuid = generateShortUUID();
             return [
               ...state,
@@ -71,9 +72,7 @@ const ErrorsSlice = createSlice({
                   ? (action.payload as AxiosError<BackendError>).response?.data.description ??
                     (action.payload as AxiosError<BackendError>).response?.data.message ??
                     DefaultErrors.unexpectedError
-                  : (action.payload as BackendError)?.description ??
-                    (action.payload as BackendError)?.message ??
-                    DefaultErrors.unexpectedError,
+                  : (action.payload as BackendError)?.description ?? (action.payload as BackendError)?.message ?? DefaultErrors.unexpectedError,
                 type: k as keyof typeof ErrorCategories,
                 id: uuid
               }
