@@ -5,9 +5,8 @@ import styles from "./view.main.items.scenario.module.scss";
 import { useForm, FormProvider } from "react-hook-form";
 import { articleValidation, nameValidation } from "validation";
 import { useAppDispatch } from "redux/store";
-import { RejectResponsesItem, createItemThunk } from "redux/actions/items.actions";
+import { createItemThunk } from "redux/actions/items.actions";
 import { useAction, useAppSelector } from "helpers/redux";
-import ImageElement from "components/Complex/ImageElement";
 import { DefaultErrors } from "redux/reducers/errors.reducer";
 
 const CreateItemScenarioComponent: React.FC<{ cb: ResolverCallback }> = ({ cb }) => {
@@ -31,9 +30,6 @@ const CreateItemScenarioComponent: React.FC<{ cb: ResolverCallback }> = ({ cb })
     <FormProvider {...methods}>
       <div className={styles.createItem}>
         <h2>Создание предмета</h2>
-        <div className={styles.imageWrapper}>
-          <ImageElement />
-        </div>
         <Input {...articleValidation} />
         <Input {...nameValidation} />
         <DefaultButton component={<>Создать</>} onSumbit={onSubmit} />

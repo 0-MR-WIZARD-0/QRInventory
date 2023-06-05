@@ -38,7 +38,7 @@ const ViewItem: React.FC<ViewItemProps> = ({ navigate, item, lastElementRef }) =
       onClick={() => {
         navigate(`${itemViewPath}/${item.id}`);
       }}>
-      <div className={styles.img}>{item.imageId && inView ? <img src={`/image/${item.imageId}`} alt={item.article} draggable={false} /> : inView ? <Icon icon='image' /> : <></>}</div>
+      <div className={styles.img}>{item.imageId && inView ? <img style={{}} src={`/image/${item.imageId}`} alt={item.article} draggable={false} /> : inView ? <Icon icon='image' /> : <></>}</div>
       <h3>{item.name}</h3>
       <div className={styles.info}>
         <p>Артикул: {item.article}</p>
@@ -72,7 +72,6 @@ const ViewItems: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOnline]);
   
-  console.log(data);
   useEffect(() => {
     setPage(1);
   }, [institution.id]);

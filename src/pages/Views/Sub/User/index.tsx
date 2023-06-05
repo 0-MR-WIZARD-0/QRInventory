@@ -1,5 +1,5 @@
 import { MenuBar } from "components/Complex/MenuBar";
-import { useAction, useAppSelector } from "helpers/redux";
+import { useAppSelector } from "helpers/redux";
 import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import { roledUserDataBarOptions, roledUserEditDataBarOptions, Roles, User } from "types/User";
 import styles from "./view.sub.user.module.scss";
@@ -74,11 +74,12 @@ const ViewUser = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { id } = useParams();
-  const { userData, loading } = useAppSelector(state => state.user);
+  const { userData } = useAppSelector(state => state.user);
   const { data } = useAppSelector(state => state.viewUsers);
   const [pageUserData, setPageUserData] = useState<User | null | undefined>();
 
   useEffect(() => {
+    
     if (id) {
       (async () => {
         let existing = data?.find(e => e.id === id);

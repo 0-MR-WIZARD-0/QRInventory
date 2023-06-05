@@ -42,7 +42,7 @@ const ItemComponent: React.FC<Item> = ({ name, article, id }) => {
           <div className={styles.wrapper}>
             <h3>Редактирование предмета {article}</h3>
             <div className={styles.wrapperEdit}>
-              <ImageElement />
+              <ImageElement typeImage="item" id={id}/>
               <div className={editStyles.editInputsWrapper}>
                 <Input {...nameValidation} value={info.name} onChange={(e: any) => setInfo({ ...info, name: e.target.value })} />
                 <Input {...articleValidation} value={info.article} onChange={(e: any) => setInfo({ ...info, article: e.target.value })} />

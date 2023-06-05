@@ -3,7 +3,7 @@ import styles from "./view.edit.user.module.scss";
 import { useState, useEffect } from "react";
 import { useAppDispatch } from "redux/store";
 import { RejectResponsesUser, editUserThunk, fetchUserIdThunk } from "redux/actions/users.actions";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAction, useAppSelector } from "helpers/redux";
 import { User } from "types/User";
 import { MainViewRoutes } from "types/Routes";
@@ -15,6 +15,7 @@ import ImageElement from "components/Complex/ImageElement";
 import editStyles from "components/Complex/Wrappers/EditPageWrapper/edit.page.wrapper.module.scss";
 
 const UserComponent: React.FC<User> = ({ email, fullName, id }) => {
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const location = useLocation().pathname.split("/");
@@ -66,7 +67,7 @@ const UserComponent: React.FC<User> = ({ email, fullName, id }) => {
           <div className={styles.wrapper}>
             <h3>Редактирование аккаунта {fullName}</h3>
             <div className={styles.wrapperEdit}>
-              <ImageElement />
+              <ImageElement typeImage="user" id={id}/>
               <div className={editStyles.editInputsWrapper}>
                 <Input {...fullNameValidation} value={info.fullName} onChange={(e: any) => setInfo({ ...info, fullName: e.target.value })} />
                 <Input {...emailValidation} value={info.email} onChange={(e: any) => setInfo({ ...info, email: e.target.value })} />
@@ -90,28 +91,27 @@ const EditUser: React.FC = () => {
   const { data } = useAppSelector(state => state.viewUsers);
 
   const [pageUserData, setPageUserData] = useState<User | null | undefined>();
+  
   useEffect(() => {
-    (async () => {
-      if (!userData) return;
-
-      try {
-        let existing = data?.find(e => e.id === (id ?? userData.id));
+    
+    if (id) {
+      (async () => {
+        let existing = data?.find(e => e.id === id);
         if (existing) return setPageUserData(existing);
-        else {
-          let res = await dispatch(fetchUserIdThunk({ id: id ?? userData.id }));
 
-          if (res.meta.requestStatus === "rejected") {
-            return navigate(`/${MainViewRoutes.users}`);
-          }
-
-          return setPageUserData(res.payload);
+        let res = await dispatch(fetchUserIdThunk({ id }));
+        if (res.meta.requestStatus === "rejected") {
+          return navigate(`/${MainViewRoutes.users}`);
         }
-      } catch (error) {
-        return setPageUserData(null);
-      }
-    })();
+        return setPageUserData(res.payload);
+      })();
+    } else {
+      return setPageUserData(userData);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData]);
+
+  if (!userData) return <Navigate to={"signin"} />;
 
   if (pageUserData === undefined) return <LoadingTransitionComponent />;
   if (pageUserData === null) return <b>Произошла ошибка при загрузке пользователя или он не найден.</b>;

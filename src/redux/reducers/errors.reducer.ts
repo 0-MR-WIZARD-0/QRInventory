@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 import { generateShortUUID } from "helpers/functions";
 import { createInstitutionThunk } from "redux/actions/institutions.actions";
-import { fetchUserThunk, loginUserThunk, logoutUserThunk, validatePasswordThunk } from "redux/actions/auth.actions";
+import { fetchUserThunk, loginUserThunk, validatePasswordThunk } from "redux/actions/auth.actions";
 import { BackendError } from "types/App";
 import { RejectedAction } from "types/Redux";
 import { createCabinetThunk, editCabinetThunk, fetchCabinetThunk } from "redux/actions/cabinets.actions";
@@ -38,7 +38,7 @@ const reducers: { [name in keyof typeof ErrorCategories]: string[] } = {
     fetchUserIdThunk.rejected.toString(),
     editUserThunk.rejected.toString()
   ],
-  auth: [loginUserThunk.rejected.toString(), logoutUserThunk.rejected.toString(), validatePasswordThunk.rejected.toString()],
+  auth: [loginUserThunk.rejected.toString(), validatePasswordThunk.rejected.toString()],
   cabinet: [createCabinetThunk.rejected.toString(), fetchCabinetThunk.rejected.toString(), editCabinetThunk.rejected.toString()],
   institution: [createInstitutionThunk.rejected.toString()],
   item: [fetchItemThunk.rejected.toString(), editItemThunk.rejected.toString(), createItemThunk.rejected.toString()],
@@ -64,6 +64,7 @@ const ErrorsSlice = createSlice({
         return builder.addMatcher(
           (action: RejectedAction) => [...reducers[k as keyof typeof ErrorCategories]].indexOf(action.type) > -1,
           (state, action: RejectedAction<BackendError> | RejectedAction<AxiosError<BackendError>>) => {
+            
             if ((action.meta.arg as { initial?: boolean }).initial === true) return state;
 
             const uuid = generateShortUUID();
