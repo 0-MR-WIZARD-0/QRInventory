@@ -52,7 +52,6 @@ const Input: React.FC<InputProps> = ({ label, validation, name, type, placeholde
           value={value}
           disabled={false}
           onChange={onChange}
-          onFocus={onChange}
           type={type !== "password" ? type : !showPassword ? "password" : "text"}
         />
         {type === "password" && (

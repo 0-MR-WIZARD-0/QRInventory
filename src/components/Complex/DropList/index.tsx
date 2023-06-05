@@ -36,6 +36,7 @@ const DropList: React.FC<DropDownProps> = ({ options, enableSearch = false, onCh
     if (onChange !== undefined) onChange(event);
     else if (enableSearch && onChange === undefined) console.log("Метод поиска не реализован!");
   };
+
   useEffect(() => {
     if (dropdownState.open) {
       handleSearch({ target: { value: methods.getValues(inputName), name: inputName } } as unknown as React.ChangeEvent<HTMLInputElement>);

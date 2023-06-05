@@ -18,26 +18,36 @@ import { useForm, FormProvider } from "react-hook-form";
 import Input from "components/Basic/Input";
 import { searchItemThunk } from "redux/actions/items.actions";
 import { searchUserThunk } from "redux/actions/users.actions";
+import debounce from "lodash.debounce";
 
 const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teachers }) => {
   const navigate = useNavigate();
-  const methods = useForm<{ cabinetNumber: string }>();
+  const methods = useForm<{ cabinetNumber: string }>({ defaultValues: { cabinetNumber } });
   const institution = useAppSelector(state => state.institution);
   const dispatch = useAppDispatch();
 
+  // здесь уже добавленные, сюда добавлять новых учителей/предметы для изменения в БД
   const [dropDownState, setDropDownState] = useState<{ user: Teacher[]; item: Item[] }>({ user: teachers, item: items });
+  const onChangeDownState = () => setDropDownState(dds => ({ ...dds }));
 
-  const onSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!institution.id) return console.log("Учреждение не выбрано, (id empty) developer-related issue");
-    const searchVal = e.target.value;
-    const category = e.target.name;
+  // здесь данные поиска
+  const [searchDropDownState, setSearchDropDownState] = useState<{ user: Teacher[]; item: Item[] }>({ user: [], item: [] });
 
-    let res =
-      category === "user"
-        ? await dispatch(searchUserThunk({ searchVal, institution: institution.id, skip: 0, take: 10 }))
-        : await dispatch(searchItemThunk({ article: searchVal, institution: institution.id, skip: 0, take: 10 }));
-    setDropDownState(dds => ({ ...dds, [category]: res.payload }));
-  };
+  const onSearch = debounce(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (!institution.id) return console.log("Учреждение не выбрано, (id empty) developer-related issue");
+      const searchVal = e.target.value;
+      const category = e.target.name;
+
+      let res =
+        category === "user"
+          ? await dispatch(searchUserThunk({ searchVal, institution: institution.id, skip: 0, take: 10 }))
+          : await dispatch(searchItemThunk({ article: searchVal, institution: institution.id, skip: 0, take: 10 }));
+      setSearchDropDownState(sdds => ({ ...sdds, [category]: res.payload }));
+    },
+    1000,
+    { leading: true, trailing: false }
+  );
 
   const formatItems = (items: Item[]) => {
     return items.map(i => ({ key: i.id, name: i.name, value: i.article }));
@@ -47,7 +57,14 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
   };
 
   const onSubmit = methods.handleSubmit(async data => {
-    await dispatch(editCabinetThunk({ id, cabinetNumber: data.cabinetNumber }));
+    await dispatch(
+      editCabinetThunk({
+        id,
+        cabinetNumber: data.cabinetNumber,
+        items: dropDownState.item.map(i => i.id),
+        teachers: dropDownState.user.map(u => u.id)
+      })
+    );
     return navigate(`/${MainViewRoutes.cabinets}`);
   });
 
@@ -60,7 +77,7 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
           <div>
             <div>
               <FormProvider {...methods}>
-                <Input {...cabinetValidation} value={cabinetNumber} disabled={true} />
+                <Input {...cabinetValidation} name='cabinetNumber' />
               </FormProvider>
             </div>
             <div>
@@ -75,7 +92,7 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
                     }
                     inputName='user'
                     onChange={onSearch}
-                    options={formatTeachers(dropDownState.user)}
+                    options={formatTeachers([...searchDropDownState.user, ...dropDownState.user])}
                     enableSearch={true}
                   />
                 }
@@ -92,7 +109,7 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
                     }
                     inputName='user'
                     onChange={onSearch}
-                    options={formatTeachers(dropDownState.user)}
+                    options={formatTeachers([...searchDropDownState.user, ...dropDownState.user])}
                   />
                 }
                 roles={[Roles.teacher]}
@@ -105,7 +122,7 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
                 }
                 inputName='item'
                 onChange={onSearch}
-                options={formatItems(dropDownState.item)}
+                options={formatItems([...searchDropDownState.item, ...dropDownState.item])}
                 enableSearch={true}
               />
             </div>
