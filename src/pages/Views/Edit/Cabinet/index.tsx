@@ -16,15 +16,26 @@ import { Item } from "types/Item";
 import { cabinetValidation, titleInstitutionValidation } from "validation";
 import { useForm, FormProvider } from "react-hook-form";
 import Input from "components/Basic/Input";
-import editPageStyles from "components/Complex/Wrappers/EditPageWrapper/edit.page.wrapper.module.scss";
 
 const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teachers }) => {
   const navigate = useNavigate();
+  const methods = useForm();
+  const institution = useAppSelector(state => state.institution);
+
+  const [dropDownState, setDropDownState] = useState<{ user: Teacher[]; item: Item[] }>({ user: teachers, item: items });
+
+  const onSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target);
+    const searchVal = e.target.value;
+    const category = e.target.name;
+
+    // let res = await api.get(`/${category}/all`, { params: { institution: institution.id } })
+    // setDropDownState(ds => ({ ...ds, [category]: res.data[category] }))
+  };
 
   const formatItems = (items: Item[]) => {
     return items.map(i => ({ key: i.id, name: i.name, value: i.article }));
   };
-
   const formatTeachers = (teachers: Teacher[]) => {
     return teachers.map(i => ({ key: i.id, name: i.fullName, value: i.email }));
   };
@@ -34,9 +45,6 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
     // либо результат запроса добавлять в список кабинетов либо заново получать
     return navigate(`/${MainViewRoutes.cabinets}`);
   };
-
-  const methods = useForm();
-  const institution = useAppSelector(state => state.institution);
 
   return (
     <EditPageWrapper
@@ -52,15 +60,50 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
               </FormProvider>
             </div>
             <div>
+              {/* рендер для админа */}
               <ProtectedComponent
-                component={<DropList options={formatTeachers(teachers as Teacher[])} enableSearch={true} enableEdit={true} searchBy='teachers' />}
+                component={
+                  <DropList
+                    name={
+                      <span>
+                        Учителя <b>({teachers.length})</b>
+                      </span>
+                    }
+                    inputName='user'
+                    onChange={onSearch}
+                    options={formatTeachers(dropDownState.user)}
+                    enableSearch={true}
+                  />
+                }
                 roles={[Roles.admin]}
               />
+              {/* рендер для учителя */}
               <ProtectedComponent
-                component={<DropList options={formatTeachers(teachers as Teacher[])} enableSearch={true} searchBy='teachers' />}
+                component={
+                  <DropList
+                    name={
+                      <span>
+                        Учителя <b>({teachers.length})</b>
+                      </span>
+                    }
+                    inputName='user'
+                    onChange={onSearch}
+                    options={formatTeachers(dropDownState.user)}
+                  />
+                }
                 roles={[Roles.teacher]}
               />
-              <DropList options={formatItems(items as Item[])} enableSearch={true} enableEdit={true} searchBy='items' />
+              <DropList
+                name={
+                  <span>
+                    Предметы <b>({items.length})</b>
+                  </span>
+                }
+                inputName='item'
+                onChange={onSearch}
+                options={formatItems(dropDownState.item)}
+                enableSearch={true}
+              />
             </div>
           </div>
         </div>

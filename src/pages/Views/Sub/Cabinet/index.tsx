@@ -29,9 +29,7 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
   return (
     <>
       <div className={styles.wrapper}>
-        <div
-          className={styles.imageWrapper}
-          onClick={() => navigator.clipboard.writeText(window.location.href)}>
+        <div className={styles.imageWrapper} onClick={() => navigator.clipboard.writeText(window.location.href)}>
           <QRCodeSVG value={location.pathname} />
           <button>тап сюда или на qr чтобы скопировать ссылку</button>
         </div>
@@ -40,8 +38,24 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
         </h1>
       </div>
       <div>
-        <DropList options={formatItems(items as Item[])} />
-        <DropList options={formatTeachers(teachers as Teacher[])} />
+        <DropList
+          name={
+            <span>
+              Учителя <b>({teachers.length})</b>
+            </span>
+          }
+          inputName='user'
+          options={formatTeachers(teachers as Teacher[])}
+        />
+        <DropList
+          name={
+            <span>
+              Предметы <b>({items.length})</b>
+            </span>
+          }
+          inputName='item'
+          options={formatItems(items as Item[])}
+        />
         <ProtectedComponent
           component={
             <div className={styles.menuBar}>
@@ -85,8 +99,7 @@ const ViewCabinet: React.FC = () => {
   }, []);
 
   if (pageCabinetData === undefined) return <LoadingTransitionComponent />;
-  if (pageCabinetData === null)
-    return <b>Произошла ошибка при загрузке кабинета или он не найден.</b>;
+  if (pageCabinetData === null) return <b>Произошла ошибка при загрузке кабинета или он не найден.</b>;
 
   return <CabinetComponent {...pageCabinetData} />;
 };
