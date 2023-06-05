@@ -14,10 +14,7 @@ type InputProps = {
   onChange?: any;
 };
 
-export function findInputError(
-  errors: any,
-  name: string
-): { error?: { type: string; message: string; ref: any } } {
+export function findInputError(errors: any, name: string): { error?: { type: string; message: string; ref: any } } {
   const filtered = Object.keys(errors)
     .filter(key => key.includes(name))
     .reduce((cur, key) => {
@@ -31,15 +28,7 @@ export const isFormInvalid = (error: object) => {
   return false;
 };
 
-const Input: React.FC<InputProps> = ({
-  label,
-  validation,
-  name,
-  type,
-  placeholder,
-  value,
-  onChange
-}) => {
+const Input: React.FC<InputProps> = ({ label, validation, name, type, placeholder, value, onChange }) => {
   const {
     register,
     formState: { errors }
@@ -63,6 +52,7 @@ const Input: React.FC<InputProps> = ({
           value={value}
           disabled={false}
           onChange={onChange}
+          onFocus={onChange}
           type={type !== "password" ? type : !showPassword ? "password" : "text"}
         />
         {type === "password" && (

@@ -5,7 +5,7 @@ import { Cabinet } from "types/Cabinet";
 import { useAppDispatch } from "redux/store";
 import { useAppSelector } from "helpers/redux";
 import { MainViewRoutes } from "types/Routes";
-import { fetchCabinetThunk } from "redux/actions/cabinets.actions";
+import { editCabinetThunk, fetchCabinetThunk } from "redux/actions/cabinets.actions";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
 import ProtectedComponent from "components/Protected/Component";
 import { Roles } from "types/User";
@@ -13,24 +13,30 @@ import EditPageWrapper from "components/Complex/Wrappers/EditPageWrapper";
 import DropList from "components/Complex/DropList";
 import { Teacher } from "types/Teacher";
 import { Item } from "types/Item";
-import { cabinetValidation, titleInstitutionValidation } from "validation";
+import { cabinetValidation } from "validation";
 import { useForm, FormProvider } from "react-hook-form";
 import Input from "components/Basic/Input";
+import { searchItemThunk } from "redux/actions/items.actions";
+import { searchUserThunk } from "redux/actions/users.actions";
 
 const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teachers }) => {
   const navigate = useNavigate();
-  const methods = useForm();
+  const methods = useForm<{ cabinetNumber: string }>();
   const institution = useAppSelector(state => state.institution);
+  const dispatch = useAppDispatch();
 
   const [dropDownState, setDropDownState] = useState<{ user: Teacher[]; item: Item[] }>({ user: teachers, item: items });
 
   const onSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target);
+    if (!institution.id) return console.log("Учреждение не выбрано, (id empty) developer-related issue");
     const searchVal = e.target.value;
     const category = e.target.name;
 
-    // let res = await api.get(`/${category}/all`, { params: { institution: institution.id } })
-    // setDropDownState(ds => ({ ...ds, [category]: res.data[category] }))
+    let res =
+      category === "user"
+        ? await dispatch(searchUserThunk({ searchVal, institution: institution.id, skip: 0, take: 10 }))
+        : await dispatch(searchItemThunk({ article: searchVal, institution: institution.id, skip: 0, take: 10 }));
+    setDropDownState(dds => ({ ...dds, [category]: res.payload }));
   };
 
   const formatItems = (items: Item[]) => {
@@ -40,11 +46,10 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
     return teachers.map(i => ({ key: i.id, name: i.fullName, value: i.email }));
   };
 
-  const onSubmit = async () => {
-    // edit data bla bla
-    // либо результат запроса добавлять в список кабинетов либо заново получать
+  const onSubmit = methods.handleSubmit(async data => {
+    await dispatch(editCabinetThunk({ id, cabinetNumber: data.cabinetNumber }));
     return navigate(`/${MainViewRoutes.cabinets}`);
-  };
+  });
 
   return (
     <EditPageWrapper
@@ -56,7 +61,6 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
             <div>
               <FormProvider {...methods}>
                 <Input {...cabinetValidation} value={cabinetNumber} disabled={true} />
-                <Input {...titleInstitutionValidation} value={institution.name?.toString()} disabled={true} />
               </FormProvider>
             </div>
             <div>
@@ -122,7 +126,6 @@ const EditCabinet: React.FC = () => {
     (async () => {
       try {
         if (!id) return navigate(`/${MainViewRoutes.cabinets}`);
-        console.log(data);
         let existing = data?.find(e => e.id === id);
         if (existing) return setPageCabinetData(existing);
         else {

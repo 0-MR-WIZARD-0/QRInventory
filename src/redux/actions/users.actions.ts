@@ -4,10 +4,11 @@ import { BackendError } from "types/App";
 import { User } from "types/User";
 
 export enum RejectResponsesUser {
-  createUserError = "Произошла ошибка при создании пользователя. Обратитесь к администратору!",
-  fetchUserError = "Произошла ошибка при получении пользователя. Обратитесь к администратору!",
-  editUserError = "Произошла ошибка при изменении пользователя. Обратитесь к администратору!",
-  deleteUserError = "Произошла ошибка при удалении пользователя. Обратитесь к администратору!"
+  fetchUserError = "Произошла ошибка при получении пользователя",
+  fetchUsersError = "Произошла ошибка при получении пользователей",
+  createUserError = "Произошла ошибка при создании пользователя",
+  editUserError = "Произошла ошибка при изменении пользователя",
+  deleteUserError = "Произошла ошибка при удалении пользователя"
 }
 
 export const createUserThunk = createAsyncThunk<any, { fullName: string; email: string; password: string; teacherInstitution: string }>(
@@ -60,3 +61,26 @@ export const deleteUserThunk = createAsyncThunk<any, { id: string }>("user/delet
     return rejectWithValue(error);
   }
 });
+
+export const searchUserThunk = createAsyncThunk<User[], { institution: string; searchVal: string; take: number; skip: number; id?: string }>(
+  "item/search",
+  async (params, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const res = await api.get<any, { data: { users: User[] } | BackendError | undefined }>(`/user/search`, {
+        params: {
+          fio: params.searchVal,
+          email: params.searchVal,
+          institution: params.institution,
+          id: params.id,
+          take: params.take,
+          skip: params.skip
+        }
+      });
+      if (!res || res.data === undefined) throw new Error((res.data as BackendError)?.description ?? RejectResponsesUser.fetchUsersError);
+      // немного косячно с типами
+      return fulfillWithValue((res.data as { users: User[] }).users);
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
