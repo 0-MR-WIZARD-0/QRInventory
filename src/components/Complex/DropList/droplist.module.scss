@@ -1,40 +1,44 @@
 @import "styles/colors.scss";
 
 .container {
+  overflow: hidden;
 
-  &>*{
+  &Open {
+    border-radius: 15px;
+  }
+
+  & > * {
     padding: 0 15px;
   }
 
   .button {
-    border: 1px solid $secondary;
+    cursor: pointer;
+    border: none;
     border-radius: 15px;
     height: 50px;
     width: 100%;
     color: $black;
-    margin-bottom: 10px;
-    background-color: $white;
-    &Open{
-      border: none;
-      border-radius: 15px 15px 0 0;
-      border-top: 1px solid $secondary;
-      border-left: 1px solid $secondary;
-      border-right: 1px solid $secondary;
+    background-color: $gray-100;
+    font: inherit;
+
+    &Open {
+      border-radius: 0;
       width: 100%;
       color: $black;
       height: 50px;
-      background-color: $white;
+      // background-color: $white;
     }
   }
-  
+
   & > div {
     border-radius: 0 0 15px 15px;
     background-color: $white;
-    border-bottom: 1px solid $secondary;
-    border-left: 1px solid $secondary;
-    border-right: 1px solid $secondary;
-    &:first-of-type{
-      margin-bottom: 10px;
+    &:first-of-type {
+      padding-top: 10px;
+      border: 2px solid $gray-100;
+      border-top: none;
+
+      // margin-bottom: 10px;
     }
   }
 
@@ -42,26 +46,24 @@
     min-height: 200px;
     overflow-y: scroll;
 
-    li{
+    li {
       display: flex;
       padding-top: 10px;
-      &>div:first-of-type{
+      & > div:first-of-type {
         width: 70px;
         height: 70px;
-        img{
+        img {
           width: 100%;
           height: 100%;
         }
       }
 
-      &>div:last-of-type{
+      & > div:last-of-type {
         padding-left: 10px;
-        p+p{
+        p + p {
           margin-top: 10px;
         }
       }
     }
   }
-
 }
-
