@@ -41,7 +41,6 @@ const DropList: React.FC<DropDownProps> = ({ options, enableSearch = false, onCh
   return (
     <div className={classNames(styles.container, enableSearch && dropdownState.open && styles.containerOpen)} ref={container}>
       <button className={classNames(styles.button, dropdownState.open && styles.buttonOpen)} onClick={changeDropListState}>
-        {/* <b>{objects.items ? `Предметы (${objects.items?.length})` : `Преподаватели (${objects.teachers?.length})`}</b> */}
         <>{name ?? "Список"}</>
       </button>
       {dropdownState.open && (

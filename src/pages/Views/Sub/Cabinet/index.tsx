@@ -37,7 +37,7 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
           Кабинет {cabinetNumber}
         </h1>
       </div>
-      <div>
+      <div className={styles.rightSideContent}>
         <DropList
           name={
             <span>
