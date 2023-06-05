@@ -29,7 +29,13 @@ const InstitutionSlice = createSlice({
       }
     );
     builder.addMatcher(
-      (action: RejectedAction) => [logoutUserThunk.rejected.toString(), logoutUserThunk.fulfilled.toString(), fetchUserThunk.rejected.toString(), loginUserThunk.rejected.toString()].indexOf(action.type) > -1,
+      (action: RejectedAction) =>
+        [
+          logoutUserThunk.rejected.toString(),
+          logoutUserThunk.fulfilled.toString(),
+          fetchUserThunk.rejected.toString(),
+          loginUserThunk.rejected.toString()
+        ].indexOf(action.type) > -1,
       (state, action) => ({ id: null, name: null })
     );
   }
