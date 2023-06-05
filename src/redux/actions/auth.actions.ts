@@ -10,7 +10,7 @@ export enum RejectResponsesAuth {
 }
 
 // https://stackoverflow.com/questions/67227015/how-to-use-createasyncthunk-with-typescript-how-to-set-types-for-the-pending
-export const fetchUserThunk = createAsyncThunk("auth/fetch", async (params, { fulfillWithValue, rejectWithValue }) => {
+export const fetchUserThunk = createAsyncThunk<any, { initial?: boolean }>("auth/fetch", async (params, { fulfillWithValue, rejectWithValue }) => {
   try {
     const res = await api.get<any, { data: User | BackendError | undefined }>("/user");
     if (!res || !(res.data as User)?.id) throw new Error((res.data as BackendError)?.description ?? RejectResponsesAuth.unauthorized);

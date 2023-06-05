@@ -39,7 +39,7 @@ function App() {
   const { loading } = useAppSelector(state => state.user);
 
   useEffect(() => {
-    fetchUserThunk();
+    fetchUserThunk({ initial: true });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
