@@ -11,7 +11,7 @@ import { useAppDispatch } from "redux/store";
 import { FormProvider, useForm } from "react-hook-form";
 
 const Login = () => {
-  const methods = useForm({ mode: "onBlur" });
+  const methods = useForm({ mode: "all" });
 
   const navigator = useNavigate();
   const dispatch = useAppDispatch();
@@ -32,8 +32,8 @@ const Login = () => {
             <h2>Авторизация</h2>
             <p>Для продолжения необходимо ввести данные аккаунта</p>
             <form action='' method='post' className={styles.form}>
-              <Input {...emailValidation} />
-              <Input {...passwordValidation} />
+              <Input {...emailValidation}/>
+              <Input {...passwordValidation}/>
               <DefaultButton component={<div>продолжить</div>} onSumbit={onSubmit} />
               <Link to={""} onClick={() => authResetModalRef.current?.createModal()}>
                 Забыл(а) пароль

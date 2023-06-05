@@ -65,8 +65,6 @@
    8. [x] Получение кабинета на странице (брать из кабинетов если есть в кеше)
    9. [x] Получить стейт селектора в модалках
 
-//search
-
 //проблема с загрузкой фотографий (postman тоже -)
 
 # ChatGPT симфония о ReactJS и NestJS
@@ -105,7 +103,3 @@ React and NestJS, a match made in coding fruition.
 Together they create, pushing boundaries and beyond,
 In the ever-evolving world of tech, they respond.
 ```
-
-// ошибка создания предмета (их две одна непредвиденная другая нужная)\
-// можно зарегать туже самую почту (а фио нельзя, наобот должно быть) 
-// учреждения ошибка и запись существует

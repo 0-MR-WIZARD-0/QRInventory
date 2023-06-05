@@ -69,7 +69,7 @@ function App() {
             </Route>
             <Route path={`${MainViewRoutes.items}/:id`}>
               <Route index element={<ViewItem />} />
-              <Route path='edit' element={<ProtectedPage component={<EditItem />} roles={[Roles.admin]} />} />
+              <Route path='edit' element={<ProtectedPage component={<EditItem />} roles={[Roles.admin, Roles.teacher]} />} />
               <Route path='delete' element={<ProtectedPage component={<DeleteItem />} roles={[Roles.admin, Roles.teacher]} />} />
             </Route>
             <Route path={`${MainViewRoutes.users}/:id`}>
