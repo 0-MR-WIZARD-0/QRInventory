@@ -18,7 +18,7 @@ const ProtectedPage: React.FC<ProtectedProps> = ({ component, onlyGuest, roles }
     else return <Navigate to={RoutesEnum.main} />;
   } else {
     if (error || !userData) return <Navigate to={`/${RoutesEnum.noAccess}`} />;
-
+    
     if (roles) {
       if (roles.includes(userData.role)) return <>{component}</>;
       else {
