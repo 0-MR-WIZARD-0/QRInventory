@@ -14,8 +14,9 @@ import DropList from "components/Complex/DropList";
 import { Teacher } from "types/Teacher";
 import { Item } from "types/Item";
 import { cabinetValidation, titleInstitutionValidation } from "validation";
-import {useForm, FormProvider} from "react-hook-form"
+import { useForm, FormProvider } from "react-hook-form";
 import Input from "components/Basic/Input";
+import editPageStyles from "components/Complex/Wrappers/EditPageWrapper/edit.page.wrapper.module.scss";
 
 const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teachers }) => {
   const navigate = useNavigate();
@@ -43,41 +44,24 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
       component={
         <div className={styles.wrapper}>
           <h3>Редактирование кабинета</h3>
+          <div>
             <div>
-              <div>
-                <FormProvider {...methods}>
-                  <Input {...cabinetValidation} 
-                  value={cabinetNumber} disabled={true}
-                  /> 
-                  <Input {...titleInstitutionValidation} 
-                  value={institution.name?.toString()} disabled={true}
-                  />
-                </FormProvider>
-              </div>
-              <div>
-                  <ProtectedComponent 
-                    component={
-                      <DropList
-                        options={formatTeachers(teachers as Teacher[])}
-                        enableSearch={true}
-                        enableEdit={true}
-                        searchBy="teachers"
-                      />
-                    } 
-                    roles={[Roles.admin]} 
-                  />
-                  <ProtectedComponent 
-                    component={
-                      <DropList
-                        options={formatTeachers(teachers as Teacher[])}
-                        enableSearch={true}
-                        searchBy="teachers"
-                      />
-                    } 
-                    roles={[Roles.teacher]} 
-                  />
-                  <DropList options={formatItems(items as Item[])} enableSearch={true} enableEdit={true} searchBy="items"/>
-              </div>
+              <FormProvider {...methods}>
+                <Input {...cabinetValidation} value={cabinetNumber} disabled={true} />
+                <Input {...titleInstitutionValidation} value={institution.name?.toString()} disabled={true} />
+              </FormProvider>
+            </div>
+            <div>
+              <ProtectedComponent
+                component={<DropList options={formatTeachers(teachers as Teacher[])} enableSearch={true} enableEdit={true} searchBy='teachers' />}
+                roles={[Roles.admin]}
+              />
+              <ProtectedComponent
+                component={<DropList options={formatTeachers(teachers as Teacher[])} enableSearch={true} searchBy='teachers' />}
+                roles={[Roles.teacher]}
+              />
+              <DropList options={formatItems(items as Item[])} enableSearch={true} enableEdit={true} searchBy='items' />
+            </div>
           </div>
         </div>
       }

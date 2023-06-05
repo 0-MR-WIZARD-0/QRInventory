@@ -17,8 +17,17 @@ body {
   background-color: $mainColor;
   font-family: "Gilroy", sans-serif;
   overflow-x: hidden;
+
+  min-width: 300px;
+
+  @media screen and (min-width: $breakpoint-mid-tablet) {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
   @media screen and (max-width: $breakpoint-min-phone) {
-    overflow-x: auto;
+    overflow-x: scroll;
   }
 }
 
@@ -33,8 +42,4 @@ a {
 
 ul {
   list-style: none;
-}
-
-::-webkit-scrollbar {
-  display: none;
 }

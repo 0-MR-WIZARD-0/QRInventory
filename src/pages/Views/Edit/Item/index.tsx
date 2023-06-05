@@ -12,6 +12,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import { nameValidation, articleValidation } from "validation";
 import Input from "components/Basic/Input";
 import ImageElement from "components/Complex/ImageElement";
+import editStyles from "components/Complex/Wrappers/EditPageWrapper/edit.page.wrapper.module.scss";
 
 const ItemComponent: React.FC<Item> = ({ name, article, id }) => {
   const dispatch = useAppDispatch();
@@ -29,8 +30,7 @@ const ItemComponent: React.FC<Item> = ({ name, article, id }) => {
   const onSubmit = methods.handleSubmit(async data => {
     if (data.article.length && data.name.length !== 0) {
       const res = await dispatch(editItemThunk({ id, name: data.name, article: data.article }));
-      if (res.meta.requestStatus === "fulfilled")
-        return navigate(location.slice(0, location.length - 1).join("/"));
+      if (res.meta.requestStatus === "fulfilled") return navigate(location.slice(0, location.length - 1).join("/"));
     } else return addError({ type: "item", description: "Присутствуют незаполненные поля" });
   });
 
@@ -43,17 +43,9 @@ const ItemComponent: React.FC<Item> = ({ name, article, id }) => {
             <h3>Редактирование предмета {article}</h3>
             <div className={styles.wrapperEdit}>
               <ImageElement />
-              <div>
-                <Input
-                  {...nameValidation}
-                  value={info.name}
-                  onChange={(e: any) => setInfo({ ...info, name: e.target.value })}
-                />
-                <Input
-                  {...articleValidation}
-                  value={info.article}
-                  onChange={(e: any) => setInfo({ ...info, article: e.target.value })}
-                />
+              <div className={editStyles.editInputsWrapper}>
+                <Input {...nameValidation} value={info.name} onChange={(e: any) => setInfo({ ...info, name: e.target.value })} />
+                <Input {...articleValidation} value={info.article} onChange={(e: any) => setInfo({ ...info, article: e.target.value })} />
               </div>
             </div>
           </div>

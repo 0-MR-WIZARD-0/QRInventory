@@ -9,14 +9,10 @@ import { User } from "types/User";
 import { MainViewRoutes } from "types/Routes";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
 import EditPageWrapper from "components/Complex/Wrappers/EditPageWrapper";
-import {
-  emailValidation,
-  fullNameValidation,
-  newPasswordValidation,
-  oldPasswordValidation
-} from "validation";
+import { emailValidation, fullNameValidation, newPasswordValidation, oldPasswordValidation } from "validation";
 import { useForm, FormProvider } from "react-hook-form";
 import ImageElement from "components/Complex/ImageElement";
+import editStyles from "components/Complex/Wrappers/EditPageWrapper/edit.page.wrapper.module.scss";
 
 const UserComponent: React.FC<User> = ({ email, fullName, id }) => {
   const navigate = useNavigate();
@@ -49,18 +45,15 @@ const UserComponent: React.FC<User> = ({ email, fullName, id }) => {
           newPassword: data.newPassword
         })
       );
-      if (res.meta.requestStatus === "fulfilled")
-        return navigate(location.slice(0, location.length - 1).join("/"));
+      if (res.meta.requestStatus === "fulfilled") return navigate(location.slice(0, location.length - 1).join("/"));
       else
         return addError({
           type: "user",
-          description:
-            RejectResponsesUser.editUserError + " Возможно введен неверный старый пароль."
+          description: RejectResponsesUser.editUserError + " Возможно введен неверный старый пароль."
         });
     } else {
       const res = await dispatch(editUserThunk({ id, fullName: data.fullName, email: data.email }));
-      if (res.meta.requestStatus === "fulfilled")
-        return navigate(location.slice(0, location.length - 1).join("/"));
+      if (res.meta.requestStatus === "fulfilled") return navigate(location.slice(0, location.length - 1).join("/"));
       else return addError({ type: "user", description: RejectResponsesUser.editUserError });
     }
   });
@@ -74,27 +67,11 @@ const UserComponent: React.FC<User> = ({ email, fullName, id }) => {
             <h3>Редактирование аккаунта {fullName}</h3>
             <div className={styles.wrapperEdit}>
               <ImageElement />
-              <div>
-                <Input
-                  {...fullNameValidation}
-                  value={info.fullName}
-                  onChange={(e: any) => setInfo({ ...info, fullName: e.target.value })}
-                />
-                <Input
-                  {...emailValidation}
-                  value={info.email}
-                  onChange={(e: any) => setInfo({ ...info, email: e.target.value })}
-                />
-                <Input
-                  {...oldPasswordValidation}
-                  value={info.oldPassword}
-                  onChange={(e: any) => setInfo({ ...info, oldPassword: e.target.value })}
-                />
-                <Input
-                  {...newPasswordValidation}
-                  value={info.newPassword}
-                  onChange={(e: any) => setInfo({ ...info, newPassword: e.target.value })}
-                />
+              <div className={editStyles.editInputsWrapper}>
+                <Input {...fullNameValidation} value={info.fullName} onChange={(e: any) => setInfo({ ...info, fullName: e.target.value })} />
+                <Input {...emailValidation} value={info.email} onChange={(e: any) => setInfo({ ...info, email: e.target.value })} />
+                <Input {...oldPasswordValidation} value={info.oldPassword} onChange={(e: any) => setInfo({ ...info, oldPassword: e.target.value })} />
+                <Input {...newPasswordValidation} value={info.newPassword} onChange={(e: any) => setInfo({ ...info, newPassword: e.target.value })} />
               </div>
             </div>
           </div>
@@ -137,8 +114,7 @@ const EditUser: React.FC = () => {
   }, [userData]);
 
   if (pageUserData === undefined) return <LoadingTransitionComponent />;
-  if (pageUserData === null)
-    return <b>Произошла ошибка при загрузке пользователя или он не найден.</b>;
+  if (pageUserData === null) return <b>Произошла ошибка при загрузке пользователя или он не найден.</b>;
   return <UserComponent {...pageUserData} />;
 };
 
