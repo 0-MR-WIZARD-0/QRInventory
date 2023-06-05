@@ -63,7 +63,9 @@ const ErrorsSlice = createSlice({
       Object.keys(reducers).map(k => {
         return builder.addMatcher(
           (action: RejectedAction) => [...reducers[k as keyof typeof ErrorCategories]].indexOf(action.type) > -1,
-          (state, action: PayloadAction<BackendError> | PayloadAction<AxiosError<BackendError>>) => {
+          (state, action: RejectedAction<BackendError> | RejectedAction<AxiosError<BackendError>>) => {
+            if ((action.meta.arg as { initial?: boolean }).initial === true) return state;
+
             const uuid = generateShortUUID();
             return [
               ...state,
