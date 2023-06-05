@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "./droplist.module.scss";
 import { FormProvider, useForm } from "react-hook-form";
 import { searchValidation } from "validation";
@@ -36,6 +36,11 @@ const DropList: React.FC<DropDownProps> = ({ options, enableSearch = false, onCh
     if (onChange !== undefined) onChange(event);
     else if (enableSearch && onChange === undefined) console.log("Метод поиска не реализован!");
   };
+  useEffect(() => {
+    if (dropdownState.open) {
+      handleSearch({ target: { value: methods.getValues(inputName), name: inputName } } as unknown as React.ChangeEvent<HTMLInputElement>);
+    }
+  }, [dropdownState.open]);
   const methods = useForm({ mode: "onBlur" });
 
   return (

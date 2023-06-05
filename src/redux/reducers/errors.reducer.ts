@@ -11,7 +11,7 @@ import { createItemThunk, editItemThunk, fetchItemThunk } from "redux/actions/it
 
 export enum DefaultErrors {
   institutionNotSelected = "Учреждение отсутствует, либо не выбрано",
-  invalidId = "Произошла ошибка: невалидный ID. Обратитесь к администратору!",
+  invalidId = "Произошла ошибка: невалидный ID",
   unexpectedError = "Непредвиденная ошибка"
 }
 
