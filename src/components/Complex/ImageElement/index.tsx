@@ -24,7 +24,7 @@ const ImageElement: React.FC<ReturnType<typeof useImage>> = ({ changeHandler, fi
           <label>
             <input onChange={changeHandler} type='file' accept='.png, .jpg, .jpeg' />
             <h5>Выбрать фотографию аккаунта</h5>
-            <span>макс 5мб</span>
+            <span>макс 10мб</span>
           </label>
         </div>
       )}

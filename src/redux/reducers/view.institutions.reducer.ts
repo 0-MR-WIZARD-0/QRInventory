@@ -32,8 +32,6 @@ const ViewInstitutionsSlice = createSlice({
       return { ...state, loading: true, error: undefined };
     });
     builder.addCase(createInstitutionThunk.fulfilled, (state, action) => {
-      console.log(action.payload);
-      console.log(state.data, action.payload);
       return {
         loading: false,
         data: state.data && state.data.length > 0 ? [...state.data, action.payload].filter(onlyUnique) : [action.payload],
