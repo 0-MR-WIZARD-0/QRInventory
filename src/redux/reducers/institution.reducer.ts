@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { fetchUserThunk, loginUserThunk, logoutUserThunk } from "redux/actions/auth.actions";
+import { createInstitutionThunk } from "redux/actions/institutions.actions";
 import { FulfilledAction, RejectedAction } from "types/Redux";
 import { Roles, User } from "types/User";
 
@@ -19,6 +20,9 @@ const InstitutionSlice = createSlice({
     }
   },
   extraReducers: builder => {
+    builder.addCase(createInstitutionThunk.fulfilled, (state, action) => {
+      return { ...state, id: action.payload.id, name: action.payload.name };
+    });
     builder.addMatcher(
       (action: FulfilledAction) => [fetchUserThunk.fulfilled.toString(), loginUserThunk.fulfilled.toString()].indexOf(action.type) > -1,
       (state, action: { type: string; payload: User | undefined }) => {
