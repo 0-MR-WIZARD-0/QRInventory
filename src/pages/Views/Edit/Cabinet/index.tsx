@@ -149,7 +149,6 @@ const EditCabinet: React.FC = () => {
           let res = await dispatch(fetchCabinetThunk({ id }));
 
           if (res.meta.requestStatus === "rejected") {
-            console.log("Произошла ошибка при загрузке кабинета");
             return navigate(`/${MainViewRoutes.cabinets}`);
           }
 

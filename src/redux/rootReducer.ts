@@ -9,6 +9,7 @@ import userReducer, { userActions } from "./reducers/user.reducer";
 import viewInstitutionsReducer, { viewInstitutionsActions } from "./reducers/view.institutions.reducer";
 import errorsReducer, { errorActions } from "./reducers/errors.reducer";
 import imageReducer from "./reducers/image.reducer";
+import { searchUserThunk } from "./actions/users.actions";
 
 export const rootReducer = combineReducers({
   user: userReducer,
@@ -42,5 +43,7 @@ export const ActionCreators = {
   fetchUsersThunk,
   fetchItemsThunk,
   fetchCabinetsThunk,
-  fetchInstitutionsThunk
+  fetchInstitutionsThunk,
+
+  searchUserThunk
 };

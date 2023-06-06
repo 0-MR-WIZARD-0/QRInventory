@@ -13,6 +13,7 @@ import { nameValidation, articleValidation } from "validation";
 import Input from "components/Basic/Input";
 import ImageElement from "components/Complex/ImageElement";
 import editStyles from "components/Complex/Wrappers/EditPageWrapper/edit.page.wrapper.module.scss";
+import { useImage } from "helpers/hooks";
 
 const ItemComponent: React.FC<Item> = ({ name, article, id }) => {
   const dispatch = useAppDispatch();
@@ -20,16 +21,12 @@ const ItemComponent: React.FC<Item> = ({ name, article, id }) => {
   const location = useLocation().pathname.split("/");
   const { addError } = useAction();
 
-  const methods = useForm<{ name: string; article: string }>({ mode: "onBlur" });
-
-  const [info, setInfo] = useState({
-    name: name || "",
-    article: article || ""
-  });
+  const methods = useForm<{ name: string; article: string }>({ mode: "onBlur", defaultValues: { name, article } });
+  const imageMethods = useImage();
 
   const onSubmit = methods.handleSubmit(async data => {
     if (data.article.length && data.name.length !== 0) {
-      const res = await dispatch(editItemThunk({ id, name: data.name, article: data.article }));
+      const res = await dispatch(editItemThunk({ id, ...data }));
       if (res.meta.requestStatus === "fulfilled") return navigate(location.slice(0, location.length - 1).join("/"));
     } else return addError({ type: "item", description: "Присутствуют незаполненные поля" });
   });
@@ -42,10 +39,10 @@ const ItemComponent: React.FC<Item> = ({ name, article, id }) => {
           <div className={styles.wrapper}>
             <h3>Редактирование предмета {article}</h3>
             <div className={styles.wrapperEdit}>
-              <ImageElement typeImage="item" id={id}/>
+              <ImageElement {...imageMethods} />
               <div className={editStyles.editInputsWrapper}>
-                <Input {...nameValidation} value={info.name} onChange={(e: any) => setInfo({ ...info, name: e.target.value })} />
-                <Input {...articleValidation} value={info.article} onChange={(e: any) => setInfo({ ...info, article: e.target.value })} />
+                <Input {...nameValidation} />
+                <Input {...articleValidation} />
               </div>
             </div>
           </div>

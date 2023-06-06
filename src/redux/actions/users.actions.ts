@@ -63,11 +63,11 @@ export const deleteUserThunk = createAsyncThunk<any, { id: string }>("user/delet
   }
 });
 
-export const searchUserThunk = createAsyncThunk<User[], { institution: string; searchVal: string; take: number; skip: number; id?: string }>(
+export const searchUserThunk = createAsyncThunk<User[] | User, { institution: string; searchVal: string; take: number; skip: number; id?: string }>(
   "item/search",
   async (params, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const res = await api.get<any, { data: { users: User[] } | BackendError | undefined }>(`/user/search`, {
+      const res = await api.get<any, { data: { users: User[] } | User | BackendError }>(`/user/search`, {
         params: {
           fio: params.searchVal,
           email: params.searchVal,
@@ -79,7 +79,8 @@ export const searchUserThunk = createAsyncThunk<User[], { institution: string; s
       });
       if (!res || res.data === undefined) throw new Error((res.data as BackendError)?.description ?? RejectResponsesUser.fetchUsersError);
       // немного косячно с типами
-      return fulfillWithValue((res.data as { users: User[] }).users);
+      if (Array.isArray(res.data)) return fulfillWithValue((res.data as { users: User[] }).users);
+      else return fulfillWithValue(res.data as User);
     } catch (error) {
       return rejectWithValue(error);
     }

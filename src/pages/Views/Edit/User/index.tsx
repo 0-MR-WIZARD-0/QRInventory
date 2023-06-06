@@ -13,49 +13,88 @@ import { emailValidation, fullNameValidation, newPasswordValidation, oldPassword
 import { useForm, FormProvider } from "react-hook-form";
 import ImageElement from "components/Complex/ImageElement";
 import editStyles from "components/Complex/Wrappers/EditPageWrapper/edit.page.wrapper.module.scss";
+import { useImage } from "helpers/hooks";
+import api from "helpers/axios";
+import { imageUserThunk } from "redux/actions/image.actions";
+import { RejectResponsesInstitution } from "redux/actions/institutions.actions";
 
-const UserComponent: React.FC<User> = ({ email, fullName, id }) => {
-
+const UserComponent: React.FC<User> = ({ email, fullName, id, avatarId }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const location = useLocation().pathname.split("/");
-  const { addError } = useAction();
+  const institution = useAppSelector(state => state.institution);
+  const { userData } = useAppSelector(state => state.user);
+  const { addError, fetchUserThunk, searchUserThunk } = useAction();
 
   const methods = useForm<{
     fullName: string;
     email: string;
     oldPassword: string;
     newPassword: string;
-  }>({ mode: "onBlur" });
+  }>({ mode: "onBlur", defaultValues: { fullName: fullName ?? "", email: email ?? "", oldPassword: "", newPassword: "" } });
+  const imageMethods = useImage();
 
-  const [info, setInfo] = useState({
-    fullName: fullName || "Токарев Виктор Александрович",
-    email: email || "temp@mail.ru",
-    oldPassword: "",
-    newPassword: ""
-  });
+  useEffect(() => {
+    (async () => {
+      try {
+        if (avatarId) {
+          let imageBlob = (await api.get(`/image/${avatarId}`, { responseType: "blob" })).data;
+          const imageURL = URL.createObjectURL(imageBlob);
+          if (imageBlob) imageMethods.uploadImage(imageURL);
+        }
+      } catch (error) {}
+    })();
+  }, []);
 
   const onSubmit = methods.handleSubmit(async data => {
-    if (info.oldPassword.length && info.newPassword.length) {
+    if (imageMethods.file !== undefined) {
+      let res = await dispatch(imageUserThunk({ id, file: imageMethods.file }));
+      if (res.meta.requestStatus === "rejected") {
+        return addError({
+          type: "user",
+          description: RejectResponsesUser.editUserError + ". Произошла ошибка при загрузке фото."
+        });
+      }
+    }
+
+    if (data.newPassword.length > 7) {
+      if (!data.oldPassword.length) {
+        return addError({
+          type: "user",
+          description: RejectResponsesUser.editUserError + ". Не введён старый пароль."
+        });
+      }
+
       const res = await dispatch(
         editUserThunk({
           id,
-          fullName: data.fullName,
-          email: data.email,
-          oldPassword: data.oldPassword,
-          newPassword: data.newPassword
+          ...data
         })
       );
       if (res.meta.requestStatus === "fulfilled") return navigate(location.slice(0, location.length - 1).join("/"));
       else
         return addError({
           type: "user",
-          description: RejectResponsesUser.editUserError + " Возможно введен неверный старый пароль."
+          description: RejectResponsesUser.editUserError + ". Возможно введен неверный старый пароль."
         });
     } else {
+      // здесь вызывать модалку по подтверждению пароля, остальная логика идёт внутри модалки
+
       const res = await dispatch(editUserThunk({ id, fullName: data.fullName, email: data.email }));
-      if (res.meta.requestStatus === "fulfilled") return navigate(location.slice(0, location.length - 1).join("/"));
-      else return addError({ type: "user", description: RejectResponsesUser.editUserError });
+      if (res.meta.requestStatus === "fulfilled") {
+        if (id === userData!.id) {
+          await fetchUserThunk({ initial: false });
+        } else {
+          if (!institution.id) {
+            return addError({
+              type: "institution",
+              description: RejectResponsesInstitution.notFound
+            });
+          }
+          await searchUserThunk({ id, institution: institution.id, take: 1, skip: 0, searchVal: "" });
+        }
+        return navigate(location.slice(0, location.length - 1).join("/"));
+      } else return addError({ type: "user", description: RejectResponsesUser.editUserError });
     }
   });
 
@@ -67,12 +106,12 @@ const UserComponent: React.FC<User> = ({ email, fullName, id }) => {
           <div className={styles.wrapper}>
             <h3>Редактирование аккаунта {fullName}</h3>
             <div className={styles.wrapperEdit}>
-              <ImageElement typeImage="user" id={id}/>
+              <ImageElement {...imageMethods} />
               <div className={editStyles.editInputsWrapper}>
-                <Input {...fullNameValidation} value={info.fullName} onChange={(e: any) => setInfo({ ...info, fullName: e.target.value })} />
-                <Input {...emailValidation} value={info.email} onChange={(e: any) => setInfo({ ...info, email: e.target.value })} />
-                <Input {...oldPasswordValidation} value={info.oldPassword} onChange={(e: any) => setInfo({ ...info, oldPassword: e.target.value })} />
-                <Input {...newPasswordValidation} value={info.newPassword} onChange={(e: any) => setInfo({ ...info, newPassword: e.target.value })} />
+                <Input {...fullNameValidation} />
+                <Input {...emailValidation} />
+                <Input {...oldPasswordValidation} />
+                <Input {...newPasswordValidation} />
               </div>
             </div>
           </div>
@@ -91,9 +130,8 @@ const EditUser: React.FC = () => {
   const { data } = useAppSelector(state => state.viewUsers);
 
   const [pageUserData, setPageUserData] = useState<User | null | undefined>();
-  
+
   useEffect(() => {
-    
     if (id) {
       (async () => {
         let existing = data?.find(e => e.id === id);
