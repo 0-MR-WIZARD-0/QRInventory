@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { onlyUnique } from "helpers/redux";
-import { createItemThunk, deleteItemThunk, editItemThunk } from "redux/actions/items.actions";
+import { createItemThunk, deleteItemThunk, editItemThunk, searchItemThunk } from "redux/actions/items.actions";
 import { fetchItemsThunk } from "redux/actions/views.main.actions";
 import { Item } from "types/Item";
 import { institutionActions } from "./institution.reducer";
@@ -33,10 +33,20 @@ const ViewItemsSlice = createSlice({
       return { ...state, loading: true, error: undefined };
     });
     builder.addCase(createItemThunk.fulfilled, (state, action) => {
-      return { loading: false, data: state.data ? [...state.data, action.payload].filter(onlyUnique) : [action.payload], maxElements: state.maxElements + 1, error: undefined };
+      return {
+        loading: false,
+        data: state.data ? [...state.data, action.payload].filter(onlyUnique) : [action.payload],
+        maxElements: state.maxElements + 1,
+        error: undefined
+      };
     });
     builder.addCase(fetchItemsThunk.fulfilled, (state, action) => {
-      return { loading: false, data: state.data ? [...state.data, ...action.payload.items].filter(onlyUnique) : action.payload.items, maxElements: action.payload.total, error: undefined };
+      return {
+        loading: false,
+        data: state.data ? [...state.data, ...action.payload.items].filter(onlyUnique) : action.payload.items,
+        maxElements: action.payload.total,
+        error: undefined
+      };
     });
     builder.addCase(fetchItemsThunk.rejected, (state, action) => {
       return { ...state, loading: false, error: (action.payload as { payload: string }).payload ?? "Произошла ошибка при загрузке предметов" };
@@ -49,6 +59,18 @@ const ViewItemsSlice = createSlice({
     });
     builder.addCase(editItemThunk.fulfilled, (state, action) => {
       return { ...state, data: state.data?.filter(c => c.id !== action.meta.arg.id), error: undefined };
+    });
+
+    builder.addCase(searchItemThunk.fulfilled, (state, action) => {
+      if (Array.isArray(action.payload)) {
+        const newItems = [
+          ...action.payload,
+          ...(state.data ? state.data?.filter(di => !(action.payload as Item[]).some(pi => pi.id === di.id)) : [])
+        ];
+        return { ...state, data: newItems };
+      } else {
+        return { ...state, data: [...(state.data?.filter(di => di.id !== (action.payload as Item).id) ?? []), action.payload] };
+      }
     });
   }
 });

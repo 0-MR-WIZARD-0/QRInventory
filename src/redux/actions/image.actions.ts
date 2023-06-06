@@ -23,7 +23,7 @@ export const imageUserIdThunk = createAsyncThunk<any, { id: string; file: any }>
       const formData = new FormData();
       formData.append("file", params.file);
 
-      const res = await api.post<{ message: string }>(`/user/avatar?id=${params.id}`, formData);
+      const res = await api.post<{ message: string }>(`/user/avatar`, formData, { params: { id: params.id } });
       return fulfillWithValue(res.data);
     } catch (error) {
       return rejectWithValue(error);
@@ -38,8 +38,7 @@ export const imageItemThunk = createAsyncThunk<any, { id: string; file: any }>(
       const formData = new FormData();
       formData.append("file", params.file);
 
-      const res = await api.post<any>(`item/image?id=${params.id}`, formData);
-
+      const res = await api.post<any>(`/item/image`, formData, { params: { id: params.id } });
       return fulfillWithValue(res.data);
     } catch (error) {
       return rejectWithValue(error);

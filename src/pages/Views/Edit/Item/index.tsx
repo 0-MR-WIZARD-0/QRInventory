@@ -2,7 +2,7 @@ import { LoadingTransitionComponent } from "components/Basic/Loader";
 import { useAction, useAppSelector } from "helpers/redux";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
-import { editItemThunk, fetchItemThunk } from "redux/actions/items.actions";
+import { editItemThunk, fetchItemThunk, RejectResponsesItem } from "redux/actions/items.actions";
 import { useAppDispatch } from "redux/store";
 import { Item } from "types/Item";
 import { MainViewRoutes } from "types/Routes";
@@ -14,21 +14,56 @@ import Input from "components/Basic/Input";
 import ImageElement from "components/Complex/ImageElement";
 import editStyles from "components/Complex/Wrappers/EditPageWrapper/edit.page.wrapper.module.scss";
 import { useImage } from "helpers/hooks";
+import api from "helpers/axios";
+import { imageItemThunk } from "redux/actions/image.actions";
+import { RejectResponsesInstitution } from "redux/actions/institutions.actions";
 
-const ItemComponent: React.FC<Item> = ({ name, article, id }) => {
+const ItemComponent: React.FC<Item> = ({ name, article, id, imageId }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation().pathname.split("/");
-  const { addError } = useAction();
+  const institution = useAppSelector(state => state.institution);
+  const { addError, searchItemThunk } = useAction();
 
   const methods = useForm<{ name: string; article: string }>({ mode: "onBlur", defaultValues: { name, article } });
   const imageMethods = useImage();
 
+  useEffect(() => {
+    (async () => {
+      try {
+        if (imageId) {
+          let imageBlob = (await api.get(`/image/${imageId}`, { responseType: "blob" })).data;
+          const imageURL = URL.createObjectURL(imageBlob);
+          if (imageBlob) imageMethods.uploadImage(imageURL);
+        }
+      } catch (error) {}
+    })();
+  }, []);
+
   const onSubmit = methods.handleSubmit(async data => {
+    if (imageMethods.file !== undefined) {
+      let res = await dispatch(imageItemThunk({ id, file: imageMethods.file }));
+      if (res.meta.requestStatus === "rejected") {
+        return addError({
+          type: "user",
+          description: RejectResponsesItem.editItemError + ". Произошла ошибка при загрузке фото."
+        });
+      }
+    }
+
     if (data.article.length && data.name.length !== 0) {
       const res = await dispatch(editItemThunk({ id, ...data }));
-      if (res.meta.requestStatus === "fulfilled") return navigate(location.slice(0, location.length - 1).join("/"));
-    } else return addError({ type: "item", description: "Присутствуют незаполненные поля" });
+      if (res.meta.requestStatus === "fulfilled") {
+        if (!institution.id) {
+          return addError({
+            type: "institution",
+            description: RejectResponsesInstitution.notFound
+          });
+        }
+        await searchItemThunk({ institution: institution.id, take: 1, skip: 0, id });
+        return navigate(location.slice(0, location.length - 1).join("/"));
+      }
+    } else return addError({ type: "item", description: RejectResponsesItem.editItemError });
   });
 
   return (
