@@ -21,15 +21,10 @@
 
     img,
     div {
-    // height: 218px, 
-    //  object-fit: contain,
-    // height: 218px;
-    // object-fit: contain;
-
       width: 100%;
       border-radius: 20px !important;
+      object-fit: cover;
     }
-    
 
     button {
       margin-top: 6px;

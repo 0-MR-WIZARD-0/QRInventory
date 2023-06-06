@@ -5,11 +5,69 @@
     width: 218px;
     height: 218px;
     position: relative;
+    isolation: isolate;
 
     img {
       border-radius: 20px;
       width: 100%;
       height: 100%;
+    }
+
+    .inputsWrapper {
+      position: absolute;
+
+      width: 100%;
+      height: 100%;
+
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+
+      mix-blend-mode: difference;
+
+      & > * {
+        position: relative;
+      }
+
+      label {
+        width: 30px;
+
+        input {
+          display: none;
+        }
+      }
+
+      // opacity: 0;
+
+      button {
+        background-color: transparent;
+        padding: none;
+        border: none;
+      }
+
+      i {
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        opacity: 0.7;
+        background-color: $white-p50;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+
+    &:hover {
+      .inputsWrapper {
+        transition: all 0.1s;
+        opacity: 1;
+      }
     }
   }
 
@@ -17,6 +75,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
     width: 218px;
     height: 218px;
     border: 4px dashed $gray-100;
@@ -24,21 +83,27 @@
     position: relative;
 
     i {
-      flex: 1;
+      flex: 0.725;
       background-color: $gray-100;
       display: flex;
-      width: 100%;
+      width: 50%;
     }
 
     label {
-      flex: 0;
-      margin: 10px 0;
       display: flex;
+      padding: 10px 0;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      height: 100%;
+      justify-content: flex-end;
       cursor: pointer;
+
+      position: absolute;
+      width: 100%;
+      height: 100%;
+
+      input[type="file"] {
+        display: none;
+      }
     }
 
     h5 {
@@ -50,18 +115,4 @@
       font-size: 14px;
     }
   }
-}
-
-input[type="file"] {
-  outline: 0;
-  opacity: 0;
-
-  width: calc(100% + 8px);
-  height: calc(100% + 8px);
-  height: 218px;
-  position: absolute;
-  left: -4px;
-  top: -4px;
-  border-radius: 20px;
-  cursor: pointer;
 }

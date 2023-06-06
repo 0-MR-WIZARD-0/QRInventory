@@ -4,21 +4,17 @@ import { BackendError } from "types/App";
 import { Institution } from "types/Institution";
 
 export enum RejectResponsesInstitution {
-  createInstitutionError = "Произошла ошибка при создании учреждения. Обратитесь к администратору!",
+  createInstitutionError = "Произошла ошибка при создании учреждения.",
+  notFound = "Учреждение не найдено."
 }
 
 export const createInstitutionThunk = createAsyncThunk<any, { name: string }>(
   "item/create",
   async (params, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const res = await api.post<any, { data: Institution | BackendError }>(
-        "/institution/create", 
-        {name: params.name});
+      const res = await api.post<any, { data: Institution | BackendError }>("/institution/create", { name: params.name });
       if (!res || !(res.data as Institution)?.id)
-        throw new Error(
-          (res.data as BackendError)?.description ??
-            RejectResponsesInstitution.createInstitutionError
-        );
+        throw new Error((res.data as BackendError)?.description ?? RejectResponsesInstitution.createInstitutionError);
 
       return fulfillWithValue(res.data);
     } catch (error) {

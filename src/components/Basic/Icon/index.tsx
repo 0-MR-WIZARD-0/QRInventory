@@ -5,7 +5,9 @@ enum AvailableIcons {
   "profile",
   "image",
   "eye-password-hide",
-  "eye-password-show"
+  "eye-password-show",
+  "remove-circle-cross",
+  "upload"
 }
 
 type IconProps = {

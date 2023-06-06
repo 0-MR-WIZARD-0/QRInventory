@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { onlyUnique } from "helpers/redux";
-import { createUserThunk, deleteUserThunk, editUserThunk } from "redux/actions/users.actions";
+import { createUserThunk, deleteUserThunk, editUserThunk, searchUserThunk } from "redux/actions/users.actions";
 import { fetchUsersThunk } from "redux/actions/views.main.actions";
 import { User } from "types/User";
 import { institutionActions } from "./institution.reducer";
@@ -33,10 +33,20 @@ const ViewUsersSlice = createSlice({
       return { ...state, loading: true, error: undefined };
     });
     builder.addCase(createUserThunk.fulfilled, (state, action) => {
-      return { loading: false, data: state.data ? [...state.data, action.payload].filter(onlyUnique) : [action.payload], maxElements: state.maxElements + 1, error: undefined };
+      return {
+        loading: false,
+        data: state.data ? [...state.data, action.payload].filter(onlyUnique) : [action.payload],
+        maxElements: state.maxElements + 1,
+        error: undefined
+      };
     });
     builder.addCase(fetchUsersThunk.fulfilled, (state, action) => {
-      return { loading: false, data: state.data ? [...state.data, ...action.payload.users].filter(onlyUnique) : action.payload.users, maxElements: action.payload.total, error: undefined };
+      return {
+        loading: false,
+        data: state.data ? [...state.data, ...action.payload.users].filter(onlyUnique) : action.payload.users,
+        maxElements: action.payload.total,
+        error: undefined
+      };
     });
     builder.addCase(fetchUsersThunk.rejected, (state, action) => {
       return { ...state, loading: false, error: (action.payload as { payload: string }).payload ?? "Произошла ошибка при загрузке пользователей" };
@@ -49,6 +59,18 @@ const ViewUsersSlice = createSlice({
     });
     builder.addCase(editUserThunk.fulfilled, (state, action) => {
       return { ...state, data: state.data?.filter(c => c.id !== action.meta.arg.id), error: undefined };
+    });
+
+    builder.addCase(searchUserThunk.fulfilled, (state, action) => {
+      if (Array.isArray(action.payload)) {
+        const newUsers = [
+          ...action.payload,
+          ...(state.data ? state.data?.filter(du => !(action.payload as User[]).some(pu => pu.id === du.id)) : [])
+        ];
+        return { ...state, data: newUsers };
+      } else {
+        return { ...state, data: [...(state.data?.filter(du => du.id !== (action.payload as User).id) ?? []), action.payload] };
+      }
     });
   }
 });

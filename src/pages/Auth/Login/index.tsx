@@ -25,15 +25,15 @@ const Login = () => {
 
   return (
     <FormProvider {...methods}>
-      <Scenario ref={authResetModalRef} modalName='auth-reset' script={AuthResetScript}/>
+      <Scenario ref={authResetModalRef} modalName='auth-reset' script={AuthResetScript} />
       <main style={{ marginTop: "15px" }}>
         <div className={styles.containerWrapper}>
           <div className={styles.container}>
             <h2>Авторизация</h2>
             <p>Для продолжения необходимо ввести данные аккаунта</p>
             <form action='' method='post' className={styles.form}>
-              <Input {...emailValidation}/>
-              <Input {...passwordValidation}/>
+              <Input {...emailValidation} />
+              <Input {...passwordValidation} />
               <DefaultButton component={<div>продолжить</div>} onSumbit={onSubmit} />
               <Link to={""} onClick={() => authResetModalRef.current?.createModal()}>
                 Забыл(а) пароль
