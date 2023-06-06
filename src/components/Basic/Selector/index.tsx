@@ -10,7 +10,8 @@ type SelectorProps = {
   userData: User;
 };
 
-const Selector: React.FC<SelectorProps> = ({ userData }) => {
+const Selector: React.FC<SelectorProps> = () => {
+  const { data } = useAppSelector(state => state.viewInstitutions);
   const formatInstitutions = (institutions: Institution[]): Organization[] => {
     return institutions.map(i => ({ value: i.id, label: i.name }));
   };
@@ -20,9 +21,13 @@ const Selector: React.FC<SelectorProps> = ({ userData }) => {
 
   return (
     <Select
-      onChange={e => setInstitution(userData.institutions.find(i => i.id === e?.value))}
+      onChange={e => {
+        if (e?.value !== institution.id) {
+          setInstitution((data ?? []).find(i => i.id === e?.value));
+        }
+      }}
       value={formatInstitutions([institution as Institution])}
-      options={formatInstitutions(userData.institutions)}
+      options={formatInstitutions(data ?? [])}
       noOptionsMessage={() => <div>{SelectMessages.noOptions}</div>}
       isSearchable={true}
       placeholder={SelectMessages.placholder}

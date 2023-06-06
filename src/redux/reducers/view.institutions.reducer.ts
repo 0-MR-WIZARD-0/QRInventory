@@ -32,10 +32,22 @@ const ViewInstitutionsSlice = createSlice({
       return { ...state, loading: true, error: undefined };
     });
     builder.addCase(createInstitutionThunk.fulfilled, (state, action) => {
-      return { loading: false, data: state.data ? [...state.data, action.payload].filter(onlyUnique) : [action.payload], maxElements: state.maxElements + 1, error: undefined };
+      console.log(action.payload);
+      console.log(state.data, action.payload);
+      return {
+        loading: false,
+        data: state.data && state.data.length > 0 ? [...state.data, action.payload].filter(onlyUnique) : [action.payload],
+        maxElements: state.maxElements + 1,
+        error: undefined
+      };
     });
     builder.addCase(fetchInstitutionsThunk.fulfilled, (state, action) => {
-      return { loading: false, data: state.data ? [...state.data, ...action.payload.institutions].filter(onlyUnique) : action.payload.institutions, maxElements: action.payload.total, error: undefined };
+      return {
+        loading: false,
+        data: state.data ? [...state.data, ...action.payload.institutions].filter(onlyUnique) : action.payload.institutions,
+        maxElements: action.payload.total,
+        error: undefined
+      };
     });
     builder.addCase(fetchInstitutionsThunk.rejected, (state, action) => {
       return { ...state, loading: false, error: (action.payload as { payload: string }).payload ?? "Произошла ошибка при загрузке учреждений" };
