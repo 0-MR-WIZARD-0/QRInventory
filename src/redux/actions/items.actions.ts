@@ -43,7 +43,7 @@ export const editItemThunk = createAsyncThunk<Item, { id: string; article?: stri
   async (params, { rejectWithValue, fulfillWithValue }) => {
     try {
       const res = await api.patch<any, { data: Item | BackendError | undefined }>("/item/edit", { ...params });
-      if (!res || !(res.data as Item)?.id) throw new Error((res.data as BackendError)?.description ?? RejectResponsesItem.editItemError);
+      if (!res) throw new Error(RejectResponsesItem.editItemError);
       return fulfillWithValue(res.data as Item);
     } catch (error) {
       return rejectWithValue(error);
@@ -54,7 +54,7 @@ export const editItemThunk = createAsyncThunk<Item, { id: string; article?: stri
 export const deleteItemThunk = createAsyncThunk<Item, { id: string }>("item/delete", async (params, { rejectWithValue, fulfillWithValue }) => {
   try {
     const res = await api.delete<any, { data: Item | BackendError | undefined }>(`/item/${params.id}`);
-    if (!res || !(res.data as Item)?.id) throw new Error((res.data as BackendError)?.description ?? RejectResponsesItem.deleteItemError);
+    if (!res) throw new Error(RejectResponsesItem.deleteItemError);
     return fulfillWithValue(res.data as Item);
   } catch (error) {
     return rejectWithValue(error);

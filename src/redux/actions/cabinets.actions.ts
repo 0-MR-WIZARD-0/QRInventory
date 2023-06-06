@@ -44,7 +44,7 @@ export const editCabinetThunk = createAsyncThunk<Cabinet, { id: string; cabinetN
   async (params, { rejectWithValue, fulfillWithValue }) => {
     try {
       const res = await api.patch<any, { data: Cabinet | BackendError | undefined }>("/cabinet/edit", { ...params });
-      if (!res || !(res.data as Cabinet)?.id) throw new Error((res.data as BackendError)?.description ?? RejectResponsesCabinet.editCabinetError);
+      if (!res) throw new Error(RejectResponsesCabinet.editCabinetError);
       return fulfillWithValue(res.data as Cabinet);
     } catch (error) {
       return rejectWithValue(error);
@@ -55,7 +55,7 @@ export const editCabinetThunk = createAsyncThunk<Cabinet, { id: string; cabinetN
 export const deleteCabinetThunk = createAsyncThunk<any, { id: string }>("cabinet/delete", async (params, { rejectWithValue, fulfillWithValue }) => {
   try {
     const res = await api.delete<any, { data: Cabinet | BackendError | undefined }>(`/cabinet/${params.id}`);
-    if (!res || !(res.data as Cabinet)?.id) throw new Error((res.data as BackendError)?.description ?? RejectResponsesCabinet.deleteCabinetError);
+    if (!res) throw new Error(RejectResponsesCabinet.deleteCabinetError);
     return fulfillWithValue(res.data);
   } catch (error) {
     return rejectWithValue(error);

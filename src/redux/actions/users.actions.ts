@@ -1,4 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { AxiosResponse } from "axios";
 import api from "helpers/axios";
 import { BackendError } from "types/App";
 import { User } from "types/User";
@@ -44,7 +45,7 @@ export const editUserThunk = createAsyncThunk<any, { id: string; fullName: strin
   async (params, { dispatch, rejectWithValue, fulfillWithValue }) => {
     try {
       const res = await api.patch<any, { data: User | BackendError | undefined }>(`/user/edit?id=${params.id}`, { ...params });
-      if (!res || !(res.data as User)?.id) throw new Error((res.data as BackendError)?.description ?? RejectResponsesUser.editUserError);
+      if (!res) throw new Error(RejectResponsesUser.editUserError);
       return fulfillWithValue(res.data);
     } catch (error) {
       return rejectWithValue(error);
@@ -54,8 +55,8 @@ export const editUserThunk = createAsyncThunk<any, { id: string; fullName: strin
 
 export const deleteUserThunk = createAsyncThunk<any, { id: string }>("user/delete", async (params, { rejectWithValue, fulfillWithValue }) => {
   try {
-    const res = await api.delete<any, { data: User | BackendError | undefined }>(`/user/${params.id}`);
-    if (!res || !(res.data as User)?.id) throw new Error((res.data as BackendError)?.description ?? RejectResponsesUser.deleteUserError);
+    const res = await api.delete<User | BackendError>(`/user/${params.id}`);
+    if (!res) throw new Error(RejectResponsesUser.deleteUserError);
     return fulfillWithValue(res.data);
   } catch (error) {
     return rejectWithValue(error);
