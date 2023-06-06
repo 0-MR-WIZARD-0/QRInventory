@@ -71,8 +71,20 @@ const UserComponent: React.FC<User> = ({ email, fullName, id, avatarId }) => {
           ...data
         })
       );
-      if (res.meta.requestStatus === "fulfilled") return navigate(location.slice(0, location.length - 1).join("/"));
-      else
+      if (res.meta.requestStatus === "fulfilled") {
+        if (id === userData!.id) {
+          await fetchUserThunk({ initial: false });
+        } else {
+          if (!institution.id) {
+            return addError({
+              type: "institution",
+              description: RejectResponsesInstitution.notFound
+            });
+          }
+          await searchUserThunk({ id, institution: institution.id, take: 1, skip: 0, searchVal: "" });
+        }
+        return navigate(location.slice(0, location.length - 1).join("/"));
+      } else
         return addError({
           type: "user",
           description: RejectResponsesUser.editUserError + ". Возможно введен неверный старый пароль."
