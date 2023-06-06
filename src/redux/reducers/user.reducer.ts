@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
+import { onlyUnique } from "helpers/redux";
 import { fetchUserThunk, loginUserThunk, logoutUserThunk } from "redux/actions/auth.actions";
+import { createInstitutionThunk } from "redux/actions/institutions.actions";
 import { BackendError } from "types/App";
 import { FulfilledAction, PendingAction, RejectedAction } from "types/Redux";
 import { User } from "types/User";
@@ -37,6 +39,18 @@ const UserSlice = createSlice({
     }
   },
   extraReducers: builder => {
+    builder.addCase(createInstitutionThunk.fulfilled, (state, action) => {
+      return {
+        ...state,
+        userData: {
+          ...state.userData!,
+          institutions:
+            state.userData?.institutions && state.userData?.institutions.length > 0
+              ? [...state.userData.institutions, action.payload].filter(onlyUnique)
+              : [action.payload]
+        }
+      };
+    });
     builder.addMatcher(
       (action: FulfilledAction) => [fetchUserThunk.fulfilled.toString(), loginUserThunk.fulfilled.toString()].indexOf(action.type) > -1,
       (state, action) => {
@@ -50,7 +64,6 @@ const UserSlice = createSlice({
         return { ...state, userData: action.payload, loading: false, error: undefined };
       }
     );
-
     builder.addMatcher(
       (action: RejectedAction) =>
         [

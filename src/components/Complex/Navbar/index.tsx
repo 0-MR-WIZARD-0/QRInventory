@@ -10,8 +10,10 @@ const Navbar = () => {
 
   return (
     <nav className={styles.navbar}>
-      <ProtectedComponent component={<MenuBar barOptions={roledMenuBarOptions[userData!.role as unknown as keyof RoledMenuBarOptions]} optionAsNavlink />} />
-      <ProtectedComponent component={<Selector userData={userData!} />} roles={[Roles.admin]} />
+      <ProtectedComponent
+        component={<MenuBar barOptions={roledMenuBarOptions[userData!.role as unknown as keyof RoledMenuBarOptions]} optionAsNavlink />}
+      />
+      <ProtectedComponent component={<Selector />} roles={[Roles.admin]} />
     </nav>
   );
 };

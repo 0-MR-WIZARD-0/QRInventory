@@ -6,12 +6,8 @@ import { User } from "types/User";
 import { Institution } from "types/Institution";
 import { useAction, useAppSelector } from "helpers/redux";
 
-type SelectorProps = {
-  userData: User;
-};
-
-const Selector: React.FC<SelectorProps> = () => {
-  const { data } = useAppSelector(state => state.viewInstitutions);
+const Selector: React.FC = () => {
+  const { userData } = useAppSelector(state => state.user);
   const formatInstitutions = (institutions: Institution[]): Organization[] => {
     return institutions.map(i => ({ value: i.id, label: i.name }));
   };
@@ -19,15 +15,17 @@ const Selector: React.FC<SelectorProps> = () => {
   const { setInstitution } = useAction();
   const institution = useAppSelector(state => state.institution);
 
+  if (!userData) return <></>;
+
   return (
     <Select
       onChange={e => {
         if (e?.value !== institution.id) {
-          setInstitution((data ?? []).find(i => i.id === e?.value));
+          setInstitution(userData.institutions.find(i => i.id === e?.value));
         }
       }}
       value={formatInstitutions([institution as Institution])}
-      options={formatInstitutions(data ?? [])}
+      options={formatInstitutions(userData.institutions)}
       noOptionsMessage={() => <div>{SelectMessages.noOptions}</div>}
       isSearchable={true}
       placeholder={SelectMessages.placholder}
