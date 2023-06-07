@@ -36,7 +36,15 @@ const ViewUser: React.FC<ViewUserProps> = ({ navigate, user, lastElementRef }) =
       onClick={() => {
         navigate(`${usersViewPath}/${user.id}`);
       }}>
-      <div className={styles.img}>{user.avatarId && inView ? <img src={`/image/${user.avatarId}`} alt={user.fullName} draggable={false} /> : inView ? <Icon icon='image' /> : <></>}</div>
+      <div className={styles.img}>
+        {user.avatarId && inView ? (
+          <img src={`${process.env.REACT_APP_API_HOST}/image/${user.avatarId}`} alt={user.fullName} draggable={false} />
+        ) : inView ? (
+          <Icon icon='image' />
+        ) : (
+          <></>
+        )}
+      </div>
       <h3>{user.fullName}</h3>
       <ProtectedComponent
         component={
@@ -92,8 +100,24 @@ const ViewUsers: React.FC = () => {
     <>
       <Scenario ref={createUserModalRef} modalName='create-user' script={CreateUserScript} />
       <ViewsWrapper
-        addNewButton={<ProtectedComponent component={<AddNewButton onClick={() => createUserModalRef.current?.createModal()} title='Добавить нового учителя +' />} roles={[Roles.admin]} />}
-        children={data ? data.map((user, i) => <ViewUser key={user.id} user={user} navigate={navigate} lastElementRef={error ? undefined : i === data.length - 1 ? lastItemRef : undefined} />) : undefined}
+        addNewButton={
+          <ProtectedComponent
+            component={<AddNewButton onClick={() => createUserModalRef.current?.createModal()} title='Добавить нового учителя +' />}
+            roles={[Roles.admin]}
+          />
+        }
+        children={
+          data
+            ? data.map((user, i) => (
+                <ViewUser
+                  key={user.id}
+                  user={user}
+                  navigate={navigate}
+                  lastElementRef={error ? undefined : i === data.length - 1 ? lastItemRef : undefined}
+                />
+              ))
+            : undefined
+        }
         loading={loading}
         error={error}
       />

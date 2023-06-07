@@ -8,7 +8,6 @@ import viewItemsReducer, { viewItemsActions } from "./reducers/view.items.reduce
 import userReducer, { userActions } from "./reducers/user.reducer";
 import viewInstitutionsReducer, { viewInstitutionsActions } from "./reducers/view.institutions.reducer";
 import errorsReducer, { errorActions } from "./reducers/errors.reducer";
-import imageReducer from "./reducers/image.reducer";
 import { searchUserThunk } from "./actions/users.actions";
 import { searchItemThunk } from "./actions/items.actions";
 
@@ -16,7 +15,6 @@ export const rootReducer = combineReducers({
   user: userReducer,
   institution: institutionReducer,
   errors: errorsReducer,
-  image: imageReducer,
 
   viewUsers: viewUsersReducer,
   viewCabinets: viewCabinetsReducer,

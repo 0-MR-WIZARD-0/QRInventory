@@ -38,7 +38,20 @@ const ViewItem: React.FC<ViewItemProps> = ({ navigate, item, lastElementRef }) =
       onClick={() => {
         navigate(`${itemViewPath}/${item.id}`);
       }}>
-      <div className={styles.img}>{item.imageId && inView ? <img style={{height: "218px", width: "100%", objectFit: "contain"}} src={`/image/${item.imageId}`} alt={item.article} draggable={false} /> : inView ? <Icon icon='image' /> : <></>}</div>
+      <div className={styles.img}>
+        {item.imageId && inView ? (
+          <img
+            style={{ height: "218px", width: "100%", objectFit: "contain" }}
+            src={`${process.env.REACT_APP_API_HOST}/image/${item.imageId}`}
+            alt={item.article}
+            draggable={false}
+          />
+        ) : inView ? (
+          <Icon icon='image' />
+        ) : (
+          <></>
+        )}
+      </div>
       <h3>{item.name}</h3>
       <div className={styles.info}>
         <p>Артикул: {item.article}</p>
@@ -57,7 +70,6 @@ const ViewItems: React.FC = () => {
 
   const fetchData = () => {
     if (data === undefined || (data.length < paginationSettings.perPage * page && data.length < maxElements)) {
-      
       return fetchItemsThunk({ page, perPage: paginationSettings.perPage });
     }
   };
@@ -71,7 +83,7 @@ const ViewItems: React.FC = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOnline]);
-  
+
   useEffect(() => {
     setPage(1);
   }, [institution.id]);
@@ -90,8 +102,24 @@ const ViewItems: React.FC = () => {
     <>
       <Scenario ref={createItemModalRef} modalName='create-item' script={CreateItemScript} />
       <ViewsWrapper
-        addNewButton={<ProtectedComponent component={<AddNewButton onClick={() => createItemModalRef.current?.createModal()} title='Добавить новый предмет +' />} roles={[Roles.admin, Roles.teacher]} />}
-        children={data ? data.map((item, i) => <ViewItem key={item.id} item={item} navigate={navigate} lastElementRef={error ? undefined : i === data.length - 1 ? lastItemRef : undefined} />) : undefined}
+        addNewButton={
+          <ProtectedComponent
+            component={<AddNewButton onClick={() => createItemModalRef.current?.createModal()} title='Добавить новый предмет +' />}
+            roles={[Roles.admin, Roles.teacher]}
+          />
+        }
+        children={
+          data
+            ? data.map((item, i) => (
+                <ViewItem
+                  key={item.id}
+                  item={item}
+                  navigate={navigate}
+                  lastElementRef={error ? undefined : i === data.length - 1 ? lastItemRef : undefined}
+                />
+              ))
+            : undefined
+        }
         loading={loading}
         error={error}
       />
