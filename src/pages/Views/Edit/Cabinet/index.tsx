@@ -21,6 +21,7 @@ import { searchUserThunk } from "redux/actions/users.actions";
 import debounce from "lodash.debounce";
 import { formatItemsJSX, formatTeachersJSX, PreviewItem, PreviewUser } from "components/Complex/DropList/Catrgorized/categorized";
 import { useObserver } from "helpers/hooks";
+import { compareObjects, filterObjects } from "helpers/functions";
 
 const teacherPerPage = 4;
 const itemPerPage = 4;
@@ -177,13 +178,22 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
                     onChange={onSearch}
                     observerRef={teacherDropdownRef}
                     options={formatTeachersJSX(
-                      [
-                        ...(searchDropDownState.user ?? []).data.map(
-                          (sddsu, i, arr) =>
-                            ({ ...sddsu, existing: false, lastElementRef: i === arr.length - 1 ? lastTeacherRef : undefined } as PreviewUser)
-                        ),
+                      filterObjects<PreviewUser>([
+                        ...(searchDropDownState.user ?? []).data.map((sddsu, i, arr) => {
+                          return { ...sddsu, existing: false } as PreviewUser;
+                        }),
                         ...(dropDownState.user ?? []).map(ddsu => ({ ...ddsu, existing: true } as PreviewUser))
-                      ],
+                      ])
+                        .sort(compareObjects)
+                        .map((el, i, arr) => {
+                          if (!el.existing) {
+                            if ((arr[i + 1] === undefined && arr.length === i + 1) || arr[i + 1].existing === true) {
+                              return { ...el, lastElementRef: lastItemRef };
+                            } else return { ...el, lastElementRef: undefined };
+                          } else {
+                            return { ...el, lastElementRef: undefined };
+                          }
+                        }),
                       true,
                       changeUsers
                     )}
@@ -201,13 +211,20 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
                 onChange={onSearch}
                 observerRef={itemDropdownRef}
                 options={formatItemsJSX(
-                  [
-                    ...(searchDropDownState.item ?? []).data.map(
-                      (sddsi, i, arr) =>
-                        ({ ...sddsi, existing: false, lastElementRef: i === arr.length - 1 ? lastItemRef : undefined } as PreviewItem)
-                    ),
+                  filterObjects<PreviewItem>([
+                    ...(searchDropDownState.item ?? []).data.map((sddsi, i, arr) => ({ ...sddsi, existing: false } as PreviewItem)),
                     ...(dropDownState.item ?? []).map(ddsi => ({ ...ddsi, existing: true } as PreviewItem))
-                  ],
+                  ])
+                    .sort(compareObjects)
+                    .map((el, i, arr) => {
+                      if (!el.existing) {
+                        if ((arr[i + 1] === undefined && arr.length === i + 1) || arr[i + 1].existing === true) {
+                          return { ...el, lastElementRef: lastItemRef };
+                        } else return { ...el, lastElementRef: undefined };
+                      } else {
+                        return { ...el, lastElementRef: undefined };
+                      }
+                    }),
                   true,
                   changeItem
                 )}
