@@ -93,8 +93,24 @@ const ViewCabinets: React.FC = () => {
     <>
       <Scenario ref={createCabinetModalRef} modalName='create-cabinet' script={CreateCabinetScript} />
       <ViewsWrapper
-        addNewButton={<ProtectedComponent component={<AddNewButton onClick={() => createCabinetModalRef.current?.createModal()} title='Добавить новый кабинет +' />} roles={[Roles.admin, Roles.teacher]} />}
-        children={data ? data.map((cabinet, i) => <ViewCabinet key={cabinet.id} cabinet={cabinet} navigate={navigate} lastElementRef={error ? undefined : i === data.length - 1 ? lastItemRef : undefined} />) : undefined}
+        addNewButton={
+          <ProtectedComponent
+            component={<AddNewButton onClick={() => createCabinetModalRef.current?.createModal()} title='Добавить новый кабинет +' />}
+            roles={[Roles.admin, Roles.teacher]}
+          />
+        }
+        children={
+          data
+            ? data.map((cabinet, i) => (
+                <ViewCabinet
+                  key={cabinet.id}
+                  cabinet={cabinet}
+                  navigate={navigate}
+                  lastElementRef={error ? undefined : i === data.length - 1 ? lastItemRef : undefined}
+                />
+              ))
+            : undefined
+        }
         loading={loading}
         error={error}
       />

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { onlyUnique } from "helpers/redux";
-import { createCabinetThunk, deleteCabinetThunk } from "redux/actions/cabinets.actions";
+import { createCabinetThunk, deleteCabinetThunk, editCabinetThunk } from "redux/actions/cabinets.actions";
 import { fetchCabinetsThunk } from "redux/actions/views.main.actions";
 import { Cabinet } from "types/Cabinet";
 import { institutionActions } from "./institution.reducer";
@@ -33,10 +33,20 @@ const ViewCabinetsSlice = createSlice({
       return { ...state, loading: true, error: undefined };
     });
     builder.addCase(createCabinetThunk.fulfilled, (state, action) => {
-      return { loading: false, data: state.data ? [...state.data, action.payload].filter(onlyUnique) : [action.payload], maxElements: state.maxElements + 1, error: undefined };
+      return {
+        loading: false,
+        data: state.data ? [...state.data, action.payload].filter(onlyUnique) : [action.payload],
+        maxElements: state.maxElements + 1,
+        error: undefined
+      };
     });
     builder.addCase(fetchCabinetsThunk.fulfilled, (state, action) => {
-      return { loading: false, data: state.data ? [...state.data, ...action.payload.cabinets].filter(onlyUnique) : action.payload.cabinets, maxElements: action.payload.total, error: undefined };
+      return {
+        loading: false,
+        data: state.data ? [...state.data, ...action.payload.cabinets].filter(onlyUnique) : action.payload.cabinets,
+        maxElements: action.payload.total,
+        error: undefined
+      };
     });
     builder.addCase(fetchCabinetsThunk.rejected, (state, action) => {
       return { ...state, loading: false, error: (action.payload as { payload: string }).payload ?? "Произошла ошибка при загрузке кабинетов" };
@@ -46,6 +56,9 @@ const ViewCabinetsSlice = createSlice({
     });
     builder.addCase(deleteCabinetThunk.fulfilled, (state, action) => {
       return { ...state, data: state.data?.filter(c => c.id !== action.meta.arg.id), error: undefined };
+    });
+    builder.addCase(editCabinetThunk.fulfilled, (state, action) => {
+      return { ...state, data: undefined, loading: true, error: undefined };
     });
   }
 });
