@@ -19,7 +19,7 @@ import Input from "components/Basic/Input";
 import { searchItemThunk } from "redux/actions/items.actions";
 import { searchUserThunk } from "redux/actions/users.actions";
 import debounce from "lodash.debounce";
-import { formatItemsJSX, formatTeachersJSX, PreviewItem, PreviewUser } from "components/Complex/DropList/Catrgorized/categorized";
+import { formatItemsJSX, formatTeachersJSX, PreviewItem, PreviewUser } from "components/Complex/DropList/Categorized/categorized";
 import { useObserver } from "helpers/hooks";
 import { compareObjects, filterObjects } from "helpers/functions";
 
@@ -34,6 +34,7 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
   const { userData } = useAppSelector(state => state.user);
   useEffect(() => {
     if (userData && userData.role === Roles.teacher && !teachers.some(t => t.id === userData.id)) return navigate(RoutesEnum.main);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData]);
 
   // здесь уже добавленные, сюда добавлять новых учителей/предметы для изменения в БД

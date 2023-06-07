@@ -1,0 +1,62 @@
+@import "styles/colors.scss";
+
+.dropdownElement {
+
+  .wrapper{
+    display: flex;
+    column-gap: 15px;
+    height: 70px;
+    &Img{
+      height: 70px;
+      width: 70px;
+    }
+  }
+
+  button{
+    border: 2px solid $black;
+    border-radius:10px;
+    padding: 5px;
+    width: 100%;
+    background: none !important;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+
+  i {
+    width: 100%;
+    height: 100%;
+    background-color: $black-p50;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    row-gap: 5px;
+
+    .title {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .info {
+      font-size: 14px;
+    }
+
+    &>h4{
+      text-align: initial;
+    }
+  }
+
+  img {
+    border-radius: 10px;
+    height: 100%;
+    width: 70px;
+  }
+}
+
+hr{
+  border: 1px solid $black;
+}
