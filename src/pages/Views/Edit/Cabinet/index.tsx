@@ -188,7 +188,7 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
                         .map((el, i, arr) => {
                           if (!el.existing) {
                             if ((arr[i + 1] === undefined && arr.length === i + 1) || arr[i + 1].existing === true) {
-                              return { ...el, lastElementRef: lastItemRef };
+                              return { ...el, lastElementRef: lastTeacherRef };
                             } else return { ...el, lastElementRef: undefined };
                           } else {
                             return { ...el, lastElementRef: undefined };
