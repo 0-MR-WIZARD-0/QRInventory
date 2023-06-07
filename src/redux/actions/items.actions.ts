@@ -69,7 +69,7 @@ export const searchItemThunk = createAsyncThunk<Item[] | Item, { institution: st
       const res = await api.get<any, { data: { items: Item[] } | Item | BackendError | undefined }>(`/item`, { params: { ...params } });
       if (!res || res.data === undefined) throw new Error((res.data as BackendError)?.description ?? RejectResponsesItem.fetchItemsError);
       // немного косячно с типами
-      if (Array.isArray(res.data)) {
+      if (Array.isArray((res.data as { items: Item[] })?.items)) {
         return fulfillWithValue((res.data as { items: Item[] }).items);
       } else {
         return fulfillWithValue(res.data as Item);

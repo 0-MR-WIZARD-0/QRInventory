@@ -67,7 +67,7 @@ const ViewItemsSlice = createSlice({
           ...action.payload,
           ...(state.data ? state.data?.filter(di => !(action.payload as Item[]).some(pi => pi.id === di.id)) : [])
         ];
-        return { ...state, data: newItems };
+        return { ...state, data: newItems, loading: false };
       } else {
         return { ...state, data: [...(state.data?.filter(di => di.id !== (action.payload as Item).id) ?? []), action.payload] };
       }

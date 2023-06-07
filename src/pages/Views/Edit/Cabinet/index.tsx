@@ -1,6 +1,6 @@
 import styles from "./view.edit.cabinet.module.scss";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Cabinet } from "types/Cabinet";
 import { useAppDispatch } from "redux/store";
 import { useAppSelector } from "helpers/redux";
@@ -8,7 +8,7 @@ import { MainViewRoutes, RoutesEnum } from "types/Routes";
 import { editCabinetThunk, fetchCabinetThunk } from "redux/actions/cabinets.actions";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
 import ProtectedComponent from "components/Protected/Component";
-import { Roles } from "types/User";
+import { Roles, User } from "types/User";
 import EditPageWrapper from "components/Complex/Wrappers/EditPageWrapper";
 import DropList from "components/Complex/DropList";
 import { Teacher } from "types/Teacher";
@@ -19,6 +19,11 @@ import Input from "components/Basic/Input";
 import { searchItemThunk } from "redux/actions/items.actions";
 import { searchUserThunk } from "redux/actions/users.actions";
 import debounce from "lodash.debounce";
+import { formatItemsJSX, formatTeachersJSX, PreviewItem, PreviewUser } from "components/Complex/DropList/Catrgorized/categorized";
+import { useObserver } from "helpers/hooks";
+
+const teacherPerPage = 4;
+const itemPerPage = 4;
 
 const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teachers }) => {
   const navigate = useNavigate();
@@ -32,9 +37,84 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
 
   // здесь уже добавленные, сюда добавлять новых учителей/предметы для изменения в БД
   const [dropDownState, setDropDownState] = useState<{ user: Teacher[]; item: Item[] }>({ user: teachers, item: items });
-  const onChangeDownState = () => setDropDownState(dds => ({ ...dds }));
+  const changeUsers = (user: PreviewUser, add: boolean) =>
+    setDropDownState(dds => ({ ...dds, user: add ? [...dds.user, user] : dds.user.filter(ddu => ddu.id !== user.id) }));
+  const changeItem = (item: PreviewItem, add: boolean) =>
+    setDropDownState(dds => ({ ...dds, item: add ? [...dds.item, item] : dds.item.filter(ddi => ddi.id !== item.id) }));
   // здесь данные поиска
-  const [searchDropDownState, setSearchDropDownState] = useState<{ user: Teacher[]; item: Item[] }>({ user: [], item: [] });
+  type SearchDropDown = {
+    user: { data: Teacher[]; page: number; searchVal: string };
+    item: { data: Item[]; page: number; searchVal: string };
+  };
+  const [searchDropDownState, setSearchDropDownState] = useState<SearchDropDown>({
+    user: { data: [], page: 0, searchVal: "" },
+    item: { data: [], page: 0, searchVal: "" }
+  });
+
+  const onLastTeacherView = async (entires: IntersectionObserverEntry[]) => {
+    if (searchDropDownState.user.page === -1) return;
+    else {
+      try {
+        if (entires[0].isIntersecting) {
+          if (!institution.id) throw new Error("Учреждение не выбрано, (id empty) developer-related issue");
+          let res = await dispatch(
+            searchUserThunk({
+              searchVal: searchDropDownState.user.searchVal,
+              institution: institution.id,
+              skip: searchDropDownState.user.page * teacherPerPage,
+              take: teacherPerPage
+            })
+          );
+
+          if ((res.payload as User[]).length === 0) {
+            throw new Error("Учителя закончились");
+          }
+
+          setSearchDropDownState(sdds => ({
+            ...sdds,
+            user: { ...sdds.user, data: [...sdds.user.data, ...(res.payload as User[])], page: sdds.user.page + 1 }
+          }));
+        }
+      } catch (error) {
+        setSearchDropDownState(sdds => ({ ...sdds, user: { ...sdds.user, page: -1 } }));
+      }
+    }
+  };
+  const onLastItemView = async (entires: IntersectionObserverEntry[]) => {
+    if (searchDropDownState.item.page === -1) return;
+    else {
+      try {
+        if (entires[0].isIntersecting) {
+          if (!institution.id) throw new Error("Учреждение не выбрано, (id empty) developer-related issue");
+          let res = await dispatch(
+            searchUserThunk({
+              searchVal: searchDropDownState.item.searchVal,
+              institution: institution.id,
+              skip: searchDropDownState.item.page * itemPerPage,
+              take: itemPerPage
+            })
+          );
+
+          if ((res.payload as User[]).length === 0) {
+            throw new Error("Предметы закончились");
+          }
+
+          setSearchDropDownState(sdds => ({
+            ...sdds,
+            item: { ...sdds.item, data: [...sdds.item.data, ...(res.payload as Item[])], page: sdds.item.page + 1 }
+          }));
+        }
+      } catch (error) {
+        setSearchDropDownState(sdds => ({ ...sdds, item: { ...sdds.item, page: -1 } }));
+      }
+    }
+  };
+
+  const teacherDropdownRef = useRef<HTMLDivElement>(null);
+  const [lastTeacherRef] = useObserver(onLastTeacherView);
+
+  const itemDropdownRef = useRef<HTMLDivElement>(null);
+  const [lastItemRef] = useObserver(onLastItemView);
 
   const onSearch = debounce(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,22 +122,17 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
       const searchVal = e.target.value;
       const category = e.target.name;
 
+      setSearchDropDownState(sdds => ({ ...sdds, [category]: { ...sdds[category as keyof SearchDropDown], searchVal } }));
+
       let res =
         category === "user"
-          ? await dispatch(searchUserThunk({ searchVal, institution: institution.id, skip: 0, take: 10 }))
-          : await dispatch(searchItemThunk({ article: searchVal, institution: institution.id, skip: 0, take: 10 }));
-      setSearchDropDownState(sdds => ({ ...sdds, [category]: res.payload }));
+          ? await dispatch(searchUserThunk({ searchVal, institution: institution.id, skip: 0, take: 4 }))
+          : await dispatch(searchItemThunk({ article: searchVal, institution: institution.id, skip: 0, take: 4 }));
+      setSearchDropDownState(sdds => ({ ...sdds, [category]: { ...sdds[category as keyof SearchDropDown], data: res.payload, page: 1 } }));
     },
     1000,
     { leading: true, trailing: false }
   );
-
-  const formatItems = (items: Item[]) => {
-    return items.map(i => ({ key: i.id, name: i.name, value: i.article }));
-  };
-  const formatTeachers = (teachers: Teacher[]) => {
-    return teachers.map(i => ({ key: i.id, name: i.fullName, value: i.email }));
-  };
 
   const onSubmit = methods.handleSubmit(async data => {
     await dispatch(
@@ -84,49 +159,53 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
               </FormProvider>
             </div>
             <div>
-              {/* рендер для админа */}
               <ProtectedComponent
                 component={
                   <DropList
                     name={
                       <span>
-                        Учителя <b>({teachers.length})</b>
+                        Учителя <b>({dropDownState.user.length})</b>
                       </span>
                     }
                     inputName='user'
                     onChange={onSearch}
-                    options={formatTeachers([...searchDropDownState.user, ...dropDownState.user])}
-                    enableSearch={true}
+                    observerRef={teacherDropdownRef}
+                    options={formatTeachersJSX(
+                      [
+                        ...(searchDropDownState.user ?? []).data.map(
+                          (sddsu, i, arr) =>
+                            ({ ...sddsu, existing: false, lastElementRef: i === arr.length - 1 ? lastTeacherRef : undefined } as PreviewUser)
+                        ),
+                        ...(dropDownState.user ?? []).map(ddsu => ({ ...ddsu, existing: true } as PreviewUser))
+                      ],
+                      true,
+                      changeUsers
+                    )}
+                    enableEdit={true}
                   />
                 }
-                roles={[Roles.admin]}
-              />
-              {/* рендер для учителя */}
-              <ProtectedComponent
-                component={
-                  <DropList
-                    name={
-                      <span>
-                        Учителя <b>({teachers.length})</b>
-                      </span>
-                    }
-                    inputName='user'
-                    onChange={onSearch}
-                    options={formatTeachers([...searchDropDownState.user, ...dropDownState.user])}
-                  />
-                }
-                roles={[Roles.teacher]}
               />
               <DropList
                 name={
                   <span>
-                    Предметы <b>({items.length})</b>
+                    Предметы <b>({dropDownState.item.length})</b>
                   </span>
                 }
                 inputName='item'
                 onChange={onSearch}
-                options={formatItems([...searchDropDownState.item, ...dropDownState.item])}
-                enableSearch={true}
+                observerRef={itemDropdownRef}
+                options={formatItemsJSX(
+                  [
+                    ...(searchDropDownState.item ?? []).data.map(
+                      (sddsi, i, arr) =>
+                        ({ ...sddsi, existing: false, lastElementRef: i === arr.length - 1 ? lastItemRef : undefined } as PreviewItem)
+                    ),
+                    ...(dropDownState.item ?? []).map(ddsi => ({ ...ddsi, existing: true } as PreviewItem))
+                  ],
+                  true,
+                  changeItem
+                )}
+                enableEdit={true}
               />
             </div>
           </div>

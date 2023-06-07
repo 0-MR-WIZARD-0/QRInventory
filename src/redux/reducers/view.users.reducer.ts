@@ -67,7 +67,7 @@ const ViewUsersSlice = createSlice({
           ...action.payload,
           ...(state.data ? state.data?.filter(du => !(action.payload as User[]).some(pu => pu.id === du.id)) : [])
         ];
-        return { ...state, data: newUsers };
+        return { ...state, data: newUsers, loading: false };
       } else {
         return { ...state, data: [...(state.data?.filter(du => du.id !== (action.payload as User).id) ?? []), action.payload] };
       }
