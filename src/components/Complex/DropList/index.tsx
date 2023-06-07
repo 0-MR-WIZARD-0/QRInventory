@@ -5,21 +5,16 @@ import { searchValidation } from "validation";
 import Input from "components/Basic/Input";
 import classNames from "classnames";
 
-interface Option {
-  key: string;
-  name: string;
-  value: string;
-}
-
 interface DropDownProps {
-  options: Option[];
+  options: React.ReactNode[];
   name: React.ReactNode;
   inputName: string;
-  enableSearch?: boolean;
+  enableEdit?: boolean;
+  observerRef?: React.RefObject<HTMLDivElement>;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => any;
 }
 
-const DropList: React.FC<DropDownProps> = ({ options, enableSearch = false, onChange, name, inputName }) => {
+const DropList: React.FC<DropDownProps> = ({ options, enableEdit = false, onChange, name, inputName }) => {
   const container = useRef<HTMLInputElement>(null);
   const [dropdownState, setDropdownState] = useState({ open: false });
   const changeDropListState = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -34,7 +29,7 @@ const DropList: React.FC<DropDownProps> = ({ options, enableSearch = false, onCh
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
     if (onChange !== undefined) onChange(event);
-    else if (enableSearch && onChange === undefined) console.log("Метод поиска не реализован!");
+    else if (enableEdit && onChange === undefined) console.log("Метод поиска не реализован!");
   };
 
   useEffect(() => {
@@ -45,34 +40,20 @@ const DropList: React.FC<DropDownProps> = ({ options, enableSearch = false, onCh
   const methods = useForm({ mode: "onBlur" });
 
   return (
-    <div className={classNames(styles.container, enableSearch && dropdownState.open && styles.containerOpen)} ref={container}>
+    <div className={classNames(styles.container, enableEdit && dropdownState.open && styles.containerOpen)} ref={container}>
       <button className={classNames(styles.button, dropdownState.open && styles.buttonOpen)} onClick={changeDropListState}>
         <>{name ?? "Список"}</>
       </button>
       {dropdownState.open && (
         <div>
-          {enableSearch && (
+          {enableEdit && (
             <FormProvider {...methods}>
               <Input {...searchValidation} name={inputName} label='Поиск' onChange={handleSearch} value={searchTerm} />
             </FormProvider>
           )}
           <ul>
             {options.length ? (
-              options.map(option => (
-                <li key={option.key}>
-                  {/* тут потом будет кастомный метод рендера элементов */}
-                  <div>
-                    <img alt='' />
-                  </div>
-                  <div>
-                    <div>
-                      <p>{option.name}</p>
-                      <p>{option.value}</p>
-                    </div>
-                  </div>
-                  {/*  */}
-                </li>
-              ))
+              options
             ) : (
               <span style={{ display: "flex", justifyContent: "center", height: "160px", alignItems: "center" }}>{} отсутствуют</span>
             )}

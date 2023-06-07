@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { Cabinet } from "types/Cabinet";
 import { QRCodeSVG } from "qrcode.react";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
-import { roledCabinetEditDataBarOptions, roledUserEditDataBarOptions } from "types/User";
+import { roledCabinetEditDataBarOptions } from "types/User";
 import ProtectedComponent from "components/Protected/Component";
 import { MenuBar } from "components/Complex/MenuBar";
 import DropList from "components/Complex/DropList";
@@ -12,20 +12,11 @@ import styles from "./view.sub.cabinet.module.scss";
 import { useAppDispatch } from "redux/store";
 import { MainViewRoutes } from "types/Routes";
 import { fetchCabinetThunk } from "redux/actions/cabinets.actions";
-import { Item } from "types/Item";
-import { Teacher } from "types/Teacher";
+import { formatItemsJSX, formatTeachersJSX, PreviewItem, PreviewUser } from "components/Complex/DropList/Catrgorized/categorized";
 
 const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teachers }) => {
   const location = useLocation();
   const { userData } = useAppSelector(state => state.user);
-
-  const formatItems = (items: Item[]) => {
-    return items.map(i => ({ key: i.id, name: i.name, value: i.article }));
-  };
-
-  const formatTeachers = (teachers: Teacher[]) => {
-    return teachers.map(i => ({ key: i.id, name: i.fullName, value: i.email }));
-  };
 
   const buttons = useRef(
     roledCabinetEditDataBarOptions(
@@ -53,7 +44,7 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
             </span>
           }
           inputName='user'
-          options={formatTeachers(teachers as Teacher[])}
+          options={formatTeachersJSX((teachers as PreviewUser[]) ?? [], false, () => {})}
         />
         <DropList
           name={
@@ -62,7 +53,7 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
             </span>
           }
           inputName='item'
-          options={formatItems(items as Item[])}
+          options={formatItemsJSX((items as PreviewItem[]) ?? [], false, () => {})}
         />
         <ProtectedComponent
           component={

@@ -1,12 +1,11 @@
-import { ThunkDispatch } from "@reduxjs/toolkit";
 import { useEffect, useRef, useState } from "react";
 
-export const useObserver = (cb: (entires: IntersectionObserverEntry[]) => void) => {
+export const useObserver = (cb: (entires: IntersectionObserverEntry[]) => void, root?: Element) => {
   const observer = useRef<IntersectionObserver>();
   const ref = useRef<any | null>(null);
 
   useEffect(() => {
-    observer.current = new IntersectionObserver(cb, { root: document, threshold: 0.5 });
+    observer.current = new IntersectionObserver(cb, { root: root ?? document, threshold: 0.5 });
     if (ref.current) {
       observer.current.observe(ref.current);
     }
