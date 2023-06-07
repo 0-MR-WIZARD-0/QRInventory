@@ -122,12 +122,18 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
       const searchVal = e.target.value;
       const category = e.target.name;
 
+      if (
+        (searchDropDownState.item.searchVal === searchVal && searchDropDownState.item.page === -1) ||
+        (searchDropDownState.user.searchVal === searchVal && searchDropDownState.user.page === -1)
+      )
+        return;
+
       setSearchDropDownState(sdds => ({ ...sdds, [category]: { ...sdds[category as keyof SearchDropDown], searchVal } }));
 
       let res =
         category === "user"
-          ? await dispatch(searchUserThunk({ searchVal, institution: institution.id, skip: 0, take: 4 }))
-          : await dispatch(searchItemThunk({ article: searchVal, institution: institution.id, skip: 0, take: 4 }));
+          ? await dispatch(searchUserThunk({ searchVal, institution: institution.id, skip: 0, take: teacherPerPage }))
+          : await dispatch(searchItemThunk({ article: searchVal, institution: institution.id, skip: 0, take: itemPerPage }));
       setSearchDropDownState(sdds => ({ ...sdds, [category]: { ...sdds[category as keyof SearchDropDown], data: res.payload, page: 1 } }));
     },
     1000,

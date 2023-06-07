@@ -57,10 +57,6 @@ const ViewItemsSlice = createSlice({
     builder.addCase(deleteItemThunk.fulfilled, (state, action) => {
       return { ...state, data: state.data?.filter(c => c.id !== action.meta.arg.id), error: undefined };
     });
-    builder.addCase(editItemThunk.fulfilled, (state, action) => {
-      return { ...state, data: state.data?.filter(c => c.id !== action.meta.arg.id), error: undefined };
-    });
-
     builder.addCase(searchItemThunk.fulfilled, (state, action) => {
       if (Array.isArray(action.payload)) {
         const newItems = [
@@ -71,6 +67,9 @@ const ViewItemsSlice = createSlice({
       } else {
         return { ...state, data: [...(state.data?.filter(di => di.id !== (action.payload as Item).id) ?? []), action.payload] };
       }
+    });
+    builder.addCase(editItemThunk.fulfilled, (state, action) => {
+      return { ...state, data: undefined, loading: true, error: undefined };
     });
   }
 });
