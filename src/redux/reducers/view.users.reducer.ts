@@ -58,7 +58,7 @@ const ViewUsersSlice = createSlice({
       return { ...state, data: state.data?.filter(c => c.id !== action.meta.arg.id), error: undefined };
     });
     builder.addCase(editUserThunk.fulfilled, (state, action) => {
-      return { ...state, data: state.data?.filter(c => c.id !== action.meta.arg.id), error: undefined };
+      return { ...state, data: undefined, loading: true, error: undefined };
     });
 
     builder.addCase(searchUserThunk.fulfilled, (state, action) => {

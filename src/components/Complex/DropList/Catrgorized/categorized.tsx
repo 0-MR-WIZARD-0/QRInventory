@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import Icon from "components/Basic/Icon";
-import { compareObjects, filterObjects } from "helpers/functions";
 import { Item } from "types/Item";
 import { User } from "types/User";
 import styles from "./categorized.module.scss";
@@ -76,12 +75,8 @@ const ItemElement: React.FC<PreviewItem & { editing: boolean; changeOptions: (el
 };
 
 export const formatTeachersJSX = (teachers: PreviewUser[], editing: boolean, changeOptions: (element: PreviewUser, add: boolean) => void) => {
-  return filterObjects<PreviewUser>(teachers)
-    .sort(compareObjects)
-    .map(t => <TeacherElement {...t} key={t.id} editing={editing} changeOptions={changeOptions} />);
+  return teachers.map(t => <TeacherElement {...t} key={t.id} editing={editing} changeOptions={changeOptions} />);
 };
 export const formatItemsJSX = (items: PreviewItem[], editing: boolean, changeOptions: (element: PreviewItem, add: boolean) => void) => {
-  return filterObjects<PreviewItem>(items)
-    .sort(compareObjects)
-    .map(i => <ItemElement {...i} key={i.id} editing={editing} changeOptions={changeOptions} />);
+  return items.map(i => <ItemElement {...i} key={i.id} editing={editing} changeOptions={changeOptions} />);
 };
