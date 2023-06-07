@@ -2,11 +2,18 @@
 
 .app {
   max-width: $breakpoint-mid-tablet;
+  min-height: 100vh;
   margin: 0 auto;
 
   padding: 16px 0;
+  display: flex;
+  flex-direction: column;
 
   @media screen and (max-width: $breakpoint-mid-tablet) {
     padding: 16px;
+  }
+
+  :global(.loader) {
+    flex: 1;
   }
 }

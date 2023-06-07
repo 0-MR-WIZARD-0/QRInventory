@@ -1,6 +1,6 @@
 import { Transition, TransitionStatus } from "react-transition-group";
 import { loaderAlt, TransitionStyles } from "types/UI";
-import styles from "./loader.module.scss";
+import "./loader.scss";
 
 const Loader: React.FC<{ state: TransitionStatus }> = ({ state }) => {
   const transitionStyles: TransitionStyles = {
@@ -11,7 +11,7 @@ const Loader: React.FC<{ state: TransitionStatus }> = ({ state }) => {
   };
 
   return (
-    <div className={styles.loader} style={{ ...transitionStyles[state as keyof TransitionStyles] }}>
+    <div className={"loader"} style={{ ...transitionStyles[state as keyof TransitionStyles] }}>
       <img src={`/resources/loader.gif`} draggable={false} alt={loaderAlt} />
     </div>
   );
