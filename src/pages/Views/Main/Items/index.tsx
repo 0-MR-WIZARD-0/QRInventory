@@ -9,10 +9,11 @@ import { NavigateFunction, useNavigate } from "react-router-dom";
 import { itemViewPath } from "types/App";
 import { useInView } from "react-intersection-observer";
 import ViewsWrapper from "components/Complex/Wrappers/ViewsWrapper";
-import styles from "components/Complex/Wrappers/ViewsWrapper/view.wrapper.module.scss";
+import wrapperStyles from "components/Complex/Wrappers/ViewsWrapper/view.wrapper.module.scss";
 import Icon from "components/Basic/Icon";
 import ProtectedComponent from "components/Protected/Component";
 import { Roles } from "types/User";
+import styles from "./views.main.items.module.scss";
 
 const paginationSettings = {
   perPage: 5
@@ -37,15 +38,11 @@ const ViewItem: React.FC<ViewItemProps> = ({ navigate, item, lastElementRef }) =
       key={item.id}
       onClick={() => {
         navigate(`${itemViewPath}/${item.id}`);
-      }}>
-      <div className={styles.img}>
+      }}
+      className={styles.wrapper}>
+      <div className={wrapperStyles.img}>
         {item.imageId && inView ? (
-          <img
-            style={{ height: "218px", width: "100%", objectFit: "contain" }}
-            src={`${process.env.REACT_APP_API_HOST}/image/${item.imageId}`}
-            alt={item.article}
-            draggable={false}
-          />
+          <img src={`${process.env.REACT_APP_API_HOST}/image/${item.imageId}`} alt={item.article} draggable={false} />
         ) : inView ? (
           <Icon icon='image' />
         ) : (
@@ -53,7 +50,7 @@ const ViewItem: React.FC<ViewItemProps> = ({ navigate, item, lastElementRef }) =
         )}
       </div>
       <h3>{item.name}</h3>
-      <div className={styles.info}>
+      <div className={wrapperStyles.info}>
         <p>Артикул: {item.article}</p>
       </div>
     </button>

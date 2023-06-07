@@ -1,9 +1,9 @@
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Cabinet } from "types/Cabinet";
 import { QRCodeSVG } from "qrcode.react";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
-import { roledUserEditDataBarOptions } from "types/User";
+import { roledCabinetEditDataBarOptions, roledUserEditDataBarOptions } from "types/User";
 import ProtectedComponent from "components/Protected/Component";
 import { MenuBar } from "components/Complex/MenuBar";
 import DropList from "components/Complex/DropList";
@@ -17,6 +17,7 @@ import { Teacher } from "types/Teacher";
 
 const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teachers }) => {
   const location = useLocation();
+  const { userData } = useAppSelector(state => state.user);
 
   const formatItems = (items: Item[]) => {
     return items.map(i => ({ key: i.id, name: i.name, value: i.article }));
@@ -25,6 +26,13 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
   const formatTeachers = (teachers: Teacher[]) => {
     return teachers.map(i => ({ key: i.id, name: i.fullName, value: i.email }));
   };
+
+  const buttons = useRef(
+    roledCabinetEditDataBarOptions(
+      userData!.role,
+      teachers.some(t => t.id === userData!.id)
+    )
+  );
 
   return (
     <>
@@ -60,7 +68,7 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
           component={
             <div className={styles.menuBar}>
               <p>Панель управления кабинетом</p>
-              <MenuBar barOptions={roledUserEditDataBarOptions["admin"]} />
+              <MenuBar barOptions={buttons.current} />
             </div>
           }
         />
