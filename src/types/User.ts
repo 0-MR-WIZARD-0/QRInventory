@@ -29,7 +29,7 @@ export enum Roles {
 }
 
 export type RoledMenuBarOptions = { teacher: MenuBarData[]; admin: MenuBarData[] };
-export type RoledMenuOnlyAdminOptions = {admin: MenuBarData[]};
+export type RoledMenuOnlyAdminOptions = { admin: MenuBarData[] };
 
 export const roledMenuBarOptions: RoledMenuBarOptions = {
   teacher: [
@@ -75,27 +75,32 @@ export const roledUserEditDataBarOptions: RoledMenuOnlyAdminOptions = {
   ]
 };
 
-export const roledCabinetEditDataBarOptions: RoledMenuBarOptions = {
-  teacher: [
-    {
-      title: "редактирование",
-      link: "edit"
-    },
-    {
-      title: "удаление",
-      link: "delete"
-    }
-  ],
-  admin: [
-    {
-      title: "редактирование",
-      link: "edit"
-    },
-    {
-      title: "удаление",
-      link: "delete"
-    }
-  ]
+export const roledCabinetEditDataBarOptions = (role: keyof RoledMenuBarOptions, allowedToEdit: boolean): MenuBarData[] => {
+  if (role === "teacher") {
+    return allowedToEdit
+      ? [
+          {
+            title: "удаление",
+            link: "delete"
+          },
+          allowedToEdit && {
+            title: "редактирование",
+            link: "edit"
+          }
+        ]
+      : [];
+  } else {
+    return [
+      {
+        title: "редактирование",
+        link: "edit"
+      },
+      {
+        title: "удаление",
+        link: "delete"
+      }
+    ];
+  }
 };
 
 export const roledItemEditDataBarOptions: RoledMenuBarOptions = {

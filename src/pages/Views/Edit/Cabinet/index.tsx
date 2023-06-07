@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Cabinet } from "types/Cabinet";
 import { useAppDispatch } from "redux/store";
 import { useAppSelector } from "helpers/redux";
-import { MainViewRoutes } from "types/Routes";
+import { MainViewRoutes, RoutesEnum } from "types/Routes";
 import { editCabinetThunk, fetchCabinetThunk } from "redux/actions/cabinets.actions";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
 import ProtectedComponent from "components/Protected/Component";
@@ -25,11 +25,14 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
   const methods = useForm<{ cabinetNumber: string }>({ defaultValues: { cabinetNumber } });
   const institution = useAppSelector(state => state.institution);
   const dispatch = useAppDispatch();
+  const { userData } = useAppSelector(state => state.user);
+  useEffect(() => {
+    if (userData && userData.role === Roles.teacher && !teachers.some(t => t.id === userData.id)) return navigate(RoutesEnum.main);
+  }, [userData]);
 
   // здесь уже добавленные, сюда добавлять новых учителей/предметы для изменения в БД
   const [dropDownState, setDropDownState] = useState<{ user: Teacher[]; item: Item[] }>({ user: teachers, item: items });
   const onChangeDownState = () => setDropDownState(dds => ({ ...dds }));
-
   // здесь данные поиска
   const [searchDropDownState, setSearchDropDownState] = useState<{ user: Teacher[]; item: Item[] }>({ user: [], item: [] });
 
