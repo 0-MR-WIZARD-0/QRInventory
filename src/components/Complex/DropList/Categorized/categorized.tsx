@@ -14,12 +14,11 @@ const TeacherElement: React.FC<PreviewUser & { editing: boolean; changeOptions: 
     <li
       ref={props.lastElementRef}
       className={classNames(styles.dropdownElement)}
-      key={props.id}
-      >
+      key={props.id}>
         <div className={styles.wrapper}>
           <div className={styles.wrapperImg}>
             {props.avatarId ? (
-              <img src={`${process.env.REACT_APP_API_HOST}/image/${props.avatarId}`} alt={props.fullName} draggable={false} />
+              <img src={`${process.env.REACT_APP_API_HOST}/image/${props.avatarId}`} alt={props.fullName} draggable={false} style={{objectFit: "cover"}} />
             ) : (
               <Icon icon='image' />
             )}
@@ -54,13 +53,11 @@ const ItemElement: React.FC<PreviewItem & { editing: boolean; changeOptions: (el
     <li
       ref={props.lastElementRef}
       className={classNames(styles.dropdownElement)}
-      key={props.id}
-      // style={{ borderBottom: props.lastElementRef ? "2px solid black" : "none" }}
-      >
+      key={props.id}>
       <div className={styles.wrapper}>
         <div className={styles.wrapperImg}>
         {props.imageId ? (
-          <img src={`${process.env.REACT_APP_API_HOST}/image/${props.imageId}`} alt={props.name} draggable={false} />
+          <img src={`${process.env.REACT_APP_API_HOST}/image/${props.imageId}`} alt={props.name} draggable={false} style={{objectFit: "cover"}}/>
         ) : (
           <Icon icon='image' />
         )}

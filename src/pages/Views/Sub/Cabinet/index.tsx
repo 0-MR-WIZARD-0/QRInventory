@@ -18,12 +18,12 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
   const location = useLocation();
   const { userData } = useAppSelector(state => state.user);
 
-  const buttons = useRef(
-    roledCabinetEditDataBarOptions(
-      userData!.role,
-      teachers.some(t => t.id === userData!.id)
-    )
-  );
+    const buttons = useRef(
+      roledCabinetEditDataBarOptions(
+        userData?.role,
+        teachers.some(t => t.id === userData?.id),
+      )
+    );
 
   return (
     <>
@@ -59,7 +59,7 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
           component={
             <div className={styles.menuBar}>
               <p>Панель управления кабинетом</p>
-              <MenuBar barOptions={buttons.current} />
+              {userData ? <MenuBar barOptions={buttons.current} /> : <></>}
             </div>
           }
         />

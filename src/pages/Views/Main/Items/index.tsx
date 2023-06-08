@@ -13,7 +13,6 @@ import wrapperStyles from "components/Complex/Wrappers/ViewsWrapper/view.wrapper
 import Icon from "components/Basic/Icon";
 import ProtectedComponent from "components/Protected/Component";
 import { Roles } from "types/User";
-import styles from "./views.main.items.module.scss";
 
 const paginationSettings = {
   perPage: 5
@@ -38,8 +37,7 @@ const ViewItem: React.FC<ViewItemProps> = ({ navigate, item, lastElementRef }) =
       key={item.id}
       onClick={() => {
         navigate(`${itemViewPath}/${item.id}`);
-      }}
-      className={styles.wrapper}>
+      }}>
       <div className={wrapperStyles.img}>
         {item.imageId && inView ? (
           <img src={`${process.env.REACT_APP_API_HOST}/image/${item.imageId}`} alt={item.article} draggable={false} />
