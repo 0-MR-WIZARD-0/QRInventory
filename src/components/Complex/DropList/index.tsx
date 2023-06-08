@@ -36,6 +36,7 @@ const DropList: React.FC<DropDownProps> = ({ options, enableEdit = false, onChan
     if (dropdownState.open) {
       handleSearch({ target: { value: methods.getValues(inputName), name: inputName } } as unknown as React.ChangeEvent<HTMLInputElement>);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dropdownState.open]);
   const methods = useForm({ mode: "onBlur" });
 
@@ -45,10 +46,10 @@ const DropList: React.FC<DropDownProps> = ({ options, enableEdit = false, onChan
         <>{name ?? "Список"}</>
       </button>
       {dropdownState.open && (
-        <div>
+        <div className={styles.wrapper}>
           {enableEdit && (
             <FormProvider {...methods}>
-              <Input {...searchValidation} name={inputName} label='Поиск' onChange={handleSearch} value={searchTerm} />
+              <Input {...searchValidation} name={inputName} label='Поиск' onChange={handleSearch} value={searchTerm}/>
             </FormProvider>
           )}
           <ul>

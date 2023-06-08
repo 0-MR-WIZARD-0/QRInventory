@@ -12,7 +12,7 @@ import styles from "./view.sub.cabinet.module.scss";
 import { useAppDispatch } from "redux/store";
 import { MainViewRoutes } from "types/Routes";
 import { fetchCabinetThunk } from "redux/actions/cabinets.actions";
-import { formatItemsJSX, formatTeachersJSX, PreviewItem, PreviewUser } from "components/Complex/DropList/Catrgorized/categorized";
+import { formatItemsJSX, formatTeachersJSX, PreviewItem, PreviewUser } from "components/Complex/DropList/Categorized/categorized";
 
 const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teachers }) => {
   const location = useLocation();

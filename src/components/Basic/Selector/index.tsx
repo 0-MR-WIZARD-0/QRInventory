@@ -2,7 +2,6 @@ import Select from "react-select";
 import styles from "./selector.module.scss";
 import { Organization } from "./selector.interface";
 import { SelectMessages } from "types/UI";
-import { User } from "types/User";
 import { Institution } from "types/Institution";
 import { useAction, useAppSelector } from "helpers/redux";
 
