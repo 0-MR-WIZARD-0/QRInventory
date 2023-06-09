@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { onlyUnique } from "helpers/redux";
+import { logoutUserThunk } from "redux/actions/auth.actions";
 import { createItemThunk, deleteItemThunk, editItemThunk, searchItemThunk } from "redux/actions/items.actions";
 import { fetchItemsThunk } from "redux/actions/views.main.actions";
 import { Item } from "types/Item";
@@ -69,6 +70,9 @@ const ViewItemsSlice = createSlice({
       }
     });
     builder.addCase(editItemThunk.fulfilled, (state, action) => {
+      return { ...state, data: undefined, loading: true, error: undefined };
+    });
+    builder.addCase(logoutUserThunk.pending, (state, action) => {
       return { ...state, data: undefined, loading: true, error: undefined };
     });
   }
