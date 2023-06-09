@@ -32,7 +32,7 @@ const DeleteItemComponent: React.FC = () => {
     (async () => {
       if (!id) return addError({ type: "item", description: DefaultErrors.invalidId });
       const res = await dispatch(fetchItemThunk({ id }));
-      if (res.meta.requestStatus === "fulfilled") return setItemInfo(res.payload);
+      if (res.meta.requestStatus === "fulfilled") return setItemInfo(res.payload as Item);
       else {
         addError({ type: "item", description: DefaultErrors.invalidId });
         return navigate(-1);
@@ -58,16 +58,8 @@ const DeleteItemComponent: React.FC = () => {
 
   return (
     <FormProvider {...methods}>
-      <Scenario
-        ref={DeleteItemModalRef}
-        modalName='delete-item-error'
-        script={DeleteItemErrorScript}
-      />
-      <Scenario
-        ref={CheckPasswordModalRef}
-        modalName='check-password-error'
-        script={CheckPasswordErrorScript}
-      />
+      <Scenario ref={DeleteItemModalRef} modalName='delete-item-error' script={DeleteItemErrorScript} />
+      <Scenario ref={CheckPasswordModalRef} modalName='check-password-error' script={CheckPasswordErrorScript} />
       <div className={styles.wrapper}>
         <h3>Удаление предмета</h3>
         <p>Для продолжения необходимо ввести пароль от аккаунта</p>

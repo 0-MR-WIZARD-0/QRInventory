@@ -38,7 +38,7 @@ const ItemComponent: React.FC<Item> = ({ name, article, id, imageId }) => {
         }
       } catch (error) {}
     })();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onSubmit = methods.handleSubmit(async data => {
@@ -111,7 +111,7 @@ const EditItem: React.FC = () => {
             return navigate(`/${MainViewRoutes.items}`);
           }
 
-          return setPageitemData(res.payload);
+          return setPageitemData(res.payload as Item);
         }
       } catch (error) {
         return setPageitemData(null);
