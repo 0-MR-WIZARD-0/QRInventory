@@ -20,7 +20,6 @@ export const fetchUserThunk = createAsyncThunk<any, { initial?: boolean }>("auth
   }
 });
 
-// https://stackoverflow.com/questions/67227015/how-to-use-createasyncthunk-with-typescript-how-to-set-types-for-the-pending
 export const loginUserThunk = createAsyncThunk<any, LoginFormProps>("auth/login", async (params, { fulfillWithValue, rejectWithValue }) => {
   try {
     const res = await api.post<any, { data: User | BackendError | undefined }>("/auth/login", params);

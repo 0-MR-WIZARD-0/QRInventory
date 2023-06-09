@@ -14,8 +14,4 @@ export enum RoutesEnum {
   view = "view",
   noAccess = "no-access",
   all = "*"
-  // mainQrcodes = MainViewRoutes.qrcodes,
-  // mainOrganizations = MainViewRoutes.organizations,
-  // mainObjects = MainViewRoutes.objects,
-  // mainUsers = MainViewRoutes.users
 }

@@ -1,7 +1,6 @@
 @import "styles/colors.scss";
 
 .container {
-
   &Open {
     border-radius: 15px;
   }
@@ -37,8 +36,12 @@
     padding-top: 10px;
     border: 2px solid $gray-100;
     border-top: none;
-    height: 200px;
+    height: 330px;
     overflow-y: scroll;
+
+    display: flex;
+    flex-direction: column;
+
     &::-webkit-scrollbar {
       display: none;
     }
@@ -47,5 +50,4 @@
   li {
     margin-top: 10px;
   }
-
 }
