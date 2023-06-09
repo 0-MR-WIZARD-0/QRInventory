@@ -1,7 +1,7 @@
 import { ResolverCallback } from "components/Basic/Scenario";
 import { useAction } from "helpers/redux";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { editCabinetThunk } from "redux/actions/cabinets.actions";
 import { useAppDispatch } from "redux/store";
 import { MainViewRoutes } from "types/Routes";
@@ -15,6 +15,7 @@ export const SuccesConfirmationEditCabinet: React.FC<{
 }> = ({ data, dropDownState, id, cb }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const location = useLocation().pathname.split("/");
   const { addError } = useAction();
 
   useEffect(() => {
@@ -35,7 +36,7 @@ export const SuccesConfirmationEditCabinet: React.FC<{
           description: "Произошла ошибка при изменении кабинета"
         });
       }
-      return navigate(`/${MainViewRoutes.cabinets}`);
+      return navigate(location.slice(0, location.length - 1).join("/"));
     })();
   });
 
