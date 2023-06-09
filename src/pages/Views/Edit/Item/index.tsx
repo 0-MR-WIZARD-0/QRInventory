@@ -1,8 +1,8 @@
 import { LoadingTransitionComponent } from "components/Basic/Loader";
-import { useAction, useAppSelector } from "helpers/redux";
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router";
-import { editItemThunk, fetchItemThunk, RejectResponsesItem } from "redux/actions/items.actions";
+import { useAppSelector } from "helpers/redux";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router";
+import { fetchItemThunk } from "redux/actions/items.actions";
 import { useAppDispatch } from "redux/store";
 import { Item } from "types/Item";
 import { MainViewRoutes } from "types/Routes";
@@ -15,17 +15,17 @@ import ImageElement from "components/Complex/ImageElement";
 import editStyles from "components/Complex/Wrappers/EditPageWrapper/edit.page.wrapper.module.scss";
 import { useImage } from "helpers/hooks";
 import api from "helpers/axios";
-import { imageItemThunk } from "redux/actions/image.actions";
-import { RejectResponsesInstitution } from "redux/actions/institutions.actions";
+import { Scenario } from "components/Basic/Scenario";
+import { PasswordConfirmation } from "components/Basic/Scenario/default";
+import { SuccesConfirmationEditItem } from "./Scenario";
+
+export type EditItemData = {
+  name: string;
+  article: string;
+};
 
 const ItemComponent: React.FC<Item> = ({ name, article, id, imageId }) => {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const location = useLocation().pathname.split("/");
-  const institution = useAppSelector(state => state.institution);
-  const { addError, searchItemThunk } = useAction();
-
-  const methods = useForm<{ name: string; article: string }>({ mode: "onBlur", defaultValues: { name, article } });
+  const methods = useForm<EditItemData>({ mode: "onBlur", defaultValues: { name, article } });
   const imageMethods = useImage();
 
   useEffect(() => {
@@ -41,50 +41,45 @@ const ItemComponent: React.FC<Item> = ({ name, article, id, imageId }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onSubmit = methods.handleSubmit(async data => {
-    if (imageMethods.file !== undefined) {
-      let res = await dispatch(imageItemThunk({ id, file: imageMethods.file }));
-      if (res.meta.requestStatus === "rejected") {
-        return addError({
-          type: "user",
-          description: RejectResponsesItem.editItemError + ". Произошла ошибка при загрузке фото."
-        });
-      }
-    }
+  const EditItemModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
 
-    if (data.article.length && data.name.length !== 0) {
-      const res = await dispatch(editItemThunk({ id, ...data }));
-      if (res.meta.requestStatus === "fulfilled") {
-        if (!institution.id) {
-          return addError({
-            type: "institution",
-            description: RejectResponsesInstitution.notFound
-          });
-        }
-        await searchItemThunk({ institution: institution.id, take: 1, skip: 0, id });
-        return navigate(location.slice(0, location.length - 1).join("/"));
-      }
-    } else return addError({ type: "item", description: RejectResponsesItem.editItemError });
+  const onSubmit = methods.handleSubmit(async data => {
+    return EditItemModalRef.current?.createModal();
   });
 
   return (
-    <EditPageWrapper
-      onSubmit={onSubmit}
-      component={
-        <FormProvider {...methods}>
-          <div className={styles.wrapper}>
-            <h3>Редактирование предмета {article}</h3>
-            <div className={styles.wrapperEdit}>
-              <ImageElement {...imageMethods} />
-              <div className={editStyles.editInputsWrapper}>
-                <Input {...nameValidation} />
-                <Input {...articleValidation} />
+    <>
+      <Scenario
+        ref={EditItemModalRef}
+        modalName='edit-item-confirmation'
+        script={{
+          0: { content: PasswordConfirmation, onSuccess: 1, onFailure: -1 },
+          1: {
+            content: SuccesConfirmationEditItem,
+            props: { imageMethods, id, data: methods.getValues() as EditItemData },
+            onFailure: -1,
+            onSuccess: -1
+          }
+        }}
+      />
+      <EditPageWrapper
+        onSubmit={onSubmit}
+        component={
+          <FormProvider {...methods}>
+            <div className={styles.wrapper}>
+              <h3>Редактирование предмета {article}</h3>
+              <div className={styles.wrapperEdit}>
+                <ImageElement {...imageMethods} />
+                <div className={editStyles.editInputsWrapper}>
+                  <Input {...nameValidation} />
+                  <Input {...articleValidation} />
+                </div>
               </div>
             </div>
-          </div>
-        </FormProvider>
-      }
-    />
+          </FormProvider>
+        }
+      />
+    </>
   );
 };
 const EditItem: React.FC = () => {

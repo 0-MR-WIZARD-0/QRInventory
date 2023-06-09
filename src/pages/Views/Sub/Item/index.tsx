@@ -14,7 +14,8 @@ import { useAppDispatch } from "redux/store";
 import { useAppSelector } from "helpers/redux";
 import { MainViewRoutes } from "types/Routes";
 import { Scenario } from "components/Basic/Scenario";
-import { DeleteItemConfirmation, SuccessConfirmationDeleteItem } from "./Scenario";
+import { SuccessConfirmationDeleteItem } from "./Scenario";
+import { PasswordConfirmation } from "components/Basic/Scenario/default";
 
 const ItemComponent: React.FC<Item> = ({ article, id, imageId, name }) => {
   const [avatar, setAvatar] = useState<ImageState>(undefined);
@@ -45,7 +46,7 @@ const ItemComponent: React.FC<Item> = ({ article, id, imageId, name }) => {
         ref={DeleteItemModalRef}
         modalName='delete-item-confirmation'
         script={{
-          0: { content: DeleteItemConfirmation, onSuccess: 1, onFailure: -1 },
+          0: { content: PasswordConfirmation, onSuccess: 1, onFailure: -1 },
           1: {
             content: SuccessConfirmationDeleteItem,
             props: { id },

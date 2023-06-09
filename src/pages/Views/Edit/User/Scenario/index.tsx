@@ -1,38 +1,13 @@
-import DefaultButton from "components/Basic/Buttons/Default";
-import Input from "components/Basic/Input";
 import { ResolverCallback } from "components/Basic/Scenario";
 import { useImage } from "helpers/hooks";
 import { useAction, useAppSelector } from "helpers/redux";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { FormProvider } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
-import { validatePasswordThunk } from "redux/actions/auth.actions";
 import { imageUserThunk } from "redux/actions/image.actions";
 import { RejectResponsesInstitution } from "redux/actions/institutions.actions";
 import { editUserThunk, RejectResponsesUser } from "redux/actions/users.actions";
 import { useAppDispatch } from "redux/store";
-import { passwordValidation } from "validation";
 import { EditUserData } from "..";
-
-export const EditUserConfirmation: React.FC<{ cb: ResolverCallback }> = ({ cb }) => {
-  const methods = useForm<{ password: string }>({ mode: "onBlur" });
-  const dispatch = useAppDispatch();
-  const { addError } = useAction();
-
-  const onSubmit = methods.handleSubmit(async data => {
-    const res = await dispatch(validatePasswordThunk({ password: data.password }));
-    if (res.payload === false) addError({ type: "auth", description: "Пароль неверный" });
-    return cb(Promise.resolve(res.payload));
-  });
-
-  return (
-    <FormProvider {...methods}>
-      <Input {...passwordValidation} />
-      <DefaultButton component={<p>Подтвердить пароль</p>} onSumbit={onSubmit} />
-    </FormProvider>
-  );
-};
 
 export const SuccesConfirmationEditUser: React.FC<{
   imageMethods: ReturnType<typeof useImage>;

@@ -18,7 +18,8 @@ import api from "helpers/axios";
 import { imageUserThunk } from "redux/actions/image.actions";
 import { RejectResponsesInstitution } from "redux/actions/institutions.actions";
 import { Scenario } from "components/Basic/Scenario";
-import { EditUserConfirmation, SuccesConfirmationEditUser } from "./Scenario";
+import { SuccesConfirmationEditUser } from "./Scenario";
+import { PasswordConfirmation } from "components/Basic/Scenario/default";
 
 export type EditUserData = {
   fullName: string;
@@ -117,7 +118,7 @@ const UserComponent: React.FC<User> = ({ email, fullName, id, avatarId }) => {
         ref={EditUserModalRef}
         modalName='edit-user-confirmation'
         script={{
-          0: { content: EditUserConfirmation, onSuccess: 1, onFailure: -1 },
+          0: { content: PasswordConfirmation, onSuccess: 1, onFailure: -1 },
           1: {
             content: SuccesConfirmationEditUser,
             props: { imageMethods, id, data: methods.getValues() as EditUserData },
