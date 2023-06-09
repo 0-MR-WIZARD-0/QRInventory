@@ -5,7 +5,7 @@ import { Cabinet } from "types/Cabinet";
 import { useAppDispatch } from "redux/store";
 import { useAppSelector } from "helpers/redux";
 import { MainViewRoutes, RoutesEnum } from "types/Routes";
-import { editCabinetThunk, fetchCabinetThunk } from "redux/actions/cabinets.actions";
+import { fetchCabinetThunk } from "redux/actions/cabinets.actions";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
 import ProtectedComponent from "components/Protected/Component";
 import { Roles, User } from "types/User";

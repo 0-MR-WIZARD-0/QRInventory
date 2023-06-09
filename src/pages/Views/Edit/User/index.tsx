@@ -54,6 +54,7 @@ const UserComponent: React.FC<User> = ({ email, fullName, id, avatarId }) => {
         }
       } catch (error) {}
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onSubmit = methods.handleSubmit(async data => {
@@ -64,12 +65,6 @@ const UserComponent: React.FC<User> = ({ email, fullName, id, avatarId }) => {
           description: RejectResponsesUser.editUserError + ". Длина пароля минимум 8 знаков."
         });
       }
-      // if (!data.oldPassword.length) {
-      //   return addError({
-      //     type: "user",
-      //     description: RejectResponsesUser.editUserError + ". Не введён старый пароль."
-      //   });
-      // }
 
       const res = await dispatch(
         editUserThunk({

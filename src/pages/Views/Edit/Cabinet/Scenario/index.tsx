@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { editCabinetThunk } from "redux/actions/cabinets.actions";
 import { useAppDispatch } from "redux/store";
-import { MainViewRoutes } from "types/Routes";
 import { EditCabinetData } from "..";
 
 export const SuccesConfirmationEditCabinet: React.FC<{
