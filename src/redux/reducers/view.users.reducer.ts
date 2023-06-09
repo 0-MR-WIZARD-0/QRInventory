@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { onlyUnique } from "helpers/redux";
+import { logoutUserThunk } from "redux/actions/auth.actions";
 import { createUserThunk, deleteUserThunk, editUserThunk, searchUserThunk } from "redux/actions/users.actions";
 import { fetchUsersThunk } from "redux/actions/views.main.actions";
 import { User } from "types/User";
@@ -71,6 +72,9 @@ const ViewUsersSlice = createSlice({
       } else {
         return { ...state, data: [...(state.data?.filter(du => du.id !== (action.payload as User).id) ?? []), action.payload] };
       }
+    });
+    builder.addCase(logoutUserThunk.pending, (state, action) => {
+      return { ...state, data: undefined, loading: true, error: undefined };
     });
   }
 });

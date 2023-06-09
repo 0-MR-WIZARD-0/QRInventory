@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { onlyUnique } from "helpers/redux";
+import { logoutUserThunk } from "redux/actions/auth.actions";
 import { createInstitutionThunk } from "redux/actions/institutions.actions";
 import { fetchInstitutionsThunk } from "redux/actions/views.main.actions";
 import { Institution } from "types/Institution";
@@ -49,6 +50,9 @@ const ViewInstitutionsSlice = createSlice({
     });
     builder.addCase(fetchInstitutionsThunk.rejected, (state, action) => {
       return { ...state, loading: false, error: (action.payload as { payload: string }).payload ?? "Произошла ошибка при загрузке учреждений" };
+    });
+    builder.addCase(logoutUserThunk.pending, (state, action) => {
+      return { ...state, data: undefined, loading: true, error: undefined };
     });
   }
 });

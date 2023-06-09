@@ -33,8 +33,8 @@ export const loginUserThunk = createAsyncThunk<any, LoginFormProps>("auth/login"
 
 export const logoutUserThunk = createAsyncThunk("auth/logout", async (params, { fulfillWithValue, rejectWithValue }) => {
   try {
-    const res = await api.get<any, { data: User | BackendError }>("/auth/logout");
-    if (!res || !(res.data as User)?.id) throw new Error((res.data as BackendError)?.description ?? RejectResponsesAuth.logout);
+    const res = await api.get<any, { data: { message: string } | BackendError }>("/auth/logout");
+    if (!res || (res.data && !res.data.message)) throw new Error((res.data as BackendError)?.description ?? RejectResponsesAuth.logout);
     return fulfillWithValue(null);
   } catch (error) {
     return rejectWithValue(error);

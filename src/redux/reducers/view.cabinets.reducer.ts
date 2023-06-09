@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { onlyUnique } from "helpers/redux";
+import { logoutUserThunk } from "redux/actions/auth.actions";
 import { createCabinetThunk, deleteCabinetThunk, editCabinetThunk } from "redux/actions/cabinets.actions";
 import { fetchCabinetsThunk } from "redux/actions/views.main.actions";
 import { Cabinet } from "types/Cabinet";
@@ -58,6 +59,10 @@ const ViewCabinetsSlice = createSlice({
       return { ...state, data: state.data?.filter(c => c.id !== action.meta.arg.id), error: undefined };
     });
     builder.addCase(editCabinetThunk.fulfilled, (state, action) => {
+      return { ...state, data: undefined, loading: true, error: undefined };
+    });
+
+    builder.addCase(logoutUserThunk.pending, (state, action) => {
       return { ...state, data: undefined, loading: true, error: undefined };
     });
   }
