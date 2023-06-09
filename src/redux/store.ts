@@ -10,6 +10,7 @@ import { fetchUsersThunk } from "./actions/views.main.actions";
 import { fetchCabinetsThunk } from "./actions/views.main.actions";
 import { fetchItemsThunk } from "./actions/views.main.actions";
 import { fetchInstitutionsThunk } from "./actions/views.main.actions";
+import { institutionChangeMiddleware, institutionOnAuth } from "./listeners/localstorage.middleware";
 
 const store = configureStore({
   reducer: rootReducer,
@@ -72,7 +73,7 @@ const store = configureStore({
           fetchInstitutionsThunk.rejected.toString()
         ]
       }
-    })
+    }).concat(institutionOnAuth.middleware, institutionChangeMiddleware.middleware)
 });
 
 export default store;

@@ -24,7 +24,7 @@ const InstitutionSlice = createSlice({
       return { ...state, id: action.payload.id, name: action.payload.name };
     });
     builder.addMatcher(
-      (action: FulfilledAction) => [fetchUserThunk.fulfilled.toString(), loginUserThunk.fulfilled.toString()].indexOf(action.type) > -1,
+      (action: FulfilledAction) => [loginUserThunk.fulfilled.toString()].indexOf(action.type) > -1,
       (state, action: { type: string; payload: User | undefined }) => {
         if (!action.payload) return state;
         const institution = action.payload.role === Roles.admin ? action.payload.institutions[0] : action.payload.teacherInstitution;

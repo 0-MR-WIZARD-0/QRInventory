@@ -29,21 +29,24 @@ export const createItemThunk = createAsyncThunk<Item, { institutionId: string; n
   }
 );
 
-export const fetchItemThunk = createAsyncThunk<any, { id: string }>("item/fetch", async (params, { dispatch, rejectWithValue, fulfillWithValue }) => {
-  try {
-    const res = await api.get<any, { data: Item | BackendError }>("/item/", { params: { id: params.id } });
-    if (!res || !(res.data as Item)?.id) throw new Error((res.data as BackendError)?.description ?? RejectResponsesItem.fetchItemError);
-    return fulfillWithValue(res.data as Item);
-  } catch (error) {
-    return rejectWithValue(error);
+export const fetchItemThunk = createAsyncThunk<Item, { id: string }>(
+  "item/fetch",
+  async (params, { dispatch, rejectWithValue, fulfillWithValue }) => {
+    try {
+      const res = await api.get<Item, { data: Item | BackendError }>("/item/", { params: { id: params.id } });
+      if (!res || !(res.data as Item)?.id) throw new Error((res.data as BackendError)?.description ?? RejectResponsesItem.fetchItemError);
+      return fulfillWithValue(res.data as Item);
+    } catch (error) {
+      return rejectWithValue(error);
+    }
   }
-});
+);
 
 export const editItemThunk = createAsyncThunk<Item, { id: string; article?: string; name?: string; institution?: string }>(
   "item/edit",
   async (params, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const res = await api.patch<any, { data: Item | BackendError | undefined }>("/item/edit", { ...params });
+      const res = await api.patch<Item, { data: Item | BackendError }>("/item/edit", { ...params });
       if (!res) throw new Error(RejectResponsesItem.editItemError);
       return fulfillWithValue(res.data as Item);
     } catch (error) {

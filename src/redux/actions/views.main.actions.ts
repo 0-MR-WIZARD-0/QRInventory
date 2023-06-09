@@ -15,50 +15,78 @@ export enum RejectResponsesViews {
   itemsError = "Произошла ошибка при загрузке предметов"
 }
 
-export const fetchCabinetsThunk = createAsyncThunk<any, { page: number; perPage: number; new?: true }>("views/cabinets", async (params, { dispatch, fulfillWithValue, rejectWithValue, getState }) => {
-  try {
-    const state = getState() as RootState;
-    const { page, perPage } = params;
-    const res = await api.get<any, { data: { cabinets: Cabinet[] | BackendError | undefined } }>("/cabinet/all", { params: { take: perPage, skip: (page - 1) * perPage, institution: state.institution.id } }).then(res => res.data);
-    return fulfillWithValue(res);
-  } catch (error) {
-    return rejectWithValue(RejectResponsesViews.cabinetsError);
+export const fetchCabinetsThunk = createAsyncThunk<any, { page: number; perPage: number; new?: true }>(
+  "views/cabinets",
+  async (params, { dispatch, fulfillWithValue, rejectWithValue, getState }) => {
+    try {
+      const state = getState() as RootState;
+      const { page, perPage } = params;
+      const res = await api
+        .get<any, { data: { cabinets: Cabinet[] | BackendError } }>("/cabinet/all", {
+          params: { take: perPage, skip: (page - 1) * perPage, institution: state.institution.id }
+        })
+        .then(res => res.data);
+      return fulfillWithValue(res);
+    } catch (error) {
+      return rejectWithValue(RejectResponsesViews.cabinetsError);
+    }
   }
-});
+);
 
 // https://stackoverflow.com/questions/64793504/cannot-set-getstate-type-to-rootstate-in-createasyncthunk
-export const fetchItemsThunk = createAsyncThunk<any, { page: number; perPage: number; new?: true }>("views/items", async (params, { dispatch, fulfillWithValue, rejectWithValue, getState }) => {
-  try {
-    const state = getState() as RootState;
-    if (params.new) dispatch(viewItemsActions.updateItems([]));
-    const { page, perPage } = params;
-    const res = await api.get<any, { data: { items: Item[] | BackendError | undefined } }>("/item/all", { params: { take: perPage, skip: params.new ? 0 : (page - 1) * perPage, institution: state.institution.id } }).then(res => res.data);
-    return fulfillWithValue(res);
-  } catch (error) {
-    return rejectWithValue(RejectResponsesViews.itemsError);
+export const fetchItemsThunk = createAsyncThunk<any, { page: number; perPage: number; new?: true }>(
+  "views/items",
+  async (params, { dispatch, fulfillWithValue, rejectWithValue, getState }) => {
+    try {
+      const state = getState() as RootState;
+      if (params.new) dispatch(viewItemsActions.updateItems([]));
+      const { page, perPage } = params;
+      const res = await api
+        .get<any, { data: { items: Item[] | BackendError } }>("/item/all", {
+          params: { take: perPage, skip: params.new ? 0 : (page - 1) * perPage, institution: state.institution.id }
+        })
+        .then(res => res.data);
+      return fulfillWithValue(res);
+    } catch (error) {
+      return rejectWithValue(RejectResponsesViews.itemsError);
+    }
   }
-});
+);
 
-export const fetchUsersThunk = createAsyncThunk<any, { page: number; perPage: number; new?: true }>("views/users", async (params, { dispatch, fulfillWithValue, rejectWithValue, getState }) => {
-  try {
-    const state = getState() as RootState;
-    if (params.new) dispatch(viewUsersActions.updateUsers([]));
-    const { page, perPage } = params;
-    const res = await api.get<any, { data: { users: User[] | BackendError | undefined } }>("/user/all", { params: { take: perPage, skip: (page - 1) * perPage, institution: state.institution.id } }).then(res => res.data);
-    return fulfillWithValue(res);
-  } catch (error) {
-    return rejectWithValue(RejectResponsesViews.usersError);
+export const fetchUsersThunk = createAsyncThunk<any, { page: number; perPage: number; new?: true }>(
+  "views/users",
+  async (params, { dispatch, fulfillWithValue, rejectWithValue, getState }) => {
+    try {
+      const state = getState() as RootState;
+      if (params.new) dispatch(viewUsersActions.updateUsers([]));
+      const { page, perPage } = params;
+      const res = await api
+        .get<any, { data: { users: User[] | BackendError } }>("/user/all", {
+          params: { take: perPage, skip: (page - 1) * perPage, institution: state.institution.id }
+        })
+        .then(res => res.data);
+      return fulfillWithValue(res);
+    } catch (error) {
+      return rejectWithValue(RejectResponsesViews.usersError);
+    }
   }
-});
+);
 
-export const fetchInstitutionsThunk = createAsyncThunk<any, { page: number; perPage: number; new?: true }>("views/institutions", async (params, { dispatch, fulfillWithValue, rejectWithValue, getState }) => {
-  try {
-    const state = getState() as RootState;
-    if (params.new) dispatch(viewInstitutionsActions.updateInstitutions([]));
-    const { page, perPage } = params;
-    const res = await api.get<any, { data: { users: User[] | BackendError | undefined } }>("/institution/all", { params: { take: perPage, skip: (page - 1) * perPage, institution: state.institution.id } }).then(res => res.data);
-    return fulfillWithValue(res);
-  } catch (error) {
-    return rejectWithValue(RejectResponsesViews.usersError);
+export const fetchInstitutionsThunk = createAsyncThunk<any, { page: number; perPage: number; new?: true }>(
+  "views/institutions",
+  async (params, { dispatch, fulfillWithValue, rejectWithValue, getState }) => {
+    try {
+      const state = getState() as RootState;
+      if (params.new) dispatch(viewInstitutionsActions.updateInstitutions([]));
+      const { page, perPage } = params;
+      const res = await api
+        .get<any, { data: { users: User[] | BackendError } }>("/institution/all", {
+          params: { take: perPage, skip: (page - 1) * perPage, institution: state.institution.id }
+        })
+        .then(res => res.data);
+      return fulfillWithValue(res);
+    } catch (error) {
+      return rejectWithValue(RejectResponsesViews.usersError);
+    }
   }
-});
+);

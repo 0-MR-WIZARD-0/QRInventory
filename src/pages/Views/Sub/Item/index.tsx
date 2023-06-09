@@ -36,9 +36,7 @@ const ItemComponent: React.FC<Item> = ({ article, id, imageId, name }) => {
   return (
     <>
       <div className={styles.wrapper}>
-        <div
-          className={styles.imageWrapper}
-          onClick={() => navigator.clipboard.writeText(window.location.href)}>
+        <div className={styles.imageWrapper} onClick={() => navigator.clipboard.writeText(window.location.href)}>
           <AvatarElement img={avatar} />
           <button>тап сюда или на фото чтобы скопировать ссылку</button>
         </div>
@@ -65,7 +63,7 @@ const ViewItem = () => {
   const { id } = useParams();
   const { data } = useAppSelector(state => state.viewItems);
   const [pageItemData, setPageItemData] = useState<Item | null | undefined>();
-  
+
   useEffect(() => {
     (async () => {
       try {
@@ -79,7 +77,7 @@ const ViewItem = () => {
             return navigate(`/${MainViewRoutes.cabinets}`);
           }
 
-          return setPageItemData(res.payload);
+          return setPageItemData(res.payload as Item);
         }
       } catch (error) {
         return setPageItemData(null);
