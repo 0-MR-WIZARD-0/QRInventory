@@ -22,13 +22,22 @@ import debounce from "lodash.debounce";
 import { formatItemsJSX, formatTeachersJSX, PreviewItem, PreviewUser } from "components/Complex/DropList/Categorized/categorized";
 import { useObserver } from "helpers/hooks";
 import { compareObjects, filterObjects } from "helpers/functions";
+import { Scenario } from "components/Basic/Scenario";
+import { PasswordConfirmation } from "components/Basic/Scenario/default";
+import { SuccesConfirmationEditCabinet } from "./Scenario";
 
 const teacherPerPage = 4;
 const itemPerPage = 4;
 
+export type EditCabinetData = {
+  cabinetNumber: string;
+  item: Item[];
+  user: Teacher[];
+};
+
 const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teachers }) => {
   const navigate = useNavigate();
-  const methods = useForm<{ cabinetNumber: string }>({ defaultValues: { cabinetNumber } });
+  const methods = useForm<Pick<EditCabinetData, "cabinetNumber">>({ defaultValues: { cabinetNumber } });
   const institution = useAppSelector(state => state.institution);
   const dispatch = useAppDispatch();
   const { userData } = useAppSelector(state => state.user);
@@ -52,7 +61,7 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
     user: { data: [], page: 0, searchVal: "" },
     item: { data: [], page: 0, searchVal: "" }
   });
-
+  const teacherDropdownRef = useRef<HTMLDivElement>(null);
   const onLastTeacherView = async (entires: IntersectionObserverEntry[]) => {
     if (searchDropDownState.user.page === -1) return;
     else {
@@ -82,6 +91,9 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
       }
     }
   };
+  const [lastTeacherRef] = useObserver(onLastTeacherView);
+
+  const itemDropdownRef = useRef<HTMLDivElement>(null);
   const onLastItemView = async (entires: IntersectionObserverEntry[]) => {
     if (searchDropDownState.item.page === -1) return;
     else {
@@ -111,13 +123,7 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
       }
     }
   };
-
-  const teacherDropdownRef = useRef<HTMLDivElement>(null);
-  const [lastTeacherRef] = useObserver(onLastTeacherView);
-
-  const itemDropdownRef = useRef<HTMLDivElement>(null);
   const [lastItemRef] = useObserver(onLastItemView);
-
   const onSearch = debounce(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
       if (!institution.id) return console.log("Учреждение не выбрано, (id empty) developer-related issue");
@@ -144,100 +150,109 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
     { leading: true, trailing: false }
   );
 
+  const EditCabinetModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
+
   const onSubmit = methods.handleSubmit(async data => {
-    await dispatch(
-      editCabinetThunk({
-        id,
-        cabinetNumber: data.cabinetNumber,
-        items: dropDownState.item.map(i => i.id),
-        teachers: dropDownState.user.map(u => u.id)
-      })
-    );
-    return navigate(`/${MainViewRoutes.cabinets}`);
+    return EditCabinetModalRef.current?.createModal();
   });
 
   return (
-    <EditPageWrapper
-      onSubmit={onSubmit}
-      component={
-        <div className={styles.wrapper}>
-          <h3>Редактирование кабинета</h3>
-          <div>
+    <>
+      <Scenario
+        ref={EditCabinetModalRef}
+        modalName='edit-cabinet-confirmation'
+        script={{
+          0: { content: PasswordConfirmation, onSuccess: 1, onFailure: -1 },
+          1: {
+            content: SuccesConfirmationEditCabinet,
+            props: { id, dropDownState, data: methods.getValues() as Pick<EditCabinetData, "cabinetNumber"> },
+            onFailure: -1,
+            onSuccess: -1
+          }
+        }}
+      />
+      <EditPageWrapper
+        onSubmit={onSubmit}
+        component={
+          <div className={styles.wrapper}>
+            <h3>Редактирование кабинета</h3>
             <div>
-              <FormProvider {...methods}>
-                <Input {...cabinetValidation} name='cabinetNumber' />
-              </FormProvider>
-            </div>
-            <div>
-              <ProtectedComponent
-                component={
-                  <DropList
-                    name={
-                      <span>
-                        Учителя <b>({dropDownState.user.length})</b>
-                      </span>
-                    }
-                    inputName='user'
-                    onChange={onSearch}
-                    observerRef={teacherDropdownRef}
-                    options={formatTeachersJSX(
-                      filterObjects<PreviewUser>([
-                        ...(searchDropDownState.user ?? []).data.map((sddsu, i, arr) => {
-                          return { ...sddsu, existing: false } as PreviewUser;
-                        }),
-                        ...(dropDownState.user ?? []).map(ddsu => ({ ...ddsu, existing: true } as PreviewUser))
-                      ])
-                        .sort(compareObjects)
-                        .map((el, i, arr) => {
-                          if (!el.existing) {
-                            if ((arr[i + 1] === undefined && arr.length === i + 1) || arr[i + 1].existing === true) {
-                              return { ...el, lastElementRef: lastTeacherRef };
-                            } else return { ...el, lastElementRef: undefined };
-                          } else {
-                            return { ...el, lastElementRef: undefined };
-                          }
-                        }),
-                      true,
-                      changeUsers
-                    )}
-                    enableEdit={true}
-                  />
-                }
-              />
-              <DropList
-                name={
-                  <span>
-                    Предметы <b>({dropDownState.item.length})</b>
-                  </span>
-                }
-                inputName='item'
-                onChange={onSearch}
-                observerRef={itemDropdownRef}
-                options={formatItemsJSX(
-                  filterObjects<PreviewItem>([
-                    ...(searchDropDownState.item ?? []).data.map((sddsi, i, arr) => ({ ...sddsi, existing: false } as PreviewItem)),
-                    ...(dropDownState.item ?? []).map(ddsi => ({ ...ddsi, existing: true } as PreviewItem))
-                  ])
-                    .sort(compareObjects)
-                    .map((el, i, arr) => {
-                      if (!el.existing) {
-                        if ((arr[i + 1] === undefined && arr.length === i + 1) || arr[i + 1].existing === true) {
-                          return { ...el, lastElementRef: lastItemRef };
-                        } else return { ...el, lastElementRef: undefined };
-                      } else {
-                        return { ...el, lastElementRef: undefined };
+              <div>
+                <FormProvider {...methods}>
+                  <Input {...cabinetValidation} name='cabinetNumber' />
+                </FormProvider>
+              </div>
+              <div>
+                <ProtectedComponent
+                  component={
+                    <DropList
+                      name={
+                        <span>
+                          Учителя <b>({dropDownState.user.length})</b>
+                        </span>
                       }
-                    }),
-                  true,
-                  changeItem
-                )}
-                enableEdit={true}
-              />
+                      inputName='user'
+                      onChange={onSearch}
+                      observerRef={teacherDropdownRef}
+                      options={formatTeachersJSX(
+                        filterObjects<PreviewUser>([
+                          ...(searchDropDownState.user ?? []).data.map((sddsu, i, arr) => {
+                            return { ...sddsu, existing: false } as PreviewUser;
+                          }),
+                          ...(dropDownState.user ?? []).map(ddsu => ({ ...ddsu, existing: true } as PreviewUser))
+                        ])
+                          .sort(compareObjects)
+                          .map((el, i, arr) => {
+                            if (!el.existing) {
+                              if ((arr[i + 1] === undefined && arr.length === i + 1) || arr[i + 1].existing === true) {
+                                return { ...el, lastElementRef: lastTeacherRef };
+                              } else return { ...el, lastElementRef: undefined };
+                            } else {
+                              return { ...el, lastElementRef: undefined };
+                            }
+                          }),
+                        true,
+                        changeUsers
+                      )}
+                      enableEdit={true}
+                    />
+                  }
+                />
+                <DropList
+                  name={
+                    <span>
+                      Предметы <b>({dropDownState.item.length})</b>
+                    </span>
+                  }
+                  inputName='item'
+                  onChange={onSearch}
+                  observerRef={itemDropdownRef}
+                  options={formatItemsJSX(
+                    filterObjects<PreviewItem>([
+                      ...(searchDropDownState.item ?? []).data.map((sddsi, i, arr) => ({ ...sddsi, existing: false } as PreviewItem)),
+                      ...(dropDownState.item ?? []).map(ddsi => ({ ...ddsi, existing: true } as PreviewItem))
+                    ])
+                      .sort(compareObjects)
+                      .map((el, i, arr) => {
+                        if (!el.existing) {
+                          if ((arr[i + 1] === undefined && arr.length === i + 1) || arr[i + 1].existing === true) {
+                            return { ...el, lastElementRef: lastItemRef };
+                          } else return { ...el, lastElementRef: undefined };
+                        } else {
+                          return { ...el, lastElementRef: undefined };
+                        }
+                      }),
+                    true,
+                    changeItem
+                  )}
+                  enableEdit={true}
+                />
+              </div>
             </div>
           </div>
-        </div>
-      }
-    />
+        }
+      />
+    </>
   );
 };
 

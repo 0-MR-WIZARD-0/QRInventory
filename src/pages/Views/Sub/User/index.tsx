@@ -13,7 +13,8 @@ import { fetchUserIdThunk } from "redux/actions/users.actions";
 import { useAppDispatch } from "redux/store";
 import { MainViewRoutes } from "types/Routes";
 import { Scenario } from "components/Basic/Scenario";
-import { DeleteUserConfirmation, SuccessConfirmationDeleteUser } from "./Scenario";
+import { SuccessConfirmationDeleteUser } from "./Scenario";
+import { PasswordConfirmation } from "components/Basic/Scenario/default";
 
 const formatFullName = (name: string) => {
   return name
@@ -53,7 +54,7 @@ const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, role }) 
         ref={DeleteUserModalRef}
         modalName='delete-user-confirmation'
         script={{
-          0: { content: DeleteUserConfirmation, onSuccess: 1, onFailure: -1 },
+          0: { content: PasswordConfirmation, onSuccess: 1, onFailure: -1 },
           1: {
             content: SuccessConfirmationDeleteUser,
             props: { id },

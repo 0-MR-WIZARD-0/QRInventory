@@ -14,7 +14,8 @@ import { MainViewRoutes } from "types/Routes";
 import { fetchCabinetThunk } from "redux/actions/cabinets.actions";
 import { formatItemsJSX, formatTeachersJSX, PreviewItem, PreviewUser } from "components/Complex/DropList/Categorized/categorized";
 import { Scenario } from "components/Basic/Scenario";
-import { DeleteCabinetConfirmation, SuccessConfirmationDeleteCabinet } from "./Scenario";
+import { SuccessConfirmationDeleteCabinet } from "./Scenario";
+import { PasswordConfirmation } from "components/Basic/Scenario/default";
 
 const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teachers }) => {
   const location = useLocation();
@@ -36,7 +37,7 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
         ref={DeleteCabinetModalRef}
         modalName='delete-cabinet-confirmation'
         script={{
-          0: { content: DeleteCabinetConfirmation, onSuccess: 1, onFailure: -1 },
+          0: { content: PasswordConfirmation, onSuccess: 1, onFailure: -1 },
           1: {
             content: SuccessConfirmationDeleteCabinet,
             props: { id },
