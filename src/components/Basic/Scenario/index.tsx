@@ -2,12 +2,15 @@ import { createElement, forwardRef, useImperativeHandle, useState } from "react"
 import Modal from "react-modal";
 import styles from "./scenario.module.scss";
 
+type ScriptParam = {
+  content: any;
+  onSuccess: number;
+  onFailure: number;
+  props?: any;
+};
+
 export type Script = {
-  [page: number]: {
-    content: any;
-    onSuccess: number;
-    onFailure: number;
-  };
+  [page: number]: ScriptParam;
 };
 
 type ScenarioModalHandle = {
@@ -25,15 +28,14 @@ export type ResolverCallback = (promise: Promise<any>) => void;
 export const Scenario = forwardRef<ScenarioModalHandle, ScenarioProps>(({ modalName, script }, ref) => {
   const [page, setPage] = useState<number>(0);
   const [modalIsOpen, setIsOpen] = useState(false);
-  
+
   const createModal = () => {
     setIsOpen(true);
   };
-  
-  const closeModal = () => {
-      setIsOpen(false);
-    };
 
+  const closeModal = () => {
+    setIsOpen(false);
+  };
 
   useImperativeHandle(ref, () => ({
     createModal,
@@ -59,10 +61,9 @@ export const Scenario = forwardRef<ScenarioModalHandle, ScenarioProps>(({ modalN
 
   return (
     <Modal className={styles.wrapper} isOpen={modalIsOpen} onRequestClose={() => setIsOpen(false)} contentLabel={modalName}>
-      {createElement(script[page].content, { cb: resolveCallback })}
+      {createElement(script[page].content, { ...script[page].props, cb: resolveCallback })}
     </Modal>
   );
-
 });
 
 Scenario.displayName = "Scenario";

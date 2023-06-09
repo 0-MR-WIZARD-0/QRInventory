@@ -5,13 +5,15 @@ import { roledUserDataBarOptions, roledUserEditDataBarOptions, Roles, User } fro
 import styles from "./view.sub.user.module.scss";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
 import api from "helpers/axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ProtectedComponent from "components/Protected/Component";
 import { ImageState } from "types/UI";
 import AvatarElement from "components/Complex/AvatarElement";
 import { fetchUserIdThunk } from "redux/actions/users.actions";
 import { useAppDispatch } from "redux/store";
 import { MainViewRoutes } from "types/Routes";
+import { Scenario } from "components/Basic/Scenario";
+import { DeleteUserConfirmation, SuccessConfirmationDeleteUser } from "./Scenario";
 
 const formatFullName = (name: string) => {
   return name
@@ -42,8 +44,23 @@ const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, role }) 
     })();
   }, [avatarId]);
 
+  const DeleteUserModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
+
   return (
     <>
+      <Scenario
+        ref={DeleteUserModalRef}
+        modalName='delete-user-confirmation'
+        script={{
+          0: { content: DeleteUserConfirmation, onSuccess: 1, onFailure: -1 },
+          1: {
+            content: SuccessConfirmationDeleteUser,
+            props: { id },
+            onFailure: -1,
+            onSuccess: -1
+          }
+        }}
+      />
       <div className={styles.wrapper}>
         <div className={styles.imageWrapper} onClick={() => location.pathname !== "/profile" && navigator.clipboard.writeText(window.location.href)}>
           <AvatarElement img={avatar} />
@@ -54,18 +71,21 @@ const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, role }) 
           <ProtectedComponent component={<span>{email}</span>} />
         </div>
       </div>
-      <ProtectedComponent
-        component={
-          <div className={styles.menuBar}>
-            <p>Панель управления пользователем</p>
-            {userData?.id !== id ? (
-              <MenuBar barOptions={roledUserEditDataBarOptions["admin"]} />
-            ) : (
-              <MenuBar barOptions={roledUserDataBarOptions["admin"]} />
-            )}
-          </div>
-        }
-      />
+      {userData &&
+        (userData?.id !== id ? roledUserEditDataBarOptions[userData.role].length > 0 : roledUserDataBarOptions[userData!.role].length > 0) && (
+          <ProtectedComponent
+            component={
+              <div className={styles.menuBar}>
+                <p>Панель управления пользователем</p>
+                {userData?.id !== id ? (
+                  <MenuBar barOptions={roledUserEditDataBarOptions[userData.role]} />
+                ) : (
+                  <MenuBar barOptions={roledUserDataBarOptions[userData!.role]} />
+                )}
+              </div>
+            }
+          />
+        )}
     </>
   );
 };
@@ -79,7 +99,6 @@ const ViewUser = () => {
   const [pageUserData, setPageUserData] = useState<User | null | undefined>();
 
   useEffect(() => {
-    
     if (id) {
       (async () => {
         let existing = data?.find(e => e.id === id);
