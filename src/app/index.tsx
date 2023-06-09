@@ -30,10 +30,6 @@ import { LoadingTransitionComponent } from "components/Basic/Loader";
 
 import BackButtonWrapper from "components/Complex/Wrappers/BackButtonWrapper";
 
-import DeleteCabinet from "pages/Views/Delete/Cabinet";
-import DeleteUser from "pages/Views/Delete/User";
-import DeleteItem from "pages/Views/Delete/Item";
-
 function App() {
   const { fetchUserThunk } = useAction();
   const { loading } = useAppSelector(state => state.user);

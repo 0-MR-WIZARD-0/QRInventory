@@ -81,7 +81,7 @@ export const MenuBar: React.FC<MenuBarProps> = ({ barOptions, optionAsNavlink })
               <Link to={d.link}>{d.title}</Link>
             )
           ) : (
-            <a onClick={() => (d.action !== undefined ? d.action!() : console.log("Действие не назначено"))}>{d.title}</a>
+            <button onClick={() => (d.action !== undefined ? d.action!() : console.log("Действие не назначено"))}>{d.title}</button>
           )}
         </li>
       ))}
