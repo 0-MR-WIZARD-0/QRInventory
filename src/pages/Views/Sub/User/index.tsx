@@ -1,6 +1,6 @@
 import { MenuBar } from "components/Complex/MenuBar";
 import { useAppSelector } from "helpers/redux";
-import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { roledUserDataBarOptions, roledUserEditDataBarOptions, Roles, User } from "types/User";
 import styles from "./view.sub.user.module.scss";
 import { LoadingTransitionComponent } from "components/Basic/Loader";
@@ -96,8 +96,6 @@ const ViewUser = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData]);
-
-  if (!userData) return <Navigate to={"signin"} />;
 
   if (pageUserData === undefined) return <LoadingTransitionComponent />;
   if (pageUserData === null) return <b>Произошла ошибка при загрузке пользователя или он не найден.</b>;

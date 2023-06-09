@@ -75,7 +75,7 @@ export const roledUserEditDataBarOptions: RoledMenuOnlyAdminOptions = {
   ]
 };
 
-export const roledCabinetEditDataBarOptions = (role: keyof RoledMenuBarOptions, allowedToEdit: boolean): MenuBarData[] => {
+export const roledCabinetEditDataBarOptions = (role?: keyof RoledMenuBarOptions, allowedToEdit?: boolean): MenuBarData[] => {
   if (role === "teacher") {
     return allowedToEdit
       ? [
