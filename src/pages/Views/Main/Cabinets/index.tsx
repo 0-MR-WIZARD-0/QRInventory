@@ -66,6 +66,7 @@ const ViewCabinets: React.FC = () => {
     }
   };
   useEffect(() => {
+    if (data === undefined && page > 1) return;
     if (!error && institution.id) fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, institution.id]);
