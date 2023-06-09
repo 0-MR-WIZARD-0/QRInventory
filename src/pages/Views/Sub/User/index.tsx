@@ -46,6 +46,7 @@ const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, role }) 
 
   const DeleteUserModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
 
+  const editButtons = useRef(roledUserEditDataBarOptions(DeleteUserModalRef, userData?.role));
   return (
     <>
       <Scenario
@@ -71,21 +72,16 @@ const UserComponent: React.FC<User> = ({ avatarId, email, fullName, id, role }) 
           <ProtectedComponent component={<span>{email}</span>} />
         </div>
       </div>
-      {userData &&
-        (userData?.id !== id ? roledUserEditDataBarOptions[userData.role].length > 0 : roledUserDataBarOptions[userData!.role].length > 0) && (
-          <ProtectedComponent
-            component={
-              <div className={styles.menuBar}>
-                <p>Панель управления пользователем</p>
-                {userData?.id !== id ? (
-                  <MenuBar barOptions={roledUserEditDataBarOptions[userData.role]} />
-                ) : (
-                  <MenuBar barOptions={roledUserDataBarOptions[userData!.role]} />
-                )}
-              </div>
-            }
-          />
-        )}
+      {userData && (userData?.id !== id ? editButtons.current.length > 0 : roledUserDataBarOptions[userData!.role].length > 0) && (
+        <ProtectedComponent
+          component={
+            <div className={styles.menuBar}>
+              <p>Панель управления пользователем</p>
+              {userData?.id !== id ? <MenuBar barOptions={editButtons.current} /> : <MenuBar barOptions={roledUserDataBarOptions[userData!.role]} />}
+            </div>
+          }
+        />
+      )}
     </>
   );
 };

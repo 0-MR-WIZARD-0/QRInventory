@@ -1,3 +1,4 @@
+import { Scenario } from "components/Basic/Scenario";
 import { Institution } from "./Institution";
 import { MainViewRoutes } from "./Routes";
 import { TeacherInstitution } from "./TeacherInstitution";
@@ -62,21 +63,45 @@ export const roledMenuBarOptions: RoledMenuBarOptions = {
   ]
 };
 
-export const roledUserEditDataBarOptions: RoledMenuBarOptions = {
-  admin: [
-    {
-      title: "редактирование",
-      link: "edit"
-    },
-    {
-      title: "удаление",
-      link: "delete"
-    }
-  ],
-  teacher: []
+// export const roledUserEditDataBarOptions: RoledMenuBarOptions = {
+//   admin: [
+//     {
+//       title: "редактирование",
+//       link: "edit"
+//     },
+//     {
+//       title: "удаление",
+//       link: "delete"
+//     }
+//   ],
+//   teacher: []
+// };
+
+export const roledUserEditDataBarOptions = (
+  ref: React.RefObject<React.ElementRef<typeof Scenario>>,
+  role?: keyof RoledMenuBarOptions
+): MenuBarData[] => {
+  if (role === "admin") {
+    return [
+      {
+        title: "редактирование",
+        link: "edit"
+      },
+      {
+        title: "удаление",
+        action: () => ref.current?.createModal()
+      }
+    ];
+  } else {
+    return [];
+  }
 };
 
-export const roledCabinetEditDataBarOptions = (role?: keyof RoledMenuBarOptions, allowedToEdit?: boolean): MenuBarData[] => {
+export const roledCabinetEditDataBarOptions = (
+  ref: React.RefObject<React.ElementRef<typeof Scenario>>,
+  role?: keyof RoledMenuBarOptions,
+  allowedToEdit?: boolean
+): MenuBarData[] => {
   if (role === "teacher") {
     return allowedToEdit
       ? [
@@ -86,7 +111,7 @@ export const roledCabinetEditDataBarOptions = (role?: keyof RoledMenuBarOptions,
           },
           {
             title: "удаление",
-            link: "delete"
+            action: () => ref.current?.createModal()
           }
         ]
       : [];
@@ -98,33 +123,23 @@ export const roledCabinetEditDataBarOptions = (role?: keyof RoledMenuBarOptions,
       },
       {
         title: "удаление",
-        link: "delete"
+        action: () => ref.current?.createModal()
       }
     ];
   }
 };
 
-export const roledItemEditDataBarOptions: RoledMenuBarOptions = {
-  teacher: [
+export const roledItemEditDataBarOptions = (ref: React.RefObject<React.ElementRef<typeof Scenario>>): MenuBarData[] => {
+  return [
     {
       title: "редактирование",
       link: "edit"
     },
     {
       title: "удаление",
-      link: "delete"
+      action: () => ref.current?.createModal()
     }
-  ],
-  admin: [
-    {
-      title: "редактирование",
-      link: "edit"
-    },
-    {
-      title: "удаление",
-      link: "delete"
-    }
-  ]
+  ];
 };
 
 export const roledUserDataBarOptions: RoledMenuBarOptions = {

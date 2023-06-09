@@ -1,7 +1,8 @@
 import { CSSProperties } from "react";
 
 export type MenuBarData = {
-  link: string;
+  link?: string;
+  action?: (x?: any) => any;
   title: string;
 };
 
