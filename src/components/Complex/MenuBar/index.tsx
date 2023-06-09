@@ -64,20 +64,24 @@ export const MenuBar: React.FC<MenuBarProps> = ({ barOptions, optionAsNavlink })
   return (
     <ul className={styles.menuBar} ref={ref} onMouseDown={onMouseDown} onMouseUp={onMouseUp} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave}>
       {barOptions.map((d, i) => (
-        <li key={d.link + i}>
-          {optionAsNavlink ? (
-            <NavLink
-              to={d.link}
-              style={({ isActive }) => {
-                return {
-                  backgroundColor: isActive ? "#082032" : "#FFF",
-                  color: isActive ? "#FFF" : "#000"
-                };
-              }}>
-              {d.title}
-            </NavLink>
+        <li key={d?.link ?? "" + i}>
+          {d.link ? (
+            optionAsNavlink ? (
+              <NavLink
+                to={d.link}
+                style={({ isActive }) => {
+                  return {
+                    backgroundColor: isActive ? "#082032" : "#FFF",
+                    color: isActive ? "#FFF" : "#000"
+                  };
+                }}>
+                {d.title}
+              </NavLink>
+            ) : (
+              <Link to={d.link}>{d.title}</Link>
+            )
           ) : (
-            <Link to={d.link}>{d.title}</Link>
+            <a onClick={() => (d.action !== undefined ? d.action!() : console.log("Действие не назначено"))}>{d.title}</a>
           )}
         </li>
       ))}

@@ -13,13 +13,18 @@ import { useAppDispatch } from "redux/store";
 import { MainViewRoutes } from "types/Routes";
 import { fetchCabinetThunk } from "redux/actions/cabinets.actions";
 import { formatItemsJSX, formatTeachersJSX, PreviewItem, PreviewUser } from "components/Complex/DropList/Categorized/categorized";
+import { Scenario } from "components/Basic/Scenario";
+import { DeleteCabinetConfirmation, SuccessConfirmationDeleteCabinet } from "./Scenario";
 
 const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teachers }) => {
   const location = useLocation();
   const { userData } = useAppSelector(state => state.user);
 
+  const DeleteCabinetModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
+
   const buttons = useRef(
     roledCabinetEditDataBarOptions(
+      DeleteCabinetModalRef,
       userData?.role,
       teachers.some(t => t.id === userData?.id)
     )
@@ -27,6 +32,19 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
 
   return (
     <>
+      <Scenario
+        ref={DeleteCabinetModalRef}
+        modalName='delete-cabinet-confirmation'
+        script={{
+          0: { content: DeleteCabinetConfirmation, onSuccess: 1, onFailure: -1 },
+          1: {
+            content: SuccessConfirmationDeleteCabinet,
+            props: { id },
+            onFailure: -1,
+            onSuccess: -1
+          }
+        }}
+      />
       <div className={styles.wrapper}>
         <div className={styles.imageWrapper} onClick={() => navigator.clipboard.writeText(window.location.href)}>
           <QRCodeSVG value={location.pathname} />
