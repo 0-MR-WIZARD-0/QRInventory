@@ -24,14 +24,19 @@ institutionOnAuth.startListening({
 
     if (!action.meta.arg.initial) return;
     else {
-      let selectedInstitutionId = localStorage.getItem(`qr-inventory-institution`);
-      let institution = action.payload.institutions.find(i => i.id === selectedInstitutionId);
-      if (institution) {
-        listenerApi.dispatch(institutionActions.setInstitution({ id: institution?.id, name: institution.name }));
+      if (action.payload.institutions && action.payload.institutions.length > 0) {
+        let selectedInstitutionId = localStorage.getItem(`qr-inventory-institution`);
+        let institution = action.payload.institutions.find(i => i.id === selectedInstitutionId);
+        if (institution) {
+          listenerApi.dispatch(institutionActions.setInstitution({ id: institution?.id, name: institution.name }));
+        } else {
+          let backupInstitution = action.payload.institutions[0];
+          if (backupInstitution) listenerApi.dispatch(institutionActions.setInstitution({ id: backupInstitution.id, name: backupInstitution.name }));
+          else console.log("Не найдено текущее учреждение или их вовсе нет");
+        }
       } else {
-        let backupInstitution = action.payload.institutions[0];
-        if (backupInstitution) listenerApi.dispatch(institutionActions.setInstitution({ id: backupInstitution.id, name: backupInstitution.name }));
-        else console.log("Не найдено текущее учреждение или их вовсе нет");
+        let teacherInstitution = action.payload.teacherInstitution;
+        listenerApi.dispatch(institutionActions.setInstitution({ id: teacherInstitution.id, name: teacherInstitution.name }));
       }
     }
   }

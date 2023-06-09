@@ -1,6 +1,6 @@
 import Input from "components/Basic/Input";
 import styles from "./view.edit.user.module.scss";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAppDispatch } from "redux/store";
 import { RejectResponsesUser, editUserThunk, fetchUserIdThunk } from "redux/actions/users.actions";
 import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
@@ -17,6 +17,15 @@ import { useImage } from "helpers/hooks";
 import api from "helpers/axios";
 import { imageUserThunk } from "redux/actions/image.actions";
 import { RejectResponsesInstitution } from "redux/actions/institutions.actions";
+import { Scenario } from "components/Basic/Scenario";
+import { EditUserConfirmation, SuccesConfirmationEditUser } from "./Scenario";
+
+export type EditUserData = {
+  fullName: string;
+  email: string;
+  oldPassword: string;
+  newPassword: string;
+};
 
 const UserComponent: React.FC<User> = ({ email, fullName, id, avatarId }) => {
   const navigate = useNavigate();
@@ -26,13 +35,13 @@ const UserComponent: React.FC<User> = ({ email, fullName, id, avatarId }) => {
   const { userData } = useAppSelector(state => state.user);
   const { addError, fetchUserThunk, searchUserThunk } = useAction();
 
-  const methods = useForm<{
-    fullName: string;
-    email: string;
-    oldPassword: string;
-    newPassword: string;
-  }>({ mode: "onBlur", defaultValues: { fullName: fullName ?? "", email: email ?? "", oldPassword: "", newPassword: "" } });
+  const methods = useForm<EditUserData>({
+    mode: "onBlur",
+    defaultValues: { fullName: fullName ?? "", email: email ?? "", oldPassword: "", newPassword: "" }
+  });
   const imageMethods = useImage();
+
+  const EditUserModalRef = useRef<React.ElementRef<typeof Scenario>>(null);
 
   useEffect(() => {
     (async () => {
@@ -47,23 +56,19 @@ const UserComponent: React.FC<User> = ({ email, fullName, id, avatarId }) => {
   }, []);
 
   const onSubmit = methods.handleSubmit(async data => {
-    if (imageMethods.file !== undefined) {
-      let res = await dispatch(imageUserThunk({ id, file: imageMethods.file }));
-      if (res.meta.requestStatus === "rejected") {
+    if (data.oldPassword.length && data.newPassword.length) {
+      if (data.newPassword.length < 7) {
         return addError({
           type: "user",
-          description: RejectResponsesUser.editUserError + ". Произошла ошибка при загрузке фото."
+          description: RejectResponsesUser.editUserError + ". Длина пароля минимум 8 знаков."
         });
       }
-    }
-
-    if (data.newPassword.length > 7) {
-      if (!data.oldPassword.length) {
-        return addError({
-          type: "user",
-          description: RejectResponsesUser.editUserError + ". Не введён старый пароль."
-        });
-      }
+      // if (!data.oldPassword.length) {
+      //   return addError({
+      //     type: "user",
+      //     description: RejectResponsesUser.editUserError + ". Не введён старый пароль."
+      //   });
+      // }
 
       const res = await dispatch(
         editUserThunk({
@@ -71,6 +76,17 @@ const UserComponent: React.FC<User> = ({ email, fullName, id, avatarId }) => {
           ...data
         })
       );
+
+      if (imageMethods.file !== undefined) {
+        let res = await dispatch(imageUserThunk({ id, file: imageMethods.file }));
+        if (res.meta.requestStatus === "rejected") {
+          return addError({
+            type: "user",
+            description: RejectResponsesUser.editUserError + ". Произошла ошибка при загрузке фото."
+          });
+        }
+      }
+
       if (res.meta.requestStatus === "fulfilled") {
         if (id === userData!.id) {
           await fetchUserThunk({ initial: false });
@@ -91,45 +107,45 @@ const UserComponent: React.FC<User> = ({ email, fullName, id, avatarId }) => {
         });
     } else {
       // здесь вызывать модалку по подтверждению пароля, остальная логика идёт внутри модалки
-
-      const res = await dispatch(editUserThunk({ id, fullName: data.fullName, email: data.email }));
-      if (res.meta.requestStatus === "fulfilled") {
-        if (id === userData!.id) {
-          await fetchUserThunk({ initial: false });
-        } else {
-          if (!institution.id) {
-            return addError({
-              type: "institution",
-              description: RejectResponsesInstitution.notFound
-            });
-          }
-          await searchUserThunk({ id, institution: institution.id, take: 1, skip: 0, searchVal: "" });
-        }
-        return navigate(location.slice(0, location.length - 1).join("/"));
-      } else return addError({ type: "user", description: RejectResponsesUser.editUserError });
+      return EditUserModalRef.current?.createModal();
     }
   });
 
   return (
-    <EditPageWrapper
-      onSubmit={onSubmit}
-      component={
-        <FormProvider {...methods}>
-          <div className={styles.wrapper}>
-            <h3>Редактирование аккаунта {fullName}</h3>
-            <div className={styles.wrapperEdit}>
-              <ImageElement {...imageMethods} />
-              <div className={editStyles.editInputsWrapper}>
-                <Input {...fullNameValidation} />
-                <Input {...emailValidation} />
-                <Input {...oldPasswordValidation} />
-                <Input {...newPasswordValidation} />
+    <>
+      <Scenario
+        ref={EditUserModalRef}
+        modalName='edit-user-confirmation'
+        script={{
+          0: { content: EditUserConfirmation, onSuccess: 1, onFailure: -1 },
+          1: {
+            content: SuccesConfirmationEditUser,
+            props: { imageMethods, id, data: methods.getValues() as EditUserData },
+            onFailure: -1,
+            onSuccess: -1
+          }
+        }}
+      />
+      <EditPageWrapper
+        onSubmit={onSubmit}
+        component={
+          <FormProvider {...methods}>
+            <div className={styles.wrapper}>
+              <h3>Редактирование аккаунта {fullName}</h3>
+              <div className={styles.wrapperEdit}>
+                <ImageElement {...imageMethods} />
+                <div className={editStyles.editInputsWrapper}>
+                  <Input {...fullNameValidation} />
+                  <Input {...emailValidation} />
+                  <Input {...oldPasswordValidation} />
+                  <Input {...newPasswordValidation} />
+                </div>
               </div>
             </div>
-          </div>
-        </FormProvider>
-      }
-    />
+          </FormProvider>
+        }
+      />
+    </>
   );
 };
 

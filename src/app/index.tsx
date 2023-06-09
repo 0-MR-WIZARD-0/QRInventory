@@ -65,17 +65,17 @@ function App() {
             <Route path={`${MainViewRoutes.cabinets}/:id`}>
               <Route index element={<ViewCabinet />} />
               <Route path='edit' element={<ProtectedPage component={<EditCabinet />} roles={[Roles.admin, Roles.teacher]} />} />
-              <Route path='delete' element={<ProtectedPage component={<DeleteCabinet />} roles={[Roles.admin, Roles.teacher]} />} />
+              {/* <Route path='delete' element={<ProtectedPage component={<DeleteCabinet />} roles={[Roles.admin, Roles.teacher]} />} /> */}
             </Route>
             <Route path={`${MainViewRoutes.items}/:id`}>
               <Route index element={<ViewItem />} />
               <Route path='edit' element={<ProtectedPage component={<EditItem />} roles={[Roles.admin, Roles.teacher]} />} />
-              <Route path='delete' element={<ProtectedPage component={<DeleteItem />} roles={[Roles.admin, Roles.teacher]} />} />
+              {/* <Route path='delete' element={<ProtectedPage component={<DeleteItem />} roles={[Roles.admin, Roles.teacher]} />} /> */}
             </Route>
             <Route path={`${MainViewRoutes.users}/:id`}>
               <Route index element={<ViewUser />} />
               <Route path='edit' element={<ProtectedPage component={<EditUser />} roles={[Roles.admin]} />} />
-              <Route path='delete' element={<ProtectedPage component={<DeleteUser />} roles={[Roles.admin, Roles.teacher]} />} />
+              {/* <Route path='delete' element={<ProtectedPage component={<DeleteUser />} roles={[Roles.admin, Roles.teacher]} />} /> */}
             </Route>
           </Route>
           <Route path={RoutesEnum.profile} element={<ProtectedPage component={<BackButtonWrapper component={<Outlet />} />} />}>

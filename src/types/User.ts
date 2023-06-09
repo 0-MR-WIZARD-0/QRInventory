@@ -62,7 +62,7 @@ export const roledMenuBarOptions: RoledMenuBarOptions = {
   ]
 };
 
-export const roledUserEditDataBarOptions: RoledMenuOnlyAdminOptions = {
+export const roledUserEditDataBarOptions: RoledMenuBarOptions = {
   admin: [
     {
       title: "редактирование",
@@ -72,20 +72,21 @@ export const roledUserEditDataBarOptions: RoledMenuOnlyAdminOptions = {
       title: "удаление",
       link: "delete"
     }
-  ]
+  ],
+  teacher: []
 };
 
 export const roledCabinetEditDataBarOptions = (role?: keyof RoledMenuBarOptions, allowedToEdit?: boolean): MenuBarData[] => {
   if (role === "teacher") {
     return allowedToEdit
       ? [
-          {
-            title: "удаление",
-            link: "delete"
-          },
           allowedToEdit && {
             title: "редактирование",
             link: "edit"
+          },
+          {
+            title: "удаление",
+            link: "delete"
           }
         ]
       : [];
