@@ -52,6 +52,7 @@ const ViewInsitutions: React.FC = () => {
     }
   };
   useEffect(() => {
+    if (data === undefined && page > 1) return;
     if (!error) fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
@@ -74,8 +75,23 @@ const ViewInsitutions: React.FC = () => {
     <div className={stylesComponent.wrapper}>
       <Scenario ref={createInstitutionModalRef} modalName='create-institution' script={CreateInstitutionScript} />
       <ViewsWrapper
-        addNewButton={<ProtectedComponent component={<AddNewButton onClick={() => createInstitutionModalRef.current?.createModal()} title='Добавить новое учреждение +' />} roles={[Roles.admin, Roles.teacher]} />}
-        children={data ? data.map((institution, i) => <ViewInstitution key={institution.id} institution={institution} lastElementRef={error ? undefined : i === data.length - 1 ? lastItemRef : undefined} />) : undefined}
+        addNewButton={
+          <ProtectedComponent
+            component={<AddNewButton onClick={() => createInstitutionModalRef.current?.createModal()} title='Добавить новое учреждение +' />}
+            roles={[Roles.admin, Roles.teacher]}
+          />
+        }
+        children={
+          data
+            ? data.map((institution, i) => (
+                <ViewInstitution
+                  key={institution.id}
+                  institution={institution}
+                  lastElementRef={error ? undefined : i === data.length - 1 ? lastItemRef : undefined}
+                />
+              ))
+            : undefined
+        }
         loading={loading}
         error={error}
       />
