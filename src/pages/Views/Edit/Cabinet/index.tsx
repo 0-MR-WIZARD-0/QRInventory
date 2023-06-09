@@ -34,7 +34,7 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
   const { userData } = useAppSelector(state => state.user);
   useEffect(() => {
     if (userData && userData.role === Roles.teacher && !teachers.some(t => t.id === userData.id)) return navigate(RoutesEnum.main);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData]);
 
   // здесь уже добавленные, сюда добавлять новых учителей/предметы для изменения в БД
@@ -89,8 +89,8 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
         if (entires[0].isIntersecting) {
           if (!institution.id) throw new Error("Учреждение не выбрано, (id empty) developer-related issue");
           let res = await dispatch(
-            searchUserThunk({
-              searchVal: searchDropDownState.item.searchVal,
+            searchItemThunk({
+              article: searchDropDownState.item.searchVal,
               institution: institution.id,
               skip: searchDropDownState.item.page * itemPerPage,
               take: itemPerPage
@@ -129,6 +129,8 @@ const CabinetComponent: React.FC<Cabinet> = ({ cabinetNumber, id, items, teacher
         (searchDropDownState.user.searchVal === searchVal && searchDropDownState.user.page === -1)
       )
         return;
+
+      // console.log(category);
 
       setSearchDropDownState(sdds => ({ ...sdds, [category]: { ...sdds[category as keyof SearchDropDown], searchVal } }));
 
