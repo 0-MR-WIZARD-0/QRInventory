@@ -4,14 +4,10 @@
 
 ----------
 
-<br/>
-
 ## **Способствие в разработке**: [nmgix](https://github.com/nmgix)
 <br/>
 
 ----------
-
-<br/>
 
 ## **Настройка**
 
@@ -24,33 +20,30 @@
     GENERATE_SOURCEMAP=false
 ```
 
-<br/>
-
 ----------
 
 <br/>
 
 ## **Предпросмотр**
 
-- ### Мобильная версия (редактирование профиля)
+- #### Мобильная версия (редактирование профиля)
   ![alt=""](public/resources/preview/mobile/editProfileMobile.png)
   <br/><br/>
-- ### Мобильная версия (отображение организаций) 
+- #### Мобильная версия (отображение организаций) 
   
   ![alt](public/resources/preview/mobile/institutionsMobile.png)
   <br/><br/>
-- ### Версия для пк (отображение кабинетов) 
+- #### Версия для пк (отображение кабинетов) 
   
   ![alt](public/resources/preview/pc/cabinets.png)
   <br/><br/>
-- ### Версия для пк (редактирование предмета) 
+- #### Версия для пк (редактирование предмета) 
   
   ![alt](public/resources/preview/pc/editItem.png)
 
 <br/>
 
 ----------
-
 
 ## **ChatGPT симфония о ReactJS и NestJS**
 
