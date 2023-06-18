@@ -3,14 +3,10 @@
 [![Деплой фронтенда](https://github.com/0-MR-WIZARD-0/QRInventory/actions/workflows/actions.yml/badge.svg)](https://github.com/0-MR-WIZARD-0/QRInventory/actions/workflows/actions.yml)
 
 ----------
-
 ## **Способствие в разработке**: [nmgix](https://github.com/nmgix)
-<br/>
-
 ----------
 
 ## **Настройка**
-
 
  - `.env` файл
 
@@ -21,8 +17,6 @@
 ```
 
 ----------
-
-<br/>
 
 ## **Предпросмотр**
 
